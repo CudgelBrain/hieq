@@ -1,0 +1,22 @@
+--- 
+networks: 
+  hieqfrontendnet: ~
+services: 
+  hieqfrontend: 
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+      target: dev
+    container_name: hieqfrontend
+    image: "hieqfrontend:dev"
+    networks: 
+      - hieqfrontendnet
+    ports: 
+      - "3000:3000"
+    restart: unless-stopped
+    volumes: 
+      - "./:/usr/src/hieq-frontend"
+      - "dependencies:/usr/src/hieq-frontend/node_modules"
+version: "3.7"
+volumes: 
+  dependencies: ~

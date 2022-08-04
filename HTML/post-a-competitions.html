@@ -1,0 +1,582 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="robots" CONTENT="noindex, nofolow" />
+  <title>Dashboard - Hieq</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="assets/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+  <link href="assets/bootstrap-select/css/bootstrap-select.min.css" type="text/css" rel="stylesheet">
+  <link href="assets/css/style.css" type="text/css" rel="stylesheet">
+  <script src="assets/js/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="dash-wrapper emp-panel">
+    <header class="header">
+      <div class="container-fluid">
+        <div class="row position-relative">
+          <div class="lt-sec"> <img src="assets/images/hieq.svg" height="40" alt="" />
+            <div class="nav-bar"><img src="assets/images/bar.svg" height="20" alt="" /></div>
+          </div>
+          <div class="col-6 pt-3 pb-3 lt-sec-pd">
+            <button type="submit" class="btn btn-yl">+ Post Opportunity</button>
+          </div>
+          <div class="col-6 pt-3 pb-3 text-right">
+            <div class="tprt-link"> <button type="button" class="text-link"><img src="assets/images/dark-mode.svg"
+                  height="18" alt="" /><span>Dark Mode</span></button> <button type="button" class="text-link"><img
+                  src="assets/images/help.svg" height="18" alt="" /><span>Help</span></button> <button type="button"
+                class="text-link"><img src="assets/images/notifications.svg" height="18"
+                  alt="" /><span>Notifications</span></button> <button type="button" class="text-link"><img
+                  src="assets/images/logout.svg" height="18" alt="" /><span>Logout</span></button> </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="main-wrapper">
+        <div class="container-fluid">
+          <div class="row position-relative">
+            <div class="lt-sec">
+              <div class="comp-img mb-5">
+                <div class="cover-img" style="background-image: url(assets/images/student.jpg);"></div>
+                <div class="profile-img"><img src="assets/images/mbatrek.svg" height="70" alt="" /></div>
+              </div>
+              <div class="text-center pt-4">
+                <div class="hd-16 fw-500 cl-dark mb-1">MBAtrek Pvt Ltd</div>
+                <div>Since 2007</div>
+              </div>
+              <div class="text-center pt-4 mb-3">
+                <button type="submit" class="btn btn-wt img-reflect"><img class="mr-2" src="assets/images/view.svg"
+                    alt="" />View</button>
+                <button type="submit" class="btn btn-yl ml-2"><img class="mr-2" src="assets/images/edit.svg"
+                    alt="" />Edit</button>
+              </div>
+              <div class="lt-navigation mb-5">
+                <ul class="nav pb-5">
+                  <li> <a href="#" class="img-reflect"><img class="mr-2" src="assets/images/home.svg"
+                        alt="" /><span>Dashboard</span></a> </li>
+                  <li class="selected"> <a href="#" class="img-reflect"><img class="mr-2"
+                        src="assets/images/plus-fill.svg" alt="" /><span>Post Opportunity/Jobs</span></a> </li>
+                  <li> <a href="#" class="img-reflect"><img class="mr-2" src="assets/images/jobs.svg"
+                        alt="" /><span>Jobs</span></a> </li>
+                  <li> <a href="#" class="img-reflect"><img class="mr-2" src="assets/images/message.svg"
+                        alt="" /><span>Messaging</span></a> </li>
+                  <li> <a href="#" class="img-reflect"><img class="mr-2" src="assets/images/support.svg"
+                        alt="" /><span>Support Desk</span></a> </li>
+                  <li> <a href="#" class="img-reflect"><img class="mr-2" src="assets/images/help-dark.svg"
+                        alt="" /><span>Help</span></a> </li>
+                </ul>
+              </div>
+              <div class="ft-rel">
+                <div class="ft-fixed hd-14 cl-dark">
+                  <div class="fw-500 mb-1">Need Help ?</div>
+                  <div>+91 9821948334, +91 9821948335</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 lt-sec-pd pt-4 pb-2">
+              <div class="text-left mb-4">
+                <div class="pg-title">Post a Competitions</div>
+                <div class="lead">Need assistance? Please visit <a href="#" class="link">Help Center</a></div>
+              </div>
+              <div class="box-container mb-4">
+                <div class="box-container-inner pb-3">
+                  <div class="row">
+                    <div class="form-row col-12">
+                      <h2 class="bc-heading fw-500 txt-yl mb-4">1. Basic Details</h2>
+                    </div>
+                    <div class="form-row col-12">
+                      <div class="form-group col-6">
+                        <label class="label">Opportunity Title</label>
+                        <input type="text" class="form-control" placeholder="Software Engineer Trainee">
+                      </div>
+                      <div class="form-group col-6">
+                        <label class="label">Opportunity Domain</label>
+                        <select class="selectpicker form-control" data-live-search="true">
+                          <option value="">Select one</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-row col-12">
+                      <div class="form-group col-6">
+                        <label class="label">Opportunity Location(s)</label>
+                        <input type="text" class="form-control" placeholder="For ex. Delhi, Noida, Faridabad">
+                      </div>
+                    </div>
+                    <div class="form-row col-12">
+                      <div class="form-group col-3">
+                        <label class="label">Start Date & Time</label>
+                        <div class="input-group ig-append">
+                          <input type="text" class="form-control" placeholder="DD/MM/YYY HH:MM:SS">
+                          <div class="input-group-append input-click"> <span class="input-group-text">
+                              <img src="assets/images/calendar.svg" height="20" alt=""></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group col-3">
+                        <label class="label">End Date & Time</label>
+                        <div class="input-group ig-append">
+                          <input type="text" class="form-control" placeholder="DD/MM/YYY HH:MM:SS">
+                          <div class="input-group-append input-click"> <span class="input-group-text">
+                              <img src="assets/images/calendar.svg" height="20" alt=""></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row col-12">
+                      <div class="form-group col-2">
+                        <label class="label">No. of Registrations</label>
+                        <input type="number" class="form-control" placeholder="">
+                      </div>
+                    </div>
+                    <div class="form-group col-12">
+                      <label class="label">Participation</label>
+                      <div class="custom-inline">
+                        <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="jobtype1" name="jobtype" checked>
+                          <label class="custom-control-label" for="jobtype1">Individual</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="jobtype2" name="jobtype">
+                          <label class="custom-control-label" for="jobtype2">Participation as team</label>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="form-group col-12">
+                      <label class="label">Team Composition</label>
+                      <div class="custom-inline">
+                        <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="loctype1" name="loctype" checked>
+                          <label class="custom-control-label" for="loctype1">Members of a team should be from the same
+                            organization</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="loctype2" name="loctype">
+                          <label class="custom-control-label" for="loctype2">Members of a team can be from different
+                            organizations</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <button type="submit" class="btn btn-yl btn-full btn-dn-curve">Save & Continue</button>
+                  </div>
+                </div>
+              </div>
+              <div class="box-container mb-4">
+                <div class="box-container-inner pb-3">
+                  <div class="row">
+                    <div class="form-row col-12">
+                      <h2 class="bc-heading fw-500 txt-yl mb-4">2. Competitions Description</h2>
+                    </div>
+                    <div class="form-group col-12">
+                      <label class="label">Description <span class="note fw-400">(Only PDF File)</span></label>
+                      <div class="form-row align-items-end">
+                        <div class="col-4 mb-2">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input form-control" id="inputGroupFile01"
+                              aria-describedby="inputGroupFileAddon01">
+                            <label class="custom-file-label mb-0 form-control" for="inputGroupFile01">Choose
+                              file</label>
+                          </div>
+                        </div>
+                        <div class="col-8 text-right mb-2">
+                          <button class="text-link">view sample pdf by hieq team</button>
+                        </div>
+                      </div>
+                      <textarea rows="4" cols="" class="form-control" placeholder="Enter description here"></textarea>
+                      <div class="text-right"><span class="note">1000 words limit</span></div>
+                    </div>
+                    <div class="form-group col-sm-12">
+                      <label class="label fw-600 mb-2 w-100">Contact Information <span class="note fw-400">(Max. 3
+                          allowed)</span></label>
+                      <div class="form-group form-row mb-2">
+                        <div class="col-3">
+                          <label class="label">Name</label>
+                          <input type="text" class="form-control" placeholder="Name">
+                        </div>
+                        <div class="col-3">
+                          <label class="label">Email Address</label>
+                          <input type="text" class="form-control" placeholder="Email Address">
+                        </div>
+                        <div class="col-3">
+                          <label class="label">Contact Number</label>
+                          <input type="text" class="form-control" placeholder="Contact Number">
+                        </div>
+                        <div class="col-1">
+                          <label class="label">&nbsp;</label>
+                          <button type="submit" class="btn btn-plus-minus"><img src="assets/images/btn-plus.svg"
+                              height="38" alt="" /></button>
+                        </div>
+                      </div>
+                      <div class="form-group form-row mb-2">
+                        <div class="col-3">
+                          <input type="text" class="form-control" placeholder="Name">
+                        </div>
+                        <div class="col-3">
+                          <input type="text" class="form-control" placeholder="Email Address">
+                        </div>
+                        <div class="col-3">
+                          <input type="text" class="form-control" placeholder="Contact Number">
+                        </div>
+                        <div class="col-1">
+                          <button type="submit" class="btn btn-plus-minus"><img src="assets/images/btn-minus.svg"
+                              height="38" alt="" /></button>
+                        </div>
+                      </div>
+                      <div class="form-group form-row mb-2">
+                        <div class="col-3">
+                          <input type="text" class="form-control" placeholder="Name">
+                        </div>
+                        <div class="col-3">
+                          <input type="text" class="form-control" placeholder="Email Address">
+                        </div>
+                        <div class="col-3">
+                          <input type="text" class="form-control" placeholder="Contact Number">
+                        </div>
+                        <div class="col-1">
+                          <button type="submit" class="btn btn-plus-minus"><img src="assets/images/btn-minus.svg"
+                              height="38" alt="" /></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <button type="submit" class="btn btn-yl btn-full btn-dn-curve">Save & Continue</button>
+                  </div>
+                </div>
+              </div>
+              <div class="box-container mb-4">
+                <div class="box-container-inner pb-3">
+                  <div class="row">
+                    <div class="form-row col-12">
+                      <h2 class="bc-heading fw-500 txt-yl mb-4">3. Quality Check</h2>
+                    </div>
+                    <div class="form-group col-12">
+                      <label class="label">Gender</label>
+                      <div class="custom-inline">
+                        <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="gender1" name="gender" checked>
+                          <label class="custom-control-label" for="gender1">Male</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="gender2" name="gender">
+                          <label class="custom-control-label" for="gender2">Female</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="gender3" name="gender">
+                          <label class="custom-control-label" for="gender3">Prefer not to say</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <label class="label">Opportunity Open for</label>
+                      <div class="form-row">
+                        <div class="form-group col-4">
+                          <select class="selectpicker form-control">
+                            <option value="">Everyone</option>
+                            <option value="">College Students</option>
+                            <option value="">Working Professionals</option>
+                            <option value="">School Students</option>
+                            <option value="">Freshers</option>
+                            <option value="">Others</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <button type="submit" class="btn btn-yl btn-full btn-dn-curve">Save & Continue</button>
+                  </div>
+                </div>
+              </div>
+              <div class="box-container mb-4">
+                <div class="box-container-inner pb-3">
+                  <div class="row">
+                    <div class="form-row col-12">
+                      <h2 class="bc-heading fw-500 txt-yl mb-4">4. Add/Manage Rounds</h2>
+                    </div>
+                    <div class="col-12">
+                      <label class="label">Round Type</label>
+                      <div class="form-row">
+                        <div class="form-group col-3">
+                          <select class="selectpicker form-control">
+                            <option value="">Group Discussion</option>
+                            <option value="">Interview</option>
+                            <option value="">Quiz</option>
+                            <option value="">Submission</option>
+                            <option value="">Others</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <label class="label">Round Name</label>
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                          <input type="text" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group col-12">
+                      <label class="label">Description</label>
+                      <textarea rows="4" cols="" class="form-control"></textarea>
+                      <div class="text-right"><span class="note">1000 words limit</span></div>
+                    </div>
+                    <div class="form-row col-12">
+                      <div class="form-group col-3">
+                        <label class="label">Start Date & Time</label>
+                        <div class="input-group ig-append">
+                          <input type="text" class="form-control" placeholder="DD/MM/YYY HH:MM:SS">
+                          <div class="input-group-append input-click"> <span class="input-group-text">
+                              <img src="assets/images/calendar.svg" height="20" alt=""></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group col-3">
+                        <label class="label">End Date & Time</label>
+                        <div class="input-group ig-append">
+                          <input type="text" class="form-control" placeholder="DD/MM/YYY HH:MM:SS">
+                          <div class="input-group-append input-click"> <span class="input-group-text">
+                              <img src="assets/images/calendar.svg" height="20" alt=""></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mt-3 pt-3 mb-3 w-100 bt-1">
+                      <div class="col-12">
+                        <div class="d-flex mb-3">
+                          <div class="bc-heading flex-grow-1 cc-yellow">Round 2</div>
+                          <button class="text-link delete-link"><img class="mr-1" src="assets/images/delete-ico.svg"
+                              height="18" alt=""><span>Delete</span></button>
+                        </div>
+                        <label class="label">Round Type</label>
+                        <div class="form-row">
+                          <div class="form-group col-3">
+                            <select class="selectpicker form-control">
+                              <option value="">Group Discussion</option>
+                              <option value="">Interview</option>
+                              <option value="">Quiz</option>
+                              <option value="">Submission</option>
+                              <option value="">Others</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <label class="label">Round Name</label>
+                        <div class="form-row">
+                          <div class="form-group col-6">
+                            <input type="text" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group col-12">
+                        <label class="label">Description</label>
+                        <textarea rows="4" cols="" class="form-control"></textarea>
+                        <div class="text-right"><span class="note">1000 words limit</span></div>
+                      </div>
+                      <div class="form-row col-12">
+                        <div class="form-group col-3">
+                          <label class="label">Start Date & Time</label>
+                          <div class="input-group ig-append">
+                            <input type="text" class="form-control" placeholder="DD/MM/YYY HH:MM:SS">
+                            <div class="input-group-append input-click"> <span class="input-group-text">
+                                <img src="assets/images/calendar.svg" height="20" alt=""></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group col-3">
+                          <label class="label">End Date & Time</label>
+                          <div class="input-group ig-append">
+                            <input type="text" class="form-control" placeholder="DD/MM/YYY HH:MM:SS">
+                            <div class="input-group-append input-click"> <span class="input-group-text">
+                                <img src="assets/images/calendar.svg" height="20" alt=""></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 mb-3 pb-3 text-center pt-3 bt-1">
+                      <button type="submit" class="btn btn-trans-yl">+ Add Round</button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <button type="submit" class="btn btn-yl btn-full btn-dn-curve">Save & Continue</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="box-container mb-4">
+                  <div class="box-container-inner pb-3">
+                    <div class="row align-items-start">
+                      <div class="form-row col-12">
+                        <h2 class="bc-heading fw-500 txt-yl mb-4">5. Custom Branding</h2>
+                      </div>
+                      <div class="form-row pr-5 col-7 mb-3">
+                        <label class="label bc-heading text-center w-100 mb-3">Choose Banner Image</label>
+                        <div class="img-container">
+                          <div class="img-wrapper cust-scrollbar">
+                            <div class="img-list">
+                              <div class="custom-control custom-checkbox">
+                                <input type="radio" class="custom-control-input" id="ctype1" name="ctype" checked>
+                                <label class="custom-control-label" for="ctype1">
+                                  <div class="img-list-inner"><img class="img-cover img-fluid"
+                                      src="assets/images/student.jpg"></div>
+                                </label>
+                              </div>
+                            </div>
+                            <div class="img-list">
+                              <div class="custom-control custom-checkbox">
+                                <input type="radio" class="custom-control-input" id="ctype2" name="ctype">
+                                <label class="custom-control-label" for="ctype2">
+                                  <div class="img-list-inner"><img class="img-cover img-fluid"
+                                      src="assets/images/students-01.jpg"></div>
+                                </label>
+                              </div>
+
+                            </div>
+                            <div class="img-list">
+                              <div class="custom-control custom-checkbox">
+                                <input type="radio" class="custom-control-input" id="ctype3" name="ctype">
+                                <label class="custom-control-label" for="ctype3">
+                                  <div class="img-list-inner"><img class="img-cover img-fluid"
+                                      src="assets/images/students-03.jpg"></div>
+                                </label>
+                              </div>
+
+                            </div>
+                            <div class="img-list">
+                              <div class="custom-control custom-checkbox">
+                                <input type="radio" class="custom-control-input" id="ctype4" name="ctype">
+                                <label class="custom-control-label" for="ctype4">
+                                  <div class="img-list-inner"><img class="img-cover img-fluid"
+                                      src="assets/images/students-04.jpg"></div>
+                                </label>
+                              </div>
+
+                            </div>
+                            <div class="img-list">
+                              <div class="custom-control custom-checkbox">
+                                <input type="radio" class="custom-control-input" id="ctype5" name="ctype">
+                                <label class="custom-control-label" for="ctype5">
+                                  <div class="img-list-inner"><img class="img-cover img-fluid"
+                                      src="assets/images/students-05.jpg"></div>
+                                </label>
+                              </div>
+
+                            </div>
+                            <div class="img-list">
+                              <div class="custom-control custom-checkbox">
+                                <input type="radio" class="custom-control-input" id="ctype1" name="ctype" checked>
+                                <label class="custom-control-label" for="ctype1">
+                                  <div class="img-list-inner"><img class="img-cover img-fluid"
+                                      src="assets/images/student.jpg"></div>
+                                </label>
+                              </div>
+                            </div>
+                            <div class="img-list">
+                              <div class="custom-control custom-checkbox">
+                                <input type="radio" class="custom-control-input" id="ctype2" name="ctype">
+                                <label class="custom-control-label" for="ctype2">
+                                  <div class="img-list-inner"><img class="img-cover img-fluid"
+                                      src="assets/images/students-01.jpg"></div>
+                                </label>
+                              </div>
+
+                            </div>
+                            <div class="img-list">
+                              <div class="custom-control custom-checkbox">
+                                <input type="radio" class="custom-control-input" id="ctype3" name="ctype">
+                                <label class="custom-control-label" for="ctype3">
+                                  <div class="img-list-inner"><img class="img-cover img-fluid"
+                                      src="assets/images/students-03.jpg"></div>
+                                </label>
+                              </div>
+
+                            </div>
+                            <div class="img-list">
+                              <div class="custom-control custom-checkbox">
+                                <input type="radio" class="custom-control-input" id="ctype4" name="ctype">
+                                <label class="custom-control-label" for="ctype4">
+                                  <div class="img-list-inner"><img class="img-cover img-fluid"
+                                      src="assets/images/students-04.jpg"></div>
+                                </label>
+                              </div>
+
+                            </div>
+                            <div class="img-list">
+                              <div class="custom-control custom-checkbox">
+                                <input type="radio" class="custom-control-input" id="ctype5" name="ctype">
+                                <label class="custom-control-label" for="ctype5">
+                                  <div class="img-list-inner"><img class="img-cover img-fluid"
+                                      src="assets/images/students-05.jpg"></div>
+                                </label>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-row justify-content-center col-5 mb-3">
+                        <label class="label bc-heading text-center w-100 mb-3">Upload your own Image</label>
+                        <div class="form-group">
+                          <label class="label">Desktop Image <span class="note">(Size: w:1600px h:800px)</span></label>
+                          <div class="img-preview">
+                            <img class="img-cover img-fluid" src="assets/images/students-05.jpg">
+                          </div>
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input form-control" id="inputGroupFile01"
+                              aria-describedby="inputGroupFileAddon01">
+                            <label class="custom-file-label mb-0 form-control" for="inputGroupFile01">Choose
+                              file</label>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="label">Mobile Image <span class="note">(Size: w:500px h:800px)</span></label>
+                          <div class="img-preview">
+                            <img class="img-cover img-fluid" src="assets/images/students-04.jpg">
+                          </div>
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input form-control" id="inputGroupFile01"
+                              aria-describedby="inputGroupFileAddon01">
+                            <label class="custom-file-label mb-0 form-control" for="inputGroupFile01">Choose
+                              file</label>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <button type="submit" class="btn btn-yl btn-full btn-dn-curve">Save & Finish</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
+<script src="assets/bootstrap-select/js/bootstrap-select.min.js"></script>
+<script src="assets/js/custom.js"></script>
+
+</html>
