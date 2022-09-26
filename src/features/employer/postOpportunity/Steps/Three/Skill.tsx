@@ -16,9 +16,10 @@ interface Props {
   errors: any;
   control: Control<OpportunityStepThree, Record<string, any>>;
   register: UseFormRegister<OpportunityStepThree>;
+  skillType:any;
 }
 
-const Skill: React.FC<Props> = ({ control, register, errors }) => {
+const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'skills',
@@ -40,7 +41,7 @@ const Skill: React.FC<Props> = ({ control, register, errors }) => {
   return (
     <div className='form-group col-sm-12'>
       <label className='label fw-600 mb-2 w-100'>
-        Skills <span className='note fw-400'>(upto 4 allowed)</span>
+        {skillType}<span className='note fw-400'>(upto 4 allowed)</span>
       </label>
       {fields.map((field, index) => {
         if (optionCount <= 4) {
@@ -92,7 +93,7 @@ const Skill: React.FC<Props> = ({ control, register, errors }) => {
                   type='submit'
                   className='btn btn-plus-minus'
                   onClick={(event) => handleClick(event, index)}
-                  disabled={index === 0 && optionCount === 3}
+                  disabled={index === 0 && optionCount === 4}
                 >
                   <img src={index === 0 ? plusImg : minusImg} height='38' alt='' />
                 </button>

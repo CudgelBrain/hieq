@@ -20,7 +20,7 @@ const Stats = () => {
             <div className='cf-large cc-dark fw-600'>05</div>
             <div className='cf-medium cc-grey'>14 from last week</div>
           </li>
-          <li>
+          {/* <li>
             <div className='cf-medium cc-grey'>Reviews</div>
             <div className='cf-large cc-blue fw-600'>05</div>
             <div className='cf-medium cc-grey'>14 from last week</div>
@@ -29,7 +29,7 @@ const Stats = () => {
             <div className='cf-medium cc-grey'>Rejected</div>
             <div className='cf-large cc-red fw-600'>05</div>
             <div className='cf-medium cc-grey'>14 from last week</div>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>

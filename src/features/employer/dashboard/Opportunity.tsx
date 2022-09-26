@@ -122,12 +122,12 @@ const Opportunities: React.FC<Props> = ({ category, currentPage, setCurrentPage 
       </div>
       {!isEmpty(opportunities) && totalPages !== currentPage && (
         <div className='col-md-12 text-center pt-3'>
-          <button className='cb-btn cb-yellow' onClick={() => setCurrentPage(currentPage + 1)}>
+          {/* <button className='cb-btn cb-yellow' onClick={() => setCurrentPage(currentPage + 1)}>
             {status === 'loading' && currentAction === 'listOpportunities' && (
               <span className='spinner-border' role='status'></span>
             )}
             {status !== 'loading' && currentAction === '' && <span>More Details</span>}
-          </button>
+          </button> */}
         </div>
       )}
     </div>

@@ -42,7 +42,7 @@ const Dashboard = () => {
               >
                 Internships
               </button>
-              <button
+              {/* <button
                 type='button'
                 onClick={() => {
                   setCurrentPage(1);
@@ -52,7 +52,7 @@ const Dashboard = () => {
                 className={`tabs-btn ${activeCategory === 'competition' ? 'active' : ''}`}
               >
                 Competitions
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

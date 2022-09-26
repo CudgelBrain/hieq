@@ -452,7 +452,7 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
                       )}
                     </div>
                   </div>
-                  <Skill control={control} register={register} errors={errors} />
+                  <Skill control={control} register={register} errors={errors} skillType={"Personal Skills"} />
                 </>
               )}
               <div className='form-row col-12'>
@@ -497,61 +497,7 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
               </div>
               {category === 'job' && (
                 <>
-                  <div className='form-row col-12'>
-                    <div className='form-group col-6'>
-                      <label className='label'>Institute Cohorts/Category</label>
-                      <Controller
-                        name='institutes'
-                        control={control}
-                        render={({ field: { onChange, name } }) => {
-                          const handleChange = (value: OnChangeValue<OptionType, true>) => {
-                            setOpportunityInstitutes([...value]);
-                            onChange(value.map((v) => v.value));
-                          };
-                          const handleInputChange = (inputValue: string) =>
-                            setOpportunityInstitute(inputValue);
-                          const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
-                            if (!opportunityInstitute) return;
-                            switch (event.key) {
-                              case 'Tab':
-                              case 'Enter':
-                                setOpportunityInstitute('');
-                                onChange([
-                                  ...opportunityInstitutes.map((v) => v.value),
-                                  opportunityInstitute,
-                                ]);
-                                setOpportunityInstitutes([
-                                  ...opportunityInstitutes,
-                                  createOption(opportunityInstitute),
-                                ]);
-                                event.preventDefault();
-                            }
-                          };
-                          return (
-                            <AsyncSelect
-                              isMulti
-                              isClearable
-                              cacheOptions
-                              styles={selectStyle}
-                              onChange={handleChange}
-                              onKeyDown={handleKeyDown}
-                              value={opportunityInstitutes}
-                              loadOptions={loadInstituteGroups}
-                              inputValue={opportunityInstitute}
-                              onInputChange={handleInputChange}
-                              components={{ DropdownIndicator: null }}
-                              placeholder='For ex. NIT, IIM, IIIT, etc.'
-                            />
-                          );
-                        }}
-                      />
-                      {errors.institutes && (
-                        <div className='text-danger error mt-1'>
-                          {errors.institutes[0]?.message}
-                        </div>
-                      )}
-                    </div>
-                  </div>
+             
                   <div className='form-row col-12'>
                     <label className='label w-100'>Assessments</label>
                     <div className='multi-grp'>
@@ -637,102 +583,7 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
                           </div>
                         </div>
                       </div>
-                      <div className='form-group col-4 '>
-                        <div className='form-row p-3 br-bl-1 brad-4'>
-                          <div className='asst-graph w-100 h-120'>
-                            <div className='graph-list blue-graph'>
-                              <ul className='chart-skills'>
-                                <li style={{ animationName: 'rotate-three' }}></li>
-                              </ul>
-                              <div className='score-graph'>
-                                <div className='txt-large'>F</div>
-                                <div className='txt-medium'>Functional</div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className='col-6'>
-                            <input
-                              type='text'
-                              {...register('assessmentScore.functional.min')}
-                              className='form-control'
-                              placeholder='Min. Scores'
-                            />
-                            {errors.assessmentScore?.functional?.min && (
-                              <div className='text-danger error mt-1'>
-                                {capitalize(errors.assessmentScore?.functional?.min.message)}
-                              </div>
-                            )}
-                          </div>
-                          <div className='col-6'>
-                            <input
-                              type='text'
-                              {...register('assessmentScore.functional.max')}
-                              className='form-control'
-                              placeholder='Max. Scores'
-                            />
-                            {errors.assessmentScore?.functional?.max && (
-                              <div className='text-danger error mt-1'>
-                                {capitalize(errors.assessmentScore?.functional?.max.message)}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='form-row col-12'>
-                    <div className='form-group col-6'>
-                      <label className='label'>Past Employer</label>
-                      <Controller
-                        name='experiences'
-                        control={control}
-                        render={({ field: { onChange, name } }) => {
-                          const handleChange = (value: OnChangeValue<OptionType, true>) => {
-                            setOpportunityPastEmployers([...value]);
-                            onChange(value.map((v) => v.value));
-                          };
-                          const handleInputChange = (inputValue: string) =>
-                            setOpportunityPastEmployer(inputValue);
-                          const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
-                            if (!opportunityPastEmployer) return;
-                            switch (event.key) {
-                              case 'Tab':
-                              case 'Enter':
-                                setOpportunityPastEmployer('');
-                                onChange([
-                                  ...opportunityPastEmployers.map((v) => v.value),
-                                  opportunityPastEmployer,
-                                ]);
-                                setOpportunityPastEmployers([
-                                  ...opportunityPastEmployers,
-                                  createOption(opportunityPastEmployer),
-                                ]);
-                                event.preventDefault();
-                            }
-                          };
-                          return (
-                            <AsyncSelect
-                              isMulti
-                              isClearable
-                              cacheOptions
-                              styles={selectStyle}
-                              onChange={handleChange}
-                              onKeyDown={handleKeyDown}
-                              loadOptions={loadCompanies}
-                              value={opportunityPastEmployers}
-                              onInputChange={handleInputChange}
-                              inputValue={opportunityPastEmployer}
-                              components={{ DropdownIndicator: null }}
-                              placeholder='For ex. Infotech, Infosys, etc.'
-                            />
-                          );
-                        }}
-                      />
-                      {errors.experiences && (
-                        <div className='text-danger error mt-1'>
-                          {errors.experiences[0]?.message}
-                        </div>
-                      )}
+                     
                     </div>
                   </div>
                 </>
