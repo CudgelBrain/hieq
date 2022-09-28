@@ -210,7 +210,7 @@ const StepOne: React.FC<Props> = ({
             </div>
             <div className='form-row col-12'>
               <div className='form-group col-6'>
-                <label className='label'>{`${capitalize(category)} Title`}</label>
+                <label className='label'>Title</label>
                 <Controller
                   control={control}
                   name='opportunityTitle'
@@ -238,7 +238,7 @@ const StepOne: React.FC<Props> = ({
                 )}
               </div>
               <div className='form-group col-6'>
-                <label className='label'>{`${capitalize(category)} Domain`}</label>
+                <label className='label'>Domain</label>
                 <Controller
                   control={control}
                   name='opportunityDomain'
@@ -364,7 +364,7 @@ const StepOne: React.FC<Props> = ({
             )}
             <div className='form-row col-12'>
               <div className='form-group col-6'>
-                <label className='label'>{`${capitalize(category)} Location(s)`}</label>
+                <label className='label'>Work Location</label>
                 <Controller
                   name='locations'
                   control={control}

@@ -56,7 +56,7 @@ const Opportunities: React.FC<Props> = ({ category, currentPage, setCurrentPage 
         <table className='table custom-table table-br' cellPadding='0' cellSpacing='0'>
           <thead>
             <tr>
-              <th>Opportunity Title</th>
+              <th>Title</th>
               <th>Domain</th>
               <th>Status</th>
               <th>Expires On</th>

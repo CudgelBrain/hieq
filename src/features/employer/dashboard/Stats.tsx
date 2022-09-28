@@ -6,12 +6,12 @@ const Stats = () => {
       <div className='col-md-12'>
         <ul className='analytics-list'>
           <li>
-            <div className='cf-medium cc-grey'>Posted</div>
+            <div className='cf-medium cc-grey'>Active</div>
             <div className='cf-large cc-green fw-600'>12</div>
             <div className='cf-medium cc-grey'>4 from last week</div>
           </li>
           <li>
-            <div className='cf-medium cc-grey'>Active</div>
+            <div className='cf-medium cc-grey'>Draft</div>
             <div className='cf-large cc-yellow fw-600'>25</div>
             <div className='cf-medium cc-grey'>14 from last week</div>
           </li>
