@@ -272,10 +272,10 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                   </div>
                 </div>
                 <TextEditor
-                  control={control}
-                  {...register('description')}
-                  value={getValues('description')}
-                  placeholder='Enter job description here'
+                  // control={control}
+                  // {...register('description')}
+                  // value={getValues('description')}
+                  // placeholder='Enter job description here'
                 />
                 <div className='text-right'>
                   <span className='note'>1000 words limit</span>
@@ -449,10 +449,10 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                   <div className='form-group col-12'>
                     <label className='label'>Additional Details such as Flexible Work Hours</label>
                     <TextEditor
-                      control={control}
-                      {...register('salaryDetail.additionalDetail')}
-                      value={getValues('salaryDetail.additionalDetail')}
-                      placeholder='Enter additional details here'
+                      // control={control}
+                      // {...register('salaryDetail.additionalDetail')}
+                      // value={getValues('salaryDetail.additionalDetail')}
+                      // placeholder='Enter additional details here'
                     />
                     <div className='text-right'>
                       <span className='note'>500 words limit</span>

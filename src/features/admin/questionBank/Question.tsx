@@ -125,15 +125,15 @@ const Question: React.FC<Props> = ({ control, register, errors, underAction, que
                     {`Question ${index + 1}`} <span className='required'>*</span>
                   </label>
                   <TextEditor
-                    name={`questions.${index}.question`}
-                    control={control}
-                    value={
-                      (underAction &&
-                        underAction?.questions &&
-                        underAction?.questions[index] &&
-                        underAction?.questions[index].question) ||
-                      ''
-                    }
+                    // name={`questions.${index}.question`}
+                    // control={control}
+                    // value={
+                    //   (underAction &&
+                    //     underAction?.questions &&
+                    //     underAction?.questions[index] &&
+                    //     underAction?.questions[index].question) ||
+                    //   ''
+                    // }
                   />
                   {errors.questions &&
                     errors.questions[index] &&
@@ -171,15 +171,15 @@ const Question: React.FC<Props> = ({ control, register, errors, underAction, que
               Question <span className='required'>*</span>
             </label>
             <TextEditor
-              name={`questions.${0}.question`}
-              control={control}
-              value={
-                (underAction &&
-                  underAction?.questions &&
-                  underAction?.questions[0] &&
-                  underAction?.questions[0].question) ||
-                ''
-              }
+              // name={`questions.${0}.question`}
+              // control={control}
+              // value={
+              //   (underAction &&
+              //     underAction?.questions &&
+              //     underAction?.questions[0] &&
+              //     underAction?.questions[0].question) ||
+              //   ''
+              // }
             />
             {errors.questions && errors.questions[0].question && (
               <div className='text-danger error mt-1'>{errors.questions[0].question?.message}</div>

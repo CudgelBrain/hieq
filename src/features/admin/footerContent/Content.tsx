@@ -62,7 +62,7 @@ const FooterContent = () => {
                 Enter or Paste your Page Content
                 <span className='required'>*</span>
               </label>
-              <TextEditor name='content' control={control} value={content} />
+              <TextEditor />
               {errors.content && (
                 <div className='text-danger error mt-1'>{errors.content?.message}</div>
               )}

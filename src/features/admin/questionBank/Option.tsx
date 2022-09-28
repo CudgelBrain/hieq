@@ -29,16 +29,16 @@ const Option: React.FC<Props> = ({ control, register, errors, underAction, nestI
               {`Option ${index + 1}`} <span className='required'>*</span>
             </label>
             <TextEditor
-              control={control}
-              name={`questions.${nestIndex}.options.${index}.option`}
-              value={
-                (underAction &&
-                  underAction?.questions[nestIndex] &&
-                  underAction?.questions[nestIndex].options &&
-                  underAction?.questions[nestIndex].options[index] &&
-                  underAction?.questions[nestIndex].options[index].option) ||
-                ''
-              }
+              // control={control}
+              // name={`questions.${nestIndex}.options.${index}.option`}
+              // value={
+              //   (underAction &&
+              //     underAction?.questions[nestIndex] &&
+              //     underAction?.questions[nestIndex].options &&
+              //     underAction?.questions[nestIndex].options[index] &&
+              //     underAction?.questions[nestIndex].options[index].option) ||
+              //   ''
+              // }
             />
             <div className='mt-2 d-flex'>
               <div className='form-check form-check-inline dark-btn'>
