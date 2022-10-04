@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useRef } from 'react';
 import { capitalize, forEach, isEmpty, kebabCase } from 'lodash';
 import Select, { SingleValue } from 'react-select';
 import { Controller, useForm } from 'react-hook-form';
@@ -10,6 +10,7 @@ import { fileExtension } from 'utils';
 import Attachments from './Attachments';
 import ExternalLinks from './ExternalLinks';
 import TextEditor from 'components/TextEditor';
+import { Editor } from '@tinymce/tinymce-react';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { addOpportunityDetail } from '../../postOpportunityAPI';
 import { OptionType, selectStyle } from 'features/employer/common';
@@ -228,6 +229,7 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
     };
 
     //console.log('stepTwo', { errors, defaultValues });
+    const editorRef = useRef(null);
 
     return (
       <form onSubmit={handleSubmit(handleOnSubmit)} ref={ref}>
@@ -271,12 +273,31 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                     <button className='text-link'>view sample pdf by hieq team</button>
                   </div>
                 </div>
-                <TextEditor
+                <Editor
+                  onInit={(evt, editor:any) => editorRef.current = editor}
+                  initialValue="<p>Enter job description here.</p>"
+                  init={{
+                    height: 250,
+                    menubar: false,
+                    plugins: [
+                      'advlist autolink lists link image charmap print preview anchor',
+                      'searchreplace visualblocks code fullscreen',
+                      'insertdatetime media table paste code help wordcount'
+                    ],
+                    toolbar: 'undo redo | formatselect | ' +
+                    'bold italic backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | help',
+                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                  }}
+                />
+                {/* Will remove below code for text editor once new text editor code will be approved. */}
+                {/* <TextEditor
                   // control={control}
                   // {...register('description')}
                   // value={getValues('description')}
                   // placeholder='Enter job description here'
-                />
+                /> */}
                 <div className='text-right'>
                   <span className='note'>1000 words limit</span>
                 </div>

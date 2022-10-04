@@ -174,12 +174,12 @@ const StepOne: React.FC<Props> = ({
 
   const loadOpportunityTitles = debounce((value: string, callback) => {
     const options = matchSorter(opportunityTitles, value, { keys: ['label'] });
-    callback(isEmpty(options) ? [createOption(value)] : options);
+    callback(isEmpty(options) ? [] : options);
   }, 500);
 
   const loadOpportunityDomains = debounce((value: string, callback) => {
     const options = matchSorter(opportunityDomains, value, { keys: ['label'] });
-    callback(isEmpty(options) ? [createOption(value)] : options);
+    callback(isEmpty(options) ? [] : options);
   }, 500);
 
   const handleOnSubmit = (data: OpportunityStepOne) => {
