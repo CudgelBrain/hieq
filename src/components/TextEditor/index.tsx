@@ -16,7 +16,7 @@ interface Props {
   addMedia?: (file: FormData) => Promise<any>;
 }
 
-const TextEditor = () =>{
+const TextEditor = () => {
   // ({ control, name, value, placeholder }, ref) => {
   //   const [showSource, setShowSource] = useState<boolean>(false);
   //   const [convertedHTML, setConvertedHTML] = useState<string>('');
@@ -61,17 +61,16 @@ const TextEditor = () =>{
   //     });
   //   };
 
-    return (
-      <>
-       <CKEditor
-                initData="<p>Hello from CKEditor 4!</p>"
-                onInstanceReady={ () => {
-                    alert( 'Editor is ready!' );
-                } }
-            />
-      </>
-    );
-  };
+  return (
+    <>
+      <CKEditor
+        initData="<p>Hello from CKEditor 4!</p>"
+      // onInstanceReady={() => {
+      // }}
+      />
+    </>
+  );
+};
 
 
 export default TextEditor;

@@ -1,4 +1,4 @@
-import React,{ useRef } from 'react';
+import React, { useRef } from 'react';
 import { capitalize, forEach, isEmpty, kebabCase } from 'lodash';
 import Select, { SingleValue } from 'react-select';
 import { Controller, useForm } from 'react-hook-form';
@@ -99,6 +99,14 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
             !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.salaryDetail)
               ? opportunity.stepTwo.salaryDetail.visibleToCandidate
               : false,
+          showSalary:
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.salaryDetail)
+              ? opportunity.stepTwo.salaryDetail.showSalary
+              : false,
+          currency:
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.stipendDetail)
+              ? opportunity.stepTwo.stipendDetail.currency
+              : 'INR',
         },
         stipendDetail: {
           stipendType:
@@ -273,8 +281,9 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                     <button className='text-link'>view sample pdf by hieq team</button>
                   </div>
                 </div>
+                <label className='label'>Roles and Responsibilities</label>
                 <Editor
-                  onInit={(evt, editor:any) => editorRef.current = editor}
+                  onInit={(evt, editor: any) => editorRef.current = editor}
                   initialValue="<p>Enter job description here.</p>"
                   init={{
                     height: 250,
@@ -285,9 +294,9 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                       'insertdatetime media table paste code help wordcount'
                     ],
                     toolbar: 'undo redo | formatselect | ' +
-                    'bold italic backcolor | alignleft aligncenter ' +
-                    'alignright alignjustify | bullist numlist outdent indent | ' +
-                    'removeformat | help',
+                      'bold italic backcolor | alignleft aligncenter ' +
+                      'alignright alignjustify | bullist numlist outdent indent | ' +
+                      'removeformat | help',
                     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                   }}
                 />
@@ -309,6 +318,20 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
               </div>
               {category === 'job' && (
                 <>
+                  <div className='form-group col-12'>
+                    <label className='label'>Do you want to show salary details?</label>
+                    <div className='custom-control custom-switch custom-switch-lg'>
+                      <input
+                        type='checkbox'
+                        id='variableComponent'
+                        className='custom-control-input'
+                        {...register('salaryDetail.showSalary')}
+                      />
+                      <label className='custom-control-label' htmlFor='variableComponent'>
+                        {salaryDetail && salaryDetail.showSalary ? 'No' : 'Yes'}
+                      </label>
+                    </div>
+                  </div>
                   <div className='form-group col-12'>
                     <label className='label'>Salary Details</label>
                     <div className='custom-inline'>
@@ -415,6 +438,33 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                           </div>
                         )}
                       </div>
+                      <div className='form-group col-2'>
+                        <Controller
+                          control={control}
+                          name='salaryDetail.currency'
+                          render={({ field: { onChange, value, name } }) => {
+                            const handleOnchange = (option: SingleValue<OptionType>) =>
+                              onChange(option?.value);
+                            return (
+                              <Select
+                                name={name}
+                                options={currency}
+                                // isSearchable={true}
+                                styles={selectStyle}
+                                onChange={handleOnchange}
+                                placeholder='Select Currency'
+                                components={{ IndicatorSeparator: () => null }}
+                                value={currency.find((c) => c.value === value)}
+                              />
+                            );
+                          }}
+                        />
+                        {errors.salaryDetail?.currency && (
+                          <div className='text-danger error mt-1'>
+                            {capitalize(errors.salaryDetail?.currency?.message)}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                   <div className='form-group col-12'>
@@ -470,10 +520,10 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                   <div className='form-group col-12'>
                     <label className='label'>Additional Details such as Flexible Work Hours</label>
                     <TextEditor
-                      // control={control}
-                      // {...register('salaryDetail.additionalDetail')}
-                      // value={getValues('salaryDetail.additionalDetail')}
-                      // placeholder='Enter additional details here'
+                    // control={control}
+                    // {...register('salaryDetail.additionalDetail')}
+                    // value={getValues('salaryDetail.additionalDetail')}
+                    // placeholder='Enter additional details here'
                     />
                     <div className='text-right'>
                       <span className='note'>500 words limit</span>

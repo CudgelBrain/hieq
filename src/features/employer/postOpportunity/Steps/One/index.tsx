@@ -20,17 +20,23 @@ import {
 } from '../../postOpportunitySlice';
 import { listDomains } from 'features/admin/domain/itemAPI';
 import { listJobTitles } from 'features/admin/jobTitle/itemAPI';
+import { listWorkLocations } from 'features/admin//workLocation/itemApi';
 import { createOption, OptionType, selectStyle } from 'features/employer/common';
 
-const cities: readonly OptionType[] = orderBy(
-  map(cityList, ({ city }) => createOption(city)),
-  'label',
-);
+// const cities: readonly OptionType[] = orderBy(
+//   map(cityList, ({ city }) => createOption(city)),
+//   'label',
+// );
 
 let opportunityTitles: readonly OptionType[] = [];
 const getOpportunityTitles = async () => {
   const { data } = await listJobTitles();
   opportunityTitles = map(data.items, ({ title }) => createOption(title));
+};
+let cities: readonly OptionType[] = [];
+const getOpportunityLocation = async () => {
+  const { data } = await listWorkLocations();
+  cities = map(data.items, ({ location }) => createOption(location));
 };
 
 let opportunityDomains: readonly OptionType[] = [];
@@ -45,6 +51,7 @@ if (
 ) {
   getOpportunityTitles();
   getOpportunityDomains();
+  getOpportunityLocation();
 }
 
 interface Props {
