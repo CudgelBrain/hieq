@@ -98,6 +98,14 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
             !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.salaryDetail)
               ? opportunity.stepTwo.salaryDetail.visibleToCandidate
               : false,
+          showSalary:
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.salaryDetail)
+              ? opportunity.stepTwo.salaryDetail.showSalary
+              : false,
+          currency:
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.stipendDetail)
+              ? opportunity.stepTwo.stipendDetail.currency
+              : 'INR',
         },
         stipendDetail: {
           stipendType:
@@ -271,11 +279,15 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                     <button className='text-link'>view sample pdf by hieq team</button>
                   </div>
                 </div>
+              </div>
+              <div className='form-group col-12'>
+
+                <label className='label'>Roles and Responsibilities</label>
                 <TextEditor
-                  // control={control}
-                  // {...register('description')}
-                  // value={getValues('description')}
-                  // placeholder='Enter job description here'
+                // control={control}
+                // {...register('description')}
+                // value={getValues('description')}
+                // placeholder='Enter job description here'
                 />
                 <div className='text-right'>
                   <span className='note'>1000 words limit</span>
@@ -288,6 +300,20 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
               </div>
               {category === 'job' && (
                 <>
+                  <div className='form-group col-12'>
+                    <label className='label'>Do you want to show salary details?</label>
+                    <div className='custom-control custom-switch custom-switch-lg'>
+                      <input
+                        type='checkbox'
+                        id='variableComponent'
+                        className='custom-control-input'
+                        {...register('salaryDetail.showSalary')}
+                      />
+                      <label className='custom-control-label' htmlFor='variableComponent'>
+                        {salaryDetail && salaryDetail.showSalary ? 'No' : 'Yes'}
+                      </label>
+                    </div>
+                  </div>
                   <div className='form-group col-12'>
                     <label className='label'>Salary Details</label>
                     <div className='custom-inline'>
@@ -394,6 +420,33 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                           </div>
                         )}
                       </div>
+                      <div className='form-group col-2'>
+                        <Controller
+                          control={control}
+                          name='salaryDetail.currency'
+                          render={({ field: { onChange, value, name } }) => {
+                            const handleOnchange = (option: SingleValue<OptionType>) =>
+                              onChange(option?.value);
+                            return (
+                              <Select
+                                name={name}
+                                options={currency}
+                                // isSearchable={true}
+                                styles={selectStyle}
+                                onChange={handleOnchange}
+                                placeholder='Select Currency'
+                                components={{ IndicatorSeparator: () => null }}
+                                value={currency.find((c) => c.value === value)}
+                              />
+                            );
+                          }}
+                        />
+                        {errors.salaryDetail?.currency && (
+                          <div className='text-danger error mt-1'>
+                            {capitalize(errors.salaryDetail?.currency?.message)}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                   <div className='form-group col-12'>
@@ -449,10 +502,10 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                   <div className='form-group col-12'>
                     <label className='label'>Additional Details such as Flexible Work Hours</label>
                     <TextEditor
-                      // control={control}
-                      // {...register('salaryDetail.additionalDetail')}
-                      // value={getValues('salaryDetail.additionalDetail')}
-                      // placeholder='Enter additional details here'
+                    // control={control}
+                    // {...register('salaryDetail.additionalDetail')}
+                    // value={getValues('salaryDetail.additionalDetail')}
+                    // placeholder='Enter additional details here'
                     />
                     <div className='text-right'>
                       <span className='note'>500 words limit</span>

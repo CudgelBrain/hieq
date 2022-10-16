@@ -111,7 +111,9 @@ interface salaryDetail {
   variablePercentage?: number;
   additionalDetail: string;
   visibleToCandidate: boolean;
+  showSalary: boolean;
   cycle: string;
+  currency: string;
 }
 const salaryDetailSchema = {
   salaryType: yup.string().required('Type is required'),
@@ -141,7 +143,9 @@ const salaryDetailSchema = {
   }),
   additionalDetail: yup.string().required('Additional detail is required'),
   visibleToCandidate: yup.boolean().required('Visible to candidate is required'),
+  showSalary: yup.boolean().required('show salary is required'),
   cycle: yup.string().required('Cycle is required'),
+  currency: yup.string().required('Currency is required'),
 };
 interface stipendDetail {
   stipendType: string;
@@ -491,103 +495,103 @@ export default postOpportunitySlice.reducer;
 
 export const AddOpportunity =
   (formData: FormData): AppThunk =>
-  async (dispatch) => {
-    try {
-      dispatch(onStart());
-      const { data, status } = await addOpportunity(formData);
-      dispatch(setStatus(status));
-      dispatch(resetOpportunity());
-      dispatch(setOpportunity(data));
-      const { category, ID } = data;
-      history.push(`/employer/postOpportunity/${category}/${ID}`);
-    } catch (error: any) {
-      dispatch(setStatus(error?.response?.data?.status));
-      dispatch(setMessage(error?.response?.data?.error));
-    } finally {
-      setTimeout(() => {
-        dispatch(onStop());
-      }, 1000);
-    }
-  };
+    async (dispatch) => {
+      try {
+        dispatch(onStart());
+        const { data, status } = await addOpportunity(formData);
+        dispatch(setStatus(status));
+        dispatch(resetOpportunity());
+        dispatch(setOpportunity(data));
+        const { category, ID } = data;
+        history.push(`/employer/postOpportunity/${category}/${ID}`);
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+        }, 1000);
+      }
+    };
 
 export const EditOpportunity =
   (formData: FormData, opportunityID: string, step: string): AppThunk =>
-  async (dispatch) => {
-    try {
-      dispatch(onStart());
-      const { data, status } = await editOpportunity(formData, opportunityID);
-      dispatch(setStatus(status));
-      dispatch(resetOpportunity());
-      dispatch(setOpportunity(data));
-      dispatch(setAction(`editOpportunity-${step}`));
-    } catch (error: any) {
-      dispatch(setStatus(error?.response?.data?.status));
-      dispatch(setMessage(error?.response?.data?.error));
-    } finally {
-      setTimeout(() => {
-        dispatch(onStop());
-      }, 1000);
-    }
-  };
+    async (dispatch) => {
+      try {
+        dispatch(onStart());
+        const { data, status } = await editOpportunity(formData, opportunityID);
+        dispatch(setStatus(status));
+        dispatch(resetOpportunity());
+        dispatch(setOpportunity(data));
+        dispatch(setAction(`editOpportunity-${step}`));
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+        }, 1000);
+      }
+    };
 
 export const DeleteOpportunity =
   (category: string, opportunityID: string): AppThunk =>
-  async (dispatch, getState) => {
-    try {
-      dispatch(onStart());
-      const categoryInStore = getState().postOpportunity.category;
-      const { data, status } = await deleteOpportunity(category, opportunityID);
-      dispatch(setStatus(status));
-      if (categoryInStore !== category) dispatch(resetOpportunities());
-      dispatch(setOpportunities({ ...data, category }));
-      dispatch(setAction('deleteOpportunity'));
-    } catch (error: any) {
-      dispatch(setStatus(error?.response?.data?.status));
-      dispatch(setMessage(error?.response?.data?.error));
-    } finally {
-      setTimeout(() => {
-        dispatch(onStop());
-      }, 1000);
-    }
-  };
+    async (dispatch, getState) => {
+      try {
+        dispatch(onStart());
+        const categoryInStore = getState().postOpportunity.category;
+        const { data, status } = await deleteOpportunity(category, opportunityID);
+        dispatch(setStatus(status));
+        if (categoryInStore !== category) dispatch(resetOpportunities());
+        dispatch(setOpportunities({ ...data, category }));
+        dispatch(setAction('deleteOpportunity'));
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+        }, 1000);
+      }
+    };
 
 export const GetOpportunity =
   (opportunityID: string): AppThunk =>
-  async (dispatch) => {
-    try {
-      dispatch(onStart());
-      const { data, status } = await getOpportunity(opportunityID);
-      dispatch(setStatus(status));
-      dispatch(resetOpportunity());
-      dispatch(setOpportunity(data));
-      dispatch(setAction('getOpportunity'));
-    } catch (error: any) {
-      dispatch(setStatus(error?.response?.data?.status));
-      dispatch(setMessage(error?.response?.data?.error));
-    } finally {
-      setTimeout(() => {
-        dispatch(onStop());
-      }, 1000);
-    }
-  };
+    async (dispatch) => {
+      try {
+        dispatch(onStart());
+        const { data, status } = await getOpportunity(opportunityID);
+        dispatch(setStatus(status));
+        dispatch(resetOpportunity());
+        dispatch(setOpportunity(data));
+        dispatch(setAction('getOpportunity'));
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+        }, 1000);
+      }
+    };
 
 export const ListOpportunities =
   (category: string, page: number, perPage: number): AppThunk =>
-  async (dispatch, getState) => {
-    try {
-      dispatch(onStart());
-      const categoryInStore = getState().postOpportunity.category;
-      const { data, status } = await listOpportunities(category, page, perPage);
-      dispatch(setStatus(status));
-      if (categoryInStore !== category) dispatch(resetOpportunities());
-      dispatch(setOpportunities({ ...data, category }));
-      dispatch(setAction('listOpportunities'));
-    } catch (error: any) {
-      dispatch(setStatus(error?.response?.data?.status));
-      dispatch(setMessage(error?.response?.data?.error));
-    } finally {
-      setTimeout(() => {
-        dispatch(onStop());
-      }, 1000);
-    }
-  };
+    async (dispatch, getState) => {
+      try {
+        dispatch(onStart());
+        const categoryInStore = getState().postOpportunity.category;
+        const { data, status } = await listOpportunities(category, page, perPage);
+        dispatch(setStatus(status));
+        if (categoryInStore !== category) dispatch(resetOpportunities());
+        dispatch(setOpportunities({ ...data, category }));
+        dispatch(setAction('listOpportunities'));
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+        }, 1000);
+      }
+    };
