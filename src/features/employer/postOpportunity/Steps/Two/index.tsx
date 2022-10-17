@@ -14,6 +14,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { addOpportunityDetail } from '../../postOpportunityAPI';
 import { OptionType, selectStyle } from 'features/employer/common';
+import { CKEditor } from 'ckeditor4-react';
 import {
   attachment,
   EditOpportunity,
@@ -236,7 +237,6 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
       dispatch(EditOpportunity(formData, opportunityID, 'stepTwo'));
     };
 
-    //console.log('stepTwo', { errors, defaultValues });
     const editorRef = useRef(null);
 
     return (
@@ -282,9 +282,10 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                   </div>
                 </div>
                 <label className='label'>Roles and Responsibilities</label>
-                <Editor
+                {/* <Editor
                   onInit={(evt, editor: any) => editorRef.current = editor}
                   initialValue="<p>Enter job description here.</p>"
+                  {...register('description')}
                   init={{
                     height: 250,
                     menubar: false,
@@ -299,14 +300,29 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                       'removeformat | help',
                     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                   }}
-                />
-                {/* Will remove below code for text editor once new text editor code will be approved. */}
-                {/* <TextEditor
-                  // control={control}
-                  // {...register('description')}
-                  // value={getValues('description')}
-                  // placeholder='Enter job description here'
                 /> */}
+                {/* Will remove below code for text editor once new text editor code will be approved. */}
+
+                <Controller
+                  control={control}
+                  name='description'
+                  render={({ field: { onChange, value, name } }) => {
+                    const handleOnchange = (value: any) => {
+                      onChange(value);
+                    }
+                    return (
+                      <TextEditor
+                        valueChange={handleOnchange}
+                        // name={name}
+                        value={value}
+                      // control={control}
+                      // register = {...register('description')}
+                      // value={getValues('description')}
+                      // placeholder='Enter job description here'
+                      />
+                    )
+                  }}
+                />
                 <div className='text-right'>
                   <span className='note'>1000 words limit</span>
                 </div>
@@ -323,11 +339,11 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                     <div className='custom-control custom-switch custom-switch-lg'>
                       <input
                         type='checkbox'
-                        id='variableComponent'
+                        id='showSalaryComponent'
                         className='custom-control-input'
                         {...register('salaryDetail.showSalary')}
                       />
-                      <label className='custom-control-label' htmlFor='variableComponent'>
+                      <label className='custom-control-label' htmlFor='showSalaryComponent'>
                         {salaryDetail && salaryDetail.showSalary ? 'No' : 'Yes'}
                       </label>
                     </div>
@@ -519,11 +535,44 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                   </div>
                   <div className='form-group col-12'>
                     <label className='label'>Additional Details such as Flexible Work Hours</label>
-                    <TextEditor
-                    // control={control}
-                    // {...register('salaryDetail.additionalDetail')}
-                    // value={getValues('salaryDetail.additionalDetail')}
-                    // placeholder='Enter additional details here'
+                    {/* <Editor
+                      onInit={(evt, editor: any) => editorRef.current = editor}
+                      initialValue="<p>Enter job description here.</p>"
+                      {...register('salaryDetail.additionalDetail')}
+                      init={{
+                        height: 250,
+                        menubar: false,
+                        plugins: [
+                          'advlist autolink lists link image charmap print preview anchor',
+                          'searchreplace visualblocks code fullscreen',
+                          'insertdatetime media table paste code help wordcount'
+                        ],
+                        toolbar: 'undo redo | formatselect | ' +
+                          'bold italic backcolor | alignleft aligncenter ' +
+                          'alignright alignjustify | bullist numlist outdent indent | ' +
+                          'removeformat | help',
+                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                      }}
+                    /> */}
+                    <Controller
+                      control={control}
+                      name='salaryDetail.additionalDetail'
+                      render={({ field: { onChange, value, name } }) => {
+                        const handleOnchange = (value: any) => {
+                          onChange(value);
+                        }
+                        return (
+                          <TextEditor
+                            valueChange={handleOnchange}
+                            // name={name}
+                            value={value}
+                          // control={control}
+                          // register = {...register('description')}
+                          // value={getValues('description')}
+                          // placeholder='Enter job description here'
+                          />
+                        )
+                      }}
                     />
                     <div className='text-right'>
                       <span className='note'>500 words limit</span>

@@ -9,14 +9,16 @@ import { Controller } from 'react-hook-form';
 import { AddMedia } from 'features/admin/faqQuestion/faqQuestionAPI';
 import { CKEditor } from 'ckeditor4-react';
 interface Props {
-  control: any;
-  name: string;
-  value: string;
+  control?: any;
+  name?: string;
+  value?: string;
   placeholder?: string;
   addMedia?: (file: FormData) => Promise<any>;
+  register?: any;
+  valueChange?: any;
 }
 
-const TextEditor = () => {
+const TextEditor = ({ valueChange, value }: Props) => {
   // ({ control, name, value, placeholder }, ref) => {
   //   const [showSource, setShowSource] = useState<boolean>(false);
   //   const [convertedHTML, setConvertedHTML] = useState<string>('');
@@ -64,9 +66,14 @@ const TextEditor = () => {
   return (
     <>
       <CKEditor
-        initData="<p>Hello from CKEditor 4!</p>"
-      // onInstanceReady={() => {
-      // }}
+        initData={value}
+        onChange={(editor) => {
+          let data = editor.editor.getData()
+
+          valueChange(data);
+        }}
+        onInstanceReady={() => {
+        }}
       />
     </>
   );

@@ -155,10 +155,10 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
           !isEmpty(opportunity.stepThree) && !isEmpty(opportunity.stepThree.assessmentScore)
             ? opportunity.stepThree.assessmentScore
             : {
-                behavioural: {},
-                cognitive: {},
-                functional: {},
-              },
+              behavioural: {},
+              cognitive: {},
+              functional: {},
+            },
         experiences:
           !isEmpty(opportunity.stepThree) && !isEmpty(opportunity.stepThree.experiences)
             ? split(opportunity.stepThree.experiences, ',')
@@ -453,6 +453,8 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
                     </div>
                   </div>
                   <Skill control={control} register={register} errors={errors} skillType={"Personal Skills"} />
+                  <Skill control={control} register={register} errors={errors} skillType={"Technical Skills"} />
+                  <Skill control={control} register={register} errors={errors} skillType={"Public Skills"} />
                 </>
               )}
               <div className='form-row col-12'>
@@ -497,7 +499,7 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
               </div>
               {category === 'job' && (
                 <>
-             
+
                   <div className='form-row col-12'>
                     <label className='label w-100'>Assessments</label>
                     <div className='multi-grp'>
@@ -583,7 +585,7 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
                           </div>
                         </div>
                       </div>
-                     
+
                     </div>
                   </div>
                 </>
