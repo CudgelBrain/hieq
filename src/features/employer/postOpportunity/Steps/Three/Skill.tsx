@@ -16,13 +16,13 @@ interface Props {
   errors: any;
   control: Control<OpportunityStepThree, Record<string, any>>;
   register: UseFormRegister<OpportunityStepThree>;
-  skillType:any;
+  skillType: string;
 }
 
 const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'skills',
+    name: skillType == "personal_skills" ? 'skills.personal_skills' : skillType == "technical_skills" ? 'skills.technical_skills' : 'skills.public_skills',
   });
 
   const [optionCount, setOptionCount] = React.useState<number>(1);
@@ -30,76 +30,77 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
     event.preventDefault();
     if (index === 0) {
-      append({ name: '', proficiencyLevel: '' });
+      append({ title: '', level: '' });
       setOptionCount(optionCount + 1);
     } else {
       remove(index);
       setOptionCount(optionCount - 1);
     }
   };
-
   return (
     <div className='form-group col-sm-12'>
       <label className='label fw-600 mb-2 w-100'>
-        {skillType}<span className='note fw-400'>(upto 4 allowed)</span>
+        {skillType.split("_").join(" ").toUpperCase()}<span className='note fw-400'>(upto 4 allowed)</span>
       </label>
       {fields.map((field, index) => {
         if (optionCount <= 4) {
-          return (
-            <div className='form-group form-row mb-2' key={field.id}>
-              <div className='col-3'>
-                <label className='label'>Skills Name</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  placeholder='Name'
-                  {...register(`skills.${index}.name` as const)}
-                />
-                {errors.skills && errors.skills[index] && errors.skills[index].name && (
-                  <div className='text-danger error mt-1'>{errors.skills[index].name?.message}</div>
-                )}
+          if (skillType == "personal_skills" || skillType == "technical_skills" || skillType == "public_skills") {
+            return (
+              <div className='form-group form-row mb-2' key={field.id}>
+                <div className='col-3'>
+                  <label className='label'>Skills Name</label>
+                  <input
+                    type='text'
+                    className='form-control'
+                    placeholder='Name'
+                    {...register(`skills.${skillType}.${index}.title` as const)}
+                  />
+                  {errors.skills && errors.skills[skillType][index] && errors.skills[skillType][index].title && (
+                    <div className='text-danger error mt-1'>{errors.skills[skillType][index].title?.message}</div>
+                  )}
+                </div>
+                <div className='col-3'>
+                  <label className='label'>Proficiency Level</label>
+                  <Controller
+                    control={control}
+                    name={`skills.${skillType}.${index}.level`}
+                    render={({ field: { onChange, value, name } }) => {
+                      const handleOnchange = (option: SingleValue<OptionType>) =>
+                        onChange(option?.value);
+                      return (
+                        <Select
+                          name={name}
+                          isSearchable
+                          options={levels}
+                          styles={selectStyle}
+                          onChange={handleOnchange}
+                          placeholder='Select Proficiency Level'
+                          components={{ IndicatorSeparator: () => null }}
+                          value={levels.find((c) => c.value === value)}
+                        />
+                      );
+                    }}
+                  />
+                  {errors.skills && errors.skills[skillType][index] && errors.skills[skillType][index].level && (
+                    <div className='text-danger error mt-1'>
+                      {errors.skills[skillType][index].level?.message}
+                    </div>
+                  )}
+                </div>
+                <div className='col-1'>
+                  <label className='label'>&nbsp;</label>
+                  <button
+                    type='submit'
+                    className='btn btn-plus-minus'
+                    onClick={(event) => handleClick(event, index)}
+                    disabled={index === 0 && optionCount === 4}
+                  >
+                    <img src={index === 0 ? plusImg : minusImg} height='38' alt='' />
+                  </button>
+                </div>
               </div>
-              <div className='col-3'>
-                <label className='label'>Proficiency Level</label>
-                <Controller
-                  control={control}
-                  name={`skills.${index}.proficiencyLevel`}
-                  render={({ field: { onChange, value, name } }) => {
-                    const handleOnchange = (option: SingleValue<OptionType>) =>
-                      onChange(option?.value);
-                    return (
-                      <Select
-                        name={name}
-                        isSearchable
-                        options={levels}
-                        styles={selectStyle}
-                        onChange={handleOnchange}
-                        placeholder='Select Proficiency Level'
-                        components={{ IndicatorSeparator: () => null }}
-                        value={levels.find((c) => c.value === value)}
-                      />
-                    );
-                  }}
-                />
-                {errors.skills && errors.skills[index] && errors.skills[index].proficiencyLevel && (
-                  <div className='text-danger error mt-1'>
-                    {errors.skills[index].proficiencyLevel?.message}
-                  </div>
-                )}
-              </div>
-              <div className='col-1'>
-                <label className='label'>&nbsp;</label>
-                <button
-                  type='submit'
-                  className='btn btn-plus-minus'
-                  onClick={(event) => handleClick(event, index)}
-                  disabled={index === 0 && optionCount === 4}
-                >
-                  <img src={index === 0 ? plusImg : minusImg} height='38' alt='' />
-                </button>
-              </div>
-            </div>
-          );
+            );
+          }
         }
         return null;
       })}

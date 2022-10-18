@@ -258,12 +258,23 @@ const workExperienceSchema = {
     .required('Max is required'),
 };
 interface skill {
-  name: string;
-  proficiencyLevel: string;
+  title?: string;
+  level?: string;
+}
+interface skillObject {
+  personal_skills: skill[];
+  technical_skills: skill[];
+  public_skills: skill[];
 }
 const skillSchema = {
-  name: yup.string().required('Name is required'),
-  proficiencyLevel: yup.string().required('Proficiency level is required'),
+  skill: yup
+    .object()
+    .shape({
+      title: yup.string().required('Name is required'),
+      level: yup.string().required('Proficiency level is required'),
+    })
+    .required('skill is required'),
+
 };
 interface assessmentScore {
   behavioural: { min?: number; max?: number };
@@ -297,7 +308,7 @@ export interface OpportunityStepThree {
   category: string;
   workExperience: workExperience;
   qualifications: string[];
-  skills: skill[];
+  skills: skillObject;
   videoResume?: boolean;
   coverLetter?: boolean;
   institutes: string[];
@@ -323,11 +334,26 @@ export const OpportunityStepThreeSchema = yup
         .required(),
       otherwise: yup.array().notRequired(),
     }),
-    skills: yup.array().when('category', {
-      is: (category: string) => ['internship', 'job'].includes(category),
-      then: yup.array().of(yup.object().shape(skillSchema)).min(1).max(5).required(),
-      otherwise: yup.array().notRequired(),
-    }),
+    skills: yup.object({
+      personal_skills: yup.array().of(yup
+        .object({
+          title: yup.string().required('Name is required'),
+          level: yup.string().required('Proficiency level is required'),
+        })
+        .required('skill is required'),).min(1).max(5).required(),
+      technical_skills: yup.array().of(yup
+        .object({
+          title: yup.string().required('Name is required'),
+          level: yup.string().required('Proficiency level is required'),
+        })
+        .required('skill is required'),).min(1).max(5).required(),
+      public_skills: yup.array().of(yup
+        .object({
+          title: yup.string().required('Name is required'),
+          level: yup.string().required('Proficiency level is required'),
+        })
+        .required('skill is required'),).min(1).max(5).required()
+    }).required(),
     videoResume: yup.boolean().when('category', {
       is: (category: string) => ['internship', 'job'].includes(category),
       then: yup.boolean().required(),

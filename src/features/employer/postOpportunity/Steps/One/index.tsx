@@ -222,8 +222,10 @@ const StepOne: React.FC<Props> = ({
                   control={control}
                   name='opportunityTitle'
                   render={({ field: { onChange } }) => {
-                    const handleOnchange = (option: SingleValue<OptionType>) =>
+                    const handleOnchange = (option: SingleValue<OptionType>) => {
+                      setOpportunityTitle(option ? option : opportunityTitle)
                       onChange(option?.value);
+                    }
                     return (
                       <AsyncSelect
                         isClearable
@@ -250,8 +252,10 @@ const StepOne: React.FC<Props> = ({
                   control={control}
                   name='opportunityDomain'
                   render={({ field: { onChange, value, name } }) => {
-                    const handleOnchange = (option: SingleValue<OptionType>) =>
+                    const handleOnchange = (option: SingleValue<OptionType>) => {
+                      setopportunityDomain(option ? option : opportunityDomain)
                       onChange(option?.value);
+                    }
                     return (
                       <AsyncSelect
                         isClearable

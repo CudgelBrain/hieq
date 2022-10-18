@@ -26,6 +26,7 @@ import FooterPages from 'pages/admin/FooterPages';
 import ListDomains from 'pages/admin/ListDomains';
 import ListColleges from 'pages/admin/ListColleges';
 import ListJobTitles from 'pages/admin/ListJobTitle';
+import ListLocation from 'pages/admin/ListLocation';
 import ListCompanies from 'pages/admin/ListCompanies';
 import ListFaqSubjects from 'pages/admin/ListSubjects';
 import ListInstitutes from 'pages/admin/ListInstitutes';
@@ -122,6 +123,7 @@ const AppRouter = () => {
           />
           <AdminRoute exact path='/controlGear/questionBank' component={ListQuestionBank} />
           <AdminRoute exact path='/controlGear/jobTitle' component={ListJobTitles} />
+          <AdminRoute exact path='/controlGear/location' component={ListLocation} />
           <AdminRoute
             exact
             path={['/controlGear/createTest/:ID/edit', '/controlGear/createTest']}

@@ -122,6 +122,10 @@ export const SidebarData: SidebarType[] = [
         title: 'Job Title',
         path: '/controlGear/jobTitle',
       },
+      {
+        title: 'Job Location',
+        path: '/controlGear/location',
+      },
     ],
   },
   {

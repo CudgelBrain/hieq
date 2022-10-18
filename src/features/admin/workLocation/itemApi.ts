@@ -1,20 +1,18 @@
 import { hieqService } from 'utils';
+import { WorkLocationForm } from './itemSlice';
 
-export const addWorkLocation = async (formData: FormData) => {
-    return hieqService.post('/workLocation', formData);
+export const addWorkLocation = async (formData: WorkLocationForm | Record<string, string[]>) => {
+    return hieqService.post('/workLocation/add', formData);
 };
 
-export const editWorkLocation = async (domainID: string, formData: FormData) => {
-    return hieqService.put(`/workLocation/${domainID}`, formData);
+export const editWorkLocation = async (formData: WorkLocationForm, workLocationID: string) => {
+    return await hieqService.put(`/workLocation/${workLocationID}`, formData);
 };
 
-export const removeWorkLocationLogo = async (domainID: string) => {
-    return hieqService.patch(`/workLocation/${domainID}/removeLogo`);
+export const deleteWorkLocation = async (workLocationID: string) => {
+    return await hieqService.delete(`/workLocation/${workLocationID}`);
 };
 
-export const deleteWorkLocation = async (domainID: string) => {
-    return hieqService.delete(`/workLocation/${domainID}`);
-};
 
 export const listWorkLocations = async () => {
     return await hieqService.get('/workLocation');

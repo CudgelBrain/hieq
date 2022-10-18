@@ -129,10 +129,18 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
             ? split(opportunity.stepThree.qualifications, ',')
             : [''],
 
-        skills:
-          !isEmpty(opportunity.stepThree) && !isEmpty(opportunity.stepThree.skills)
-            ? opportunity.stepThree.skills
-            : [{ name: '', proficiencyLevel: '' }],
+        skills: {
+          personal_skills: !isEmpty(opportunity.stepThree) && !isEmpty(opportunity.stepThree.skills) && !isEmpty(opportunity.stepThree.skills.personal_skills)
+            ? opportunity.stepThree.skills.personal_skills
+            : [{ title: '', level: '' }],
+          technical_skills: !isEmpty(opportunity.stepThree) && !isEmpty(opportunity.stepThree.skills) && !isEmpty(opportunity.stepThree.skills.technical_skills)
+            ? opportunity.stepThree.skills.technical_skills
+            : [{ title: '', level: '' }],
+          public_skills: !isEmpty(opportunity.stepThree) && !isEmpty(opportunity.stepThree.skills) && !isEmpty(opportunity.stepThree.skills.public_skills)
+            ? opportunity.stepThree.skills.public_skills
+            : [{ title: '', level: '' }],
+
+        },
         ...(['job', 'internship'].includes(category) && {
           videoResume:
             !isEmpty(opportunity.stepThree) && opportunity.stepThree.videoResume
@@ -184,8 +192,10 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
       control,
       register,
       handleSubmit,
+      getValues,
       formState: { errors },
     } = useForm<OpportunityStepThree>({
+      shouldUnregister: true,
       resolver: yupResolver(OpportunityStepThreeSchema),
       defaultValues: React.useMemo(() => defaultValues, [defaultValues]),
     });
@@ -244,7 +254,7 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
 
     const loadSpeclizations = debounce((value: string, callback) => {
       const options = matchSorter(speclizations, value, { keys: ['label'] });
-      callback(isEmpty(options) ? [createOption(value)] : options);
+      callback(options);
     }, 500);
 
     const loadInstituteGroups = debounce((value: string, callback) => {
@@ -258,6 +268,8 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
     }, 500);
 
     const handleOnSubmit = (data: OpportunityStepThree) => {
+      console.log("form data", data);
+
       const formData = new FormData();
       forEach(data, (value, key) => {
         if (['object', 'array'].includes(typeof value)) {
@@ -268,10 +280,10 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
       });
       formData.append('status', 'draft');
       formData.append('currentStep', 'stepThree');
+      formData.append('category', category);
       dispatch(EditOpportunity(formData, opportunityID, 'stepThree'));
     };
-
-    //console.log('stepThree', { errors, defaultValues });
+    // console.log('stepThree', { errors, defaultValues });
 
     return (
       <form onSubmit={handleSubmit(handleOnSubmit)} ref={ref}>
@@ -408,8 +420,8 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
                             setOpportunityEduBackgrounds([...value]);
                             onChange(value.map((v) => v.value));
                           };
-                          const handleInputChange = (inputValue: string) =>
-                            setOpportunityEduBackground(inputValue);
+                          // const handleInputChange = (inputValue: string) =>
+                          //   setOpportunityEduBackground(inputValue);
                           const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
                             if (!opportunityEduBackground) return;
                             switch (event.key) {
@@ -432,14 +444,16 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
                               isMulti
                               isClearable
                               cacheOptions
+                              defaultOptions
+                              // isSearchable={true}
                               styles={selectStyle}
                               onChange={handleChange}
-                              onKeyDown={handleKeyDown}
+                              // onKeyDown={handleKeyDown}
                               loadOptions={loadSpeclizations}
                               value={opportunityEduBackgrounds}
-                              onInputChange={handleInputChange}
-                              inputValue={opportunityEduBackground}
-                              components={{ DropdownIndicator: null }}
+                              // onInputChange={handleInputChange}
+                              // inputValue={opportunityEduBackground}
+                              // components={{ DropdownIndicator: null }}
                               placeholder='For ex. BBA, MBA, B.Tech, etc.'
                             />
                           );
@@ -452,9 +466,10 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
                       )}
                     </div>
                   </div>
-                  <Skill control={control} register={register} errors={errors} skillType={"Personal Skills"} />
-                  <Skill control={control} register={register} errors={errors} skillType={"Technical Skills"} />
-                  <Skill control={control} register={register} errors={errors} skillType={"Public Skills"} />
+                  {/* {...{ control, register, errors }} */}
+                  <Skill {...{ control, register, errors }} skillType={"personal_skills"} />
+                  <Skill {...{ control, register, errors }} skillType={"technical_skills"} />
+                  <Skill {...{ control, register, errors }} errors={errors} skillType={"public_skills"} />
                 </>
               )}
               <div className='form-row col-12'>
@@ -655,7 +670,7 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
                   </div>
                 </>
               )}
-              <input type='hidden' {...register('category')} />
+              {/* <input {...register('category')} /> */}
             </div>
           </div>
           <div className='row'>

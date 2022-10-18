@@ -105,8 +105,8 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
               ? opportunity.stepTwo.salaryDetail.showSalary
               : false,
           currency:
-            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.stipendDetail)
-              ? opportunity.stepTwo.stipendDetail.currency
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.salaryDetail)
+              ? opportunity.stepTwo.salaryDetail.currency
               : 'INR',
         },
         stipendDetail: {

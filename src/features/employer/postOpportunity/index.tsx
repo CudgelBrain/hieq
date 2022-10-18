@@ -80,7 +80,7 @@ const PostOpportunity = () => {
             opportunityID={opportunityID}
           />
         )}
-        {steps.four && (
+        {/* {steps.four && (
           <Four
             steps={steps}
             ref={stepFourRef}
@@ -90,15 +90,15 @@ const PostOpportunity = () => {
             scrollTo={scrollToStepFive}
             opportunityID={opportunityID}
           />
-        )}
-        {steps.five && (
+        )} */}
+        {/* {steps.five && (
           <Five
             ref={stepFiveRef}
             category={category}
             opportunity={opportunity}
             opportunityID={opportunityID}
           />
-        )}
+        )} */}
       </>
     </div>
   );

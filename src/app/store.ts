@@ -9,6 +9,7 @@ import bannerReducer from 'features/admin/banner/bannerSlice';
 import resumeReducer from 'features/admin/resume/resumeSlice';
 import companyReducer from 'features/admin/company/itemSlice';
 import jobTitleReducer from 'features/admin/jobTitle/itemSlice';
+import workLocationReducer from 'features/admin/workLocation/itemSlice';
 import instituteReducer from 'features/admin/Institute/itemSlice';
 import createTestReducer from 'features/admin/createTest/CreateTestSlice';
 import faqSubjectReducer from 'features/admin/faqSubject/faqSubjectSlice';
@@ -39,6 +40,7 @@ export const store = configureStore({
     college: collegeReducer,
     company: companyReducer,
     jobTitle: jobTitleReducer,
+    workLocation: workLocationReducer,
     institute: instituteReducer,
     createTest: createTestReducer,
     faqSubject: faqSubjectReducer,
