@@ -126,6 +126,18 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
             !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.stipendDetail)
               ? opportunity.stepTwo.stipendDetail.currency
               : 'INR',
+          fixedAmount:
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.stipendDetail)
+              ? opportunity.stepTwo.stipendDetail.fixedAmount
+              : '',
+          maxAmount:
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.stipendDetail)
+              ? opportunity.stepTwo.stipendDetail.maxAmount
+              : '',
+          minAmount:
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.stipendDetail)
+              ? opportunity.stepTwo.stipendDetail.minAmount
+              : '',
         },
         ...(category === 'job' && {
           attachments:

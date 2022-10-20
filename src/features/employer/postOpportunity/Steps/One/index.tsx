@@ -84,12 +84,12 @@ const StepOne: React.FC<Props> = ({
         !isEmpty(opportunity.stepOne) && !isEmpty(opportunity.stepOne.opportunityDomain)
           ? opportunity.stepOne.opportunityDomain
           : '',
-      ...(category === 'job' && {
-        opportunityType:
-          !isEmpty(opportunity.stepOne) && !isEmpty(opportunity.stepOne.opportunityType)
-            ? opportunity.stepOne.opportunityType
-            : 'fullTime',
-      }),
+      // ...(category === 'job' && {
+      opportunityType:
+        !isEmpty(opportunity.stepOne) && !isEmpty(opportunity.stepOne.opportunityType)
+          ? opportunity.stepOne.opportunityType
+          : 'fullTime',
+      // }),
       openings:
         !isEmpty(opportunity.stepOne) && !isEmpty(opportunity.stepOne.openings)
           ? opportunity.stepOne.openings
@@ -98,12 +98,12 @@ const StepOne: React.FC<Props> = ({
         !isEmpty(opportunity.stepOne) && !isEmpty(opportunity.stepOne.locations)
           ? opportunity.stepOne.locations
           : [''],
-      ...(category === 'job' && {
-        locationType:
-          !isEmpty(opportunity.stepOne) && !isEmpty(opportunity.stepOne.locationType)
-            ? opportunity.stepOne.locationType
-            : 'office',
-      }),
+      // ...(category === 'job' && {
+      locationType:
+        !isEmpty(opportunity.stepOne) && !isEmpty(opportunity.stepOne.locationType)
+          ? opportunity.stepOne.locationType
+          : 'office',
+      // }),
       opportunityEndDate:
         !isEmpty(opportunity.stepOne) && !isEmpty(opportunity.stepOne.opportunityEndDate)
           ? new Date(opportunity.stepOne.opportunityEndDate)

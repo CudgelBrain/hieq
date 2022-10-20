@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import AsyncSelect from 'react-select/async';
 import Select, { SingleValue, OnChangeValue } from 'react-select';
 import { yupResolver } from '@hookform/resolvers/yup';
-
+import { history } from 'utils';
 // Imported from project
 import Skill from './Skill';
 import { RootState } from 'app/store';
@@ -268,8 +268,6 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
     }, 500);
 
     const handleOnSubmit = (data: OpportunityStepThree) => {
-      console.log("form data", data);
-
       const formData = new FormData();
       forEach(data, (value, key) => {
         if (['object', 'array'].includes(typeof value)) {
@@ -282,6 +280,7 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
       formData.append('currentStep', 'stepThree');
       formData.append('category', category);
       dispatch(EditOpportunity(formData, opportunityID, 'stepThree'));
+      history.push(`/employer/confirmation/${opportunityID}`)
     };
     // console.log('stepThree', { errors, defaultValues });
 

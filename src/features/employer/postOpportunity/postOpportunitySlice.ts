@@ -258,8 +258,8 @@ const workExperienceSchema = {
     .required('Max is required'),
 };
 interface skill {
-  title?: string;
-  level?: string;
+  title: string;
+  level: string;
 }
 interface skillObject {
   personal_skills: skill[];
@@ -443,6 +443,7 @@ export interface Opportunity {
   views: number;
   isActive: boolean;
   createdAt: string;
+  category: string;
 }
 
 interface managerState {
