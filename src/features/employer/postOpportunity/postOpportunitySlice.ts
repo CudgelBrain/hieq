@@ -6,6 +6,7 @@ import {
   addOpportunity,
   getOpportunity,
   editOpportunity,
+  finishOpportunity,
   listOpportunities,
   deleteOpportunity,
 } from './postOpportunityAPI';
@@ -551,6 +552,27 @@ export const EditOpportunity =
         dispatch(resetOpportunity());
         dispatch(setOpportunity(data));
         dispatch(setAction(`editOpportunity-${step}`));
+        history.push(`/employer/confirmation/${opportunityID}`)
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+        }, 1000);
+      }
+    };
+export const FinishOpportunity =
+  (opportunityID: string): AppThunk =>
+    async (dispatch) => {
+      try {
+        dispatch(onStart());
+        const { data, status } = await finishOpportunity(opportunityID);
+        dispatch(setStatus(status));
+        dispatch(resetOpportunity());
+        dispatch(setOpportunity(data));
+        history.push("/employer/dashboard")
+        // dispatch(setAction(`editOpportunity-${step}`));
       } catch (error: any) {
         dispatch(setStatus(error?.response?.data?.status));
         dispatch(setMessage(error?.response?.data?.error));

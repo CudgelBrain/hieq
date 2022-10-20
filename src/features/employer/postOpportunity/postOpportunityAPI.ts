@@ -15,6 +15,13 @@ export const editOpportunity = async (data: FormData, opportunityID: string) => 
     },
   });
 };
+export const finishOpportunity = async (opportunityID: string) => {
+  return await hieqService.put(`/opportunity/finish/${opportunityID}/?status=active`, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
 
 export const deleteOpportunity = async (category: string, opportunityID: string) => {
   return await hieqService.delete(`/opportunity/${opportunityID}`, { params: { category } });

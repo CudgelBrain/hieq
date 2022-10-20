@@ -45,14 +45,16 @@ const getOpportunityDomains = async () => {
   opportunityDomains = map(data.items, ({ name }) => createOption(name));
 };
 
-if (
-  typeof window !== 'undefined' &&
-  window.location.pathname.includes('/employer/postOpportunity')
-) {
-  getOpportunityTitles();
-  getOpportunityDomains();
-  getOpportunityLocation();
-}
+// if (
+//   typeof window !== 'undefined' &&
+//   window.location.pathname.includes('/employer/postOpportunity')
+// ) {
+//   getOpportunityTitles();
+//   getOpportunityDomains();
+//   getOpportunityLocation();
+//   console.log("in step one");
+
+// }
 
 interface Props {
   category: string;
@@ -165,6 +167,11 @@ const StepOne: React.FC<Props> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAction, status]);
+  React.useEffect(() => {
+    getOpportunityTitles();
+    getOpportunityDomains();
+    getOpportunityLocation();
+  }, []);
 
   React.useEffect(() => {
     if (!isEmpty(steps)) {

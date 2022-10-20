@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { history } from 'utils';
 import { capitalize, forEach, isEmpty, map, orderBy, debounce } from 'lodash';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { Opportunity } from '../postOpportunitySlice';
+import { Opportunity, EditOpportunity, FinishOpportunity } from '../postOpportunitySlice';
 import { getOpportunity } from '../postOpportunityAPI';
 import { useParams } from 'react-router-dom';
 // interface Props {
@@ -27,7 +27,15 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
     const handleEditButton = () => {
         history.push(`/employer/postOpportunity/${opportunity?.category}/${ID}`)
     }
-    // const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
+    const handleOnSubmit = () => {
+        if (ID) {
+            dispatch(
+                FinishOpportunity(ID),
+            );
+
+        }
+    };
     return (
         <div className="col-md-12 lt-sec-pd pt-4 pb-2">
             <div className="text-left mb-4">
@@ -332,6 +340,11 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                                 </li>
                             </ul>
                         </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-12">
+                        <button onClick={handleOnSubmit} type="submit" className="btn btn-yl btn-full btn-dn-curve">Finish & Submit</button>
                     </div>
                 </div>
             </div>

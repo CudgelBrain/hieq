@@ -213,7 +213,9 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
     const { status, message, currentAction } = useAppSelector(
       (state: RootState) => state.postOpportunity,
     );
-
+    React.useEffect(() => {
+      getSpeclizations();
+    }, [])
     React.useEffect(() => {
       if (inEditMode && !isEmpty(opportunity.stepThree)) {
         reset(defaultValues);
@@ -280,7 +282,7 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
       formData.append('currentStep', 'stepThree');
       formData.append('category', category);
       dispatch(EditOpportunity(formData, opportunityID, 'stepThree'));
-      history.push(`/employer/confirmation/${opportunityID}`)
+
     };
     // console.log('stepThree', { errors, defaultValues });
 
