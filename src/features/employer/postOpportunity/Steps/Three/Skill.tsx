@@ -1,17 +1,25 @@
 import React from 'react';
 import Select, { SingleValue } from 'react-select';
+import AsyncSelect from 'react-select/async';
+import { isEmpty, debounce, map } from 'lodash';
+import { matchSorter } from 'match-sorter';
 import { Control, Controller, useFieldArray, UseFormRegister } from 'react-hook-form';
 import plusImg from 'assets/images/btn-plus.svg';
 import minusImg from 'assets/images/btn-minus.svg';
-import { OptionType, selectStyle } from 'features/employer/common';
+import { createOption, OptionType, selectStyle } from 'features/employer/common';
 import { OpportunityStepThree } from '../../postOpportunitySlice';
+import { ListSkills } from 'features/admin/skill/skillAPI';
 
 const levels = [
   { value: 'Expert', label: 'Expert' },
   { value: 'Intermediate', label: 'Intermediate' },
   { value: 'Beginner', label: 'Beginner' },
 ];
-
+let getSkillTitles: readonly OptionType[] = [];
+const getSkillData = async () => {
+  const { data } = await ListSkills();
+  getSkillTitles = map(data.items, ({ title }) => createOption(title));
+};
 interface Props {
   errors: any;
   control: Control<OpportunityStepThree, Record<string, any>>;
@@ -26,7 +34,14 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
   });
 
   const [optionCount, setOptionCount] = React.useState<number>(1);
-
+  const [skillTitle, setskillTitle] = React.useState<string>("");
+  React.useEffect(() => {
+    getSkillData()
+  }, []);
+  const loadSkillTitles = debounce((value: string, callback) => {
+    const options = matchSorter(getSkillTitles, value, { keys: ['label'] });
+    callback(isEmpty(options) ? [] : options);
+  }, 500);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
     event.preventDefault();
     if (index === 0) {
@@ -37,6 +52,7 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
       setOptionCount(optionCount - 1);
     }
   };
+
   return (
     <div className='form-group col-sm-12'>
       <label className='label fw-600 mb-2 w-100'>
@@ -49,11 +65,34 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
               <div className='form-group form-row mb-2' key={field.id}>
                 <div className='col-3'>
                   <label className='label'>Skills Name</label>
-                  <input
+                  {/* <input
                     type='text'
                     className='form-control'
                     placeholder='Name'
                     {...register(`skills.${skillType}.${index}.title` as const)}
+                  /> */}
+                  <Controller
+                    control={control}
+                    name={`skills.${skillType}.${index}.title`}
+                    render={({ field: { onChange, value, name } }) => {
+                      const handleOnchange = (option: any) => {
+                        setskillTitle(option?.value ? option : skillTitle)
+                        onChange(option?.value);
+                      }
+                      return (
+                        <AsyncSelect
+                          isClearable
+                          isSearchable={true}
+                          styles={selectStyle}
+                          onChange={handleOnchange}
+                          value={skillTitle ? skillTitle : value}
+                          inputValue={skillTitle ? skillTitle : value}
+                          loadOptions={loadSkillTitles}
+                          placeholder='Name'
+                          components={{ DropdownIndicator: null }}
+                        />
+                      );
+                    }}
                   />
                   {errors.skills && errors.skills[skillType][index] && errors.skills[skillType][index].title && (
                     <div className='text-danger error mt-1'>{errors.skills[skillType][index].title?.message}</div>

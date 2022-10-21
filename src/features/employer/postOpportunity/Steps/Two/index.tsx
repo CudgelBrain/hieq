@@ -513,37 +513,37 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                         {capitalize(errors.salaryDetail?.variable?.message)}
                       </div>
                     )}
-                    {salaryDetail && salaryDetail.variable && (
-                      <>
-                        <div className='form-row'>
-                          <div className='col-3'>
-                            <span className='note d-inline-block mb-1 mt-2'>
-                              Is there any variable compensation in addition to fixed compensation?
-                            </span>
-                          </div>
+                    {/* {salaryDetail && salaryDetail.variable && ( */}
+                    <>
+                      <div className='form-row'>
+                        <div className='col-3'>
+                          <span className='note d-inline-block mb-1 mt-2'>
+                            Is there any variable compensation in addition to fixed compensation?
+                          </span>
                         </div>
-                        <div className='form-row'>
-                          <div className='col-2'>
-                            <div className='input-group ig-append'>
-                              <input
-                                type='text'
-                                className='form-control'
-                                placeholder='00.00'
-                                {...register('salaryDetail.variablePercentage')}
-                              />
-                              <div className='input-group-append input-click'>
-                                <span className='input-group-text'>%</span>
-                              </div>
+                      </div>
+                      <div className='form-row'>
+                        <div className='col-2'>
+                          <div className='input-group ig-append'>
+                            <input
+                              type='text'
+                              className='form-control'
+                              placeholder='00.00'
+                              {...register('salaryDetail.variablePercentage')}
+                            />
+                            <div className='input-group-append input-click'>
+                              <span className='input-group-text'>%</span>
                             </div>
-                            {errors.salaryDetail?.variablePercentage && (
-                              <div className='text-danger error mt-1'>
-                                {capitalize(errors.salaryDetail?.variablePercentage?.message)}
-                              </div>
-                            )}
                           </div>
+                          {errors.salaryDetail?.variablePercentage && (
+                            <div className='text-danger error mt-1'>
+                              {capitalize(errors.salaryDetail?.variablePercentage?.message)}
+                            </div>
+                          )}
                         </div>
-                      </>
-                    )}
+                      </div>
+                    </>
+                    {/* )} */}
                   </div>
                   <div className='form-group col-12'>
                     <label className='label'>Additional Details such as Flexible Work Hours</label>
