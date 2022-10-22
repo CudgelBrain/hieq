@@ -159,6 +159,7 @@ interface stipendDetail {
   cycle?: string;
   scale?: string;
   currency: string;
+  showSalary?: boolean;
 }
 const stipendDetailSchema = {
   stipendType: yup.string().required('Type is required'),
@@ -199,6 +200,7 @@ const stipendDetailSchema = {
     then: yup.string().required('Scale is required'),
     otherwise: yup.string().notRequired(),
   }),
+  showSalary: yup.boolean().required('show salary is required'),
   currency: yup.string().required('Currency is required'),
 };
 export interface OpportunityStepTwo {

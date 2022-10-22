@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { Opportunity, EditOpportunity, FinishOpportunity } from '../postOpportunitySlice';
 import { getOpportunity } from '../postOpportunityAPI';
 import { useParams } from 'react-router-dom';
+import { WorkLocationSchema } from 'features/admin/workLocation/itemSlice';
 // interface Props {
 //     category: string;
 //     opportunity: Record<string, any>;
@@ -75,7 +76,7 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                                 </li>
                                 <li>
                                     <div className="tb-head">Job Location</div>
-                                    <div className="tb-data">{opportunity?.stepOne.locations.map((item: string) => `${item} `)}</div>
+                                    <div className="tb-data">{opportunity?.stepOne.locations.map((item: string, index: number) => (index !== opportunity?.stepOne.locations.length - 1) ? `${item}, ` : `${item}`)}</div>
                                 </li>
                                 <li>
                                     <div className="tb-head">No. of Openings</div>
@@ -109,7 +110,10 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                                 </li>
                                 <li>
                                     <div className="tb-head">Roles and Responsibilities</div>
-                                    <div className="tb-data">{opportunity?.stepTwo.description}</div>
+                                    <div className="tb-data" dangerouslySetInnerHTML={{ __html: opportunity?.stepTwo.description ? opportunity?.stepTwo.description : "" }}>
+                                        {/* {opportunity?.stepTwo.description} */}
+                                    </div>
+
                                 </li>
                                 <li>
                                     <div className="tb-head">Do you want to show salary details?</div>
@@ -133,10 +137,10 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                                 </li>
                                 <li>
                                     <div className="tb-head">Additional Details such as Flexible Work Hours</div>
-                                    <div className="tb-data">
-                                        <ul className="list">
+                                    <div className="tb-data" dangerouslySetInnerHTML={{ __html: opportunity?.stepTwo.salaryDetail.additionalDetail ? opportunity?.stepTwo.salaryDetail.additionalDetail : "" }}>
+                                        {/* <ul className="list">
                                             {opportunity?.stepTwo.salaryDetail.additionalDetail}
-                                        </ul>
+                                        </ul> */}
                                     </div>
                                 </li>
                                 <li>

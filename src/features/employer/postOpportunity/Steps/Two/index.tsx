@@ -138,6 +138,10 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
             !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.stipendDetail)
               ? opportunity.stepTwo.stipendDetail.minAmount
               : '',
+          showSalary:
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.stipendDetail)
+              ? opportunity?.stepTwo.stipendDetail.showSalary
+              : false,
         },
         ...(category === 'job' && {
           attachments:
@@ -224,6 +228,8 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
         }
       }
     };
+    console.log("stipend", stipendDetail);
+
 
     const handleOnSubmit = (data: OpportunityStepTwo) => {
       const formData = new FormData();
@@ -617,290 +623,307 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                 </>
               )}
               {category === 'internship' && (
-                <div className='col-12'>
-                  <div className='form-row'>
-                    <div className='col-6'>
-                      <label className='label'>Stipend Details</label>
-                      <div className='custom-inline ci-input'>
-                        <div className='custom-control custom-radio'>
-                          <input
-                            type='radio'
-                            value='fixed'
-                            id='stipendDetails1'
-                            className='custom-control-input'
-                            {...register('stipendDetail.stipendType')}
-                          />
-                          <label className='custom-control-label' htmlFor='stipendDetails1'>
-                            Fixed
-                          </label>
-                        </div>
-                        <div className='custom-control custom-radio'>
-                          <input
-                            type='radio'
-                            value='negotiable'
-                            id='stipendDetails2'
-                            className='custom-control-input'
-                            {...register('stipendDetail.stipendType')}
-                          />
-                          <label className='custom-control-label' htmlFor='stipendDetails2'>
-                            Negotiable
-                          </label>
-                        </div>
-                        <div className='custom-control custom-radio'>
-                          <input
-                            type='radio'
-                            value='performanceBased'
-                            id='stipendDetails3'
-                            className='custom-control-input'
-                            {...register('stipendDetail.stipendType')}
-                          />
-                          <label className='custom-control-label' htmlFor='stipendDetails3'>
-                            Performance Based
-                          </label>
-                        </div>
-                        <div className='custom-control custom-radio'>
-                          <input
-                            type='radio'
-                            value='unpaid'
-                            id='stipendDetails4'
-                            className='custom-control-input'
-                            {...register('stipendDetail.stipendType')}
-                          />
-                          <label className='custom-control-label' htmlFor='stipendDetails4'>
-                            Unpaid
-                          </label>
-                        </div>
-                      </div>
-                      {errors.stipendDetail?.stipendType && (
-                        <div className='text-danger error mt-1'>
-                          {capitalize(errors.stipendDetail?.stipendType?.message)}
-                        </div>
-                      )}
-                    </div>
-                    <div className='col-2'>
-                      <label className='label'>Currency</label>
-                      <Controller
-                        control={control}
-                        name='stipendDetail.currency'
-                        render={({ field: { onChange, value, name } }) => {
-                          const handleOnchange = (option: SingleValue<OptionType>) =>
-                            onChange(option?.value);
-                          return (
-                            <Select
-                              name={name}
-                              options={currency}
-                              isSearchable={true}
-                              styles={selectStyle}
-                              onChange={handleOnchange}
-                              components={{ IndicatorSeparator: () => null }}
-                              value={currency.find((c) => c.value === value)}
-                            />
-                          );
-                        }}
+                <>
+                  <div className='form-group col-12'>
+                    <label className='label'>Do you want to show salary details?</label>
+                    <div className='custom-control custom-switch custom-switch-lg'>
+                      <input
+                        type='checkbox'
+                        id='stipendDetails0'
+                        className='custom-control-input'
+                        {...register('stipendDetail.showSalary')}
                       />
-                      {errors.stipendDetail?.currency && (
-                        <div className='text-danger error mt-1'>
-                          {capitalize(errors.stipendDetail?.currency?.message)}
-                        </div>
-                      )}
+                      <label className='custom-control-label' htmlFor='stipendDetails0'>
+                        {stipendDetail && stipendDetail.showSalary ? 'No' : 'Yes'}
+                      </label>
                     </div>
                   </div>
-                  {stipendDetail && stipendDetail.stipendType === 'fixed' && (
-                    <div className='form-row mt-2'>
-                      <div className='form-group col-2'>
-                        <input
-                          type='text'
-                          {...register('stipendDetail.fixedAmount')}
-                          className='form-control'
-                          placeholder='Fixed Amount'
-                        />
-                        {errors.stipendDetail?.fixedAmount && (
+
+                  <div className='col-12'>
+                    <div className='form-row'>
+                      <div className='col-6'>
+                        <label className='label'>Stipend Details</label>
+                        <div className='custom-inline ci-input'>
+                          <div className='custom-control custom-radio'>
+                            <input
+                              type='radio'
+                              value='fixed'
+                              id='stipendDetails1'
+                              className='custom-control-input'
+                              {...register('stipendDetail.stipendType')}
+                            />
+                            <label className='custom-control-label' htmlFor='stipendDetails1'>
+                              Fixed
+                            </label>
+                          </div>
+                          <div className='custom-control custom-radio'>
+                            <input
+                              type='radio'
+                              value='negotiable'
+                              id='stipendDetails2'
+                              className='custom-control-input'
+                              {...register('stipendDetail.stipendType')}
+                            />
+                            <label className='custom-control-label' htmlFor='stipendDetails2'>
+                              Negotiable
+                            </label>
+                          </div>
+                          <div className='custom-control custom-radio'>
+                            <input
+                              type='radio'
+                              value='performanceBased'
+                              id='stipendDetails3'
+                              className='custom-control-input'
+                              {...register('stipendDetail.stipendType')}
+                            />
+                            <label className='custom-control-label' htmlFor='stipendDetails3'>
+                              Performance Based
+                            </label>
+                          </div>
+                          <div className='custom-control custom-radio'>
+                            <input
+                              type='radio'
+                              value='unpaid'
+                              id='stipendDetails4'
+                              className='custom-control-input'
+                              {...register('stipendDetail.stipendType')}
+                            />
+                            <label className='custom-control-label' htmlFor='stipendDetails4'>
+                              Unpaid
+                            </label>
+                          </div>
+                        </div>
+                        {errors.stipendDetail?.stipendType && (
                           <div className='text-danger error mt-1'>
-                            {capitalize(errors.stipendDetail?.fixedAmount?.message)}
+                            {capitalize(errors.stipendDetail?.stipendType?.message)}
                           </div>
                         )}
                       </div>
-                      <div className='form-group col-2'>
+                      <div className='col-2'>
+                        <label className='label'>Currency</label>
                         <Controller
                           control={control}
-                          name='stipendDetail.cycle'
+                          name='stipendDetail.currency'
                           render={({ field: { onChange, value, name } }) => {
                             const handleOnchange = (option: SingleValue<OptionType>) =>
                               onChange(option?.value);
                             return (
                               <Select
                                 name={name}
-                                options={cycles}
+                                options={currency}
                                 isSearchable={true}
                                 styles={selectStyle}
                                 onChange={handleOnchange}
-                                placeholder='Year / Month'
                                 components={{ IndicatorSeparator: () => null }}
-                                value={cycles.find((c) => c.value === value)}
+                                value={currency.find((c) => c.value === value)}
                               />
                             );
                           }}
                         />
-                        {errors.stipendDetail?.cycle && (
+                        {errors.stipendDetail?.currency && (
                           <div className='text-danger error mt-1'>
-                            {capitalize(errors.stipendDetail?.cycle?.message)}
+                            {capitalize(errors.stipendDetail?.currency?.message)}
                           </div>
                         )}
                       </div>
                     </div>
-                  )}
-                  {stipendDetail && stipendDetail.stipendType === 'negotiable' && (
-                    <div className='form-row mt-2'>
-                      <div className='form-group col-2'>
-                        <input
-                          type='text'
-                          {...register('stipendDetail.minAmount')}
-                          className='form-control'
-                          placeholder='Min Amount'
-                        />
-                        {errors.stipendDetail?.minAmount && (
-                          <div className='text-danger error mt-1'>
-                            {capitalize(errors.stipendDetail?.minAmount?.message)}
-                          </div>
-                        )}
+                    {stipendDetail && stipendDetail.stipendType === 'fixed' && (
+                      <div className='form-row mt-2'>
+                        <div className='form-group col-2'>
+                          <input
+                            type='text'
+                            {...register('stipendDetail.fixedAmount')}
+                            className='form-control'
+                            placeholder='Fixed Amount'
+                          />
+                          {errors.stipendDetail?.fixedAmount && (
+                            <div className='text-danger error mt-1'>
+                              {capitalize(errors.stipendDetail?.fixedAmount?.message)}
+                            </div>
+                          )}
+                        </div>
+                        <div className='form-group col-2'>
+                          <Controller
+                            control={control}
+                            name='stipendDetail.cycle'
+                            render={({ field: { onChange, value, name } }) => {
+                              const handleOnchange = (option: SingleValue<OptionType>) =>
+                                onChange(option?.value);
+                              return (
+                                <Select
+                                  name={name}
+                                  options={cycles}
+                                  isSearchable={true}
+                                  styles={selectStyle}
+                                  onChange={handleOnchange}
+                                  placeholder='Year / Month'
+                                  components={{ IndicatorSeparator: () => null }}
+                                  value={cycles.find((c) => c.value === value)}
+                                />
+                              );
+                            }}
+                          />
+                          {errors.stipendDetail?.cycle && (
+                            <div className='text-danger error mt-1'>
+                              {capitalize(errors.stipendDetail?.cycle?.message)}
+                            </div>
+                          )}
+                        </div>
                       </div>
-                      <div className='form-group col-2'>
-                        <input
-                          type='text'
-                          {...register('stipendDetail.maxAmount')}
-                          className='form-control'
-                          placeholder='Max Amount'
-                        />
-                        {errors.stipendDetail?.maxAmount && (
-                          <div className='text-danger error mt-1'>
-                            {capitalize(errors.stipendDetail?.maxAmount?.message)}
-                          </div>
-                        )}
+                    )}
+                    {stipendDetail && stipendDetail.stipendType === 'negotiable' && (
+                      <div className='form-row mt-2'>
+                        <div className='form-group col-2'>
+                          <input
+                            type='text'
+                            {...register('stipendDetail.minAmount')}
+                            className='form-control'
+                            placeholder='Min Amount'
+                          />
+                          {errors.stipendDetail?.minAmount && (
+                            <div className='text-danger error mt-1'>
+                              {capitalize(errors.stipendDetail?.minAmount?.message)}
+                            </div>
+                          )}
+                        </div>
+                        <div className='form-group col-2'>
+                          <input
+                            type='text'
+                            {...register('stipendDetail.maxAmount')}
+                            className='form-control'
+                            placeholder='Max Amount'
+                          />
+                          {errors.stipendDetail?.maxAmount && (
+                            <div className='text-danger error mt-1'>
+                              {capitalize(errors.stipendDetail?.maxAmount?.message)}
+                            </div>
+                          )}
+                        </div>
+                        <div className='form-group col-2'>
+                          <Controller
+                            control={control}
+                            name='stipendDetail.cycle'
+                            render={({ field: { onChange, value, name } }) => {
+                              const handleOnchange = (option: SingleValue<OptionType>) =>
+                                onChange(option?.value);
+                              return (
+                                <Select
+                                  name={name}
+                                  options={cycles}
+                                  isSearchable={true}
+                                  styles={selectStyle}
+                                  onChange={handleOnchange}
+                                  placeholder='Year / Month'
+                                  components={{ IndicatorSeparator: () => null }}
+                                  value={cycles.find((c) => c.value === value)}
+                                />
+                              );
+                            }}
+                          />
+                          {errors.stipendDetail?.cycle && (
+                            <div className='text-danger error mt-1'>
+                              {capitalize(errors.stipendDetail?.cycle?.message)}
+                            </div>
+                          )}
+                        </div>
                       </div>
-                      <div className='form-group col-2'>
-                        <Controller
-                          control={control}
-                          name='stipendDetail.cycle'
-                          render={({ field: { onChange, value, name } }) => {
-                            const handleOnchange = (option: SingleValue<OptionType>) =>
-                              onChange(option?.value);
-                            return (
-                              <Select
-                                name={name}
-                                options={cycles}
-                                isSearchable={true}
-                                styles={selectStyle}
-                                onChange={handleOnchange}
-                                placeholder='Year / Month'
-                                components={{ IndicatorSeparator: () => null }}
-                                value={cycles.find((c) => c.value === value)}
+                    )}
+                    {stipendDetail && stipendDetail.stipendType === 'performanceBased' && (
+                      <div className='form-row mt-2'>
+                        <div className='form-group ml-1 col-4'>
+                          <div className='form-row'>
+                            <label className='label w-100'>Minimum Assured</label>
+                            <div className='form-group col-6 pl-0'>
+                              <input
+                                type='text'
+                                {...register('stipendDetail.minAssuredAmount')}
+                                className='form-control'
+                                placeholder='Min Assured Amount'
                               />
-                            );
-                          }}
-                        />
-                        {errors.stipendDetail?.cycle && (
-                          <div className='text-danger error mt-1'>
-                            {capitalize(errors.stipendDetail?.cycle?.message)}
+                              {errors.stipendDetail?.minAssuredAmount && (
+                                <div className='text-danger error mt-1'>
+                                  {capitalize(errors.stipendDetail?.minAssuredAmount?.message)}
+                                </div>
+                              )}
+                            </div>
+                            <div className='form-group col-6'>
+                              <Controller
+                                control={control}
+                                name='stipendDetail.cycle'
+                                render={({ field: { onChange, value, name } }) => {
+                                  const handleOnchange = (option: SingleValue<OptionType>) =>
+                                    onChange(option?.value);
+                                  return (
+                                    <Select
+                                      name={name}
+                                      options={cycles}
+                                      isSearchable={true}
+                                      styles={selectStyle}
+                                      onChange={handleOnchange}
+                                      placeholder='Year / Month'
+                                      components={{ IndicatorSeparator: () => null }}
+                                      value={cycles.find((c) => c.value === value)}
+                                    />
+                                  );
+                                }}
+                              />
+                              {errors.stipendDetail?.cycle && (
+                                <div className='text-danger error mt-1'>
+                                  {capitalize(errors.stipendDetail?.cycle?.message)}
+                                </div>
+                              )}
+                            </div>
                           </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                  {stipendDetail && stipendDetail.stipendType === 'performanceBased' && (
-                    <div className='form-row mt-2'>
-                      <div className='form-group ml-1 col-4'>
-                        <div className='form-row'>
-                          <label className='label w-100'>Minimum Assured</label>
-                          <div className='form-group col-6 pl-0'>
-                            <input
-                              type='text'
-                              {...register('stipendDetail.minAssuredAmount')}
-                              className='form-control'
-                              placeholder='Min Assured Amount'
-                            />
-                            {errors.stipendDetail?.minAssuredAmount && (
-                              <div className='text-danger error mt-1'>
-                                {capitalize(errors.stipendDetail?.minAssuredAmount?.message)}
-                              </div>
-                            )}
-                          </div>
-                          <div className='form-group col-6'>
-                            <Controller
-                              control={control}
-                              name='stipendDetail.cycle'
-                              render={({ field: { onChange, value, name } }) => {
-                                const handleOnchange = (option: SingleValue<OptionType>) =>
-                                  onChange(option?.value);
-                                return (
-                                  <Select
-                                    name={name}
-                                    options={cycles}
-                                    isSearchable={true}
-                                    styles={selectStyle}
-                                    onChange={handleOnchange}
-                                    placeholder='Year / Month'
-                                    components={{ IndicatorSeparator: () => null }}
-                                    value={cycles.find((c) => c.value === value)}
-                                  />
-                                );
-                              }}
-                            />
-                            {errors.stipendDetail?.cycle && (
-                              <div className='text-danger error mt-1'>
-                                {capitalize(errors.stipendDetail?.cycle?.message)}
-                              </div>
-                            )}
+                        </div>
+                        <div className='form-group ml-1 col-4'>
+                          <div className='form-row'>
+                            <label className='label w-100'>Maximum Assured</label>
+                            <div className='form-group col-6 pl-0'>
+                              <input
+                                type='text'
+                                {...register('stipendDetail.maxAssuredAmount')}
+                                className='form-control'
+                                placeholder='Max Assured Amount'
+                              />
+                              {errors.stipendDetail?.maxAssuredAmount && (
+                                <div className='text-danger error mt-1'>
+                                  {capitalize(errors.stipendDetail?.maxAssuredAmount?.message)}
+                                </div>
+                              )}
+                            </div>
+                            <div className='form-group col-6'>
+                              <Controller
+                                control={control}
+                                name='stipendDetail.scale'
+                                render={({ field: { onChange, value, name } }) => {
+                                  const handleOnchange = (option: SingleValue<OptionType>) =>
+                                    onChange(option?.value);
+                                  return (
+                                    <Select
+                                      name={name}
+                                      options={scales}
+                                      isSearchable={true}
+                                      styles={selectStyle}
+                                      onChange={handleOnchange}
+                                      placeholder='Choose Scale'
+                                      components={{ IndicatorSeparator: () => null }}
+                                      value={scales.find((c) => c.value === value)}
+                                    />
+                                  );
+                                }}
+                              />
+                              {errors.stipendDetail?.scale && (
+                                <div className='text-danger error mt-1'>
+                                  {capitalize(errors.stipendDetail?.scale?.message)}
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div className='form-group ml-1 col-4'>
-                        <div className='form-row'>
-                          <label className='label w-100'>Maximum Assured</label>
-                          <div className='form-group col-6 pl-0'>
-                            <input
-                              type='text'
-                              {...register('stipendDetail.maxAssuredAmount')}
-                              className='form-control'
-                              placeholder='Max Assured Amount'
-                            />
-                            {errors.stipendDetail?.maxAssuredAmount && (
-                              <div className='text-danger error mt-1'>
-                                {capitalize(errors.stipendDetail?.maxAssuredAmount?.message)}
-                              </div>
-                            )}
-                          </div>
-                          <div className='form-group col-6'>
-                            <Controller
-                              control={control}
-                              name='stipendDetail.scale'
-                              render={({ field: { onChange, value, name } }) => {
-                                const handleOnchange = (option: SingleValue<OptionType>) =>
-                                  onChange(option?.value);
-                                return (
-                                  <Select
-                                    name={name}
-                                    options={scales}
-                                    isSearchable={true}
-                                    styles={selectStyle}
-                                    onChange={handleOnchange}
-                                    placeholder='Choose Scale'
-                                    components={{ IndicatorSeparator: () => null }}
-                                    value={scales.find((c) => c.value === value)}
-                                  />
-                                );
-                              }}
-                            />
-                            {errors.stipendDetail?.scale && (
-                              <div className='text-danger error mt-1'>
-                                {capitalize(errors.stipendDetail?.scale?.message)}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                    )}
+                  </div>
+                </>
               )}
               <Contacts control={control} register={register} errors={errors} />
               {category === 'job' && (
