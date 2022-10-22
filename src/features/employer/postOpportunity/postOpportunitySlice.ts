@@ -8,6 +8,7 @@ import {
   editOpportunity,
   finishOpportunity,
   listOpportunities,
+  listFilteredOpportunities,
   deleteOpportunity,
 } from './postOpportunityAPI';
 
@@ -633,6 +634,27 @@ export const ListOpportunities =
         const { data, status } = await listOpportunities(category, page, perPage);
         dispatch(setStatus(status));
         if (categoryInStore !== category) dispatch(resetOpportunities());
+        dispatch(setOpportunities({ ...data, category }));
+        dispatch(setAction('listOpportunities'));
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+        }, 1000);
+      }
+    };
+export const ListFilteredOpportunities =
+  (category: string, page: number, perPage: number, statusType: string, startDate: string, endDate: string): AppThunk =>
+    async (dispatch, getState) => {
+      try {
+        dispatch(onStart());
+        const categoryInStore = getState().postOpportunity.category;
+        const { data, status } = await listFilteredOpportunities(category, page, perPage, statusType, startDate, endDate);
+        dispatch(setStatus(status));
+        dispatch(resetOpportunities());
+        // dispatch(resetOpportunities()));
         dispatch(setOpportunities({ ...data, category }));
         dispatch(setAction('listOpportunities'));
       } catch (error: any) {

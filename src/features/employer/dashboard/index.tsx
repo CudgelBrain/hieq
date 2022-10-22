@@ -9,6 +9,9 @@ import RangeSelector from 'components/RangeSelector';
 
 const Dashboard = () => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
+  const [activeStatus, setActiveStatus] = React.useState<string>("active");
+  const [startDate, setStartDate] = React.useState<string>("");
+  const [endDate, setEndDate] = React.useState<string>("");
   const [activeCategory, setActiveCategory] = React.useState(
     useAppQuery().get('category') || 'job',
   );
@@ -59,14 +62,17 @@ const Dashboard = () => {
         <div className='box-container-inner'>
           <div className='row mb-4'>
             <div className='col-md-4 offset-md-8'>
-              <RangeSelector />
+              <RangeSelector setStartDate={setStartDate} setEndDate={setEndDate} />
             </div>
           </div>
-          <Stats />
+          <Stats setActiveStatus={setActiveStatus} />
           <Opportunities
             category={activeCategory}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
+            activeStatus={activeStatus}
+            startDate={startDate}
+            endDate={endDate}
           />
         </div>
       </div>

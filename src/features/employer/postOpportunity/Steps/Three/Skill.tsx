@@ -18,7 +18,7 @@ const levels = [
 let getSkillTitles: readonly OptionType[] = [];
 const getSkillData = async () => {
   const { data } = await ListSkills();
-  getSkillTitles = map(data.items, ({ title }) => createOption(title));
+  getSkillTitles = map(data.items, ({ name }) => createOption(name));
 };
 interface Props {
   errors: any;
@@ -34,7 +34,7 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
   });
 
   const [optionCount, setOptionCount] = React.useState<number>(1);
-  const [skillTitle, setskillTitle] = React.useState<string>("");
+  const [skillTitle, setskillTitle] = React.useState<OptionType>();
   React.useEffect(() => {
     getSkillData()
   }, []);
@@ -75,18 +75,31 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
                     control={control}
                     name={`skills.${skillType}.${index}.title`}
                     render={({ field: { onChange, value, name } }) => {
-                      const handleOnchange = (option: any) => {
-                        setskillTitle(option?.value ? option : skillTitle)
+                      if (!skillTitle) {
+                        setskillTitle(createOption(value))
+
+                      }
+                      console.log(value, name);
+
+                      const handleOnchange = (option: SingleValue<OptionType>) => {
+                        setskillTitle(option ? option : skillTitle)
                         onChange(option?.value);
+                      }
+                      const handleInputChange = (inputValue: any) => {
+
+                        console.log(inputValue);
+
+                        setskillTitle(inputValue);
                       }
                       return (
                         <AsyncSelect
                           isClearable
                           isSearchable={true}
                           styles={selectStyle}
+                          value={skillTitle}
                           onChange={handleOnchange}
-                          value={skillTitle ? skillTitle : value}
-                          inputValue={skillTitle ? skillTitle : value}
+                          // inputValue={value}
+                          // onInputChange={handleInputChange}
                           loadOptions={loadSkillTitles}
                           placeholder='Name'
                           components={{ DropdownIndicator: null }}

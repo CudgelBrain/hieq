@@ -7,15 +7,18 @@ import viewIcon from 'assets/images/view-dark.svg';
 import questionIcon from 'assets/images/question.svg';
 import threeDotsIcon from 'assets/images/dots-three.svg';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { ListOpportunities, DeleteOpportunity } from '../postOpportunity/postOpportunitySlice';
+import { ListOpportunities, ListFilteredOpportunities, DeleteOpportunity } from '../postOpportunity/postOpportunitySlice';
 
 interface Props {
   category: string;
   currentPage: number;
   setCurrentPage: (page: number) => void;
+  activeStatus: string;
+  startDate: string;
+  endDate: string;
 }
 
-const Opportunities: React.FC<Props> = ({ category, currentPage, setCurrentPage }) => {
+const Opportunities: React.FC<Props> = ({ category, currentPage, setCurrentPage, activeStatus, startDate, endDate }) => {
   const dispatch = useAppDispatch();
   const {
     status,
@@ -33,8 +36,8 @@ const Opportunities: React.FC<Props> = ({ category, currentPage, setCurrentPage 
   );
 
   React.useEffect(
-    () => dispatch(ListOpportunities(category, currentPage, 6)),
-    [dispatch, category, currentPage],
+    () => dispatch(ListFilteredOpportunities(category, currentPage, 6, activeStatus, startDate, endDate)),
+    [dispatch, category, currentPage, activeStatus, startDate, endDate],
   );
 
   const handleActionButton = (index: number) => {
@@ -49,6 +52,7 @@ const Opportunities: React.FC<Props> = ({ category, currentPage, setCurrentPage 
     handleActionButton(index);
     dispatch(DeleteOpportunity(category, ID));
   };
+  console.log(activeStatus);
 
   return (
     <div className='row mb-4'>

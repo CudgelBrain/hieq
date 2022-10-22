@@ -1,21 +1,23 @@
 import React from 'react';
-
-const Stats = () => {
+interface Props {
+  setActiveStatus: React.Dispatch<React.SetStateAction<string>>;
+}
+const Stats: React.FC<Props> = ({ setActiveStatus }) => {
   return (
     <div className='row mb-4'>
       <div className='col-md-12'>
         <ul className='analytics-list'>
-          <li>
+          <li onClick={() => setActiveStatus("active")}>
             <div className='cf-medium cc-grey'>Active</div>
             <div className='cf-large cc-green fw-600'>12</div>
             <div className='cf-medium cc-grey'>4 from last week</div>
           </li>
-          <li>
+          <li onClick={() => setActiveStatus("draft")}>
             <div className='cf-medium cc-grey'>Draft</div>
             <div className='cf-large cc-yellow fw-600'>25</div>
             <div className='cf-medium cc-grey'>14 from last week</div>
           </li>
-          <li>
+          <li onClick={() => setActiveStatus("closed")}>
             <div className='cf-medium cc-grey'>Closed</div>
             <div className='cf-large cc-dark fw-600'>05</div>
             <div className='cf-medium cc-grey'>14 from last week</div>
