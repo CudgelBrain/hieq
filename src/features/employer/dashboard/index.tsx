@@ -9,7 +9,7 @@ import RangeSelector from 'components/RangeSelector';
 
 const Dashboard = () => {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
-  const [activeStatus, setActiveStatus] = React.useState<string>("active");
+  const [activeStatus, setActiveStatus] = React.useState<string>("");
   const [startDate, setStartDate] = React.useState<string>("");
   const [endDate, setEndDate] = React.useState<string>("");
   const [activeCategory, setActiveCategory] = React.useState(

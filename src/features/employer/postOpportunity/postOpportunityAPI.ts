@@ -35,7 +35,7 @@ export const listOpportunities = async (category: string, page: number, perPage:
   return await hieqService.get('/opportunity/list', { params: { category, page, perPage } });
 };
 export const listFilteredOpportunities = async (category: string, page: number, perPage: number, status: string, startDate: string, endDate: string) => {
-  return await hieqService.get('/opportunity/status/' + category, { params: { status, from_date: startDate, to_date: endDate } });
+  return await hieqService.get('/opportunity/status', { params: { status, from_date: startDate, to_date: endDate, category } });
 };
 
 export const addOpportunityDetail = async (file: FormData) => {

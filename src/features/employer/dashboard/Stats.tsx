@@ -7,17 +7,17 @@ const Stats: React.FC<Props> = ({ setActiveStatus }) => {
     <div className='row mb-4'>
       <div className='col-md-12'>
         <ul className='analytics-list'>
-          <li onClick={() => setActiveStatus("active")}>
+          <li onClick={() => setActiveStatus("active")} style={{ cursor: 'pointer' }}>
             <div className='cf-medium cc-grey'>Active</div>
             <div className='cf-large cc-green fw-600'>12</div>
             <div className='cf-medium cc-grey'>4 from last week</div>
           </li>
-          <li onClick={() => setActiveStatus("draft")}>
+          <li onClick={() => setActiveStatus("draft")} style={{ cursor: 'pointer' }}>
             <div className='cf-medium cc-grey'>Draft</div>
             <div className='cf-large cc-yellow fw-600'>25</div>
             <div className='cf-medium cc-grey'>14 from last week</div>
           </li>
-          <li onClick={() => setActiveStatus("closed")}>
+          <li onClick={() => setActiveStatus("closed")} style={{ cursor: 'pointer' }}>
             <div className='cf-medium cc-grey'>Closed</div>
             <div className='cf-large cc-dark fw-600'>05</div>
             <div className='cf-medium cc-grey'>14 from last week</div>
