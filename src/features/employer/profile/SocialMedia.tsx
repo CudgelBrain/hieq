@@ -27,6 +27,7 @@ const SocialMedia: React.FC<Props> = ({ control, register, errors, mode }) => {
   });
 
   const [optionCount, setOptionCount] = useState<number>(1);
+  const [usedMedia, setUsedMedia] = useState<string[]>([]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
     event.preventDefault();
@@ -50,13 +51,17 @@ const SocialMedia: React.FC<Props> = ({ control, register, errors, mode }) => {
                   control={control}
                   name={`socials.${index}.name`}
                   render={({ field: { onChange, value, name } }) => {
-                    const handleOnchange = (option: SingleValue<OptionType>) =>
-                      onChange(option?.value);
+                    const handleOnchange = (option: SingleValue<OptionType>) => {
+                      if (option && option.value) {
+                        setUsedMedia([...usedMedia, option.value + ""])
+                      }
+                      return onChange(option?.value);
+                    }
                     return (
                       <Select
                         name={name}
                         isDisabled={mode === 'view'}
-                        options={links}
+                        options={links.filter((li) => !usedMedia.includes(`${li.value}`))}
                         styles={selectStyle}
                         onChange={handleOnchange}
                         placeholder='Select type'
@@ -64,7 +69,8 @@ const SocialMedia: React.FC<Props> = ({ control, register, errors, mode }) => {
                         value={links.find((c) => c.value === value)}
                       />
                     );
-                  }}
+                  }
+                  }
                 />
                 {errors.socials && errors.socials[index] && errors.socials[index].name && (
                   <div className='text-danger error mt-1'>

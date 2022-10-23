@@ -8,12 +8,15 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 // Imported from project
+import { listWorkLocations } from 'features/admin/workLocation/itemApi';
+import { ListRoleHiringProcesses } from 'features/admin/roleHiringProcess/roleHiringProcessAPI';
 import { cityList } from 'constant';
 import { RootState } from 'app/store';
 import SocialMedia from './SocialMedia';
 import { useAppDispatch, useAppSelector, useAppQuery, useAppProfile } from 'app/hooks';
 import Tittle from 'features/employer/Tittle';
 import VerificationDocument from './VerificationDocument';
+import TextEditor from 'components/TextEditor';
 import {
   document,
   GetEmployerProfile,
@@ -23,11 +26,11 @@ import {
 } from './profileSlice';
 import { OptionType, selectStyle, createOption } from 'features/employer/common';
 
-const roles: readonly OptionType[] = [
-  { value: 'Male', label: 'Male' },
-  { value: 'Female', label: 'Female' },
-  { value: 'Others', label: 'Others' },
-];
+// const roles: readonly OptionType[] = [
+//   { value: 'Male', label: 'Male' },
+//   { value: 'Female', label: 'Female' },
+//   { value: 'Others', label: 'Others' },
+// ];
 
 const typeOfCompany: readonly OptionType[] = [
   { value: 'Public Company', label: 'Public Company' },
@@ -53,14 +56,20 @@ const companySize: readonly OptionType[] = [
 ];
 
 const years: OptionType[] = [];
-for (let year = 1950; year < getYear(new Date()); year++) {
+for (let year = getYear(new Date()); year > 1950; year--) {
   years.push(createOption(year.toString()));
 }
 
-const cities: readonly OptionType[] = orderBy(
-  map(cityList, ({ city }) => createOption(city)),
-  'label',
-);
+let cities: readonly OptionType[] = [];
+const getOpportunityLocation = async () => {
+  const { data } = await listWorkLocations();
+  cities = map(data.items, ({ location }) => createOption(location));
+};
+let roles: readonly OptionType[] = [];
+const getRoles = async () => {
+  const { data } = await ListRoleHiringProcesses();
+  roles = map(data.items, ({ name }) => createOption(name));
+};
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -114,6 +123,11 @@ const Profile = () => {
     defaultValues: React.useMemo(() => defaultValues, [defaultValues]),
   });
 
+  React.useEffect(() => {
+    // getOpportunityTitles();
+    getRoles();
+    getOpportunityLocation();
+  }, []);
   React.useEffect(() => dispatch(GetEmployerProfile()), [dispatch]);
 
   React.useEffect(() => setMode(query ?? 'view'), [query]);
@@ -245,12 +259,13 @@ const Profile = () => {
                   name='yearOfIncorporation'
                   control={control}
                   render={({ field: { onChange, value, name } }) => {
+
                     const handleOnchange = (option: SingleValue<OptionType>) =>
                       onChange(option?.value);
                     return (
                       <Select
                         styles={selectStyle}
-                        options={years.reverse()}
+                        options={years}
                         onChange={handleOnchange}
                         placeholder='Select year'
                         isDisabled={mode === 'view'}
@@ -268,12 +283,35 @@ const Profile = () => {
               </div>
               <div className='form-group col-sm-12'>
                 <label className='label mb-1'>Short Descrpition</label>
-                <textarea
+                {/* <textarea
                   className='form-control'
                   disabled={mode === 'view'}
                   {...register('description')}
                   placeholder='Enter company description'
+                /> */}
+                <Controller
+                  control={control}
+                  name='description'
+                  render={({ field: { onChange, value, name } }) => {
+                    const handleOnchange = (value: any) => {
+                      onChange(value);
+                    }
+                    return (
+                      <TextEditor
+                        valueChange={handleOnchange}
+                        // name={name}
+                        value={value}
+                      // control={control}
+                      // register = {...register('description')}
+                      // value={getValues('description')}
+                      // placeholder='Enter job description here'
+                      />
+                    )
+                  }}
                 />
+                <div className='text-right'>
+                  <span className='note'>1000 words limit</span>
+                </div>
                 {errors.description && (
                   <div className='text-danger error mt-1'>{errors.description?.message}</div>
                 )}
