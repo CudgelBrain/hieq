@@ -555,7 +555,7 @@ export const EditOpportunity =
         dispatch(resetOpportunity());
         dispatch(setOpportunity(data));
         dispatch(setAction(`editOpportunity-${step}`));
-        history.push(`/employer/confirmation/${opportunityID}`)
+        if (step == "stepThree") history.push(`/employer/confirmation/${opportunityID}`)
       } catch (error: any) {
         dispatch(setStatus(error?.response?.data?.status));
         dispatch(setMessage(error?.response?.data?.error));

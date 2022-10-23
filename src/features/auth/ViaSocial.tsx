@@ -19,7 +19,6 @@ const ViaSocial: React.FC<Props> = ({ googleButtonText, linkedInButtonText }) =>
   const googleRef = useRef<TypeCrossFunction>(null!);
   const linkedinRef = useRef<TypeCrossFunction>(null!);
 
-  console.log({ provider, profile });
 
   return (
     <React.Fragment>

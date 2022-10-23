@@ -37,6 +37,7 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
 
         }
     };
+
     return (
         <div className="col-md-12 lt-sec-pd pt-4 pb-2">
             <div className="text-left mb-4">
@@ -115,38 +116,82 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                                     </div>
 
                                 </li>
-                                <li>
-                                    <div className="tb-head">Do you want to show salary details?</div>
-                                    <div className="tb-data">{opportunity?.stepTwo.salaryDetail.showSalary ? "Yes" : "No"}</div>
-                                </li>
-                                <li>
-                                    <div className="tb-head">Salary Details</div>
-                                    <div className="tb-data">{`${opportunity?.stepTwo.salaryDetail.fixedAmount} (Per ${opportunity?.stepTwo.salaryDetail.cycle})`}</div>
-                                </li>
-                                <li>
-                                    <div className="tb-head">Currency</div>
-                                    <div className="tb-data">{opportunity?.stepTwo.salaryDetail.currency}</div>
-                                </li>
-                                <li>
-                                    <div className="tb-head">Does it include variable component?</div>
-                                    <div className="tb-data">{opportunity?.stepTwo.salaryDetail.variablePercentage} (Yes)</div>
-                                </li>
-                                <li>
-                                    <div className="tb-head">Total CTC</div>
-                                    <div className="tb-data">4,50,000</div>
-                                </li>
-                                <li>
-                                    <div className="tb-head">Additional Details such as Flexible Work Hours</div>
-                                    <div className="tb-data" dangerouslySetInnerHTML={{ __html: opportunity?.stepTwo.salaryDetail.additionalDetail ? opportunity?.stepTwo.salaryDetail.additionalDetail : "" }}>
-                                        {/* <ul className="list">
+                                {!isEmpty(opportunity?.stepTwo.salaryDetail) ?
+                                    <>
+                                        <li>
+                                            <div className="tb-head">Do you want to show salary details?</div>
+                                            <div className="tb-data">{opportunity?.stepTwo.salaryDetail.showSalary ? "Yes" : "No"}</div>
+                                        </li>
+                                        <li>
+                                            <div className="tb-head">Salary Details</div>
+                                            <div className="tb-data">{`${opportunity?.stepTwo.salaryDetail.fixedAmount} (Per ${opportunity?.stepTwo.salaryDetail.cycle})`}</div>
+                                        </li>
+                                        <li>
+                                            <div className="tb-head">Currency</div>
+                                            <div className="tb-data">{opportunity?.stepTwo.salaryDetail.currency}</div>
+                                        </li>
+                                        <li>
+                                            <div className="tb-head">Does it include variable component?</div>
+                                            <div className="tb-data">{opportunity?.stepTwo.salaryDetail.variablePercentage} (Yes)</div>
+                                        </li>
+                                        <li>
+                                            <div className="tb-head">Total CTC</div>
+                                            <div className="tb-data">4,50,000</div>
+                                        </li>
+                                        <li>
+                                            <div className="tb-head">Additional Details such as Flexible Work Hours</div>
+                                            <div className="tb-data" dangerouslySetInnerHTML={{ __html: opportunity?.stepTwo.salaryDetail.additionalDetail ? opportunity?.stepTwo.salaryDetail.additionalDetail : "" }}>
+                                                {/* <ul className="list">
                                             {opportunity?.stepTwo.salaryDetail.additionalDetail}
                                         </ul> */}
+                                            </div>
+                                        </li>
+                                    </> : ""
+                                }
+                                {!isEmpty(opportunity?.stepTwo.stipendDetail) ?
+                                    <>
+                                        <li>
+                                            <div className="tb-head">Do you want to show stipend details?</div>
+                                            <div className="tb-data">{opportunity?.stepTwo.stipendDetail.showSalary ? "Yes" : "No"}</div>
+                                        </li>
+                                        <li>
+                                            <div className="tb-head">Stipend Details</div>
+                                            {opportunity?.stepTwo.stipendDetail.stipendType == "fixed" ?
+                                                <div className="tb-data">{`${opportunity?.stepTwo.stipendDetail.fixedAmount} (Per ${opportunity?.stepTwo.stipendDetail.cycle})`}</div>
+                                                : opportunity?.stepTwo.stipendDetail.stipendType == "negotiable" ?
+                                                    <div className="tb-data">{`${opportunity?.stepTwo.stipendDetail.minAmount}-${opportunity?.stepTwo.stipendDetail.maxAmount} (Per ${opportunity?.stepTwo.stipendDetail.cycle})`}</div>
+                                                    : opportunity?.stepTwo.stipendDetail.stipendType == "performanceBased" ?
+                                                        <div className="tb-data">{`${opportunity?.stepTwo.stipendDetail.minAssuredAmount}-${opportunity?.stepTwo.stipendDetail.maxAssuredAmount} (Per ${opportunity?.stepTwo.stipendDetail.cycle}) based on ${opportunity?.stepTwo.stipendDetail.scale}`}</div>
+                                                        : ""
+
+                                            }
+                                        </li>
+                                        <li>
+                                            <div className="tb-head">Currency</div>
+                                            <div className="tb-data">{opportunity?.stepTwo.stipendDetail.currency}</div>
+                                        </li>
+                                        {/* <li>
+                                    <div className="tb-head">Does it include variable component?</div>
+                                    <div className="tb-data">{opportunity?.stepTwo.stipendDetail.variablePercentage} (Yes)</div>
+                                </li> */}
+                                        <li>
+                                            <div className="tb-head">Total CTC</div>
+                                            <div className="tb-data">4,50,000</div>
+                                        </li>
+                                        {/* <li>
+                                    <div className="tb-head">Additional Details such as Flexible Work Hours</div>
+                                    <div className="tb-data" dangerouslySetInnerHTML={{ __html: opportunity?.stepTwo.stipendDetail.additionalDetail ? opportunity?.stepTwo.stipendDetail.additionalDetail : "" }}>
+                                        <ul className="list">
+                                            {opportunity?.stepTwo.salaryDetail.additionalDetail}
+                                        </ul>
                                     </div>
-                                </li>
-                                <li>
+                                </li> */}
+                                    </> : ""
+                                }
+                                {/* <li>
                                     <div className="tb-head">Compensation visible to candidates</div>
                                     <div className="tb-data">{opportunity?.stepTwo.salaryDetail.visibleToCandidate ? "Yes" : "No"}</div>
-                                </li>
+                                </li> */}
                                 <li>
                                     <div className="tb-head">Contact Information</div>
                                     <div className="tb-data">
@@ -316,7 +361,7 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                                     <div className="tb-head">Cover Letter</div>
                                     <div className="tb-data">{opportunity?.stepThree.coverLetter ? "Yes" : "No"}</div>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <div className="tb-head">Assessments</div>
                                     <div className="tb-data">
                                         <table className="table table-striped">
@@ -341,7 +386,7 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                                             </tbody>
                                         </table>
                                     </div>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                     </div>

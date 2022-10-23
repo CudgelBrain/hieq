@@ -138,6 +138,14 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
             !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.stipendDetail)
               ? opportunity.stepTwo.stipendDetail.minAmount
               : '',
+          minAssuredAmount:
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.stipendDetail)
+              ? opportunity.stepTwo.stipendDetail.minAssuredAmount
+              : '',
+          maxAssuredAmount:
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.stipendDetail)
+              ? opportunity.stepTwo.stipendDetail.maxAssuredAmount
+              : '',
           showSalary:
             !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.stipendDetail)
               ? opportunity?.stepTwo.stipendDetail.showSalary
@@ -228,7 +236,6 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
         }
       }
     };
-    console.log("stipend", stipendDetail);
 
 
     const handleOnSubmit = (data: OpportunityStepTwo) => {

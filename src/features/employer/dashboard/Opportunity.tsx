@@ -52,7 +52,6 @@ const Opportunities: React.FC<Props> = ({ category, currentPage, setCurrentPage,
     handleActionButton(index);
     dispatch(DeleteOpportunity(category, ID));
   };
-  console.log(activeStatus);
 
   return (
     <div className='row mb-4'>

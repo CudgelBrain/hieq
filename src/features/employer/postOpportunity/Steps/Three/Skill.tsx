@@ -38,6 +38,7 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
   React.useEffect(() => {
     getSkillData()
   }, []);
+  // const loadSkillTitles = matchSorter(getSkillTitles, value, { keys: ['label'] })
   const loadSkillTitles = debounce((value: string, callback) => {
     const options = matchSorter(getSkillTitles, value, { keys: ['label'] });
     callback(isEmpty(options) ? [] : options);
@@ -79,7 +80,11 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
                         setskillTitle(createOption(value))
 
                       }
-                      console.log(value, name);
+                      // console.log(value, name, skillTitle);
+                      // console.log("load", loadSkillTitles);
+                      // console.log("data", getSkillTitles);
+
+
 
                       const handleOnchange = (option: SingleValue<OptionType>) => {
                         setskillTitle(option ? option : skillTitle)
@@ -94,9 +99,10 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
                       return (
                         <AsyncSelect
                           isClearable
+                          name={name}
                           isSearchable={true}
                           styles={selectStyle}
-                          value={skillTitle}
+                          value={getSkillTitles.find((c) => c.value == value)}
                           onChange={handleOnchange}
                           // inputValue={value}
                           // onInputChange={handleInputChange}
