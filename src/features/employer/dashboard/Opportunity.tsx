@@ -68,7 +68,7 @@ const Opportunities: React.FC<Props> = ({ category, currentPage, setCurrentPage,
             </tr>
           </thead>
           <tbody>
-            {map(opportunities, ({ ID, stepOne, category, status, view }, index) => (
+            {map(opportunities, ({ ID, stepOne, opportunityEndDate, category, status, view }, index) => (
               <tr key={index}>
                 <td
                   className='fw-500'
@@ -81,7 +81,8 @@ const Opportunities: React.FC<Props> = ({ category, currentPage, setCurrentPage,
                 <td className='fw-500'>
                   <span className='cc-blue'>{capitalize(status)}</span>
                 </td>
-                <td className='fw-500'>{formatDate(stepOne.opportunityEndDate, 'LLL d yyyy')}</td>
+                <td className='fw-500'>{opportunityEndDate ? opportunityEndDate : ""}</td>
+                {/* <td className='fw-500'>{formatDate(stepOne.opportunityEndDate, 'LLL d yyyy')}</td> */}
                 <td className='fw-500'>
                   <button type='button' className='cc-link btn bg-transparent'>
                     <img className='mr-1' src={viewIcon} height='15' alt='' />

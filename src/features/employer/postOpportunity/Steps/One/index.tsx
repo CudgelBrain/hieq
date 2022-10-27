@@ -5,7 +5,7 @@ import AsyncSelect from 'react-select/async';
 import { SingleValue, OnChangeValue } from 'react-select';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from 'react-hook-form';
-
+import moment from 'moment';
 // Imported from project
 import { addWeek } from 'utils';
 import { cityList } from 'constant';
@@ -197,6 +197,9 @@ const StepOne: React.FC<Props> = ({
   }, 500);
 
   const handleOnSubmit = (data: OpportunityStepOne) => {
+    console.log(data);
+    let endDate: string = moment(data.opportunityEndDate).format("YYYY-MM-DD")
+    let startDate: string = moment(data.opportunityStartDate).format("YYYY-MM-DD")
     const formData = new FormData();
     forEach(data, (value, key) => {
       if (['object', 'array'].includes(typeof value)) {
@@ -205,6 +208,10 @@ const StepOne: React.FC<Props> = ({
         formData.append(key, value as string);
       }
     });
+    formData.delete("opportunityEndDate")
+    formData.delete("opportunityStartDate")
+    formData.append("opportunityEndDate", endDate)
+    formData.append("opportunityStartDate", startDate)
     formData.append('status', 'draft');
     formData.append('currentStep', 'stepOne');
     dispatch(
@@ -454,7 +461,7 @@ const StepOne: React.FC<Props> = ({
                 />
                 {errors.opportunityStartDate && (
                   <div className='text-danger error mt-1'>
-                    {capitalize(errors.opportunityStartDate?.message)}
+                    {/* {capitalize(errors.opportunityStartDate?.message)} */}
                   </div>
                 )}
               </div>
@@ -467,7 +474,7 @@ const StepOne: React.FC<Props> = ({
                 />
                 {errors.opportunityEndDate && (
                   <div className='text-danger error mt-1'>
-                    {capitalize(errors.opportunityEndDate?.message)}
+                    {/* {capitalize(errors.opportunityEndDate?.message)} */}
                   </div>
                 )}
               </div>

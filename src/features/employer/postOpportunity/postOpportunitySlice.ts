@@ -21,8 +21,8 @@ export interface OpportunityStepOne {
   locationType?: string;
   locations: string[];
   openings: string;
-  opportunityStartDate: Date;
-  opportunityEndDate: Date;
+  opportunityStartDate: any;
+  opportunityEndDate: any;
   participation?: string;
   teamComposition?: string;
 }
@@ -448,6 +448,8 @@ export interface Opportunity {
   isActive: boolean;
   createdAt: string;
   category: string;
+  opportunityStartDate: any;
+  opportunityEndDate: any;
 }
 
 interface managerState {
