@@ -107,7 +107,8 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                             <ul className="nolist">
                                 <li>
                                     <div className="tb-head">Job Description</div>
-                                    <div className="tb-data"><button className="text-link">click here to view or download</button></div>
+                                    {/* <div className="tb-data"><button className="text-link">click here to view or download</button></div> */}
+                                    <div className="tb-data"><a href={opportunity?.jobDescriptionFile.url} target="_blank" className="text-link">click here to view or download</a></div>
                                 </li>
                                 <li>
                                     <div className="tb-head">Roles and Responsibilities</div>
@@ -249,10 +250,11 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {opportunity?.stepTwo.attachments && opportunity?.stepTwo.attachments.map((item: { file: string, title: string }) => {
+                                                {opportunity?.stepTwo.attachments && opportunity?.stepTwo.attachments.map((item: { file: string, title: string, url: string }) => {
                                                     return (<tr>
                                                         <td>{item.title}</td>
-                                                        <td><button className="text-link" >click here to view or download</button></td>
+                                                        {/* <td><button className="text-link" >click here to view or download</button></td> */}
+                                                        <td><a href={item.url} target="_blank" className="text-link">click here to view or download</a></td>
                                                     </tr>
                                                         // file remainign
                                                     )

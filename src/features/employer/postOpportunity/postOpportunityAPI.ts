@@ -41,8 +41,8 @@ export const listFilteredOpportunities = async (category: string, page: number, 
   return await hieqService.get('/opportunity/status', { params: { status, from_date: startDate, to_date: endDate, category } });
 };
 
-export const addOpportunityDetail = async (file: FormData) => {
-  return hieqService.post('/opportunity/add/description', file, {
+export const addOpportunityDetail = async (file: FormData, opportunityID: string) => {
+  return hieqService.post('/opportunity/add/description/' + opportunityID, file, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

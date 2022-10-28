@@ -85,6 +85,12 @@ export interface attachment {
   file: any;
   title: string;
   toBeValidated: boolean;
+  url: string;
+}
+export interface JobDescription {
+  name: string;
+  desc: string;
+  url: string;
 }
 const attachmentSchema = {
   title: yup.string().required('Title is required'),
@@ -450,6 +456,7 @@ export interface Opportunity {
   category: string;
   opportunityStartDate: any;
   opportunityEndDate: any;
+  jobDescriptionFile: JobDescription;
 }
 
 interface managerState {

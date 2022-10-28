@@ -56,6 +56,7 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
     const dispatch = useAppDispatch();
     const inEditMode = !isEmpty(opportunityID);
     const [uploadStatus, setUploadStatus] = React.useState<boolean>(false);
+    const [descriptionUrl, setDescriptionUrl] = React.useState<string>("");
     const defaultValues: OpportunityStepTwo = React.useMemo(
       () => ({
         category,
@@ -224,9 +225,10 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
         formData.append('descFile', file);
         try {
           setUploadStatus(true);
-          const { data } = await addOpportunityDetail(formData);
+          const { data } = await addOpportunityDetail(formData, opportunityID);
           setValue('description', data.desc);
           setValue('descFileName', data.name);
+          setDescriptionUrl(data.url);
         } catch (error) {
           console.log(error);
         } finally {
@@ -303,7 +305,8 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                     </div>
                   )}
                   <div className={`${uploadStatus ? 'col-4' : 'col-8'} text-right mb-2`}>
-                    <button className='text-link'>view sample pdf by hieq team</button>
+                    {/* <button className='text-link'>view sample pdf by hieq team</button> */}
+                    <a href={descriptionUrl} target="_blank" className="text-link">view sample pdf by hieq team</a>
                   </div>
                 </div>
                 <label className='label'>Roles and Responsibilities</label>
