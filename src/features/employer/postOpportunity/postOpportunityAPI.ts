@@ -30,8 +30,8 @@ export const deleteOpportunity = async (category: string, opportunityID: string)
 export const getOpportunity = async (opportunityID: string) => {
   return await hieqService.get(`/opportunity/${opportunityID}`);
 };
-export const getOpportunityStatus = async () => {
-  return await hieqService.get(`/opportunity/status_count`);
+export const getOpportunityStatus = async (category: string) => {
+  return await hieqService.get(`/opportunity/status_count`, { params: { category } });
 };
 
 export const listOpportunities = async (category: string, page: number, perPage: number) => {

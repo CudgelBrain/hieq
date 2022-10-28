@@ -287,7 +287,7 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                                 </li>
                                 <li>
                                     <div className="tb-head">Preferred Educational Background</div>
-                                    <div className="tb-data">{opportunity?.stepThree.qualifications.map((item: string) => item)}</div>
+                                    <div className="tb-data">{opportunity?.stepThree.qualifications.map((item: string, index: number) => (index !== opportunity?.stepThree.qualifications.length - 1) ? `${item}, ` : item)}</div>
                                 </li>
                                 <li>
                                     <div className="tb-head">Personal Skills</div>

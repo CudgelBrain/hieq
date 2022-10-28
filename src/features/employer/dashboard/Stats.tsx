@@ -8,15 +8,20 @@ interface status {
 
 interface Props {
   setActiveStatus: React.Dispatch<React.SetStateAction<string>>;
+  category: string;
 }
-const Stats: React.FC<Props> = ({ setActiveStatus }) => {
-  const [status, setStatus] = React.useState<status>()
+const Stats: React.FC<Props> = ({ setActiveStatus, category }) => {
+  const [status, setStatus] = React.useState<status>({
+    active: { count: "0", week: "0" },
+    draft: { count: "0", week: "0" },
+    closed: { count: "0", week: "0" },
+  })
   React.useEffect(() => {
     getOpportunityStat();
-  }, []);
+  }, [category]);
   const getOpportunityStat = async () => {
-    const { data } = await getOpportunityStatus();
-    setStatus(data)
+    const { data } = await getOpportunityStatus(category);
+    setStatus({ ...data })
   };
   return (
     <div className='row mb-4'>

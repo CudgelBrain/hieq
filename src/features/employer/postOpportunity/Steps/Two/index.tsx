@@ -19,6 +19,7 @@ import {
   attachment,
   EditOpportunity,
   OpportunityStepTwo,
+  Opportunity,
   OpportunityStepTwoSchema,
 } from '../../postOpportunitySlice';
 
@@ -57,6 +58,14 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
     const inEditMode = !isEmpty(opportunityID);
     const [uploadStatus, setUploadStatus] = React.useState<boolean>(false);
     const [descriptionUrl, setDescriptionUrl] = React.useState<string>("");
+    // const wholeOpportunity: Opportunity = React.useMemo(
+    //   () => ({
+    //     jobDescriptionFile:{
+    //       desc
+    //     }
+    //   }),
+    //   [category, opportunity.stepTwo],
+    // );
     const defaultValues: OpportunityStepTwo = React.useMemo(
       () => ({
         category,
@@ -196,6 +205,12 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
         reset(defaultValues);
       }
     }, [defaultValues, inEditMode, opportunity.stepTwo, reset]);
+    React.useEffect(() => {
+      if (!isEmpty(opportunity.jobDescriptionFile)) {
+        setShowLabel(opportunity.jobDescriptionFile.name)
+        setDescriptionUrl(opportunity.jobDescriptionFile.url)
+      }
+    }, [defaultValues, inEditMode, opportunity, reset]);
 
     React.useEffect(() => {
       if (status === 'success' && currentAction === 'editOpportunity-stepTwo') {

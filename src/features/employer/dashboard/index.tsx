@@ -65,7 +65,7 @@ const Dashboard = () => {
               <RangeSelector setStartDate={setStartDate} setEndDate={setEndDate} />
             </div>
           </div>
-          <Stats setActiveStatus={setActiveStatus} />
+          <Stats setActiveStatus={setActiveStatus} category={activeCategory} />
           <Opportunities
             category={activeCategory}
             currentPage={currentPage}
