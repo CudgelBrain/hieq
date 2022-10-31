@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'app/store';
-import { addEmployerProfile, getEmployerProfile } from './profileAPI';
+import { addEmployerProfile, getEmployerProfile, editEmployerProfile } from './profileAPI';
 export interface social {
   name: string;
   url: string;
@@ -125,19 +125,34 @@ export default profileSlice.reducer;
 
 export const AddEmployerProfile =
   (formData: FormData): AppThunk =>
-  async (dispatch) => {
-    try {
-      dispatch(onStart());
-      await addEmployerProfile(formData);
-    } catch (error: any) {
-      dispatch(setStatus(error?.response?.data?.status));
-      dispatch(setMessage(error?.response?.data?.error));
-    } finally {
-      setTimeout(() => {
-        dispatch(onStop());
-      }, 1000);
-    }
-  };
+    async (dispatch) => {
+      try {
+        dispatch(onStart());
+        await addEmployerProfile(formData);
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+        }, 1000);
+      }
+    };
+export const EditEmployerProfile =
+  (formData: FormData): AppThunk =>
+    async (dispatch) => {
+      try {
+        dispatch(onStart());
+        await editEmployerProfile(formData);
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+        }, 1000);
+      }
+    };
 
 export const GetEmployerProfile = (): AppThunk => async (dispatch) => {
   try {

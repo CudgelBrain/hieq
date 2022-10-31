@@ -21,6 +21,7 @@ import {
   document,
   GetEmployerProfile,
   AddEmployerProfile,
+  EditEmployerProfile,
   EmployerProfileForm,
   EmployerProfileSchema,
 } from './profileSlice';
@@ -164,7 +165,7 @@ const Profile = () => {
         formData.append(key, value as string);
       }
     });
-    dispatch(AddEmployerProfile(formData));
+    dispatch(EditEmployerProfile(formData));
   };
 
   //console.log({ errors, defaultValues });
