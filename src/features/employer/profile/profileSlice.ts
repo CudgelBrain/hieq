@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'app/store';
-import { addEmployerProfile, getEmployerProfile, editEmployerProfile } from './profileAPI';
+import { addEmployerProfile, getEmployerProfile, editEmployerProfile, addEmployerProfilePic, addEmployerCoverPic } from './profileAPI';
 export interface social {
   name: string;
   url: string;
@@ -27,6 +27,8 @@ export interface EmployerProfileForm {
   industryType: string;
   documents: document[];
   socials: social[];
+  profilePic?: any;
+  coverPic?: any;
 }
 export interface EmployerProfile extends EmployerProfileForm {
   ID: string;
@@ -144,6 +146,40 @@ export const EditEmployerProfile =
       try {
         dispatch(onStart());
         await editEmployerProfile(formData);
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+        }, 1000);
+      }
+    };
+export const AddEmployerProfilePic =
+  (formData: FormData): AppThunk =>
+    async (dispatch) => {
+      try {
+        dispatch(onStart());
+        await addEmployerProfilePic(formData);
+        const { data } = await getEmployerProfile();
+        dispatch(setEmployerProfile(data));
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+        }, 1000);
+      }
+    };
+export const AddEmployerCoverPic =
+  (formData: FormData): AppThunk =>
+    async (dispatch) => {
+      try {
+        dispatch(onStart());
+        await addEmployerCoverPic(formData);
+        const { data } = await getEmployerProfile();
+        dispatch(setEmployerProfile(data));
       } catch (error: any) {
         dispatch(setStatus(error?.response?.data?.status));
         dispatch(setMessage(error?.response?.data?.error));

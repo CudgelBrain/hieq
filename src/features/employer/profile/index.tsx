@@ -20,12 +20,16 @@ import TextEditor from 'components/TextEditor';
 import {
   document,
   GetEmployerProfile,
-  AddEmployerProfile,
   EditEmployerProfile,
   EmployerProfileForm,
   EmployerProfileSchema,
+  AddEmployerProfilePic,
+  AddEmployerCoverPic
 } from './profileSlice';
 import { OptionType, selectStyle, createOption } from 'features/employer/common';
+import camara from "assets/images/camara.svg"
+import coverImage from "assets/images/cover.svg"
+import profileImage from "assets/images/profile.svg"
 
 // const roles: readonly OptionType[] = [
 //   { value: 'Male', label: 'Male' },
@@ -82,6 +86,7 @@ const Profile = () => {
   const [showOthers, setShowOthers] = React.useState<boolean>(false);
   const [branchLocation, setBranchLocation] = React.useState<string>('');
   const [branchLocations, setBranchLocations] = React.useState<OptionType[]>([]);
+  const [profileUrl, setProfileUrl] = React.useState<string>("");
   const { status, profile } = useAppSelector((state: RootState) => state.employerProfile);
   const defaultValues: EmployerProfileForm = React.useMemo(
     () => ({
@@ -106,6 +111,14 @@ const Profile = () => {
         !isEmpty(profile) && !isEmpty(profile.documents)
           ? profile.documents
           : [{ name: '', file: '', toBeValidated: true }],
+      profilePic:
+        !isEmpty(profile) && !isEmpty(profile.profilePic)
+          ? profile.profilePic
+          : { name: '', file: '', url: "" },
+      coverPic:
+        !isEmpty(profile) && !isEmpty(profile.coverPic)
+          ? profile.coverPic
+          : { name: '', file: '', url: "" },
       socials:
         !isEmpty(profile) && !isEmpty(profile.socials) ? profile.socials : [{ name: '', url: '' }],
     }),
@@ -146,6 +159,34 @@ const Profile = () => {
     callback(matchSorter(cities, value, { keys: ['label'] }));
   }, 500);
 
+  const handleProfileUpload = async ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = target;
+    const file = files && files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('profilePic', file);
+      try {
+        dispatch(AddEmployerProfilePic(formData));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+  const handleCoverUpload = async ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = target;
+    const file = files && files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('coverPic', file);
+      try {
+        dispatch(AddEmployerCoverPic(formData));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+
   const submitForm = (data: EmployerProfileForm) => {
     const formData = new FormData();
     forEach(data, (value, key) => {
@@ -176,6 +217,74 @@ const Profile = () => {
         <Tittle title='Company Profile' />
         <div className='box-container mb-4'>
           <div className='box-container-inner'>
+            <div className='row profileParent'>
+              <div className='col-3 mb-2 flex'>
+                <div className='profileImageViewer'>
+                  {defaultValues.profilePic.url == "" ?
+                    <div className='profileImageViewer-logo'>
+                      <img src={profileImage} /><br />
+                      Logo
+                    </div>
+                    :
+                    <div className='profileImageViewer-logo' style={{ paddingTop: 0 }}>
+                      <img src={defaultValues.profilePic.url} width={200} height={180} />
+                    </div>
+
+                  }
+                  <input
+                    type='file'
+                    id='inputGroupProfileImage'
+                    accept="image/png, image/gif, image/jpeg"
+                    onChange={(event) => {
+                      handleProfileUpload(event);
+                    }}
+                    className='custom-profile-image-input'
+                    aria-describedby='inputGroupFileAddon01'
+                  />
+                  <label
+                    className='custom-profile-image'
+                    htmlFor='inputGroupProfileImage'
+                  >
+                    <img src={camara} />
+                  </label>
+                </div>
+              </div>
+
+
+              <div className='col-6 mb-2 flex'>
+                <div className='profileImageViewer coverImageViewer'>
+                  {(defaultValues.coverPic.url == "") ?
+                    <div className='profileImageViewer-logo coverImageViewer-logo'>
+                      <img src={coverImage} /><br />
+                      Cover Picture
+                    </div>
+                    :
+                    <div className='profileImageViewer-logo coverImageViewer-logo' style={{ paddingTop: 0 }}>
+                      <img src={defaultValues.coverPic.url} width={540} height={180} />
+                    </div>
+
+                  }
+                  <input
+                    type='file'
+                    id='inputGroupCoverImage'
+                    accept="image/png, image/gif, image/jpeg"
+                    onChange={(event) => {
+                      handleCoverUpload(event);
+                    }}
+                    className='custom-profile-image-input'
+                    aria-describedby='inputGroupFileAddon01'
+                  />
+                  <label
+                    className='custom-profile-image'
+                    htmlFor='inputGroupCoverImage'
+                  >
+                    <img src={camara} />
+                  </label>
+                </div>
+              </div>
+            </div>
+
+
             <div className='row'>
               <div className='form-group col-sm-6'>
                 <label className='label mb-1'>Fullname</label>
@@ -294,6 +403,8 @@ const Profile = () => {
                   control={control}
                   name='description'
                   render={({ field: { onChange, value, name } }) => {
+                    console.log(value);
+
                     const handleOnchange = (value: any) => {
                       onChange(value);
                     }
@@ -511,7 +622,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-    </form>
+    </form >
   );
 };
 
