@@ -16,7 +16,7 @@ import minusImg from 'assets/images/btn-minus.svg';
 import { EmployerProfileForm } from './profileSlice';
 import { selectStyle, OptionType } from 'features/employer/common';
 
-const docs: readonly OptionType[] = [
+let docs: readonly OptionType[] = [
   { value: 'Certificate of Incorporation', label: 'Certificate of Incorporation' },
   { value: 'PAN Card', label: 'PAN Card' },
   { value: 'Cancelled Cheque', label: 'Cancelled Cheque' },
@@ -47,6 +47,7 @@ const VerificationDocument: React.FC<Props> = ({
 
   const documents = watch('documents');
   const [optionCount, setOptionCount] = useState<number>(1);
+  const [selectedDoc, setSelectedDoc] = useState<string[]>([]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
     event.preventDefault();
@@ -62,6 +63,19 @@ const VerificationDocument: React.FC<Props> = ({
   const handleOnChange = ({ target }: React.ChangeEvent<HTMLInputElement>, index: number) => {
     setValue(`documents.${index}.toBeValidated`, true);
   };
+  React.useEffect(() => {
+    appeandDocs()
+  }, [fields])
+  const appeandDocs = async () => {
+    let field: string[] = []
+    fields.map((item) => {
+      console.log("name", item.name);
+      if (item.name !== "") {
+        field.push(item.name)
+      }
+    })
+    setSelectedDoc([...field])
+  }
 
   return (
     <>
@@ -85,11 +99,12 @@ const VerificationDocument: React.FC<Props> = ({
                   control={control}
                   name={`documents.${index}.name`}
                   render={({ field: { onChange, value, name } }) => {
-                    const handleOnchange = (option: SingleValue<OptionType>) =>
+                    const handleOnchange = (option: SingleValue<OptionType>) => {
                       onChange(option?.value);
+                    }
                     return (
                       <Select
-                        options={docs}
+                        options={docs.filter((item: any) => !selectedDoc.includes(item.value))}
                         styles={selectStyle}
                         placeholder='Select type'
                         onChange={handleOnchange}

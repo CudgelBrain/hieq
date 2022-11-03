@@ -43,67 +43,67 @@ const SocialMedia: React.FC<Props> = ({ control, register, errors, mode }) => {
   return (
     <>
       {fields.map((field, index) => {
-        if (index < links.length) {
-          return (
-            <div className='form-group form-row mb-2' key={field.id}>
-              <div className='col-2'>
-                <Controller
-                  control={control}
-                  name={`socials.${index}.name`}
-                  render={({ field: { onChange, value, name } }) => {
-                    const handleOnchange = (option: SingleValue<OptionType>) => {
-                      if (option && option.value) {
-                        setUsedMedia([...usedMedia, option.value + ""])
-                      }
-                      return onChange(option?.value);
+        // if (index < links.length) {
+        return (
+          <div className='form-group form-row mb-2' key={field.id}>
+            <div className='col-2'>
+              <Controller
+                control={control}
+                name={`socials.${index}.name`}
+                render={({ field: { onChange, value, name } }) => {
+                  const handleOnchange = (option: SingleValue<OptionType>) => {
+                    if (option && option.value) {
+                      setUsedMedia([...usedMedia, option.value + ""])
                     }
-                    return (
-                      <Select
-                        name={name}
-                        isDisabled={mode === 'view'}
-                        options={links.filter((li) => !usedMedia.includes(`${li.value}`))}
-                        styles={selectStyle}
-                        onChange={handleOnchange}
-                        placeholder='Select type'
-                        components={{ IndicatorSeparator: () => null }}
-                        value={links.find((c) => c.value === value)}
-                      />
-                    );
+                    return onChange(option?.value);
                   }
-                  }
-                />
-                {errors.socials && errors.socials[index] && errors.socials[index].name && (
-                  <div className='text-danger error mt-1'>
-                    {errors.socials[index].name?.message}
-                  </div>
-                )}
-              </div>
-              <div className='col-5'>
-                <input
-                  type='text'
-                  disabled={mode === 'view'}
-                  {...register(`socials.${index}.url` as const, { required: true })}
-                  className='form-control'
-                  placeholder='Enter or Paste link here'
-                />
-                {errors.socials && errors.socials[index] && errors.socials[index].url && (
-                  <div className='text-danger error mt-1'>{errors.socials[index].url?.message}</div>
-                )}
-              </div>
-              <div className='col-1'>
-                <button
-                  type='button'
-                  className='btn btn-plus-minus'
-                  onClick={(event) => handleClick(event, index)}
-                  disabled={mode === 'view' || (index === 0 && optionCount === links.length)}
-                >
-                  <img src={index === 0 ? plusImg : minusImg} height='38' alt='' />
-                </button>
-              </div>
+                  return (
+                    <Select
+                      name={name}
+                      isDisabled={mode === 'view'}
+                      options={links.filter((li) => !usedMedia.includes(`${li.value}`))}
+                      styles={selectStyle}
+                      onChange={handleOnchange}
+                      placeholder='Select type'
+                      components={{ IndicatorSeparator: () => null }}
+                      value={links.find((c) => c.value === value)}
+                    />
+                  );
+                }
+                }
+              />
+              {errors.socials && errors.socials[index] && errors.socials[index].name && (
+                <div className='text-danger error mt-1'>
+                  {errors.socials[index].name?.message}
+                </div>
+              )}
             </div>
-          );
-        }
-        return null;
+            <div className='col-5'>
+              <input
+                type='text'
+                disabled={mode === 'view'}
+                {...register(`socials.${index}.url` as const, { required: true })}
+                className='form-control'
+                placeholder='Enter or Paste link here'
+              />
+              {errors.socials && errors.socials[index] && errors.socials[index].url && (
+                <div className='text-danger error mt-1'>{errors.socials[index].url?.message}</div>
+              )}
+            </div>
+            <div className='col-1'>
+              <button
+                type='button'
+                className='btn btn-plus-minus'
+                onClick={(event) => handleClick(event, index)}
+              // disabled={mode === 'view' || (index === 0 && optionCount === links.length)}
+              >
+                <img src={index === 0 ? plusImg : minusImg} height='38' alt='' />
+              </button>
+            </div>
+          </div>
+        );
+        // }
+        // return null;
       })}
     </>
   );

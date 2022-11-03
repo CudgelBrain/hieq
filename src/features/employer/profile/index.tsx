@@ -113,11 +113,11 @@ const Profile = () => {
           : [{ name: '', file: '', toBeValidated: true }],
       profilePic:
         !isEmpty(profile) && !isEmpty(profile.profilePic)
-          ? profile.profilePic
+          ? typeof profile.profilePic == "string" ? JSON.parse(profile.profilePic) : profile.profilePic
           : { name: '', file: '', url: "" },
       coverPic:
         !isEmpty(profile) && !isEmpty(profile.coverPic)
-          ? profile.coverPic
+          ? typeof profile.coverPic == "string" ? JSON.parse(profile.coverPic) : profile.coverPic
           : { name: '', file: '', url: "" },
       socials:
         !isEmpty(profile) && !isEmpty(profile.socials) ? profile.socials : [{ name: '', url: '' }],
