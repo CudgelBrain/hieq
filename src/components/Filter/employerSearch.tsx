@@ -30,33 +30,12 @@ const EmployerSearchFilter = () => {
                             value={behavioral}
                             onChange={(value) => setPercentage({ ...percentage, behavioral: value as number })}
                         />
-                        <span>{behavioral}</span>
+                        {/* <span>{behavioral}</span> */}
                         <div className='rg-slider-text'>
                             <span className='small'>0</span>
                             <span className='small'>100</span>
                         </div>
                     </div>
-                </div>
-                <div className='filter-widget mt-4 pb-1'>
-                    <h3 className='filter-widget-heading mb-2'>Opportunity Type</h3>
-                    <div className='custom-control custom-checkbox'>
-                        <input type='checkbox' className='custom-control-input' id='st1' name='' />
-                        <label className='custom-control-label' htmlFor='st1'>
-                            Job
-                        </label>
-                    </div>
-                    <div className='custom-control custom-checkbox'>
-                        <input type='checkbox' className='custom-control-input' id='st2' name='' />
-                        <label className='custom-control-label' htmlFor='st2'>
-                            Internship
-                        </label>
-                    </div>
-                    {/* <div className='custom-control custom-checkbox'>
-                        <input type='checkbox' className='custom-control-input' id='st3' name='' />
-                        <label className='custom-control-label' htmlFor='st3'>
-                            Competition
-                        </label>
-                    </div> */}
                 </div>
                 <div className="filter-widget mt-4 pb-1">
                     <h3 className="filter-widget-heading mb-2">Opportunity Type</h3>

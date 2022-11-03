@@ -204,9 +204,7 @@ export const Register =
         storeRefreshToken(data.refreshToken);
         const [profile, redirectTo] = await handleRedirection();
         dispatch(setProfile(profile));
-        if (redirectTo.includes("employer")) {
-          dispatch(GetEmployerProfile())
-        }
+        dispatch(GetEmployerProfile())
         history.push(redirectTo);
       } catch (error: any) {
         dispatch(setStatus(error?.response?.data?.status));
@@ -230,9 +228,7 @@ export const Login =
         storeRefreshToken(data.refreshToken);
         const [profile, redirectTo] = await handleRedirection();
         dispatch(setProfile(profile));
-        if (redirectTo.includes("employer")) {
-          dispatch(GetEmployerProfile())
-        }
+        dispatch(GetEmployerProfile())
         history.push(redirectTo);
       } catch (error: any) {
         dispatch(setStatus(error?.response?.data?.status));

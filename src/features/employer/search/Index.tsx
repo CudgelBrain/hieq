@@ -92,83 +92,83 @@ const Search = () => {
                         </div>
                     </div>
                     <div className='row mb-4'>
-                        <div className='col-md-12'>
-                            <table
+
+                        <div className="col-md-12">
+                            <table className="table custom-table table-br opport-table"
                                 cellPadding='0'
-                                cellSpacing='0'
-                                className='table custom-table table-br applicant-table'
-                            >
+                                cellSpacing='0'>
                                 <thead>
                                     <tr>
-                                        <th>
-                                            <div className='custom-control custom-checkbox'>
-                                                <input
-                                                    type='checkbox'
-                                                    id='applicants'
-                                                    onChange={(event) => {
-                                                        handleChecked(event);
-                                                    }}
-                                                    className='custom-control-input'
-                                                    checked={checkedState.every((item) => item)}
-                                                />
-                                                <label className='custom-control-label pl-0' htmlFor='applicants'></label>
-                                            </div>
-                                        </th>
-                                        <th>Name</th>
-                                        <th className='text-center'>Behavioural</th>
-                                        <th className='text-center'>Cognitive</th>
-                                        <th className='text-center'>Functional</th>
+                                        <th>Opportunity Title</th>
+                                        <th>Domain</th>
+                                        <th>Type</th>
                                         <th>Status</th>
-                                        <th></th>
+                                        <th>Expires On</th>
+                                        <th >Applications</th>
+                                        <th ></th>
+                                        {/* <th width={100}>Applications</th>
+                          <th width={10}></th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {applicants.map((applicant, index) => (
-                                        <React.Fragment key={index + 1}>
-                                            <tr>
-                                                <td className='fw-500'>
-                                                    <div className='custom-control custom-checkbox'>
-                                                        <input
-                                                            type='checkbox'
-                                                            id={`applicant-${index + 1}}`}
-                                                            checked={checkedState[index]}
-                                                            className='custom-control-input'
-                                                            onChange={(event) => handleChecked(event, index)}
-                                                        />
-                                                        <label
-                                                            htmlFor={`applicant-${index + 1}}`}
-                                                            className='custom-control-label pl-0'
-                                                        ></label>
-                                                    </div>
-                                                </td>
-                                                <td className='fw-600 text-dark'>
-                                                    <div className='d-flex align-items-center'>
-                                                        <button className='text-link'>
-                                                            <img src={playIcon} height='25' alt='' />
-                                                        </button>
-                                                        <span className='ml-2'>{applicant.name}</span>
-                                                    </div>
-                                                </td>
-                                                <td className='fw-500 text-center'>{applicant.behavioural}</td>
-                                                <td className='fw-500 text-center'>{applicant.cognitive}</td>
-                                                <td className='fw-500 text-center'>{applicant.functional}</td>
-                                                <td className='fw-500'>
-                                                    <span className='cc-green'>{applicant.status}</span>
-                                                </td>
-                                                <td>
-                                                    <button
-                                                        className='text-link'
-                                                        onClick={() => {
-                                                            handleShowDetail(index);
-                                                        }}
-                                                    >
-                                                        <img src={downArrowIcon} height='20' alt='' />
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            {/* {showDetail[index] && <BriefIntro />} */}
-                                        </React.Fragment>
-                                    ))}
+                                    <tr>
+                                        <td className="fw-500">Screenwriter</td>
+                                        <td>Jobs</td>
+                                        <td className="fw-500">DevOps</td>
+                                        <td className="fw-500"><span className="cc-blue">Need Actions <span data-toggle="tooltip" data-placement="top" title="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."><img src="assets/images/question.svg" height="14" alt="" /></span></span></td>
+                                        <td className="fw-500">Oct 25, 2022</td>
+                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src="assets/images/view-dark.svg" height="15" alt="" />10</a></td>
+                                        <td><button className="text-link"><img src="assets/images/dots-three.svg" height="24" alt="" /></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td className="fw-500">Content Development</td>
+                                        <td>Internship</td>
+                                        <td className="fw-500">Product Management</td>
+                                        <td className="fw-500"><span className="cc-green">Active</span></td>
+                                        <td className="fw-500">Jul 12, 2022</td>
+                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src="assets/images/view-dark.svg" height="15" alt="" />10</a></td>
+                                        <td className="th-dt-wrapper"><button className="th-dt-btn"><img src="assets/images/dots-three.svg" height="24" alt="" /></button>
+                                            <div className="th-dt-list show">
+                                                <button>Edit</button>
+                                                <button>Delete</button>
+                                            </div></td>
+                                    </tr>
+                                    <tr>
+                                        <td className="fw-500">Email Marketing &amp; Copywriting</td>
+                                        <td>Competitions</td>
+                                        <td className="fw-500">Sales &amp; Marketing</td>
+                                        <td className="fw-500"><span className="cc-yellow">Under Review</span></td>
+                                        <td className="fw-500">Jul 12, 2022</td>
+                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src="assets/images/view-dark.svg" height="15" alt="" />10</a></td>
+                                        <td><button className="text-link"><img src="assets/images/dots-three.svg" height="24" alt="" /></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td className="fw-500">Full Stack Developer</td>
+                                        <td>Jobs</td>
+                                        <td className="fw-500">Sales &amp; Marketing</td>
+                                        <td className="fw-500"><span className="cc-red">Rejected</span></td>
+                                        <td className="fw-500">Jul 12, 2022</td>
+                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src="assets/images/view-dark.svg" height="15" alt="" />10</a></td>
+                                        <td><button className="text-link"><img src="assets/images/dots-three.svg" height="24" alt="" /></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td className="fw-500">Business Development</td>
+                                        <td>Jobs</td>
+                                        <td className="fw-500">Finance</td>
+                                        <td className="fw-500"><span className="cc-green">Active</span></td>
+                                        <td className="fw-500">Jul 12, 2022</td>
+                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src="assets/images/view-dark.svg" height="15" alt="" />10</a></td>
+                                        <td><button className="text-link"><img src="assets/images/dots-three.svg" height="24" alt="" /></button></td>
+                                    </tr>
+                                    <tr className="cc-light bg-light">
+                                        <td className="fw-500">Ops. &amp; Logistics</td>
+                                        <td>Jobs</td>
+                                        <td className="fw-500">Sales Execuitve</td>
+                                        <td className="fw-500"><span className="cc-light">closed</span></td>
+                                        <td className="fw-500">Jul 12, 2022</td>
+                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src="assets/images/view-dark.svg" height="15" alt="" />10</a></td>
+                                        <td><button className="text-link"><img src="/assets/images/dots-three.svg" height="24" alt="" /></button></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

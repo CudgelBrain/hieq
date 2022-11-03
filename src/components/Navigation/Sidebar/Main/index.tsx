@@ -28,9 +28,9 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
   const {
     profile: { name, email, phone },
   } = useAppProfile();
-  // const { status, profile } = useAppSelector((state: RootState) => state.employerProfile);
+  let { status, profile } = useAppSelector((state: RootState) => state.employerProfile);
   let localProfile = localStorage.getItem("profile")
-  const profile = JSON.parse(localProfile ? localProfile : "")
+  profile = localProfile ? JSON.parse(localProfile) : profile
   const profileDetails: EmployerProfileForm = React.useMemo(
     () => ({
       fullName: !isEmpty(profile) && !isEmpty(profile.fullName) ? profile.fullName : name,
