@@ -12,18 +12,20 @@ interface Props extends RouteProps {
 const parsePath = (path: string) => {
   switch (path) {
     case '/employer/applicants':
-      return [false, true];
+      return [false, true, false];
+    case '/employer/search':
+      return [false, false, true];
     case '/employer/applicant/:applicantID':
-      return [false, false];
+      return [false, false, false];
     default:
-      return [true, false];
+      return [true, false, false];
   }
 };
 
 const MainRoute: React.FC<Props> = (props) => {
   const { path } = props;
   const [mode, setMode] = React.useState<string>('light');
-  const [defaultSidebarState, defaultFilterState] = parsePath(path as string);
+  const [defaultSidebarState, defaultFilterState, searchFilterState] = parsePath(path as string);
   const [sidebarState, setSidebarState] = React.useState(defaultSidebarState);
 
   if (isAuthenticated()) {
@@ -39,7 +41,7 @@ const MainRoute: React.FC<Props> = (props) => {
           <section className='main-wrapper'>
             <div className='container-fluid'>
               <div className='row position-relative'>
-                <Sidebar isOpen={sidebarState} showFilter={defaultFilterState} />
+                <Sidebar isOpen={sidebarState} showFilter={defaultFilterState} searchFilter={searchFilterState} />
                 <Route {...props} />
               </div>
             </div>

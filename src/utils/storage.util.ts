@@ -31,6 +31,7 @@ export const getRefreshToken = () => {
 export const clearTokens = () => {
   removeItemFromStorage(LOCAL_STORAGE_TOKEN);
   removeItemFromStorage(LOCAL_STORAGE_REFRESH_TOKEN);
+  localStorage.removeItem("profile")
 };
 
 export const isAuthenticated = () => {

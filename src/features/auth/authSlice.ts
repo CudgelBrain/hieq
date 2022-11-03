@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'app/store';
 import { getProfile } from 'features/user/userAPI';
 import { setProfile } from 'features/user/userSlice';
+import { GetEmployerProfile } from 'features/employer/profile/profileSlice';
 import { handShake, register, login, requestOTP } from './authAPI';
 import {
   history,
@@ -193,66 +194,72 @@ const handleRedirection = async () => {
 
 export const Register =
   (formData: RegisterationForm): AppThunk =>
-  async (dispatch) => {
-    try {
-      dispatch(onStart());
-      const { data: token } = await handShake();
-      storeToken(token.deviceToken);
-      const { data } = await register(formData);
-      storeToken(data.accessToken);
-      storeRefreshToken(data.refreshToken);
-      const [profile, redirectTo] = await handleRedirection();
-      dispatch(setProfile(profile));
-      history.push(redirectTo);
-    } catch (error: any) {
-      dispatch(setStatus(error?.response?.data?.status));
-      dispatch(setMessage(error?.response?.data?.error));
-    } finally {
-      setTimeout(() => {
-        dispatch(onStop());
-      }, 1200);
-    }
-  };
+    async (dispatch) => {
+      try {
+        dispatch(onStart());
+        const { data: token } = await handShake();
+        storeToken(token.deviceToken);
+        const { data } = await register(formData);
+        storeToken(data.accessToken);
+        storeRefreshToken(data.refreshToken);
+        const [profile, redirectTo] = await handleRedirection();
+        dispatch(setProfile(profile));
+        if (redirectTo.includes("employer")) {
+          dispatch(GetEmployerProfile())
+        }
+        history.push(redirectTo);
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+        }, 1200);
+      }
+    };
 
 export const Login =
   (formData: LoginForm | LoginOTPForm): AppThunk =>
-  async (dispatch) => {
-    try {
-      dispatch(onStart());
-      const { data: token } = await handShake();
-      storeToken(token.deviceToken);
-      const { data } = await login(formData);
-      storeToken(data.accessToken);
-      storeRefreshToken(data.refreshToken);
-      const [profile, redirectTo] = await handleRedirection();
-      dispatch(setProfile(profile));
-      history.push(redirectTo);
-    } catch (error: any) {
-      dispatch(setStatus(error?.response?.data?.status));
-      dispatch(setMessage(error?.response?.data?.error));
-    } finally {
-      setTimeout(() => {
-        dispatch(onStop());
-      }, 1200);
-    }
-  };
+    async (dispatch) => {
+      try {
+        dispatch(onStart());
+        const { data: token } = await handShake();
+        storeToken(token.deviceToken);
+        const { data } = await login(formData);
+        storeToken(data.accessToken);
+        storeRefreshToken(data.refreshToken);
+        const [profile, redirectTo] = await handleRedirection();
+        dispatch(setProfile(profile));
+        if (redirectTo.includes("employer")) {
+          dispatch(GetEmployerProfile())
+        }
+        history.push(redirectTo);
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+        }, 1200);
+      }
+    };
 
 export const RequestOTP =
   (phone: string): AppThunk =>
-  async (dispatch) => {
-    try {
-      dispatch(onStart());
-      const { data: token } = await handShake();
-      storeToken(token.deviceToken);
-      const { status } = await requestOTP(phone);
-      dispatch(setStatus(status));
-      dispatch(setMessage('OTP sent successfully'));
-    } catch (error: any) {
-      dispatch(setStatus(error?.response?.data?.status));
-      dispatch(setMessage(error?.response?.data?.error));
-    } finally {
-      setTimeout(() => {
-        dispatch(onStop());
-      }, 1200);
-    }
-  };
+    async (dispatch) => {
+      try {
+        dispatch(onStart());
+        const { data: token } = await handShake();
+        storeToken(token.deviceToken);
+        const { status } = await requestOTP(phone);
+        dispatch(setStatus(status));
+        dispatch(setMessage('OTP sent successfully'));
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+        }, 1200);
+      }
+    };

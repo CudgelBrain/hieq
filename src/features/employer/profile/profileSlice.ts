@@ -195,6 +195,7 @@ export const GetEmployerProfile = (): AppThunk => async (dispatch) => {
     dispatch(onStart());
     const { data } = await getEmployerProfile();
     dispatch(setEmployerProfile(data));
+    localStorage.setItem("profile", JSON.stringify(data))
   } catch (error: any) {
     dispatch(setStatus(error?.response?.data?.status));
     dispatch(setMessage(error?.response?.data?.error));

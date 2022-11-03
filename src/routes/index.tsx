@@ -46,6 +46,7 @@ import ListRoleHiringProcess from 'pages/admin/ListRoleHiringProcesses';
 // Employer Pages
 import Applicant from 'pages/employer/Applicant';
 import Applicants from 'pages/employer/Applicants';
+import Search from 'pages/employer/Search';
 import OpportunityConfirmantion from 'pages/employer/OpportunityConfirmation';
 import EmployerProfile from 'pages/employer/Profile';
 import EmployerDashboard from 'pages/employer/Dashboard';
@@ -135,6 +136,7 @@ const AppRouter = () => {
           <MainRoute exact path='/employer/profile' component={EmployerProfile} />
           <MainRoute exact path='/employer/dashboard' component={EmployerDashboard} />
           <MainRoute exact path='/employer/applicants' component={Applicants} />
+          <MainRoute exact path='/employer/search' component={Search} />
           <MainRoute exact path='/employer/applicant/:applicantID' component={Applicant} />
           <MainRoute exact path='/employer/confirmation/:ID' component={OpportunityConfirmantion} />
           <MainRoute

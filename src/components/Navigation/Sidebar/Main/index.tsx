@@ -1,7 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { history } from 'utils';
+import { debounce, forEach, map, orderBy, isEmpty } from 'lodash';
+import { useAppDispatch, useAppSelector, useAppQuery, useAppProfile } from 'app/hooks';
+import { RootState } from 'app/store';
+import { EmployerProfileForm } from 'features/employer/profile/profileSlice';
 import Filter from 'components/Filter';
+import EmployerSearchFilter from 'components/Filter/employerSearch';
 import viewIMg from 'assets/images/view.svg';
 import editIMg from 'assets/images/edit.svg';
 import homeImg from 'assets/images/home.svg';
@@ -15,23 +20,71 @@ import plusFillImg from 'assets/images/plus-fill.svg';
 interface Props {
   isOpen: boolean;
   showFilter: boolean;
+  searchFilter: boolean;
 }
 
-const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false }) => {
+const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFilter = false }) => {
+  const dispatch = useAppDispatch();
+  const {
+    profile: { name, email, phone },
+  } = useAppProfile();
+  // const { status, profile } = useAppSelector((state: RootState) => state.employerProfile);
+  let localProfile = localStorage.getItem("profile")
+  const profile = JSON.parse(localProfile ? localProfile : "")
+  const profileDetails: EmployerProfileForm = React.useMemo(
+    () => ({
+      fullName: !isEmpty(profile) && !isEmpty(profile.fullName) ? profile.fullName : name,
+      companyName: !isEmpty(profile) && !isEmpty(profile.companyName) ? profile.companyName : '',
+      phone: !isEmpty(profile) && !isEmpty(profile.phone) ? profile.phone : phone,
+      email: !isEmpty(profile) && !isEmpty(profile.email) ? profile.email : email,
+      roleInHiring: !isEmpty(profile) && !isEmpty(profile.roleInHiring) ? profile.roleInHiring : '',
+      yearOfIncorporation:
+        !isEmpty(profile) && !isEmpty(profile.yearOfIncorporation)
+          ? profile.yearOfIncorporation
+          : '',
+      description: !isEmpty(profile) && !isEmpty(profile.description) ? profile.description : '',
+      headOffice: !isEmpty(profile) && !isEmpty(profile.headOffice) ? profile.headOffice : '',
+      branchOffices:
+        !isEmpty(profile) && !isEmpty(profile.branchOffices) ? profile.branchOffices : [''],
+      numberOfEmployees:
+        !isEmpty(profile) && !isEmpty(profile.numberOfEmployees) ? profile.numberOfEmployees : '',
+      companyType: !isEmpty(profile) && !isEmpty(profile.companyType) ? profile.companyType : '',
+      industryType: !isEmpty(profile) && !isEmpty(profile.industryType) ? profile.industryType : '',
+      documents:
+        !isEmpty(profile) && !isEmpty(profile.documents)
+          ? profile.documents
+          : [{ name: '', file: '', toBeValidated: true }],
+      profilePic:
+        !isEmpty(profile) && !isEmpty(profile.profilePic)
+          ? typeof profile.profilePic == "string" ? JSON.parse(profile.profilePic) : profile.profilePic
+          : { name: '', file: '', url: "" },
+      coverPic:
+        !isEmpty(profile) && !isEmpty(profile.coverPic)
+          ? typeof profile.coverPic == "string" ? JSON.parse(profile.coverPic) : profile.coverPic
+          : { name: '', file: '', url: "" },
+      socials:
+        !isEmpty(profile) && !isEmpty(profile.socials) ? profile.socials : [{ name: '', url: '' }],
+    }),
+    [profile],
+  );
+
+
   return (
     <div className={`d-flex align-items-start ${!isOpen ? 'lt-wrapper' : ''}`}>
       <div className={`lt-sec ${!isOpen ? 'lt-sec-short' : ''}`}>
         {isOpen && (
           <>
             <div className='comp-img mb-5'>
-              <div className='cover-img'></div>
-              <div className='profile-img'>
-                <img src={mbaIMg} height='70' alt='' />
+              <div className='cover-img'>
+                <img src={profileDetails.coverPic.url} height={235} width={280} alt='' />
               </div>
+              {/* <div > */}
+              <img src={profileDetails.profilePic.url} className='profile-img' alt='' />
+              {/* </div> */}
             </div>
             <div className='text-center pt-4'>
-              <div className='hd-16 fw-500 cl-dark mb-1'>MBAtrek Pvt Ltd</div>
-              <div>Since 2007</div>
+              <div className='hd-16 fw-500 cl-dark mb-1'>{profileDetails.companyName}</div>
+              {profileDetails.yearOfIncorporation ? <div>Since {profileDetails.yearOfIncorporation}</div> : ""}
             </div>
             <div className='text-center pt-4 mb-3'>
               <button
@@ -101,6 +154,7 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false }) => {
         </div>
       </div>
       {showFilter && <Filter />}
+      {searchFilter && <EmployerSearchFilter />}
     </div>
   );
 };
