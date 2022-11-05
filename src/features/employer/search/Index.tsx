@@ -1,11 +1,19 @@
 import React from 'react';
+import { RootState } from 'app/store';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { formatDate, history } from 'utils';
 import { size } from 'lodash';
 import Tittle from '../Tittle';
 // import BriefIntro from './BriefIntro';
 import searchIcon from 'assets/images/search.svg';
+import viewDark from "assets/images/view-dark.svg";
+import threeDots from "assets/images/dots-three.svg"
 import excelIcon from 'assets/images/excel-ico.svg';
 import playIcon from 'assets/images/play-resume.svg';
 import downArrowIcon from 'assets/images/down-arrow.svg';
+import Opportunities from '../dashboard/Opportunity';
+import moment from 'moment';
+import { DeleteOpportunity } from '../postOpportunity/postOpportunitySlice';
 
 const applicants = [
     {
@@ -39,8 +47,19 @@ const applicants = [
 ];
 
 const Search = () => {
+    const dispatch = useAppDispatch();
+    const {
+        status,
+        opportunities,
+        currentAction,
+        pagination: { totalPages, totalItems },
+    } = useAppSelector((state: RootState) => state.postOpportunity);
     const [showDetail, setShowDetail] = React.useState<boolean[]>(
         new Array(applicants.length).fill(false),
+    );
+    const [showOption, setShowOption] = React.useState<string>("")
+    const [actionButtons, setActionButtons] = React.useState<boolean[]>(
+        new Array(size(opportunities)).fill(false),
     );
     const [checkedState, setCheckedState] = React.useState<boolean[]>(
         new Array(applicants.length).fill(false),
@@ -64,14 +83,32 @@ const Search = () => {
             setCheckedState(newCheckedState);
         }
     };
+    const handleActionButton = (index: number) => {
+        setActionButtons(
+            Object.assign([...new Array(size(opportunities))], {
+                [index as unknown as number]: !actionButtons[index as unknown as number],
+            }),
+        );
+    };
+    const handleDelete = (index: number, ID: string, category: string) => {
+        handleActionButton(index);
+        dispatch(DeleteOpportunity(category, ID));
+    };
+    const handleOptions = (id: string) => {
+        if (showOption == id) {
+            setShowOption("")
+        } else {
+            setShowOption(id)
+        }
+    }
 
     return (
         <div className='col-md-12 lt-sec-pd pt-4 pb-2'>
-            <Tittle title='Functional' subTitle='(Sales &amp; Marketing)' />
+            <Tittle title='Opportunity Search' subTitle='' />
             <div className='box-container mb-4'>
                 <div className='box-container-inner'>
                     <div className='row align-items-center mb-4'>
-                        <div className='col-md-5 bc-heading'>{`Total Applications: ${size(applicants)}`}</div>
+                        <div className='col-md-5 bc-heading'>{`Total Applications: ${totalItems}`}</div>
                         <div className='col-md-7'>
                             <div className='d-flex align-items-center cc-cal justify-content-end'>
                                 <div className='input-group ml-2'>
@@ -111,36 +148,55 @@ const Search = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td className="fw-500">Screenwriter</td>
-                                        <td>Jobs</td>
-                                        <td className="fw-500">DevOps</td>
-                                        <td className="fw-500"><span className="cc-blue">Need Actions <span data-toggle="tooltip" data-placement="top" title="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."><img src="assets/images/question.svg" height="14" alt="" /></span></span></td>
-                                        <td className="fw-500">Oct 25, 2022</td>
-                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src="assets/images/view-dark.svg" height="15" alt="" />10</a></td>
-                                        <td><button className="text-link"><img src="assets/images/dots-three.svg" height="24" alt="" /></button></td>
-                                    </tr>
-                                    <tr>
+                                    {Object.keys(opportunities).map((opp: string, index) => (
+                                        <tr key={index} className={opportunities[opp].status == "closed" ? "cc-light bg-light" : ""}>
+                                            <td className="fw-500">{opportunities[opp].stepOne.opportunityTitle}</td>
+                                            <td>{opportunities[opp].category}</td>
+                                            <td className="fw-500">{opportunities[opp].stepOne.opportunityDomain}</td>
+                                            <td className="fw-500"><span className="cc-green">{opportunities[opp].status} <span data-toggle="tooltip" data-placement="top" title="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."><img src="assets/images/question.svg" height="14" alt="" /></span></span></td>
+                                            <td className="fw-500">{moment(opportunities[opp].opportunityEndDate).format("MMM DD, YYYY")}</td>
+                                            <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src={viewDark} height="15" alt="" />{opportunities[opp].stepOne.openings}</a></td>
+                                            <td className="th-dt-wrapper"><button className="text-link" onClick={() => handleActionButton(index as unknown as number)}><img src={threeDots} height="24" alt="" /></button>
+                                                {actionButtons[index as unknown as number] && (
+                                                    <div className='th-dt-list'>
+                                                        <button
+                                                            type='button'
+                                                            onClick={() => history.push(`/employer/postOpportunity/${opportunities[opp].category}/${opp}`)}
+                                                        >
+                                                            Edit
+                                                        </button>
+                                                        <button
+                                                            type='button'
+                                                            onClick={() => handleDelete(index as unknown as number, opp, opportunities[opp].category)}
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </div>)}
+                                            </td>
+                                        </tr>
+
+                                    ))}
+                                    {/*<tr>
                                         <td className="fw-500">Content Development</td>
                                         <td>Internship</td>
                                         <td className="fw-500">Product Management</td>
                                         <td className="fw-500"><span className="cc-green">Active</span></td>
                                         <td className="fw-500">Jul 12, 2022</td>
-                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src="assets/images/view-dark.svg" height="15" alt="" />10</a></td>
-                                        <td className="th-dt-wrapper"><button className="th-dt-btn"><img src="assets/images/dots-three.svg" height="24" alt="" /></button>
-                                            <div className="th-dt-list show">
+                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src={viewDark} height="15" alt="" />10</a></td>
+                                        <td className="th-dt-wrapper"><button className="th-dt-btn"><img src={threeDots} height="24" alt="" /></button>
+                                            <div className="th-dt-list">
                                                 <button>Edit</button>
                                                 <button>Delete</button>
                                             </div></td>
                                     </tr>
-                                    <tr>
+                                     <tr>
                                         <td className="fw-500">Email Marketing &amp; Copywriting</td>
                                         <td>Competitions</td>
                                         <td className="fw-500">Sales &amp; Marketing</td>
                                         <td className="fw-500"><span className="cc-yellow">Under Review</span></td>
                                         <td className="fw-500">Jul 12, 2022</td>
-                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src="assets/images/view-dark.svg" height="15" alt="" />10</a></td>
-                                        <td><button className="text-link"><img src="assets/images/dots-three.svg" height="24" alt="" /></button></td>
+                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src={viewDark} height="15" alt="" />10</a></td>
+                                        <td><button className="text-link"><img src={threeDots} height="24" alt="" /></button></td>
                                     </tr>
                                     <tr>
                                         <td className="fw-500">Full Stack Developer</td>
@@ -148,8 +204,8 @@ const Search = () => {
                                         <td className="fw-500">Sales &amp; Marketing</td>
                                         <td className="fw-500"><span className="cc-red">Rejected</span></td>
                                         <td className="fw-500">Jul 12, 2022</td>
-                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src="assets/images/view-dark.svg" height="15" alt="" />10</a></td>
-                                        <td><button className="text-link"><img src="assets/images/dots-three.svg" height="24" alt="" /></button></td>
+                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src={viewDark} height="15" alt="" />10</a></td>
+                                        <td><button className="text-link"><img src={threeDots} height="24" alt="" /></button></td>
                                     </tr>
                                     <tr>
                                         <td className="fw-500">Business Development</td>
@@ -157,8 +213,8 @@ const Search = () => {
                                         <td className="fw-500">Finance</td>
                                         <td className="fw-500"><span className="cc-green">Active</span></td>
                                         <td className="fw-500">Jul 12, 2022</td>
-                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src="assets/images/view-dark.svg" height="15" alt="" />10</a></td>
-                                        <td><button className="text-link"><img src="assets/images/dots-three.svg" height="24" alt="" /></button></td>
+                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src={viewDark} height="15" alt="" />10</a></td>
+                                        <td><button className="text-link"><img src={threeDots} height="24" alt="" /></button></td>
                                     </tr>
                                     <tr className="cc-light bg-light">
                                         <td className="fw-500">Ops. &amp; Logistics</td>
@@ -166,18 +222,21 @@ const Search = () => {
                                         <td className="fw-500">Sales Execuitve</td>
                                         <td className="fw-500"><span className="cc-light">closed</span></td>
                                         <td className="fw-500">Jul 12, 2022</td>
-                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src="assets/images/view-dark.svg" height="15" alt="" />10</a></td>
+                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src={viewDark} height="15" alt="" />10</a></td>
                                         <td><button className="text-link"><img src="/assets/images/dots-three.svg" height="24" alt="" /></button></td>
-                                    </tr>
+                                    </tr> */}
                                 </tbody>
                             </table>
                         </div>
                         <div className='col-md-12 text-center pt-3'>
-                            <button className='cb-btn cb-yellow mr-1'>1</button>
-                            <button className='cb-btn cb-lightgrey mr-1'>2</button>
+                            {Array.from(Array(totalPages), (e, i) => (
+                                <button className='cb-btn cb-yellow mr-1'>{i + 1}</button>
+                            ))}
+                            {/* <button className='cb-btn cb-lightgrey mr-1'>2</button>
                             <button className='cb-btn cb-lightgrey mr-1'>3</button>
-                            <button className='cb-btn cb-lightgrey mr-1'>4</button>
-                            <button className='cb-btn cb-lightgrey mr-1'>Next</button>
+                            <button className='cb-btn cb-lightgrey mr-1'>4</button> */}
+                            {totalPages > 1 ?
+                                <button className='cb-btn cb-lightgrey mr-1'>Next</button> : ""}
                         </div>
                     </div>
                 </div>

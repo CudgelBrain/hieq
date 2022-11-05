@@ -14,9 +14,8 @@ hieqService.interceptors.request.use(
   (request) => {
     request.timeout = 10000;
     request.headers = {
-      Authorization: `Bearer ${
-        request.url === '/auth/refreshToken' ? getRefreshToken() : getToken()
-      }`,
+      Authorization: `Bearer ${request.url === '/auth/refreshToken' ? getRefreshToken() : getToken()
+        }`,
     };
     return request;
   },

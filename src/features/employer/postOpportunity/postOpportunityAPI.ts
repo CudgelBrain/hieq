@@ -40,6 +40,18 @@ export const listOpportunities = async (category: string, page: number, perPage:
 export const listFilteredOpportunities = async (category: string, page: number, perPage: number, status: string, startDate: string, endDate: string) => {
   return await hieqService.get('/opportunity/status', { params: { status, from_date: startDate, to_date: endDate, category } });
 };
+export const listSearchFilteredOpportunities = async (category: string[], domain: string[], statuss: string[], employType: string[], salary: number, experience: number) => {
+  let params = {
+    status: statuss.length > 0 ? JSON.stringify(statuss) : "",
+    cate: category.length > 0 ? JSON.stringify(category) : "",
+    exp: experience > 0 ? experience : "",
+    empType: employType.length > 0 ? JSON.stringify(employType) : "",
+    domain: domain.length > 0 ? JSON.stringify(domain) : "",
+    salary: salary > 0 ? salary : ""
+  }
+
+  return await hieqService.get('/opportunity/filters', { params });
+};
 
 export const addOpportunityDetail = async (file: FormData, opportunityID: string) => {
   return hieqService.post('/opportunity/add/description/' + opportunityID, file, {
