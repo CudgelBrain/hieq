@@ -34,7 +34,7 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
   });
 
   const [optionCount, setOptionCount] = React.useState<number>(1);
-  const [skillTitle, setskillTitle] = React.useState<OptionType>();
+  const [skillTitle, setskillTitle] = React.useState<OptionType[]>();
   React.useEffect(() => {
     getSkillData()
   }, []);
@@ -53,6 +53,15 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
       setOptionCount(optionCount - 1);
     }
   };
+  React.useEffect(() => {
+    let newOptions: OptionType[] = []
+    fields.map(item => {
+      newOptions.push(createOption(item.title))
+    })
+    if (!isEmpty(newOptions)) {
+      setskillTitle(newOptions)
+    }
+  }, [])
 
   return (
     <div className='form-group col-sm-12'>
@@ -76,10 +85,11 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
                     control={control}
                     name={`skills.${skillType}.${index}.title`}
                     render={({ field: { onChange, value, name } }) => {
-                      if (!skillTitle) {
-                        setskillTitle(createOption(value))
+                      // if (!skillTitle) {
 
-                      }
+                      //   setskillTitle(createOption(value))
+
+                      // }
                       // console.log(value, name, skillTitle);
                       // console.log("load", loadSkillTitles);
                       // console.log("data", getSkillTitles);
@@ -87,7 +97,9 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
 
 
                       const handleOnchange = (option: SingleValue<OptionType>) => {
-                        setskillTitle(option ? option : skillTitle)
+                        let titles: OptionType[] = skillTitle ? skillTitle : []
+                        titles[index] = option ? option : { label: "", value: "" }
+                        setskillTitle([...titles])
                         onChange(option?.value);
                       }
                       const handleInputChange = (inputValue: any) => {
@@ -102,7 +114,8 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
                           name={name}
                           isSearchable={true}
                           styles={selectStyle}
-                          value={getSkillTitles.find((c) => c.value == value)}
+                          value={skillTitle && skillTitle[index]}
+                          // value={getSkillTitles.find((c) => c.value == value)}
                           onChange={handleOnchange}
                           // inputValue={value}
                           // onInputChange={handleInputChange}

@@ -68,70 +68,84 @@ const Opportunities: React.FC<Props> = ({ category, currentPage, setCurrentPage,
             </tr>
           </thead>
           <tbody>
-            {map(opportunities, ({ ID, stepOne, opportunityEndDate, category, status, view }, index) => (
-              <tr key={index}>
-                <td
-                  className='fw-500'
-                  onClick={() => history.push(`/employer/postOpportunity/${category}/${ID}`)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {stepOne.opportunityTitle}
-                </td>
-                <td className='fw-500'>{stepOne.opportunityDomain}</td>
-                <td className='fw-500'>
-                  <span className='cc-blue'>{capitalize(status)}</span>
-                </td>
-                <td className='fw-500'>{opportunityEndDate ? formatDate(opportunityEndDate, 'LLL d yyyy') : ""}</td>
-                {/* <td className='fw-500'>{formatDate(stepOne.opportunityEndDate, 'LLL d yyyy')}</td> */}
-                <td className='fw-500'>
-                  <button type='button' className='cc-link btn bg-transparent'>
-                    <img className='mr-1' src={viewIcon} height='15' alt='' />
-                    {view ?? 0}
-                  </button>
-                </td>
-                <td className='th-dt-wrapper'>
-                  <button
-                    type='button'
-                    className='th-dt-btn'
-                    onClick={() => handleActionButton(index as unknown as number)}
+            {status == "loading" ?
+              <tr className="cc-light bg-light">
+                <td colSpan={6} className="fw-500 text-center br-none"><div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div></td>
+              </tr> :
+              (!isEmpty(opportunities) ? map(opportunities, ({ ID, stepOne, opportunityEndDate, category, status, view }, index) => (
+                <tr key={index}>
+                  <td
+                    className='fw-500'
+                    onClick={() => history.push(`/employer/postOpportunity/${category}/${ID}`)}
+                    style={{ cursor: 'pointer' }}
                   >
-                    {status === 'loading' && currentAction === 'deleteOpportunity' && (
-                      <span className='spinner-border' role='status'></span>
+                    {stepOne.opportunityTitle}
+                  </td>
+                  <td className='fw-500'>{stepOne.opportunityDomain}</td>
+                  <td className='fw-500'>
+                    <span className='cc-blue'>{capitalize(status)}</span>
+                  </td>
+                  <td className='fw-500'>{opportunityEndDate ? formatDate(opportunityEndDate, 'LLL d yyyy') : ""}</td>
+                  {/* <td className='fw-500'>{formatDate(stepOne.opportunityEndDate, 'LLL d yyyy')}</td> */}
+                  <td className='fw-500'>
+                    <button type='button' className='cc-link btn bg-transparent'>
+                      <img className='mr-1' src={viewIcon} height='15' alt='' />
+                      {view ?? 0}
+                    </button>
+                  </td>
+                  <td className='th-dt-wrapper'>
+                    <button
+                      type='button'
+                      className='th-dt-btn'
+                      onClick={() => handleActionButton(index as unknown as number)}
+                    >
+                      {status === 'loading' && currentAction === 'deleteOpportunity' && (
+                        <span className='spinner-border' role='status'></span>
+                      )}
+                      {status !== 'loading' && currentAction === '' && (
+                        <img src={threeDotsIcon} height='24' alt='' />
+                      )}
+                    </button>
+                    {actionButtons[index as unknown as number] && (
+                      <div className='th-dt-list'>
+                        <button
+                          type='button'
+                          onClick={() => history.push(`/employer/postOpportunity/${category}/${ID}`)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type='button'
+                          onClick={() => handleDelete(index as unknown as number, ID, category)}
+                        >
+                          Delete
+                        </button>
+                      </div>
                     )}
-                    {status !== 'loading' && currentAction === '' && (
-                      <img src={threeDotsIcon} height='24' alt='' />
-                    )}
-                  </button>
-                  {actionButtons[index as unknown as number] && (
-                    <div className='th-dt-list'>
-                      <button
-                        type='button'
-                        onClick={() => history.push(`/employer/postOpportunity/${category}/${ID}`)}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type='button'
-                        onClick={() => handleDelete(index as unknown as number, ID, category)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )}
+                  </td>
+
+                </tr>
+              )) : <tr className='fw-500 text-center' >
+                <td colSpan={6}>
+                  Not Found
                 </td>
-              </tr>
-            ))}
+                <tr></tr>
+                <tr></tr>
+                <tr></tr>
+                <tr></tr>
+                <tr></tr>
+              </tr>)}
           </tbody>
         </table>
       </div>
-      {!isEmpty(opportunities) && totalPages !== currentPage && (
+      {!isEmpty(opportunities) && totalPages == currentPage && (
         <div className='col-md-12 text-center pt-3'>
-          {/* <button className='cb-btn cb-yellow' onClick={() => setCurrentPage(currentPage + 1)}>
+          <button className='cb-btn cb-yellow' onClick={() => history.push('/employer/search')}>
             {status === 'loading' && currentAction === 'listOpportunities' && (
               <span className='spinner-border' role='status'></span>
             )}
             {status !== 'loading' && currentAction === '' && <span>More Details</span>}
-          </button> */}
+          </button>
         </div>
       )}
     </div>

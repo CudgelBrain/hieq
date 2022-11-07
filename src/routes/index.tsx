@@ -51,6 +51,8 @@ import OpportunityConfirmantion from 'pages/employer/OpportunityConfirmation';
 import EmployerProfile from 'pages/employer/Profile';
 import EmployerDashboard from 'pages/employer/Dashboard';
 import PostOpportunity from 'pages/employer/PostOpportunity';
+import Opportunity from 'pages/employer/Opportunity';
+import NotFound from 'pages/employer/NotFound';
 
 const MainRoute = lazy(() => import('./MainRoute'));
 const AdminRoute = lazy(() => import('./AdminRoute'));
@@ -135,10 +137,12 @@ const AppRouter = () => {
 
           <MainRoute exact path='/employer/profile' component={EmployerProfile} />
           <MainRoute exact path='/employer/dashboard' component={EmployerDashboard} />
+          <MainRoute exact path='/employer' component={EmployerDashboard} />
           <MainRoute exact path='/employer/applicants' component={Applicants} />
           <MainRoute exact path='/employer/search' component={Search} />
           <MainRoute exact path='/employer/applicant/:applicantID' component={Applicant} />
           <MainRoute exact path='/employer/confirmation/:ID' component={OpportunityConfirmantion} />
+          <MainRoute exact path='/employer/postOpportunity' component={Opportunity} />
           <MainRoute
             exact
             path={[
@@ -147,6 +151,7 @@ const AppRouter = () => {
             ]}
             component={PostOpportunity}
           />
+          <MainRoute path="*" component={NotFound} />
         </Switch>
       </Suspense>
     </Router>

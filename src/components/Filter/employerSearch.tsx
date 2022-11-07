@@ -79,7 +79,7 @@ const EmployerSearchFilter = () => {
         setDomain([])
         setPercentage({ experience: 0, salary: 0 })
     }
-    console.log("hello", experience, category, employType, domain, salary, status);
+    // console.log("hello", experience, category, employType, domain, salary, status);
 
     return (
         <div className='rt-part'>
@@ -99,7 +99,7 @@ const EmployerSearchFilter = () => {
                             value={experience}
                             onChange={(value) => setPercentage({ ...percentage, experience: value as number })}
                         />
-                        {/* <span>{behavioral}</span> */}
+                        <span>{experience}</span>
                         <div className='rg-slider-text'>
                             <span className='small'>0</span>
                             <span className='small'>100</span>
@@ -109,11 +109,11 @@ const EmployerSearchFilter = () => {
                 <div className="filter-widget mt-4 pb-1">
                     <h3 className="filter-widget-heading mb-2">Opportunity Type</h3>
                     <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="ot1" name="" value="job" onClick={handleJob} />
+                        <input type="checkbox" className="custom-control-input" id="ot1" name="" checked={category.includes("job")} value="job" onClick={handleJob} />
                         <label className="custom-control-label" htmlFor="ot1">Job</label>
                     </div>
                     <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="ot2" name="" value="internship" onClick={handleJob} />
+                        <input type="checkbox" className="custom-control-input" id="ot2" name="" checked={category.includes("internship")} value="internship" onClick={handleJob} />
                         <label className="custom-control-label" htmlFor="ot2">Internship</label>
                     </div>
                     {/* <div className="custom-control custom-checkbox">
@@ -124,15 +124,15 @@ const EmployerSearchFilter = () => {
                 <div className="filter-widget mt-4 pb-1">
                     <h3 className="filter-widget-heading mb-2">Employment Type</h3>
                     <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="et1" name="" value="fullTime" onClick={handleEmployType} />
+                        <input type="checkbox" className="custom-control-input" id="et1" name="" checked={employType.includes("fullTime")} value="fullTime" onClick={handleEmployType} />
                         <label className="custom-control-label" htmlFor="et1">Full-time (4)</label>
                     </div>
                     <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="et2" name="" value="partTime" onClick={handleEmployType} />
+                        <input type="checkbox" className="custom-control-input" id="et2" name="" checked={employType.includes("partTime")} value="partTime" onClick={handleEmployType} />
                         <label className="custom-control-label" htmlFor="et2">Part-time (4)</label>
                     </div>
                     <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="et3" name="" value="contract" onClick={handleEmployType} />
+                        <input type="checkbox" className="custom-control-input" id="et3" name="" checked={employType.includes("contract")} value="contract" onClick={handleEmployType} />
                         <label className="custom-control-label" htmlFor="et3">Contract (4)</label>
                     </div>
                 </div>
@@ -140,7 +140,7 @@ const EmployerSearchFilter = () => {
                     <h3 className="filter-widget-heading mb-2">Domain(s)</h3>
                     {opportunityDomains.map((item) => (
                         <div className="custom-control custom-checkbox">
-                            <input type="checkbox" className="custom-control-input" id="dmn1" name="" value={item + ""} onClick={handleDomain} />
+                            <input type="checkbox" className="custom-control-input" id="dmn1" name="" checked={domain.includes(item + "")} value={item + ""} onClick={handleDomain} />
                             <label className="custom-control-label" htmlFor="dmn1">{item}</label>
                         </div>
                     ))}
@@ -165,11 +165,11 @@ const EmployerSearchFilter = () => {
                 <div className="filter-widget mt-4 pb-1">
                     <h3 className="filter-widget-heading mb-2">Status</h3>
                     <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="st1" name="" value="active" onClick={handleStatus} />
+                        <input type="checkbox" className="custom-control-input" id="st1" name="" checked={status.includes("active")} value="active" onClick={handleStatus} />
                         <label className="custom-control-label" htmlFor="st1">Active</label>
                     </div>
                     <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="st2" name="" value="draft" onClick={handleStatus} />
+                        <input type="checkbox" className="custom-control-input" id="st2" name="" checked={status.includes("draft")} value="draft" onClick={handleStatus} />
                         <label className="custom-control-label" htmlFor="st2">Under Review</label>
                     </div>
                     {/* <div className="custom-control custom-checkbox">
@@ -177,7 +177,7 @@ const EmployerSearchFilter = () => {
                         <label className="custom-control-label" htmlFor="st3">Rejected</label>
                     </div> */}
                     <div className="custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" id="st4" name="" value="closed" onClick={handleStatus} />
+                        <input type="checkbox" className="custom-control-input" id="st4" name="" checked={status.includes("closed")} value="closed" onClick={handleStatus} />
                         <label className="custom-control-label" htmlFor="st4">Closed</label>
                     </div>
                 </div>
@@ -190,7 +190,7 @@ const EmployerSearchFilter = () => {
                             value={salary}
                             onChange={(value) => setPercentage({ ...percentage, salary: value as number })}
                         />
-                        {/* <span>{behavioral}</span> */}
+                        <span>{salary}</span>
                         <div className='rg-slider-text'>
                             <span className='small'>0</span>
                             <span className='small'>10 Lack</span>

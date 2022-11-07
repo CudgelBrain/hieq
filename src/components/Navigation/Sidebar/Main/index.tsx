@@ -25,6 +25,7 @@ interface Props {
 
 const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFilter = false }) => {
   const dispatch = useAppDispatch();
+  const [viewer, setViewer] = React.useState<boolean>(true)
   const {
     profile: { name, email, phone },
   } = useAppProfile();
@@ -67,12 +68,12 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
     }),
     [profile],
   );
-
+  React.useEffect(() => { setViewer(!viewer) }, [searchFilter, isOpen])
 
   return (
-    <div className={`d-flex align-items-start ${!isOpen ? 'lt-wrapper' : ''}`}>
-      <div className={`lt-sec ${!isOpen ? 'lt-sec-short' : ''}`}>
-        {isOpen && (
+    <div className={`d-flex align-items-start ${(searchFilter || showFilter) || !isOpen ? 'lt-wrapper' : ''}`}>
+      <div className={`lt-sec ${(searchFilter || showFilter) || !isOpen ? 'lt-sec-short' : ''}`}>
+        {(!searchFilter && !showFilter) && isOpen && (
           <>
             <div className='comp-img mb-5'>
               <div className='cover-img'>
@@ -115,7 +116,7 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
               </NavLink>
             </li>
             <li>
-              <NavLink className='img-reflect selected' to={'/employer/postOpportunity'}>
+              <NavLink className='img-reflect selected' to={'/employer/postopportunity'}>
                 <img className='mr-2' src={plusFillImg} alt='' />
                 <span>Post Opportunity/Jobs</span>
               </NavLink>

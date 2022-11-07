@@ -98,6 +98,18 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
             !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.salaryDetail)
               ? opportunity.stepTwo.salaryDetail.variablePercentage
               : '',
+          variableType:
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.salaryDetail)
+              ? opportunity.stepTwo.salaryDetail.variableType
+              : 'fixed',
+          variableMax:
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.salaryDetail)
+              ? opportunity.stepTwo.salaryDetail.variableMax
+              : '',
+          variableMin:
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.salaryDetail)
+              ? opportunity.stepTwo.salaryDetail.variableMin
+              : '',
           cycle:
             !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.salaryDetail)
               ? opportunity.stepTwo.salaryDetail.cycle
@@ -544,37 +556,118 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                         {capitalize(errors.salaryDetail?.variable?.message)}
                       </div>
                     )}
-                    {/* {salaryDetail && salaryDetail.variable && ( */}
-                    <>
-                      <div className='form-row'>
-                        <div className='col-3'>
-                          <span className='note d-inline-block mb-1 mt-2'>
-                            Is there any variable compensation in addition to fixed compensation?
-                          </span>
-                        </div>
-                      </div>
-                      <div className='form-row'>
-                        <div className='col-2'>
-                          <div className='input-group ig-append'>
+                    {salaryDetail && salaryDetail.variable && (
+                      <>
+                        <div className='custom-inline'>
+                          <div className='custom-control custom-radio'>
                             <input
-                              type='text'
-                              className='form-control'
-                              placeholder='00.00'
-                              {...register('salaryDetail.variablePercentage')}
+                              type='radio'
+                              value='fixed'
+                              id='salaryDetails111'
+                              className='custom-control-input'
+                              {...register('salaryDetail.variableType')}
                             />
-                            <div className='input-group-append input-click'>
-                              <span className='input-group-text'>%</span>
-                            </div>
+                            <label className='custom-control-label' htmlFor='salaryDetails111'>
+                              Fixed
+                            </label>
                           </div>
-                          {errors.salaryDetail?.variablePercentage && (
-                            <div className='text-danger error mt-1'>
-                              {capitalize(errors.salaryDetail?.variablePercentage?.message)}
-                            </div>
-                          )}
+                          <div className='custom-control custom-radio'>
+                            <input
+                              type='radio'
+                              value='range'
+                              id='salaryDetails211'
+                              {...register('salaryDetail.variableType')}
+                              className='custom-control-input'
+                            />
+                            <label className='custom-control-label' htmlFor='salaryDetails211'>
+                              Range
+                            </label>
+                          </div>
                         </div>
-                      </div>
-                    </>
-                    {/* )} */}
+                        {errors?.salaryDetail?.variableType && (
+                          <div className='text-danger error mt-1'>
+                            {capitalize(errors.salaryDetail?.variableType?.message)}
+                          </div>
+                        )}
+                        {salaryDetail.variableType == "fixed" && (
+                          <>
+                            <div className='form-row'>
+                              <div className='col-3'>
+                                <span className='note d-inline-block mb-1 mt-2'>
+                                  Is there any variable compensation in addition to fixed compensation?
+                                </span>
+                              </div>
+                            </div>
+                            <div className='form-row'>
+                              <div className='col-2'>
+                                <div className='input-group ig-append'>
+                                  <input
+                                    type='text'
+                                    className='form-control'
+                                    placeholder='00.00'
+                                    {...register('salaryDetail.variablePercentage')}
+                                  />
+                                  <div className='input-group-append input-click'>
+                                    <span className='input-group-text'>%</span>
+                                  </div>
+                                </div>
+                                {errors.salaryDetail?.variablePercentage && (
+                                  <div className='text-danger error mt-1'>
+                                    {capitalize(errors.salaryDetail?.variablePercentage?.message)}
+                                  </div>
+                                )}
+                              </div>
+                            </div></>
+                        )}
+                        {salaryDetail.variableType == "range" && (
+                          <>
+                            <div className='form-row'>
+                              <div className='col-3'>
+                                <span className='note d-inline-block mb-1 mt-2'>
+                                  Is there any variable compensation in addition to fixed compensation?
+                                </span>
+                              </div>
+                            </div>
+                            <div className='form-row'>
+                              <div className='col-2'>
+                                <div className='input-group ig-append'>
+                                  <input
+                                    type='text'
+                                    className='form-control'
+                                    placeholder='00.00'
+                                    {...register('salaryDetail.variableMin')}
+                                  />
+                                  <div className='input-group-append input-click'>
+                                    <span className='input-group-text'>%</span>
+                                  </div>
+                                </div>
+                                {errors.salaryDetail?.variableMin && (
+                                  <div className='text-danger error mt-1'>
+                                    {capitalize(errors.salaryDetail?.variableMin?.message)}
+                                  </div>
+                                )}
+                                <div className='input-group ig-append'>
+                                  <input
+                                    type='text'
+                                    className='form-control'
+                                    placeholder='00.00'
+                                    {...register('salaryDetail.variableMax')}
+                                  />
+                                  <div className='input-group-append input-click'>
+                                    <span className='input-group-text'>%</span>
+                                  </div>
+                                </div>
+                                {errors.salaryDetail?.variableMax && (
+                                  <div className='text-danger error mt-1'>
+                                    {capitalize(errors.salaryDetail?.variableMax?.message)}
+                                  </div>
+                                )}
+                              </div>
+                            </div></>
+
+                        )}
+                      </>
+                    )}
                   </div>
                   <div className='form-group col-12'>
                     <label className='label'>Additional Details such as Flexible Work Hours</label>

@@ -116,7 +116,10 @@ interface salaryDetail {
   fixedAmount?: number;
   maxAmount?: number;
   minAmount?: number;
-  variable: boolean;
+  variable?: boolean;
+  variableType?: string;
+  variableMax?: number;
+  variableMin?: number;
   variablePercentage?: number;
   additionalDetail: string;
   visibleToCandidate: boolean;
@@ -142,8 +145,25 @@ const salaryDetailSchema = {
     otherwise: yup.number().notRequired(),
   }),
   variable: yup.boolean().required('Variable is required'),
-  variablePercentage: yup.number().when('variable', {
-    is: true,
+  variableType: yup.string().required('Variable type is required'),
+  variablePercentage: yup.number().when('variableType', {
+    is: "fixed",
+    then: yup
+      .number()
+      .typeError('Variable percentage is not valid')
+      .required('Variable percentage is required'),
+    otherwise: yup.number().notRequired(),
+  }),
+  variableMax: yup.number().when('variableType', {
+    is: "range",
+    then: yup
+      .number()
+      .typeError('Variable percentage is not valid')
+      .required('Variable percentage is required'),
+    otherwise: yup.number().notRequired(),
+  }),
+  variableMin: yup.number().when('variableType', {
+    is: "range",
     then: yup
       .number()
       .typeError('Variable percentage is not valid')

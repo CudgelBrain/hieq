@@ -107,8 +107,8 @@ const StepOne: React.FC<Props> = ({
           : 'office',
       // }),
       opportunityEndDate:
-        !isEmpty(opportunity.stepOne) && !isEmpty(opportunity.stepOne.opportunityEndDate)
-          ? new Date(opportunity.stepOne.opportunityEndDate)
+        !isEmpty(opportunity)
+          ? new Date(opportunity.opportunityEndDate)
           : addWeek(1),
       ...(category === 'competition' && {
         participation:
@@ -117,8 +117,8 @@ const StepOne: React.FC<Props> = ({
             : 'individual',
       }),
       opportunityStartDate:
-        !isEmpty(opportunity.stepOne) && !isEmpty(opportunity.stepOne.opportunityStartDate)
-          ? new Date(opportunity.stepOne.opportunityStartDate)
+        !isEmpty(opportunity)
+          ? new Date(opportunity.opportunityStartDate)
           : new Date(),
       ...(category === 'competition' && {
         teamComposition:
@@ -237,7 +237,7 @@ const StepOne: React.FC<Props> = ({
                   name='opportunityTitle'
                   render={({ field: { onChange } }) => {
                     const handleOnchange = (option: SingleValue<OptionType>) => {
-                      setOpportunityTitle(option ? option : opportunityTitle)
+                      setOpportunityTitle(option ? option : undefined)
                       onChange(option?.value);
                     }
                     return (
@@ -266,20 +266,22 @@ const StepOne: React.FC<Props> = ({
                   control={control}
                   name='opportunityDomain'
                   render={({ field: { onChange, value, name } }) => {
+
                     const handleOnchange = (option: SingleValue<OptionType>) => {
-                      setopportunityDomain(option ? option : opportunityDomain)
+                      setopportunityDomain(option ? option : undefined)
                       onChange(option?.value);
                     }
                     return (
                       <AsyncSelect
                         isClearable
-                        cacheOptions
+                        // cacheOptions
                         styles={selectStyle}
                         value={opportunityDomain}
                         onChange={handleOnchange}
                         loadOptions={loadOpportunityDomains}
                         placeholder='Select opportunity domain'
-                        components={{ IndicatorSeparator: () => null }}
+                        components={{ DropdownIndicator: null }}
+                      // components={{ DropdownIndicator: null }}
                       />
                     );
                   }}
