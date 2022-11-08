@@ -14,6 +14,7 @@ import downArrowIcon from 'assets/images/down-arrow.svg';
 import Opportunities from '../dashboard/Opportunity';
 import moment from 'moment';
 import { DeleteOpportunity } from '../postOpportunity/postOpportunitySlice';
+import { setPageNo, setStatus } from 'features/employer/search/searchFilterSlice';
 
 const applicants = [
     {
@@ -58,6 +59,7 @@ const Search = () => {
         new Array(applicants.length).fill(false),
     );
     const [showOption, setShowOption] = React.useState<string>("")
+    const [statuss, setStatuss] = React.useState<string>("")
     const [actionButtons, setActionButtons] = React.useState<boolean[]>(
         new Array(size(opportunities)).fill(false),
     );
@@ -101,6 +103,15 @@ const Search = () => {
             setShowOption(id)
         }
     }
+    const handleStatusChange = (e: React.FormEvent<EventTarget>): void => {
+        let target = e.target as HTMLInputElement;
+        setStatuss(target.value)
+        if (target.value == "") {
+            dispatch(setStatus([]))
+        } else {
+            dispatch(setStatus([target.value]))
+        }
+    }
 
     return (
         <div className='col-md-12 pt-4 pb-2'>
@@ -116,10 +127,11 @@ const Search = () => {
                                     Export
                                 </button> */}
                                 <div>
-                                    <select className='btn-yl btn '>
+                                    <select className='btn-yl btn' value={statuss} onChange={handleStatusChange}>
+                                        <option value="">select status</option>
                                         <option value="active">Active</option>
                                         <option value="draft">Draft</option>
-                                        <option selected value="closed">Closed</option>
+                                        <option value="closed">Closed</option>
                                     </select>
 
                                 </div>
@@ -200,43 +212,7 @@ const Search = () => {
                                                 <button>Edit</button>
                                                 <button>Delete</button>
                                             </div></td>
-                                    </tr>
-                                     <tr>
-                                        <td className="fw-500">Email Marketing &amp; Copywriting</td>
-                                        <td>Competitions</td>
-                                        <td className="fw-500">Sales &amp; Marketing</td>
-                                        <td className="fw-500"><span className="cc-yellow">Under Review</span></td>
-                                        <td className="fw-500">Jul 12, 2022</td>
-                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src={viewDark} height="15" alt="" />10</a></td>
-                                        <td><button className="text-link"><img src={threeDots} height="24" alt="" /></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td className="fw-500">Full Stack Developer</td>
-                                        <td>Jobs</td>
-                                        <td className="fw-500">Sales &amp; Marketing</td>
-                                        <td className="fw-500"><span className="cc-red">Rejected</span></td>
-                                        <td className="fw-500">Jul 12, 2022</td>
-                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src={viewDark} height="15" alt="" />10</a></td>
-                                        <td><button className="text-link"><img src={threeDots} height="24" alt="" /></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td className="fw-500">Business Development</td>
-                                        <td>Jobs</td>
-                                        <td className="fw-500">Finance</td>
-                                        <td className="fw-500"><span className="cc-green">Active</span></td>
-                                        <td className="fw-500">Jul 12, 2022</td>
-                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src={viewDark} height="15" alt="" />10</a></td>
-                                        <td><button className="text-link"><img src={threeDots} height="24" alt="" /></button></td>
-                                    </tr>
-                                    <tr className="cc-light bg-light">
-                                        <td className="fw-500">Ops. &amp; Logistics</td>
-                                        <td>Jobs</td>
-                                        <td className="fw-500">Sales Execuitve</td>
-                                        <td className="fw-500"><span className="cc-light">closed</span></td>
-                                        <td className="fw-500">Jul 12, 2022</td>
-                                        <td className="fw-500"><a href="#" className="cc-link"><img className="mr-1" src={viewDark} height="15" alt="" />10</a></td>
-                                        <td><button className="text-link"><img src="/assets/images/dots-three.svg" height="24" alt="" /></button></td>
-                                    </tr> */}
+                                    </tr>*/}
                                 </tbody>
                             </table>
                         </div>

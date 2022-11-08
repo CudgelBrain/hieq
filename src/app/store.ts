@@ -26,7 +26,7 @@ import roleInstituteReducer from 'features/admin/roleInstitute/roleInstituteSlic
 import questionCategoryReducer from 'features/admin/questionCategory/questionCategorySlice';
 import roleHiringProcessReducer from 'features/admin/roleHiringProcess/roleHiringProcessSlice';
 import sampleDescriptionReducer from 'features/admin/sampleDescription/sampleDescriptionSlice';
-// import searchFilter from 'features/employer/search/searchFilterSlice';
+import searchFilter from 'features/employer/search/searchFilterSlice';
 
 import postOpportunityReducer from 'features/employer/postOpportunity/postOpportunitySlice';
 
@@ -59,7 +59,7 @@ export const store = configureStore({
     questionCategory: questionCategoryReducer,
     roleHiringProcess: roleHiringProcessReducer,
     sampleDescription: sampleDescriptionReducer,
-    // searchFilter: searchFilter,
+    searchFilter: searchFilter,
   },
 });
 

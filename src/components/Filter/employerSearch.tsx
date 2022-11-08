@@ -1,11 +1,12 @@
 import React from 'react';
+import { RootState } from 'app/store';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { listDomains } from 'features/admin/domain/itemAPI';
 import { capitalize, forEach, isEmpty, map, orderBy, debounce } from 'lodash';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { ListSearchFilteredOpportunities, } from 'features/employer/postOpportunity/postOpportunitySlice';
-
+import { setPageNo, setStatus } from 'features/employer/search/searchFilterSlice';
 
 let opportunityDomains: readonly String[] = [];
 const getOpportunityDomains = async () => {
@@ -14,11 +15,15 @@ const getOpportunityDomains = async () => {
 };
 const EmployerSearchFilter = () => {
     const dispatch = useAppDispatch();
+    const {
+        status,
+        pageNo
+    } = useAppSelector((state: RootState) => state.searchFilter);
     const [employType, setEmployType] = React.useState<string[]>([])
     const [category, setCategory] = React.useState<string[]>([])
     const [domain, setDomain] = React.useState<string[]>([])
     // const [salary, setSalary] = React.useState<string[]>([])
-    const [status, setStatus] = React.useState<string[]>([])
+    // const [status, setStatus] = React.useState<string[]>([])
     const [percentage, setPercentage] = React.useState({
         experience: 0,
         salary: 0,
@@ -66,9 +71,10 @@ const EmployerSearchFilter = () => {
     const handleStatus = (e: React.FormEvent<EventTarget>): void => {
         let target = e.target as HTMLInputElement;
         if (target.checked) {
-            setStatus([...status, target.value])
+            // setStatus([...status, target.value])
+            dispatch(setStatus([...status, target.value]))
         } else {
-            setStatus(status.filter((item) => item !== target.value))
+            dispatch(setStatus(status.filter((item) => item !== target.value)))
         }
     }
     const setInitialState = () => {
