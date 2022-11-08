@@ -44,7 +44,7 @@ const PostOpportunity = () => {
   }, [opportunity]);
 
   return (
-    <div className='col-md-12 lt-sec-pd pt-4 pb-2'>
+    <div className='col-md-12 pt-4 pb-2'>
       <Tittle title={`Post a ${capitalize(category)}`} />
       {!isEmpty(opportunityID) && status === 'loading' && <div>Loading...</div>}
       <>

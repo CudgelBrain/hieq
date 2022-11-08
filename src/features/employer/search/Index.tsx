@@ -103,7 +103,7 @@ const Search = () => {
     }
 
     return (
-        <div className='col-md-12 lt-sec-pd pt-4 pb-2'>
+        <div className='col-md-12 pt-4 pb-2'>
             <Tittle title='Opportunity Search' subTitle='' />
             <div className='box-container mb-4'>
                 <div className='box-container-inner'>
@@ -111,6 +111,18 @@ const Search = () => {
                         <div className='col-md-5 bc-heading'>{`Total Applications: ${totalItems}`}</div>
                         <div className='col-md-7'>
                             <div className='d-flex align-items-center cc-cal justify-content-end'>
+                                {/* <button type='submit' className='cb-btn btn-excel'>
+                                    <img className='mr-2' src={excelIcon} height='22' alt='' />
+                                    Export
+                                </button> */}
+                                <div>
+                                    <select className='btn-yl btn '>
+                                        <option value="active">Active</option>
+                                        <option value="draft">Draft</option>
+                                        <option selected value="closed">Closed</option>
+                                    </select>
+
+                                </div>
                                 <div className='input-group ml-2'>
                                     <div className='input-group-prepend'>
                                         <span className='input-group-text'>

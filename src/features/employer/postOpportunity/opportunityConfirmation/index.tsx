@@ -39,7 +39,7 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
     };
 
     return (
-        <div className="col-md-12 lt-sec-pd pt-4 pb-2">
+        <div className="col-md-12 pt-4 pb-2">
             <div className="text-left mb-4">
                 <div className="pg-title">Post a Job</div>
                 <div className="lead">Need assistance? Please visit <a href="#" className="link">Help Center</a></div>
@@ -85,11 +85,11 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                                 </li>
                                 <li>
                                     <div className="tb-head">Start Date & Time</div>
-                                    <div className="tb-data">{opportunity?.stepOne.opportunityStartDate}</div>
+                                    <div className="tb-data">{opportunity?.opportunityStartDate}</div>
                                 </li>
                                 <li>
                                     <div className="tb-head">End Date & Time</div>
-                                    <div className="tb-data">{opportunity?.stepOne.opportunityEndDate}</div>
+                                    <div className="tb-data">{opportunity?.opportunityEndDate}</div>
                                 </li>
                             </ul>
                         </div>
@@ -125,7 +125,11 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                                         </li>
                                         <li>
                                             <div className="tb-head">Salary Details</div>
-                                            <div className="tb-data">{`${opportunity?.stepTwo.salaryDetail.fixedAmount} (Per ${opportunity?.stepTwo.salaryDetail.cycle})`}</div>
+                                            {opportunity?.stepTwo.salaryDetail.salaryType == "fixed" ?
+                                                <div className="tb-data">{`${opportunity?.stepTwo.salaryDetail.fixedAmount} (Per ${opportunity?.stepTwo.salaryDetail.cycle})`}</div>
+                                                :
+                                                <div className="tb-data">{`${opportunity?.stepTwo.salaryDetail.minAmount} To ${opportunity?.stepTwo.salaryDetail.maxAmount} (Per ${opportunity?.stepTwo.salaryDetail.cycle})`}</div>
+                                            }
                                         </li>
                                         <li>
                                             <div className="tb-head">Currency</div>
@@ -133,12 +137,16 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                                         </li>
                                         <li>
                                             <div className="tb-head">Does it include variable component?</div>
-                                            <div className="tb-data">{opportunity?.stepTwo.salaryDetail.variablePercentage} (Yes)</div>
+                                            {opportunity?.stepTwo.salaryDetail.variableType == "fixed" ?
+                                                <div className="tb-data">{opportunity?.stepTwo.salaryDetail.variablePercentage} {opportunity?.stepTwo.salaryDetail.variable ? `(Yes)` : `(No)`}</div>
+                                                :
+                                                <div className="tb-data">{opportunity?.stepTwo.salaryDetail.variableMin} To {opportunity?.stepTwo.salaryDetail.variableMax} {opportunity?.stepTwo.salaryDetail.variable ? `(Yes)` : `(No)`}</div>
+                                            }
                                         </li>
-                                        <li>
+                                        {/* <li>
                                             <div className="tb-head">Total CTC</div>
                                             <div className="tb-data">4,50,000</div>
-                                        </li>
+                                        </li> */}
                                         <li>
                                             <div className="tb-head">Additional Details such as Flexible Work Hours</div>
                                             <div className="tb-data" dangerouslySetInnerHTML={{ __html: opportunity?.stepTwo.salaryDetail.additionalDetail ? opportunity?.stepTwo.salaryDetail.additionalDetail : "" }}>

@@ -27,7 +27,14 @@ const MainRoute: React.FC<Props> = (props) => {
   const [mode, setMode] = React.useState<string>('light');
   const [defaultSidebarState, defaultFilterState, searchFilterState] = parsePath(path as string);
   const [sidebarState, setSidebarState] = React.useState(defaultSidebarState);
-
+  const [closeSideBar, setCloseSideBar] = React.useState(true)
+  React.useEffect(() => {
+    if (defaultSidebarState || defaultFilterState || searchFilterState) {
+      setCloseSideBar(true)
+    } else {
+      setCloseSideBar(false)
+    }
+  }, [defaultSidebarState, defaultFilterState, searchFilterState])
   if (isAuthenticated()) {
     return (
       <div className={`dash-wrapper emp-panel ${mode === 'dark' ? 'dark-mode' : ''}`}>
@@ -42,7 +49,9 @@ const MainRoute: React.FC<Props> = (props) => {
             <div className='container-fluid'>
               <div className='row position-relative'>
                 <Sidebar isOpen={sidebarState} showFilter={defaultFilterState} searchFilter={searchFilterState} />
-                <Route {...props} />
+                <div className={(searchFilterState || defaultFilterState) || sidebarState ? 'col-md-12 lt-sec-pd' : 'col-md-12 rha'}>
+                  <Route {...props} />
+                </div>
               </div>
             </div>
           </section>

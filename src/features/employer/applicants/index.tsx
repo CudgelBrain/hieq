@@ -66,7 +66,7 @@ const Applicants = () => {
   };
 
   return (
-    <div className='col-md-12 lt-sec-pd pt-4 pb-2'>
+    <div className='col-md-12 pt-4 pb-2'>
       <Tittle title='Functional' subTitle='(Sales &amp; Marketing)' />
       <div className='box-container mb-4'>
         <div className='box-container-inner'>
