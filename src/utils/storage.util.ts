@@ -27,6 +27,9 @@ export const getToken = () => {
 export const getRefreshToken = () => {
   return getItemFromStorage(LOCAL_STORAGE_REFRESH_TOKEN);
 };
+export const getUserType = () => {
+  return getItemFromStorage("userType");
+};
 
 export const clearTokens = () => {
   removeItemFromStorage(LOCAL_STORAGE_TOKEN);

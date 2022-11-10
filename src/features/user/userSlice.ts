@@ -66,6 +66,7 @@ export const GetProfile = (): AppThunk => async (dispatch) => {
     dispatch(onStart());
     const { data } = await getProfile();
     dispatch(setProfile(data));
+    localStorage.setItem("userType", data.userType);
   } catch (error: any) {
     dispatch(setStatus(error?.response?.data?.status));
     dispatch(setMessage(error?.response?.data?.error));
