@@ -107,7 +107,7 @@ const StepOne: React.FC<Props> = ({
           : 'office',
       // }),
       opportunityEndDate:
-        !isEmpty(opportunity)
+        !isEmpty(opportunity) && opportunity.opportunityEndDate
           ? new Date(opportunity.opportunityEndDate)
           : addWeek(1),
       ...(category === 'competition' && {
@@ -117,7 +117,7 @@ const StepOne: React.FC<Props> = ({
             : 'individual',
       }),
       opportunityStartDate:
-        !isEmpty(opportunity)
+        !isEmpty(opportunity) && opportunity.opportunityStartDate
           ? new Date(opportunity.opportunityStartDate)
           : new Date(),
       ...(category === 'competition' && {
