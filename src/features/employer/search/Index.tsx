@@ -126,7 +126,7 @@ const Search = () => {
                                     <img className='mr-2' src={excelIcon} height='22' alt='' />
                                     Export
                                 </button> */}
-                                <div>
+                                {/* <div>
                                     <select className='btn-yl btn' value={statuss} onChange={handleStatusChange}>
                                         <option value="">select status</option>
                                         <option value="active">Active</option>
@@ -134,7 +134,7 @@ const Search = () => {
                                         <option value="closed">Closed</option>
                                     </select>
 
-                                </div>
+                                </div> */}
                                 <div className='input-group ml-2'>
                                     <div className='input-group-prepend'>
                                         <span className='input-group-text'>

@@ -8,6 +8,7 @@ import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Controller } from 'react-hook-form';
 import { AddMedia } from 'features/admin/faqQuestion/faqQuestionAPI';
 import { CKEditor } from 'ckeditor4-react';
+import { config } from 'process';
 interface Props {
   control?: any;
   name?: string;
@@ -67,6 +68,13 @@ const TextEditor = ({ valueChange, value }: Props) => {
     <>
       <CKEditor
         initData={value}
+        config={{
+          extraPlugins: 'easyimage',
+          removePlugins: 'image',
+          cloudServices_uploadUrl: 'https://33333.cke-cs.com/easyimage/upload/',
+          cloudServices_tokenUrl:
+            'https://33333.cke-cs.com/token/dev/ijrDsqFix838Gh3wGO3F77FSW94BwcLXprJ4APSp3XQ26xsUHTi0jcb1hoBt'
+        }}
         onChange={(editor) => {
           let data = editor.editor.getData()
 

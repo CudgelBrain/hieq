@@ -81,6 +81,7 @@ const EmployerSearchFilter = () => {
         // setSalary([])
         setEmployType([])
         setStatus([])
+        dispatch(setStatus([]))
         setCategory([])
         setDomain([])
         setPercentage({ experience: 0, salary: 0 })
@@ -176,7 +177,7 @@ const EmployerSearchFilter = () => {
                     </div>
                     <div className="custom-control custom-checkbox">
                         <input type="checkbox" className="custom-control-input" id="st2" name="" checked={status.includes("draft")} value="draft" onClick={handleStatus} />
-                        <label className="custom-control-label" htmlFor="st2">Under Review</label>
+                        <label className="custom-control-label" htmlFor="st2">Draft</label>
                     </div>
                     {/* <div className="custom-control custom-checkbox">
                         <input type="checkbox" className="custom-control-input" id="st3" name="" value="rejected" onClick={handleStatus} />
@@ -187,7 +188,7 @@ const EmployerSearchFilter = () => {
                         <label className="custom-control-label" htmlFor="st4">Closed</label>
                     </div>
                 </div>
-                <div className='filter-widget mt-4 pb-1 sr-green'>
+                {/* <div className='filter-widget mt-4 pb-1 sr-green'>
                     <h3 className='filter-widget-heading mb-2'>Experience</h3>
                     <div className='slidecontainer'>
                         <Slider
@@ -202,7 +203,7 @@ const EmployerSearchFilter = () => {
                             <span className='small'>10 Lack</span>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 {/* <div className="filter-widget mt-4 pb-1">
                     <h3 className="filter-widget-heading mb-2">Salary Range</h3>
                     <div className="custom-control custom-checkbox">
