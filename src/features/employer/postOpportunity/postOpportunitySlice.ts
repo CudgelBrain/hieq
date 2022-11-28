@@ -41,12 +41,12 @@ export const OpportunityStepOneSchema = yup
       then: yup.string().required('Location type is required'),
       otherwise: yup.string().notRequired(),
     }),
-    locations: yup
-      .array()
-      .of(yup.string().required('Location is required'))
-      .min(1)
-      .max(10)
-      .required(),
+    // locations: yup
+    //   .array()
+    //   .of(yup.string().required('Location is required'))
+    //   .min(1)
+    //   .max(10)
+    //   .required(),
     openings: yup.number().typeError('Opening is not valid').required('Opening is required'),
     opportunityStartDate: yup.string().min(2).max(100).required('Start date is required'),
     opportunityEndDate: yup.string().min(2).max(100).required('End date is required'),

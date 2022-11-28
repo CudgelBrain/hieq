@@ -2,6 +2,8 @@ import React, { KeyboardEventHandler } from 'react';
 import { matchSorter } from 'match-sorter';
 import { capitalize, forEach, isEmpty, map, orderBy, debounce } from 'lodash';
 import AsyncSelect from 'react-select/async';
+import CreatableSelect from 'react-select/creatable';
+import AsyncCreatableSelect from 'react-select/async-creatable'
 import { SingleValue, OnChangeValue } from 'react-select';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from 'react-hook-form';
@@ -129,6 +131,7 @@ const StepOne: React.FC<Props> = ({
     }),
     [category, opportunity.stepOne],
   );
+
   const {
     watch,
     reset,
@@ -143,6 +146,7 @@ const StepOne: React.FC<Props> = ({
   const [opportunityTitle, setOpportunityTitle] = React.useState<OptionType>();
   const [opportunityDomain, setopportunityDomain] = React.useState<OptionType>();
   const [opportunityLocation, setOpportunityLocation] = React.useState<string>('');
+  const [locationType, setLocationType] = React.useState<string>("");
   const [opportunityLocations, setOpportunityLocations] = React.useState<OptionType[]>([]);
   const [startDate, endDate] = [watch('opportunityStartDate'), watch('opportunityEndDate')];
   const { status, message, currentAction } = useAppSelector(
@@ -154,9 +158,14 @@ const StepOne: React.FC<Props> = ({
       reset(defaultValues);
       setOpportunityTitle(createOption(opportunity.stepOne.opportunityTitle));
       setopportunityDomain(createOption(opportunity.stepOne.opportunityDomain));
-      setOpportunityLocations(
-        map(opportunity.stepOne.locations, (location: unknown) => createOption(location as string)),
-      );
+      setLocationType(opportunity.stepOne.locationType)
+      if (opportunity.stepOne.locationType == "WFH") {
+        setOpportunityLocations([])
+      } else {
+        setOpportunityLocations(
+          map(opportunity.stepOne.locations, (location: unknown) => createOption(location as string)),
+        );
+      }
     }
   }, [defaultValues, inEditMode, opportunity.stepOne, reset]);
 
@@ -197,7 +206,6 @@ const StepOne: React.FC<Props> = ({
   }, 500);
 
   const handleOnSubmit = (data: OpportunityStepOne) => {
-    console.log(data);
     let endDate: string = moment(data.opportunityEndDate).format("YYYY-MM-DD")
     let startDate: string = moment(data.opportunityStartDate).format("YYYY-MM-DD")
     const formData = new FormData();
@@ -219,7 +227,7 @@ const StepOne: React.FC<Props> = ({
     );
   };
 
-  //console.log('stepOne', { errors, defaultValues });
+  // console.log('stepOne', register('opportunityType'));
 
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)}>
@@ -241,7 +249,7 @@ const StepOne: React.FC<Props> = ({
                       onChange(option?.value);
                     }
                     return (
-                      <AsyncSelect
+                      <AsyncCreatableSelect
                         isClearable
                         isSearchable={true}
                         styles={selectStyle}
@@ -250,6 +258,7 @@ const StepOne: React.FC<Props> = ({
                         loadOptions={loadOpportunityTitles}
                         placeholder='Select opportunity title'
                         components={{ DropdownIndicator: null }}
+                        defaultOptions
                       />
                     );
                   }}
@@ -281,7 +290,7 @@ const StepOne: React.FC<Props> = ({
                         loadOptions={loadOpportunityDomains}
                         placeholder='Select opportunity domain'
                         components={{ DropdownIndicator: null }}
-                      // components={{ DropdownIndicator: null }}
+                        defaultOptions
                       />
                     );
                   }}
@@ -351,6 +360,7 @@ const StepOne: React.FC<Props> = ({
                         value='office'
                         {...register('locationType')}
                         className='custom-control-input'
+                        onClick={() => setLocationType("office")}
                       />
                       <label className='custom-control-label' htmlFor='loctype1'>
                         In-Office only
@@ -363,6 +373,7 @@ const StepOne: React.FC<Props> = ({
                         value='WFH'
                         {...register('locationType')}
                         className='custom-control-input'
+                        onClick={() => { setOpportunityLocations([]); setLocationType("WFH"); }}
                       />
                       <label className='custom-control-label' htmlFor='loctype2'>
                         Work from home
@@ -375,6 +386,7 @@ const StepOne: React.FC<Props> = ({
                         value='hybrid'
                         {...register('locationType')}
                         className='custom-control-input'
+                        onClick={() => setLocationType("hybrid")}
                       />
                       <label className='custom-control-label' htmlFor='loctype3'>
                         Hybrid
@@ -389,59 +401,61 @@ const StepOne: React.FC<Props> = ({
                 </div>
               </>
             )}
-            <div className='form-row col-12'>
-              <div className='form-group col-6'>
-                <label className='label'>Work Location</label>
-                <Controller
-                  name='locations'
-                  control={control}
-                  render={({ field: { onChange, name } }) => {
-                    const handleChange = (value: OnChangeValue<OptionType, true>) => {
-                      setOpportunityLocations([...value]);
-                      onChange(value.map((v) => v.value));
-                    };
-                    const handleInputChange = (inputValue: string) =>
-                      setOpportunityLocation(inputValue);
-                    const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
-                      if (!opportunityLocation) return;
-                      switch (event.key) {
-                        case 'Tab':
-                        case 'Enter':
-                          setOpportunityLocation('');
-                          onChange([
-                            ...opportunityLocations.map((v) => v.value),
-                            opportunityLocation,
-                          ]);
-                          setOpportunityLocations([
-                            ...opportunityLocations,
-                            createOption(opportunityLocation),
-                          ]);
-                          event.preventDefault();
-                      }
-                    };
-                    return (
-                      <AsyncSelect
-                        isMulti
-                        isClearable
-                        cacheOptions
-                        styles={selectStyle}
-                        onChange={handleChange}
-                        loadOptions={loadCities}
-                        onKeyDown={handleKeyDown}
-                        value={opportunityLocations}
-                        inputValue={opportunityLocation}
-                        onInputChange={handleInputChange}
-                        components={{ DropdownIndicator: null }}
-                        placeholder='Select location and press enter or tab'
-                      />
-                    );
-                  }}
-                />
-                {errors.locations && (
-                  <div className='text-danger error mt-1'>{errors.locations[0]?.message}</div>
-                )}
-              </div>
-            </div>
+            {locationType !== "WFH" ?
+              <div className='form-row col-12'>
+                <div className='form-group col-6'>
+                  <label className='label'>Work Location</label>
+                  <Controller
+                    name='locations'
+                    control={control}
+                    render={({ field: { onChange, name } }) => {
+                      const handleChange = (value: OnChangeValue<OptionType, true>) => {
+                        setOpportunityLocations([...value]);
+                        onChange(value.map((v) => v.value));
+                      };
+                      const handleInputChange = (inputValue: string) =>
+                        setOpportunityLocation(inputValue);
+                      const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+                        if (!opportunityLocation) return;
+                        switch (event.key) {
+                          case 'Tab':
+                          case 'Enter':
+                            setOpportunityLocation('');
+                            onChange([
+                              ...opportunityLocations.map((v) => v.value),
+                              opportunityLocation,
+                            ]);
+                            setOpportunityLocations([
+                              ...opportunityLocations,
+                              createOption(opportunityLocation),
+                            ]);
+                            event.preventDefault();
+                        }
+                      };
+                      return (
+                        <AsyncSelect
+                          isMulti
+                          isClearable
+                          cacheOptions
+                          styles={selectStyle}
+                          onChange={handleChange}
+                          loadOptions={loadCities}
+                          onKeyDown={handleKeyDown}
+                          value={opportunityLocations}
+                          inputValue={opportunityLocation}
+                          onInputChange={handleInputChange}
+                          components={{ DropdownIndicator: null }}
+                          placeholder='Select location and press enter or tab'
+                          defaultOptions
+                        />
+                      );
+                    }}
+                  />
+                  {errors.locations && (
+                    <div className='text-danger error mt-1'>{errors.locations[0]?.message}</div>
+                  )}
+                </div>
+              </div> : <input type='hidden'  {...register('locations')} />}
             <div className='form-row col-12'>
               <div className='form-group col-2'>
                 <label className='label'>No. of Openings</label>

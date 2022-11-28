@@ -75,10 +75,13 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                                     <div className="tb-head">Location Type</div>
                                     <div className="tb-data">{opportunity?.stepOne.locationType}</div>
                                 </li>
-                                <li>
-                                    <div className="tb-head">Job Location</div>
-                                    <div className="tb-data">{opportunity?.stepOne.locations.map((item: string, index: number) => (index !== opportunity?.stepOne.locations.length - 1) ? `${item}, ` : `${item}`)}</div>
-                                </li>
+                                {
+                                    opportunity?.stepOne.locationType !== "WFH" ?
+                                        <li>
+                                            <div className="tb-head">Job Location</div>
+                                            <div className="tb-data">{opportunity?.stepOne.locations.map((item: string, index: number) => (index !== opportunity?.stepOne.locations.length - 1) ? `${item}, ` : `${item}`)}</div>
+                                        </li> : ""
+                                }
                                 <li>
                                     <div className="tb-head">No. of Openings</div>
                                     <div className="tb-data">{opportunity?.stepOne.openings}</div>
