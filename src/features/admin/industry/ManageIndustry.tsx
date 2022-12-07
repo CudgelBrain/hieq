@@ -2,25 +2,37 @@ import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppDispatch } from 'app/hooks';
-import { addSkill, editSkill, SkillForm, SkillSchema, Skill } from './skillSlice';
+import {
+  addIndustry,
+  editIndustry,
+  IndustryForm,
+  IndustrySchema,
+  Industry,
+} from './industrySlice';
 
 interface Props {
   status: string | number;
   message: string;
-  skill?: Skill;
+  industry?: Industry;
   actionType: string;
   onComplete?: () => void;
 }
 
-const ManageSkill: React.FC<Props> = ({ status, message, actionType, skill, onComplete }) => {
+const ManageIndustry: React.FC<Props> = ({
+  status,
+  message,
+  actionType,
+  industry,
+  onComplete,
+}) => {
   const {
     reset,
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SkillForm>({
-    defaultValues: useMemo(() => skill, [skill]),
-    resolver: yupResolver(SkillSchema),
+  } = useForm<IndustryForm>({
+    defaultValues: useMemo(() => industry, [industry]),
+    resolver: yupResolver(IndustrySchema),
   });
   const dispatch = useAppDispatch();
 
@@ -29,11 +41,11 @@ const ManageSkill: React.FC<Props> = ({ status, message, actionType, skill, onCo
     onComplete && onComplete();
   };
 
-  const submitForm = (formData: SkillForm) => {
+  const submitForm = (formData: IndustryForm) => {
     dispatch(
       actionType === 'add'
-        ? addSkill(formData, handleOnComplete)
-        : editSkill(skill!, formData, handleOnComplete),
+        ? addIndustry(formData, handleOnComplete)
+        : editIndustry(industry!, formData, handleOnComplete),
     );
   };
 
@@ -47,31 +59,14 @@ const ManageSkill: React.FC<Props> = ({ status, message, actionType, skill, onCo
         <div className='row'>
           <div className='col-md-12 form-group'>
             <label className='label'>
-              Skill Name <span className='required'>*</span>{' '}
+              Industry Name <span className='required'>*</span>{' '}
             </label>
             <input
               type='text'
               {...register('name')}
               className='form-control'
-              placeholder='Enter Skill Name..'
+              placeholder='Enter Industry Name..'
             />
-          </div>
-          <div className='col-md-12 form-group'>
-            <label className='label'>
-              Skill type <span className='required'>*</span>{' '}
-            </label>
-            <select {...register('type')} className='form-control custom-select'>
-              <option value=''>Select Type</option>
-              <option value="technical">
-                Technical
-              </option>
-              <option value="personal">
-                Personal
-              </option>
-              <option value="public">
-                Public
-              </option>
-            </select>
           </div>
           <div className='col-md-12'>
             <button type='submit' name='submit' id='submit' className='btn btn-primary custom-btn'>
@@ -85,4 +80,4 @@ const ManageSkill: React.FC<Props> = ({ status, message, actionType, skill, onCo
   );
 };
 
-export default ManageSkill;
+export default ManageIndustry;

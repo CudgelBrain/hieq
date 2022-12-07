@@ -89,7 +89,6 @@ const Attachments: React.FC<Props> = ({ control, register, errors, watch, setVal
                   <input
                     type='file'
                     id='inputGroupFile01'
-                    accept='application/pdf, image/jpeg'
                     aria-describedby='inputGroupFileAddon01'
                     className='custom-file-input form-control'
                     {...register(`attachments.${index}.file` as const, {

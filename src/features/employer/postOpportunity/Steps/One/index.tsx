@@ -38,7 +38,7 @@ const getOpportunityTitles = async () => {
 let cities: readonly OptionType[] = [];
 const getOpportunityLocation = async () => {
   const { data } = await listWorkLocations();
-  cities = map(data.items, ({ location }) => createOption(location));
+  cities = map(data.items, ({ location, country }) => createOption(`${location}, ${country}`));
 };
 
 let opportunityDomains: readonly OptionType[] = [];

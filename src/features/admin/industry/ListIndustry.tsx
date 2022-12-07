@@ -4,27 +4,34 @@ import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import Table from 'components/Table';
 import { RootState } from 'app/store';
-import ManageSkill from './ManageSkill';
+import ManageIndustry from './ManageIndustry';
 import CSVReader from 'components/CSVReader';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { addSkill, listSkills, Skill, deleteSkill } from './skillSlice';
+import {
+  addIndustry,
+  listIndustrys,
+  Industry,
+  deleteIndustry,
+} from './industrySlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-const ListSkills = () => {
+const ListIndustrys = () => {
   const dispatch = useAppDispatch();
   const [action, setAction] = useState<string>('list');
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [underAction, setUnderAction] = useState<Skill>();
-  const { skills, status, message } = useAppSelector((state: RootState) => state.skill);
+  const [underAction, setUnderAction] = useState<Industry>();
+  const { industrys, status, message } = useAppSelector(
+    (state: RootState) => state.industry,
+  );
 
   useEffect(() => {
-    dispatch(listSkills(handleComplete));
+    dispatch(listIndustrys(handleComplete));
   }, [dispatch]);
 
   const handleParse = (data: any, onComplete: () => void) => {
     setAction('csv');
-    dispatch(addSkill(flatten(data), handleComplete));
+    dispatch(addIndustry(flatten(data), handleComplete));
     onComplete();
   };
 
@@ -32,18 +39,18 @@ const ListSkills = () => {
     (ID: string) => {
       setShowModal(true);
       setAction('edit');
-      setUnderAction(skills[ID]);
+      setUnderAction(industrys[ID]);
     },
-    [skills],
+    [industrys],
   );
 
   const handleDelete = useCallback(
     (ID: string) => {
       setShowModal(true);
       setAction('delete');
-      setUnderAction(skills[ID]);
+      setUnderAction(industrys[ID]);
     },
-    [skills],
+    [industrys],
   );
 
   const handleComplete = () => {
@@ -68,7 +75,7 @@ const ListSkills = () => {
     [handleEdit, handleDelete],
   );
 
-  const skillColumns = useMemo(
+  const industryColumns = useMemo(
     () => [
       {
         Header: () => <div className='flex-grow-1 text-left pr-2'>S.No</div>,
@@ -77,13 +84,8 @@ const ListSkills = () => {
         disableFilters: true,
       },
       {
-        Header: () => <div className='flex-grow-1 text-left pr-2'>Skill Name</div>,
-        accessor: 'skill',
-        Cell: (row: any) => <div className='text-left'>{row.value}</div>,
-      },
-      {
-        Header: () => <div className='flex-grow-1 text-left pr-2'>Skill type</div>,
-        accessor: 'skillType',
+        Header: () => <div className='flex-grow-1 text-left pr-2'>Industry Name</div>,
+        accessor: 'industry',
         Cell: (row: any) => <div className='text-left'>{row.value}</div>,
       },
       {
@@ -96,31 +98,30 @@ const ListSkills = () => {
     [],
   );
 
-  const skillData = useMemo(
+  const industryData = useMemo(
     () =>
-      skills &&
-      Object.values(skills).map((skill, key) => {
+      industrys &&
+      Object.values(industrys).map((industry, key) => {
         return {
           sr: (key + 1).toString(),
-          skill: skill.name,
-          skillType: skill.type,
-          action: actionButtons(skill.ID),
+          industry: industry.name,
+          action: actionButtons(industry.ID),
         };
       }),
-    [skills, actionButtons],
+    [industrys, actionButtons],
   );
 
   const exportCSV = useMemo(
     () =>
-      skills &&
-      Object.values(skills).map((skill) => {
-        const { name, createdAt } = skill;
+      industrys &&
+      Object.values(industrys).map((industry) => {
+        const { name, createdAt } = industry;
         return {
           Name: name,
           'Added On': createdAt,
         };
       }),
-    [skills],
+    [industrys],
   );
 
   return (
@@ -128,7 +129,7 @@ const ListSkills = () => {
       <div className='container-fluid'>
         <div className='row'>
           <div className='col-md-6'>
-            <ManageSkill
+            <ManageIndustry
               status={action === 'add' ? status : ''}
               message={action === 'add' ? message : ''}
               actionType={action}
@@ -154,9 +155,9 @@ const ListSkills = () => {
               sorting={true}
               paginate={true}
               itemCount={true}
-              tableTitle='Skill List'
-              columns={skillColumns}
-              data={skillData ?? []}
+              tableTitle='Industry List'
+              columns={industryColumns}
+              data={industryData ?? []}
               exportCSV={exportCSV ?? []}
               status={action === 'list' ? status : ''}
               className='grid bg-white box-shadow-light br-20'
@@ -174,11 +175,11 @@ const ListSkills = () => {
           <Modal.Title>Edit/Update</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ManageSkill
+          <ManageIndustry
             status={action === 'edit' ? status : ''}
             message={action === 'edit' ? message : ''}
             actionType={action}
-            skill={underAction}
+            industry={underAction}
             onComplete={handleComplete}
           />
         </Modal.Body>
@@ -190,7 +191,7 @@ const ListSkills = () => {
         backdrop='static'
       >
         <Modal.Header closeButton>
-          <Modal.Title>Are you sure you want to delete this Skill?</Modal.Title>
+          <Modal.Title>Are you sure you want to delete this Industry?</Modal.Title>
         </Modal.Header>
         <Modal.Body className='text-right'>
           <Button variant='default outline-secondary' onClick={handleComplete}>
@@ -198,7 +199,7 @@ const ListSkills = () => {
           </Button>
           <Button
             variant='danger'
-            onClick={() => dispatch(deleteSkill(underAction!, handleComplete))}
+            onClick={() => dispatch(deleteIndustry(underAction!, handleComplete))}
           >
             {action === 'delete' && status === 'loading' && (
               <span className='spinner-border' role='status'></span>
@@ -211,4 +212,4 @@ const ListSkills = () => {
   );
 };
 
-export default ListSkills;
+export default ListIndustrys;

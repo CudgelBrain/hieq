@@ -69,11 +69,13 @@ const TextEditor = ({ valueChange, value }: Props) => {
       <CKEditor
         initData={value}
         config={{
+          allowedContent: true,
           extraPlugins: 'easyimage',
           removePlugins: 'image',
           cloudServices_uploadUrl: 'https://33333.cke-cs.com/easyimage/upload/',
           cloudServices_tokenUrl:
-            'https://33333.cke-cs.com/token/dev/ijrDsqFix838Gh3wGO3F77FSW94BwcLXprJ4APSp3XQ26xsUHTi0jcb1hoBt'
+            'https://33333.cke-cs.com/token/dev/ijrDsqFix838Gh3wGO3F77FSW94BwcLXprJ4APSp3XQ26xsUHTi0jcb1hoBt',
+          embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
         }}
         onChange={(editor) => {
           let data = editor.editor.getData()

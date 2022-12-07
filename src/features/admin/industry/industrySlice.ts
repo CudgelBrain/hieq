@@ -1,52 +1,54 @@
 import * as yup from 'yup';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'app/store';
-import { AddSkill, EditSkill, DeleteSkill, ListSkills } from './skillAPI';
+import {
+  AddIndustry,
+  EditIndustry,
+  DeleteIndustry,
+  ListIndustrys,
+} from './industryAPI';
 
-export interface SkillForm {
+export interface IndustryForm {
   name: string;
-  type: string
 }
-export interface Skill {
+export interface Industry {
   ID: string;
   name: string;
   createdAt: string;
-  type: string
 }
 
-export const SkillSchema = yup
+export const IndustrySchema = yup
   .object({
     name: yup.string().min(2).max(100).required(),
-    type: yup.string().required(),
   })
   .required();
 
 interface managerState {
-  skills: Record<string, Skill>;
+  industrys: Record<string, Industry>;
   status: string | number;
   message: string;
 }
 
 const initialState: managerState = {
-  skills: {},
+  industrys: {},
   status: 'idle',
   message: '',
 };
 
-export const skillSlice = createSlice({
-  name: 'skill',
+export const industrySlice = createSlice({
+  name: 'industry',
   initialState,
   reducers: {
     onStart(state) {
       state.status = 'loading';
     },
-    setSkills: (state, { payload }: PayloadAction<Record<string, any>>) => {
-      payload?.items.forEach((skill: Skill) => {
-        state.skills[skill.ID] = skill;
+    setIndustrys: (state, { payload }: PayloadAction<Record<string, any>>) => {
+      payload?.items.forEach((industry: Industry) => {
+        state.industrys[industry.ID] = industry;
       });
     },
-    resetSkills: (state) => {
-      state.skills = {};
+    resetIndustrys: (state) => {
+      state.industrys = {};
     },
     setStatus: (state, { payload }: PayloadAction<string | number>) => {
       state.status = payload;
@@ -61,22 +63,22 @@ export const skillSlice = createSlice({
   },
 });
 
-export const { setSkills, resetSkills, setStatus, setMessage, onStart, onStop } =
-  skillSlice.actions;
+export const { setIndustrys, resetIndustrys, setStatus, setMessage, onStart, onStop } =
+  industrySlice.actions;
 
-export default skillSlice.reducer;
+export default industrySlice.reducer;
 
-export const addSkill =
-  (formData: SkillForm | string[], onComplete: () => void): AppThunk =>
+export const addIndustry =
+  (formData: IndustryForm | string[], onComplete: () => void): AppThunk =>
     async (dispatch) => {
       try {
         dispatch(onStart());
         const { data, status } = Array.isArray(formData)
-          ? await AddSkill({ names: formData })
-          : await AddSkill(formData);
+          ? await AddIndustry({ names: formData, items: [] })
+          : await AddIndustry({ ...formData, items: [] });
         dispatch(setStatus(status));
-        dispatch(resetSkills());
-        dispatch(setSkills(data));
+        dispatch(resetIndustrys());
+        dispatch(setIndustrys(data));
       } catch (error: any) {
         dispatch(setStatus(error?.response?.data?.status));
         dispatch(setMessage(error?.response?.data?.error));
@@ -88,14 +90,14 @@ export const addSkill =
       }
     };
 
-export const editSkill =
-  ({ ID }: Skill, formData: SkillForm, onComplete: () => void): AppThunk =>
+export const editIndustry =
+  ({ ID }: Industry, formData: IndustryForm, onComplete: () => void): AppThunk =>
     async (dispatch) => {
       try {
         dispatch(onStart());
-        const { data } = await EditSkill(ID, formData);
-        dispatch(resetSkills());
-        dispatch(setSkills(data));
+        const { data } = await EditIndustry(ID, formData);
+        dispatch(resetIndustrys());
+        dispatch(setIndustrys(data));
       } catch (error: any) {
         dispatch(setStatus(error?.response?.data?.status));
         dispatch(setMessage(error?.response?.data?.error));
@@ -107,14 +109,14 @@ export const editSkill =
       }
     };
 
-export const deleteSkill =
-  ({ ID }: Skill, onComplete: () => void): AppThunk =>
+export const deleteIndustry =
+  ({ ID }: Industry, onComplete: () => void): AppThunk =>
     async (dispatch) => {
       try {
         dispatch(onStart());
-        const { data } = await DeleteSkill(ID);
-        dispatch(resetSkills());
-        dispatch(setSkills(data));
+        const { data } = await DeleteIndustry(ID);
+        dispatch(resetIndustrys());
+        dispatch(setIndustrys(data));
       } catch (error: any) {
         dispatch(setStatus(error?.response?.data?.status));
         dispatch(setMessage(error?.response?.data?.error));
@@ -126,14 +128,14 @@ export const deleteSkill =
       }
     };
 
-export const listSkills =
+export const listIndustrys =
   (onComplete: () => void): AppThunk =>
     async (dispatch) => {
       try {
         dispatch(onStart());
-        const { data } = await ListSkills();
-        dispatch(resetSkills());
-        dispatch(setSkills(data));
+        const { data } = await ListIndustrys();
+        dispatch(resetIndustrys());
+        dispatch(setIndustrys(data));
       } catch (error: any) {
         dispatch(setStatus(error?.response?.data?.status));
         dispatch(setMessage(error?.response?.data?.error));

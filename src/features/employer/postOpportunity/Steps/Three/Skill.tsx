@@ -15,10 +15,21 @@ const levels = [
   { value: 'Intermediate', label: 'Intermediate' },
   { value: 'Beginner', label: 'Beginner' },
 ];
-let getSkillTitles: readonly OptionType[] = [];
-const getSkillData = async () => {
+let getpersSkillTitles: readonly OptionType[] = [];
+let getTechSkillTitles: readonly OptionType[] = [];
+let getPubSkillTitles: readonly OptionType[] = [];
+const getSkillData = async (skillType: string) => {
   const { data } = await ListSkills();
-  getSkillTitles = map(data.items, ({ name }) => createOption(name));
+  if (skillType == "personal_skills") {
+    data.items = data.items.filter((item: any) => item.type == "personal")
+    getpersSkillTitles = map(data.items, ({ name }) => createOption(name));
+  } else if (skillType == "technical_skills") {
+    data.items = data.items.filter((item: any) => item.type == "technical")
+    getTechSkillTitles = map(data.items, ({ name }) => createOption(name));
+  } else {
+    data.items = data.items.filter((item: any) => item.type == "public")
+    getPubSkillTitles = map(data.items, ({ name }) => createOption(name));
+  }
 };
 interface Props {
   errors: any;
@@ -36,11 +47,18 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
   const [optionCount, setOptionCount] = React.useState<number>(1);
   const [skillTitle, setskillTitle] = React.useState<OptionType[]>();
   React.useEffect(() => {
-    getSkillData()
+    getSkillData(skillType)
   }, []);
-  // const loadSkillTitles = matchSorter(getSkillTitles, value, { keys: ['label'] })
-  const loadSkillTitles = debounce((value: string, callback) => {
-    const options = matchSorter(getSkillTitles, value, { keys: ['label'] });
+  const loadSkillPersTitles = debounce((value: string, callback) => {
+    const options = matchSorter(getpersSkillTitles, value, { keys: ['label'] });
+    callback(isEmpty(options) ? [] : options);
+  }, 500);
+  const loadSkillTechTitles = debounce((value: string, callback) => {
+    const options = matchSorter(getTechSkillTitles, value, { keys: ['label'] });
+    callback(isEmpty(options) ? [] : options);
+  }, 500);
+  const loadSkillPubTitles = debounce((value: string, callback) => {
+    const options = matchSorter(getPubSkillTitles, value, { keys: ['label'] });
     callback(isEmpty(options) ? [] : options);
   }, 500);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, index: number) => {
@@ -119,7 +137,7 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
                           onChange={handleOnchange}
                           // inputValue={value}
                           // onInputChange={handleInputChange}
-                          loadOptions={loadSkillTitles}
+                          loadOptions={skillType == "personal_skills" ? loadSkillPersTitles : skillType == "technical_skills" ? loadSkillTechTitles : loadSkillPubTitles}
                           placeholder='Name'
                           components={{ DropdownIndicator: null }}
                         />

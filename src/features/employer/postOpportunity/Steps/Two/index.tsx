@@ -110,6 +110,14 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
             !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.salaryDetail)
               ? opportunity.stepTwo.salaryDetail.variableMin
               : '',
+          variableCurrency:
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.salaryDetail)
+              ? opportunity.stepTwo.salaryDetail.variableCurrency
+              : 'INR',
+          variableCycle:
+            !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.salaryDetail)
+              ? opportunity.stepTwo.salaryDetail.variableCycle
+              : 'Month',
           cycle:
             !isEmpty(opportunity.stepTwo) && !isEmpty(opportunity.stepTwo.salaryDetail)
               ? opportunity.stepTwo.salaryDetail.cycle
@@ -311,7 +319,8 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                       <input
                         type='file'
                         id='inputGroupFile01'
-                        accept='application/pdf'
+                        accept='application/pdf,application/msword,image/*'
+                        data-max-size="6000"
                         onChange={(event) => {
                           handleDescUpload(event);
                         }}
@@ -589,16 +598,32 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                             {capitalize(errors.salaryDetail?.variableType?.message)}
                           </div>
                         )}
-                        {salaryDetail.variableType == "fixed" && (
-                          <>
-                            <div className='form-row'>
+                        <div className='form-row mt-2'>
+                          {salaryDetail.variableType == "fixed" && (
+                            <>
+                              {/* <div className='form-row'>
                               <div className='col-3'>
                                 <span className='note d-inline-block mb-1 mt-2'>
                                   Is there any variable compensation in addition to fixed compensation?
                                 </span>
                               </div>
-                            </div>
-                            <div className='form-row'>
+                            </div> */}
+
+                              <div className='form-group col-2'>
+                                <input
+                                  type='text'
+                                  className='form-control'
+                                  placeholder='00.00'
+                                  {...register('salaryDetail.variablePercentage')}
+                                />
+                                {errors.salaryDetail?.variablePercentage && (
+                                  <div className='text-danger error mt-1'>
+                                    {capitalize(errors.salaryDetail?.variablePercentage?.message)}
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* <div className='form-row'>
                               <div className='col-2'>
                                 <div className='input-group ig-append'>
                                   <input
@@ -617,55 +642,138 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                                   </div>
                                 )}
                               </div>
-                            </div></>
-                        )}
-                        {salaryDetail.variableType == "range" && (
-                          <>
-                            <div className='form-row'>
-                              <div className='col-3'>
-                                <span className='note d-inline-block mb-1 mt-2'>
-                                  Is there any variable compensation in addition to fixed compensation?
-                                </span>
-                              </div>
-                            </div>
-                            <div className='form-row'>
-                              <div className='col-2'>
-                                <div className='input-group ig-append'>
-                                  <input
-                                    type='text'
-                                    className='form-control'
-                                    placeholder='00.00'
-                                    {...register('salaryDetail.variableMin')}
-                                  />
-                                  <div className='input-group-append input-click'>
-                                    <span className='input-group-text'>%</span>
-                                  </div>
+                            </div> */}
+                            </>
+                          )}
+                          {salaryDetail.variableType == "range" && (
+                            <>
+                              {/* <div className='form-row'>
+                                <div className='col-3'>
+                                  <span className='note d-inline-block mb-1 mt-2'>
+                                    Is there any variable compensation in addition to fixed compensation?
+                                  </span>
                                 </div>
+                              </div> */}
+                              {/* <div className='form-row'>
+                                <div className='col-2'>
+                                  <div className='input-group ig-append'>
+                                    <input
+                                      type='text'
+                                      className='form-control'
+                                      placeholder='00.00'
+                                      {...register('salaryDetail.variableMin')}
+                                    />
+                                    <div className='input-group-append input-click'>
+                                      <span className='input-group-text'>%</span>
+                                    </div>
+                                  </div>
+                                  {errors.salaryDetail?.variableMin && (
+                                    <div className='text-danger error mt-1'>
+                                      {capitalize(errors.salaryDetail?.variableMin?.message)}
+                                    </div>
+                                  )}
+                                  <div className='input-group ig-append'>
+                                    <input
+                                      type='text'
+                                      className='form-control'
+                                      placeholder='00.00'
+                                      {...register('salaryDetail.variableMax')}
+                                    />
+                                    <div className='input-group-append input-click'>
+                                      <span className='input-group-text'>%</span>
+                                    </div>
+                                  </div>
+                                  {errors.salaryDetail?.variableMax && (
+                                    <div className='text-danger error mt-1'>
+                                      {capitalize(errors.salaryDetail?.variableMax?.message)}
+                                    </div>
+                                  )}
+                                </div>
+                              </div> */}
+                              <div className='form-group col-2'>
+                                <input
+                                  type='text'
+                                  className='form-control'
+                                  placeholder='00.00'
+                                  {...register('salaryDetail.variableMin')}
+                                />
                                 {errors.salaryDetail?.variableMin && (
                                   <div className='text-danger error mt-1'>
                                     {capitalize(errors.salaryDetail?.variableMin?.message)}
                                   </div>
                                 )}
-                                <div className='input-group ig-append'>
-                                  <input
-                                    type='text'
-                                    className='form-control'
-                                    placeholder='00.00'
-                                    {...register('salaryDetail.variableMax')}
-                                  />
-                                  <div className='input-group-append input-click'>
-                                    <span className='input-group-text'>%</span>
-                                  </div>
-                                </div>
+                              </div>
+                              <div className='form-group col-2'>
+                                <input
+                                  type='text'
+                                  className='form-control'
+                                  placeholder='00.00'
+                                  {...register('salaryDetail.variableMax')}
+                                />
                                 {errors.salaryDetail?.variableMax && (
                                   <div className='text-danger error mt-1'>
                                     {capitalize(errors.salaryDetail?.variableMax?.message)}
                                   </div>
                                 )}
                               </div>
-                            </div></>
+                            </>
 
-                        )}
+                          )}
+                          <div className='form-group col-2'>
+                            <Controller
+                              control={control}
+                              name='salaryDetail.variableCycle'
+                              render={({ field: { onChange, value, name } }) => {
+                                const handleOnchange = (option: SingleValue<OptionType>) =>
+                                  onChange(option?.value);
+                                return (
+                                  <Select
+                                    name={name}
+                                    options={cycles}
+                                    isSearchable={true}
+                                    styles={selectStyle}
+                                    onChange={handleOnchange}
+                                    placeholder='Year / Month'
+                                    components={{ IndicatorSeparator: () => null }}
+                                    value={cycles.find((c) => c.value === value)}
+                                  />
+                                );
+                              }}
+                            />
+                            {errors.salaryDetail?.variableCycle && (
+                              <div className='text-danger error mt-1'>
+                                {capitalize(errors.salaryDetail?.variableCycle?.message)}
+                              </div>
+                            )}
+                          </div>
+                          <div className='form-group col-2'>
+                            <Controller
+                              control={control}
+                              name='salaryDetail.variableCurrency'
+                              render={({ field: { onChange, value, name } }) => {
+                                const handleOnchange = (option: SingleValue<OptionType>) =>
+                                  onChange(option?.value);
+                                return (
+                                  <Select
+                                    name={name}
+                                    options={currency}
+                                    // isSearchable={true}
+                                    styles={selectStyle}
+                                    onChange={handleOnchange}
+                                    placeholder='Select Currency'
+                                    components={{ IndicatorSeparator: () => null }}
+                                    value={currency.find((c) => c.value === value)}
+                                  />
+                                );
+                              }}
+                            />
+                            {errors.salaryDetail?.variableCurrency && (
+                              <div className='text-danger error mt-1'>
+                                {capitalize(errors.salaryDetail?.variableCurrency?.message)}
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       </>
                     )}
                   </div>
@@ -719,16 +827,16 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                       </div>
                     )}
                   </div>
-                  <div className='form-group col-12'>
+                  {/* <div className='form-group col-12'>
                     <label className='label'>Compensation visible to candidates</label>
-                    <div className='custom-control custom-switch custom-switch-lg'>
-                      <input
-                        type='checkbox'
-                        id='switchCompensation'
-                        className='custom-control-input'
-                        {...register('salaryDetail.visibleToCandidate')}
-                      />
-                      <label className='custom-control-label' htmlFor='switchCompensation'>
+                    <div className='custom-control custom-switch custom-switch-lg'> */}
+                  <input
+                    id='switchCompensation'
+                    className='custom-control-input'
+                    type='hidden'
+                    {...register('salaryDetail.visibleToCandidate')}
+                  />
+                  {/* <label className='custom-control-label' htmlFor='switchCompensation'>
                         {salaryDetail && salaryDetail.visibleToCandidate ? 'No' : 'Yes'}
                       </label>
                     </div>
@@ -737,7 +845,7 @@ const StepTwo = React.forwardRef<HTMLFormElement, Props>(
                         {capitalize(errors.salaryDetail?.visibleToCandidate?.message)}
                       </div>
                     )}
-                  </div>
+                  </div> */}
                 </>
               )}
               {category === 'internship' && (

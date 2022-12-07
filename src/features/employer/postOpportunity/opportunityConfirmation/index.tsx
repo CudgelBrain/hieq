@@ -141,9 +141,9 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                                         <li>
                                             <div className="tb-head">Does it include variable component?</div>
                                             {opportunity?.stepTwo.salaryDetail.variableType == "fixed" ?
-                                                <div className="tb-data">{opportunity?.stepTwo.salaryDetail.variablePercentage} {opportunity?.stepTwo.salaryDetail.variable ? `(Yes)` : `(No)`}</div>
+                                                <div className="tb-data">{opportunity?.stepTwo.salaryDetail.variablePercentage} (Per {opportunity?.stepTwo.salaryDetail.variableCycle}) {opportunity?.stepTwo.salaryDetail.variableCurrency}</div>
                                                 :
-                                                <div className="tb-data">{opportunity?.stepTwo.salaryDetail.variableMin} To {opportunity?.stepTwo.salaryDetail.variableMax} {opportunity?.stepTwo.salaryDetail.variable ? `(Yes)` : `(No)`}</div>
+                                                <div className="tb-data">{opportunity?.stepTwo.salaryDetail.variableMin} To {opportunity?.stepTwo.salaryDetail.variableMax} (Per {opportunity?.stepTwo.salaryDetail.variableCycle}) {opportunity?.stepTwo.salaryDetail.variableCurrency}</div>
                                             }
                                         </li>
                                         {/* <li>
