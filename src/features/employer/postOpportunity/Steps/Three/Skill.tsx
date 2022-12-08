@@ -140,6 +140,7 @@ const Skill: React.FC<Props> = ({ control, register, errors, skillType }) => {
                           loadOptions={skillType == "personal_skills" ? loadSkillPersTitles : skillType == "technical_skills" ? loadSkillTechTitles : loadSkillPubTitles}
                           placeholder='Name'
                           components={{ DropdownIndicator: null }}
+                          defaultOptions
                         />
                       );
                     }}

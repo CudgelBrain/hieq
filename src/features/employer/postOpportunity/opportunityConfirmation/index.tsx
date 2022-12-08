@@ -6,6 +6,7 @@ import { Opportunity, EditOpportunity, FinishOpportunity } from '../postOpportun
 import { getOpportunity } from '../postOpportunityAPI';
 import { useParams } from 'react-router-dom';
 import { WorkLocationSchema } from 'features/admin/workLocation/itemSlice';
+import { url } from 'inspector';
 // interface Props {
 //     category: string;
 //     opportunity: Record<string, any>;
@@ -263,9 +264,11 @@ const oppConfirmation = React.forwardRef<HTMLFormElement>(() => {
                                             <tbody>
                                                 {opportunity?.stepTwo.attachments && opportunity?.stepTwo.attachments.map((item: { file: string, title: string, url: string }) => {
                                                     return (<tr>
+                                                        {console.log(item)
+                                                        }
                                                         <td>{item.title}</td>
                                                         {/* <td><button className="text-link" >click here to view or download</button></td> */}
-                                                        <td><a href={item.url} target="_blank" className="text-link">click here to view or download</a></td>
+                                                        <td><a href={item.url ? item.url : item.file} target="_blank" className="text-link">click here to view or download</a></td>
                                                     </tr>
                                                         // file remainign
                                                     )

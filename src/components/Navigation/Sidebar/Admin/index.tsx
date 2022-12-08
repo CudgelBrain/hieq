@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from 'app/hooks';
+import { clearTokens, history } from 'utils';
+import { setProfile } from 'features/user/userSlice';
 import {
   ProSidebar,
   SidebarHeader,
@@ -16,6 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SidebarData } from './data';
 
 const Sidebar = () => {
+  const dispatch = useAppDispatch();
   const [toggled, setToggled] = useState<boolean>(false);
   const [collapsed, setCollapsed] = useState<boolean>(false);
 
@@ -26,7 +30,11 @@ const Sidebar = () => {
   const handleCollapseSidebar = () => {
     setCollapsed(!collapsed);
   };
-
+  const logout = () => {
+    clearTokens();
+    dispatch(setProfile({}));
+    history.push('/login/password');
+  };
   return (
     <React.Fragment>
       <ProSidebar
@@ -77,7 +85,11 @@ const Sidebar = () => {
             })}
           </Menu>
         </SidebarContent>
-        <SidebarFooter>Logout</SidebarFooter>
+        <SidebarFooter className='text-center'>
+          {/* <div className='top-bar'> */}
+          <button type='button' className='btn text-center' style={{ color: "white" }} onClick={() => logout()}>Logout</button>
+          {/* </div> */}
+        </SidebarFooter>
       </ProSidebar>
     </React.Fragment>
   );

@@ -454,7 +454,7 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
                               value={opportunityEduBackgrounds}
                               // onInputChange={handleInputChange}
                               // inputValue={opportunityEduBackground}
-                              // components={{ DropdownIndicator: null }}
+                              components={{ DropdownIndicator: null }}
                               placeholder='For ex. BBA, MBA, B.Tech, etc.'
                             />
                           );
