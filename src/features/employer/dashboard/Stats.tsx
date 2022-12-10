@@ -30,17 +30,17 @@ const Stats: React.FC<Props> = ({ setActiveStatus, category }) => {
           <li onClick={() => setActiveStatus("active")} style={{ cursor: 'pointer' }}>
             <div className='cf-medium cc-grey'>Active</div>
             <div className='cf-large cc-green fw-600'>{status?.active.count ? status?.active.count : 0}</div>
-            <div className='cf-medium cc-grey'>{status?.active.week ? status?.active.week : 0} from last week</div>
+            {/* <div className='cf-medium cc-grey'>{status?.active.week ? status?.active.week : 0} from last week</div> */}
           </li>
           <li onClick={() => setActiveStatus("draft")} style={{ cursor: 'pointer' }}>
             <div className='cf-medium cc-grey'>Draft</div>
             <div className='cf-large cc-yellow fw-600'>{status?.draft.count ? status?.draft.count : 0}</div>
-            <div className='cf-medium cc-grey'>{status?.draft.week ? status?.draft.week : 0} from last week</div>
+            {/* <div className='cf-medium cc-grey'>{status?.draft.week ? status?.draft.week : 0} from last week</div> */}
           </li>
           <li onClick={() => setActiveStatus("closed")} style={{ cursor: 'pointer' }}>
             <div className='cf-medium cc-grey'>Closed</div>
             <div className='cf-large cc-dark fw-600'>{status?.closed.count ? status?.closed.count : 0}</div>
-            <div className='cf-medium cc-grey'>{status?.closed.week ? status?.closed.week : 0} from last week</div>
+            {/* <div className='cf-medium cc-grey'>{status?.closed.week ? status?.closed.week : 0} from last week</div> */}
           </li>
           {/* <li>
             <div className='cf-medium cc-grey'>Reviews</div>
