@@ -1,5 +1,5 @@
 ## Stage 1 (base)
-FROM node:16-alpine as base
+FROM node:14-alpine as base
 LABEL org.opencontainers.image.authors=mustanish.altamash@gmail.com
 LABEL org.opencontainers.image.title="hieqfrontend"
 LABEL org.opencontainers.image.source=https://github.com/mustanish/hieq-frontend
