@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash'; 
 import { Router, Switch } from 'react-router-dom';
 
 // Imported from project
