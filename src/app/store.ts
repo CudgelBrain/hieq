@@ -22,7 +22,6 @@ import footerContentReducer from 'features/admin/footerContent/contentSlice';
 import successStoryReducer from 'features/admin/successStory/successStorySlice';
 import questionBankReducer from 'features/admin/questionBank/questionBankSlice';
 import certificationReducer from 'features/admin/certification/certificationSlice';
-import industryReducer from 'features/admin/industry/industrySlice';
 import roleInstituteReducer from 'features/admin/roleInstitute/roleInstituteSlice';
 import questionCategoryReducer from 'features/admin/questionCategory/questionCategorySlice';
 import roleHiringProcessReducer from 'features/admin/roleHiringProcess/roleHiringProcessSlice';
@@ -53,7 +52,6 @@ export const store = configureStore({
     footerContent: footerContentReducer,
     roleInstitute: roleInstituteReducer,
     certification: certificationReducer,
-    industry: industryReducer,
     instituteGroup: instituteGroupReducer,
     specialization: specializationReducer,
     employerProfile: employerProfileReducer,

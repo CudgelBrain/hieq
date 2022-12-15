@@ -121,8 +121,6 @@ interface salaryDetail {
   variableMax?: number;
   variableMin?: number;
   variablePercentage?: number;
-  variableCycle: string;
-  variableCurrency: string;
   additionalDetail: string;
   visibleToCandidate: boolean;
   showSalary: boolean;
@@ -172,10 +170,8 @@ const salaryDetailSchema = {
       .required('Variable percentage is required'),
     otherwise: yup.number().notRequired(),
   }),
-  // variablecycle: yup.string().required('Variable Cycle is required'),
-  // variableCurrency: yup.string().required('Variable Currency is required'),
   additionalDetail: yup.string().required('Additional detail is required'),
-  // visibleToCandidate: yup.boolean().required('Visible to candidate is required'),
+  visibleToCandidate: yup.boolean().required('Visible to candidate is required'),
   showSalary: yup.boolean().required('show salary is required'),
   cycle: yup.string().required('Cycle is required'),
   currency: yup.string().required('Currency is required'),

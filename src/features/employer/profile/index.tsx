@@ -9,7 +9,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 // Imported from project
 import { listWorkLocations } from 'features/admin/workLocation/itemApi';
-import { ListIndustrys } from 'features/admin/industry/industryAPI';
 import { ListRoleHiringProcesses } from 'features/admin/roleHiringProcess/roleHiringProcessAPI';
 import { cityList } from 'constant';
 import { RootState } from 'app/store';
@@ -75,13 +74,6 @@ let roles: readonly OptionType[] = [];
 const getRoles = async () => {
   const { data } = await ListRoleHiringProcesses();
   roles = map(data.items, ({ name }) => createOption(name));
-};
-let industries: readonly OptionType[] = [];
-const getIndustry = async () => {
-  const { data } = await ListIndustrys();
-  console.log(data);
-
-  industries = map(data.items, ({ name }) => createOption(name));
 };
 
 const Profile = () => {
@@ -149,7 +141,6 @@ const Profile = () => {
     // getOpportunityTitles();
     getRoles();
     getOpportunityLocation();
-    getIndustry()
   }, []);
   React.useEffect(() => dispatch(GetEmployerProfile()), [dispatch]);
 
@@ -573,13 +564,13 @@ const Profile = () => {
                       onChange(option?.value);
                     return (
                       <Select
-                        options={industries}
+                        options={roles}
                         styles={selectStyle}
                         onChange={handleOnchange}
                         isDisabled={mode === 'view'}
                         placeholder='Select industry'
                         components={{ IndicatorSeparator: () => null }}
-                        value={industries.find((c) => c.value === value)}
+                        value={roles.find((c) => c.value === value)}
                       />
                     );
                   }}

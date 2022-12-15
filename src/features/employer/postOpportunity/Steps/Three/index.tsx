@@ -532,57 +532,7 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
                               </div>
                             </div>
                           </div>
-                          <div className='custom-inline'>
-                            <div className='custom-control custom-radio'>
-                              <input
-                                type='radio'
-                                value='A'
-                                id='behavioural111'
-                                className='custom-control-input'
-                                {...register('assessmentScore.behavioural.min')}
-                              />
-                              <label className='custom-control-label' htmlFor='behavioural111'>
-                                A
-                              </label>
-                            </div>
-                            <div className='custom-control custom-radio'>
-                              <input
-                                type='radio'
-                                value='B'
-                                id='behavioural211'
-                                {...register('assessmentScore.behavioural.min')}
-                                className='custom-control-input'
-                              />
-                              <label className='custom-control-label' htmlFor='behavioural211'>
-                                B
-                              </label>
-                            </div>
-                            <div className='custom-control custom-radio'>
-                              <input
-                                type='radio'
-                                value='C'
-                                id='behavioural311'
-                                {...register('assessmentScore.behavioural.min')}
-                                className='custom-control-input'
-                              />
-                              <label className='custom-control-label' htmlFor='behavioural311'>
-                                C
-                              </label>
-                            </div>
-                            <div className='custom-control custom-radio'>
-                              <input
-                                type='radio'
-                                value='D'
-                                id='behavioural411'
-                                {...register('assessmentScore.behavioural.min')}
-                                className='custom-control-input'
-                              />
-                              <label className='custom-control-label' htmlFor='behavioural411'>
-                                D
-                              </label>
-                            </div>
-                          </div>
-                          {/* <div className='col-6'>
+                          <div className='col-6'>
                             <input
                               type='text'
                               {...register('assessmentScore.behavioural.min')}
@@ -607,7 +557,7 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
                                 {capitalize(errors.assessmentScore?.behavioural?.max.message)}
                               </div>
                             )}
-                          </div> */}
+                          </div>
                         </div>
                       </div>
                       <div className='form-group col-4 '>
@@ -623,57 +573,7 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
                               </div>
                             </div>
                           </div>
-                          <div className='custom-inline'>
-                            <div className='custom-control custom-radio'>
-                              <input
-                                type='radio'
-                                value='A'
-                                id='cognitive111'
-                                className='custom-control-input'
-                                {...register('assessmentScore.cognitive.min')}
-                              />
-                              <label className='custom-control-label' htmlFor='cognitive111'>
-                                A
-                              </label>
-                            </div>
-                            <div className='custom-control custom-radio'>
-                              <input
-                                type='radio'
-                                value='B'
-                                id='cognitive211'
-                                {...register('assessmentScore.cognitive.min')}
-                                className='custom-control-input'
-                              />
-                              <label className='custom-control-label' htmlFor='cognitive211'>
-                                B
-                              </label>
-                            </div>
-                            <div className='custom-control custom-radio'>
-                              <input
-                                type='radio'
-                                value='C'
-                                id='cognitive311'
-                                {...register('assessmentScore.cognitive.min')}
-                                className='custom-control-input'
-                              />
-                              <label className='custom-control-label' htmlFor='cognitive311'>
-                                C
-                              </label>
-                            </div>
-                            <div className='custom-control custom-radio'>
-                              <input
-                                type='radio'
-                                value='D'
-                                id='cognitive411'
-                                {...register('assessmentScore.cognitive.min')}
-                                className='custom-control-input'
-                              />
-                              <label className='custom-control-label' htmlFor='cognitive411'>
-                                D
-                              </label>
-                            </div>
-                          </div>
-                          {/* <div className='col-6'>
+                          <div className='col-6'>
                             <input
                               type='text'
                               {...register('assessmentScore.cognitive.min')}
@@ -698,7 +598,7 @@ const StepThree = React.forwardRef<HTMLFormElement, Props>(
                                 {capitalize(errors.assessmentScore?.cognitive?.max.message)}
                               </div>
                             )}
-                          </div> */}
+                          </div>
                         </div>
                       </div>
 

@@ -56,23 +56,6 @@ const ManageSkill: React.FC<Props> = ({ status, message, actionType, skill, onCo
               placeholder='Enter Skill Name..'
             />
           </div>
-          <div className='col-md-12 form-group'>
-            <label className='label'>
-              Skill type <span className='required'>*</span>{' '}
-            </label>
-            <select {...register('type')} className='form-control custom-select'>
-              <option value=''>Select Type</option>
-              <option value="technical">
-                Technical
-              </option>
-              <option value="personal">
-                Personal
-              </option>
-              <option value="public">
-                Public
-              </option>
-            </select>
-          </div>
           <div className='col-md-12'>
             <button type='submit' name='submit' id='submit' className='btn btn-primary custom-btn'>
               {status === 'loading' && <span className='spinner-border' role='status'></span>}

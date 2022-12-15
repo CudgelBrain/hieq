@@ -91,10 +91,6 @@ export const SidebarData: SidebarType[] = [
         path: '/controlGear/certifications',
       },
       {
-        title: 'Industry',
-        path: '/controlGear/industry',
-      },
-      {
         title: 'Certification Institute',
         path: '/controlGear/certificationInstitutes',
       },
