@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import DOMPurify from 'dompurify';
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
-import { Editor } from 'react-draft-wysiwyg';
-import { Modal, Button } from 'react-bootstrap';
-import { EditorState, convertToRaw, ContentState } from 'draft-js';
-import { Controller } from 'react-hook-form';
-import { AddMedia } from 'features/admin/faqQuestion/faqQuestionAPI';
+// import DOMPurify from 'dompurify';
+// import draftToHtml from 'draftjs-to-html';
+// import htmlToDraft from 'html-to-draftjs';
+// import { Editor } from 'react-draft-wysiwyg';
+// import { Modal, Button } from 'react-bootstrap';
+// import { EditorState, convertToRaw, ContentState } from 'draft-js';
+// import { Controller } from 'react-hook-form';
+// import { AddMedia } from 'features/admin/faqQuestion/faqQuestionAPI';
 import { CKEditor } from 'ckeditor4-react';
-import { config } from 'process';
+// import { config } from 'process';
 interface Props {
   control?: any;
   name?: string;
