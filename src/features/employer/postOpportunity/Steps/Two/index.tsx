@@ -10,7 +10,7 @@ import { fileExtension } from 'utils';
 import Attachments from './Attachments';
 import ExternalLinks from './ExternalLinks';
 import TextEditor from 'components/TextEditor';
-import { Editor } from '@tinymce/tinymce-react';
+// import { Editor } from '@tinymce/tinymce-react';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { addOpportunityDetail } from '../../postOpportunityAPI';
 import { OptionType, selectStyle } from 'features/employer/common';
