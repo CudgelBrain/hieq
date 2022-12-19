@@ -62,6 +62,7 @@ const RangeSelector: React.FC<Props> = ({ startDate, endDate, label, setStartDat
   return (
     < DateRangePicker
       initialSettings={{
+        alwaysShowCalendars: true,
         startDate: startDate,
         endDate: endDate,
         ranges: {
