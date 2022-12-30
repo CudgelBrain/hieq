@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { isEmpty } from 'lodash'; 
+import { isEmpty } from 'lodash';
 import { Router, Switch } from 'react-router-dom';
 
 // Imported from project
@@ -37,6 +37,7 @@ import ListDescriptions from 'pages/admin/ListDescriptions';
 import ListDesignations from 'pages/admin/ListDesignations';
 import ListRoleInstitute from 'pages/admin/ListRoleInstitute';
 import ListCertifications from 'pages/admin/ListCertifications';
+import ListIndustry from 'pages/admin/ListIndustry';
 import ListSuccessStories from 'pages/admin/ListSuccessStories';
 import ListInstituteCohort from 'pages/admin/ListInstituteCohort';
 import ListSpecializations from 'pages/admin/ListSpecializations';
@@ -96,6 +97,7 @@ const AppRouter = () => {
           <AdminRoute exact path='/controlGear/designations' component={ListDesignations} />
           <AdminRoute exact path='/controlGear/skills' component={ListSkills} />
           <AdminRoute exact path='/controlGear/certifications' component={ListCertifications} />
+          <AdminRoute exact path='/controlGear/industry' component={ListIndustry} />
           <AdminRoute exact path='/controlGear/roleWithInstitute' component={ListRoleInstitute} />
           <AdminRoute
             exact

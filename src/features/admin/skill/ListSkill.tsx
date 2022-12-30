@@ -82,6 +82,11 @@ const ListSkills = () => {
         Cell: (row: any) => <div className='text-left'>{row.value}</div>,
       },
       {
+        Header: () => <div className='flex-grow-1 text-left pr-2'>Skill type</div>,
+        accessor: 'skillType',
+        Cell: (row: any) => <div className='text-left'>{row.value}</div>,
+      },
+      {
         Header: () => <div className='flex-grow-1 pr-2'>Action</div>,
         accessor: 'action',
         Cell: (row: any) => <div>{row.value}</div>,
@@ -98,6 +103,7 @@ const ListSkills = () => {
         return {
           sr: (key + 1).toString(),
           skill: skill.name,
+          skillType: skill.type,
           action: actionButtons(skill.ID),
         };
       }),

@@ -5,16 +5,19 @@ import { AddSkill, EditSkill, DeleteSkill, ListSkills } from './skillAPI';
 
 export interface SkillForm {
   name: string;
+  type: string
 }
 export interface Skill {
   ID: string;
   name: string;
   createdAt: string;
+  type: string
 }
 
 export const SkillSchema = yup
   .object({
     name: yup.string().min(2).max(100).required(),
+    type: yup.string().required(),
   })
   .required();
 
@@ -65,79 +68,79 @@ export default skillSlice.reducer;
 
 export const addSkill =
   (formData: SkillForm | string[], onComplete: () => void): AppThunk =>
-  async (dispatch) => {
-    try {
-      dispatch(onStart());
-      const { data, status } = Array.isArray(formData)
-        ? await AddSkill({ names: formData })
-        : await AddSkill(formData);
-      dispatch(setStatus(status));
-      dispatch(resetSkills());
-      dispatch(setSkills(data));
-    } catch (error: any) {
-      dispatch(setStatus(error?.response?.data?.status));
-      dispatch(setMessage(error?.response?.data?.error));
-    } finally {
-      setTimeout(() => {
-        dispatch(onStop());
-        onComplete();
-      }, 800);
-    }
-  };
+    async (dispatch) => {
+      try {
+        dispatch(onStart());
+        const { data, status } = Array.isArray(formData)
+          ? await AddSkill({ names: formData })
+          : await AddSkill(formData);
+        dispatch(setStatus(status));
+        dispatch(resetSkills());
+        dispatch(setSkills(data));
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+          onComplete();
+        }, 800);
+      }
+    };
 
 export const editSkill =
   ({ ID }: Skill, formData: SkillForm, onComplete: () => void): AppThunk =>
-  async (dispatch) => {
-    try {
-      dispatch(onStart());
-      const { data } = await EditSkill(ID, formData);
-      dispatch(resetSkills());
-      dispatch(setSkills(data));
-    } catch (error: any) {
-      dispatch(setStatus(error?.response?.data?.status));
-      dispatch(setMessage(error?.response?.data?.error));
-    } finally {
-      setTimeout(() => {
-        dispatch(onStop());
-        onComplete();
-      }, 800);
-    }
-  };
+    async (dispatch) => {
+      try {
+        dispatch(onStart());
+        const { data } = await EditSkill(ID, formData);
+        dispatch(resetSkills());
+        dispatch(setSkills(data));
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+          onComplete();
+        }, 800);
+      }
+    };
 
 export const deleteSkill =
   ({ ID }: Skill, onComplete: () => void): AppThunk =>
-  async (dispatch) => {
-    try {
-      dispatch(onStart());
-      const { data } = await DeleteSkill(ID);
-      dispatch(resetSkills());
-      dispatch(setSkills(data));
-    } catch (error: any) {
-      dispatch(setStatus(error?.response?.data?.status));
-      dispatch(setMessage(error?.response?.data?.error));
-    } finally {
-      setTimeout(() => {
-        dispatch(onStop());
-        onComplete();
-      }, 800);
-    }
-  };
+    async (dispatch) => {
+      try {
+        dispatch(onStart());
+        const { data } = await DeleteSkill(ID);
+        dispatch(resetSkills());
+        dispatch(setSkills(data));
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+          onComplete();
+        }, 800);
+      }
+    };
 
 export const listSkills =
   (onComplete: () => void): AppThunk =>
-  async (dispatch) => {
-    try {
-      dispatch(onStart());
-      const { data } = await ListSkills();
-      dispatch(resetSkills());
-      dispatch(setSkills(data));
-    } catch (error: any) {
-      dispatch(setStatus(error?.response?.data?.status));
-      dispatch(setMessage(error?.response?.data?.error));
-    } finally {
-      setTimeout(() => {
-        dispatch(onStop());
-        onComplete();
-      }, 800);
-    }
-  };
+    async (dispatch) => {
+      try {
+        dispatch(onStart());
+        const { data } = await ListSkills();
+        dispatch(resetSkills());
+        dispatch(setSkills(data));
+      } catch (error: any) {
+        dispatch(setStatus(error?.response?.data?.status));
+        dispatch(setMessage(error?.response?.data?.error));
+      } finally {
+        setTimeout(() => {
+          dispatch(onStop());
+          onComplete();
+        }, 800);
+      }
+    };
