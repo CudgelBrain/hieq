@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 // import DOMPurify from 'dompurify';
 // import draftToHtml from 'draftjs-to-html';
 // import htmlToDraft from 'html-to-draftjs';
@@ -7,8 +7,12 @@ import React, { useState, useEffect } from 'react';
 // import { EditorState, convertToRaw, ContentState } from 'draft-js';
 // import { Controller } from 'react-hook-form';
 // import { AddMedia } from 'features/admin/faqQuestion/faqQuestionAPI';
-import { CKEditor } from 'ckeditor4-react';
 // import { config } from 'process';
+
+// only for ckeditor 4--
+// import { CKEditor } from 'ckeditor4-react';
+import JoditReact from "jodit-react-ts";
+import 'jodit/build/jodit.min.css';
 interface Props {
   control?: any;
   name?: string;
@@ -20,6 +24,17 @@ interface Props {
 }
 
 const TextEditor = ({ valueChange, value }: Props) => {
+  const config = useMemo(
+    () => ({
+      readonly: false,
+      enableDragAndDropFileToEditor: true,
+      // uploader: { url: "https://xdsoft.net/jodit/connector/index.php?action=fileUpload" }
+      uploader: {
+        insertImageAsBase64URI: true
+      },
+    }),
+    []
+  );
   // ({ control, name, value, placeholder }, ref) => {
   //   const [showSource, setShowSource] = useState<boolean>(false);
   //   const [convertedHTML, setConvertedHTML] = useState<string>('');
@@ -66,7 +81,9 @@ const TextEditor = ({ valueChange, value }: Props) => {
 
   return (
     <>
-      <CKEditor
+      <JoditReact config={config} onChange={(content) => valueChange(content)} defaultValue={value} />
+      {/* only for ckeditor 4-- */}
+      {/* <CKEditor
         initData={value}
         config={{
           extraPlugins: 'easyimage',
@@ -82,7 +99,7 @@ const TextEditor = ({ valueChange, value }: Props) => {
         }}
         onInstanceReady={() => {
         }}
-      />
+      /> */}
     </>
   );
 };

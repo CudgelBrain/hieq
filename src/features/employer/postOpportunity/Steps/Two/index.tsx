@@ -14,7 +14,7 @@ import TextEditor from 'components/TextEditor';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { addOpportunityDetail } from '../../postOpportunityAPI';
 import { OptionType, selectStyle } from 'features/employer/common';
-import { CKEditor } from 'ckeditor4-react';
+// import { CKEditor } from 'ckeditor4-react';
 import {
   attachment,
   EditOpportunity,
