@@ -12,7 +12,7 @@ EXPOSE 3000
 ## Stage 2 (development)
 FROM base as dev
 ENV NODE_ENV=development
-RUN yarn install
+RUN npm install
 CMD [ "yarn", "start"]
 
 ## Stage 3 (default, production)
