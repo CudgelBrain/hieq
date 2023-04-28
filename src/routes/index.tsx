@@ -54,6 +54,10 @@ import EmployerDashboard from 'pages/employer/Dashboard';
 import PostOpportunity from 'pages/employer/PostOpportunity';
 import Opportunity from 'pages/employer/Opportunity';
 import NotFound from 'pages/employer/NotFound';
+import EmployeeProfile from 'pages/employee/Profile'
+
+//Employee pages
+import EmployeeDashboard from 'pages/employee/Dashboard';
 
 const MainRoute = lazy(() => import('./MainRoute'));
 const AdminRoute = lazy(() => import('./AdminRoute'));
@@ -153,6 +157,10 @@ const AppRouter = () => {
             ]}
             component={PostOpportunity}
           />
+          {/* Employee Routes */}
+          <MainRoute exact path='/employee/dashboard' component={EmployeeDashboard} />
+          <MainRoute exact path='/employee/profile' component={EmployeeProfile} />
+          
           <MainRoute path="*" component={NotFound} />
         </Switch>
       </Suspense>

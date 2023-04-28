@@ -11,11 +11,15 @@ import viewIMg from 'assets/images/view.svg';
 import editIMg from 'assets/images/edit.svg';
 import homeImg from 'assets/images/home.svg';
 import jobsImg from 'assets/images/jobs.svg';
-import mbaIMg from 'assets/images/mbatrek.svg';
+import searchImg from 'assets/images/search.svg'
 import helpImg from 'assets/images/help-dark.svg';
 import messageImg from 'assets/images/message.svg';
 import supportImg from 'assets/images/support.svg';
 import plusFillImg from 'assets/images/plus-fill.svg';
+import StarImg from 'assets/images/employee/star_11.svg'
+import resumeImg from 'assets/images/pdf-ico.svg'
+import passwordImg from 'assets/images/employee/ri_lock-password-line.svg'
+import { useSelector } from 'react-redux';
 
 interface Props {
   isOpen: boolean;
@@ -25,13 +29,17 @@ interface Props {
 
 const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFilter = false }) => {
   const dispatch = useAppDispatch();
+  const userData = useSelector(state => state)
+  const userType = localStorage.getItem('userType')
   const [viewer, setViewer] = React.useState<boolean>(true)
   const {
     profile: { name, email, phone },
   } = useAppProfile();
   let { status, profile } = useAppSelector((state: RootState) => state.employerProfile);
   let localProfile = localStorage.getItem("profile")
-  profile = localProfile ? JSON.parse(localProfile) : profile
+  let userProfile = {}
+  console.log(userProfile)
+
   const profileDetails: EmployerProfileForm = React.useMemo(
     () => ({
       fullName: !isEmpty(profile) && !isEmpty(profile.fullName) ? profile.fullName : name,
@@ -90,16 +98,31 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
             <div className='text-center pt-4 mb-3'>
               <button
                 type='button'
-                className='btn btn-wt img-reflect'
-                onClick={() => history.push('/employer/profile')}
+                className={userType?.includes('Employer') ? 'btn btn-wt img-reflect' :  'btn btn-wt img-reflect'}
+                onClick={() => {
+                  if(userType?.includes('Employer')){
+                  history.push('/employer/profile')
+                  }else{
+                    history.push('/employee/profile')
+                  }
+                  }
+                }
               >
                 <img className='mr-2' src={viewIMg} alt='' />
                 View
               </button>
               <button
                 type='button'
-                className='btn btn-yl ml-2'
-                onClick={() => history.push('/employer/profile?mode=edit')}
+                className={userType?.includes('Employer') ? 'btn btn-yl ml-2' :  'btn btn-gr ml-2'}
+                
+                onClick={() => {
+                  if(userType?.includes('Employer'))
+                  history.push('/employer/profile?mode=edit')
+                  else{
+                    history.push('/employee/profile?mode=edit') 
+                  }
+                }
+                }
               >
                 <img className='mr-2' src={editIMg} alt='' />
                 Edit
@@ -107,7 +130,7 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
             </div>
           </>
         )}
-        <div className='lt-navigation mb-5'>
+        {userType?.includes('Employer') ? <div className='lt-navigation mb-5'>
           <ul className='nav pb-5'>
             <li>
               <NavLink className='img-reflect' to={'/employer/dashboard'}>
@@ -146,7 +169,60 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
               </NavLink>
             </li>
           </ul>
-        </div>
+        </div> :
+          <div className='employee-navigation mb-5'>
+            <ul className='nav pb-5'>
+              <li>
+                <NavLink className='img-reflect' to={'/employer/dashboard'}>
+                  <img className='mr-2' src={homeImg} alt='' />
+                  <span>Dashboard</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className='img-reflect selected' to={'/employer/postopportunity'}>
+                  <img className='mr-2' src={searchImg} alt='' />
+                  <span>Search Jobs, internships</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className='img-reflect' to={'/employer/jobs'}>
+                  <img className='mr-2' src={StarImg} alt='' />
+                  <span>Saved opportunites</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className='img-reflect' to={'/employer/messaging'}>
+                  <img className='mr-2' src={messageImg} alt='' />
+                  <span>My resumes</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className='img-reflect' to={'/employer/supportDesk'}>
+                  <img className='mr-2' src={plusFillImg} alt='' />
+                  <span>Assessment</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className='img-reflect' to={'/employer/supportDesk'}>
+                  <img className='mr-2' src={supportImg} alt='' />
+                  <span>Support Desk</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className='img-reflect' to={'/employer/supportDesk'}>
+                  <img className='mr-2' src={passwordImg} alt='' />
+                  <span>Change Password</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className='img-reflect' to={'/employer/help'}>
+                  <img className='mr-2' src={helpImg} alt='' />
+                  <span>Help</span>
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        }
         <div className='ft-rel'>
           <div className='ft-fixed hd-14 cl-dark'>
             <div className='fw-500 mb-1'>Need Help ?</div>
@@ -161,3 +237,4 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
 };
 
 export default Sidebar;
+

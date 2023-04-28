@@ -34,6 +34,7 @@ export const getUserType = () => {
 export const clearTokens = () => {
   removeItemFromStorage(LOCAL_STORAGE_TOKEN);
   removeItemFromStorage(LOCAL_STORAGE_REFRESH_TOKEN);
+  removeItemFromStorage('userType')
   localStorage.removeItem("profile")
 };
 

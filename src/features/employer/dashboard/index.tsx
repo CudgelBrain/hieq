@@ -28,7 +28,7 @@ const Dashboard = () => {
                 onClick={() => {
                   setCurrentPage(1);
                   setActiveCategory('job');
-                  history.push('/employer/dashboard/?category=job');
+                  history.push('/employee/dashboard/?category=job');
                 }}
                 className={`tabs-btn ${activeCategory === 'job' ? 'active' : ''}`}
               >
@@ -39,7 +39,7 @@ const Dashboard = () => {
                 onClick={() => {
                   setCurrentPage(1);
                   setActiveCategory('internship');
-                  history.push('/employer/dashboard/?category=internship');
+                  history.push('/employee/dashboard/?category=internship');
                 }}
                 className={`tabs-btn ${activeCategory === 'internship' ? 'active' : ''}`}
               >

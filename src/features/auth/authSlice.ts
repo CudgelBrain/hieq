@@ -202,6 +202,7 @@ export const Register =
         const { data } = await register(formData);
         storeToken(data.accessToken);
         storeRefreshToken(data.refreshToken);
+        debugger;
         const [profile, redirectTo] = await handleRedirection();
         dispatch(setProfile(profile));
         dispatch(GetEmployerProfile())
@@ -224,6 +225,7 @@ export const Login =
         const { data: token } = await handShake();
         storeToken(token.deviceToken);
         const { data } = await login(formData);
+        console.log(data,"dekh bc ye dat ahai")
         storeToken(data.accessToken);
         storeRefreshToken(data.refreshToken);
         const [profile, redirectTo] = await handleRedirection();

@@ -415,6 +415,10 @@ header .menu_icon .stripe3 {
   background: #F4C757;
   color: #fff;
 }
+.btn-gr{
+  background: #5BC287;
+  color: #fff;
+}
 
 .btn-yl:hover,
 .btn-yl:focus {
@@ -541,6 +545,19 @@ header .menu_icon .stripe3 {
   display: none;
 }
 
+.lt-wrapper .lt-top,
+.lt-sec-short .employee-navigation ul.nav li a span,
+.lt-sec-short .ft-rel {
+  display: none;
+}
+
+
+.lt-wrapper .employee-navigation ul.nav li a {
+  padding: 1em;
+}
+
+
+
 .lt-wrapper .lt-navigation ul.nav li a {
   padding: 1em;
 }
@@ -593,6 +610,37 @@ header .menu_icon .stripe3 {
   color: #fff;
   border-color: #F4C757;
 }
+
+
+.employee-navigation ul.nav {
+  margin: 0px;
+  padding: 0px;
+  list-style-type: none;
+}
+
+.employee-navigation ul.nav li {
+  display: inline-block;
+  width: 100%;
+}
+
+.employee-navigation ul.nav li a {
+  padding: 1em 2em;
+  color: #999;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  text-decoration: none;
+  font-weight: 500;
+  border-top: 1px solid #ddd;
+}
+
+.employee-navigation ul.nav li:hover a,
+.employee-navigation ul.nav li.selected a {
+  background: #5BC287;
+  color: #fff;
+  border-color: #5BC287;
+}
+
 
 .cl-dark {
   color: #263238;
@@ -829,9 +877,33 @@ ul.list>li+li {
   text-decoration: none;
 }
 
+.employee-tabs-btn{
+  background: #F0F0F0;
+  padding: 0.8em;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  color: rgba(17, 17, 17, 0.4);
+  font-size: 15px;
+  font-weight: 500;
+  border: 0px;
+}
+
+.employee-tabs-btn:hover,
+.employee-tabs-btn.employee_active{
+  background: #5BC287;
+  color: #fff;
+  text-decoration: none;
+}
+
 .tabs-btn+.tabs-btn {
   margin-left: 2px;
 }
+
+.employee-tabs-btn+.employee-tabs-btn{
+  margin-left: 2px;
+}
+
 
 /** Analytics List **/
 ul.analytics-list {

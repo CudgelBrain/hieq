@@ -21,14 +21,14 @@ const Tittle: React.FC<Props> = ({
       <div className='pg-title'>
         {title} {subTitle && <span className={`pg-title-inner ${classes}`}>{subTitle}</span>}
       </div>
-      <div className='lead'>
+      {desc !=="" && <div className='lead'>
         {desc}
         {showLink && (
           <Link className='link' to={'/'}>
             Help Center
           </Link>
         )}
-      </div>
+      </div>}
     </div>
   );
 };

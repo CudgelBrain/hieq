@@ -35,6 +35,7 @@ const MainRoute: React.FC<Props> = (props) => {
       setCloseSideBar(false)
     }
   }, [defaultSidebarState, defaultFilterState, searchFilterState])
+  console.log(path)
   if (isAuthenticated()) {
     return (
       <div className={`dash-wrapper emp-panel ${mode === 'dark' ? 'dark-mode' : ''}`}>
