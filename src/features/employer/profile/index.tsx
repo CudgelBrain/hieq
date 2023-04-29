@@ -226,7 +226,7 @@ const Profile = () => {
         <Tittle title='Company Profile' />
         <div className='box-container mb-4'>
           <div className='box-container-inner'>
-            <div className='row profileParent'>
+          <div className='row profileParent'>
               <div className='col-3 mb-2 flex'>
                 <div className='profileImageViewer'>
                   {defaultValues.profilePic.url == "" ?

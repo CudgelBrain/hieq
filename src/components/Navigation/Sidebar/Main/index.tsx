@@ -20,6 +20,7 @@ import StarImg from 'assets/images/employee/star_11.svg'
 import resumeImg from 'assets/images/pdf-ico.svg'
 import passwordImg from 'assets/images/employee/ri_lock-password-line.svg'
 import { useSelector } from 'react-redux';
+import profilePic from 'assets/images/person-fill.svg'
 
 interface Props {
   isOpen: boolean;
@@ -88,7 +89,7 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
                 <img src={profileDetails.coverPic.url} height={235} width={280} alt='' />
               </div>
               {/* <div > */}
-              <img src={profileDetails.profilePic.url} className='profile-img' alt='' />
+              <img src={profilePic} className='profile-img' alt='' />
               {/* </div> */}
             </div>
             <div className='text-center pt-4'>
