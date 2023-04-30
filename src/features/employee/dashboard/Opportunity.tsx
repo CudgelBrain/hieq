@@ -101,15 +101,15 @@ const Opportunities: React.FC<Props> = ({ category, currentPage, setCurrentPage,
                         <div className='th-dt-list'>
                           <button
                             type='button'
-                            onClick={() => history.push(`/employer/postOpportunity/${category}/${ID}`)}
+                            // onClick={() => history.push(`/employer/postOpportunity/${category}/${ID}`)}
                           >
-                            Edit
+                            Withdraw
                           </button>
                           <button
                             type='button'
-                            onClick={() => handleDelete(index as unknown as number, ID, category)}
+                            // onClick={() => handleDelete(index as unknown as number, ID, category)}
                           >
-                            Delete
+                            View
                           </button>
                         </div>
                       )}

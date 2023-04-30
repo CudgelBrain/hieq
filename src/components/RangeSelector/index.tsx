@@ -103,11 +103,13 @@ const RangeSelector: React.FC<Props> = ({ startDate, endDate, label, setStartDat
           padding: '5px 10px',
           border: '1px solid #ccc',
           width: '80%',
+          alignItems:'center',
+          height:'38px',
           borderRadius: "4px"
         }}
       >
         <img src={calendarIcon} height='20' alt='' />&nbsp;
-        < span > {label}</span > <i className="fa fa-caret-down"></i>
+        < span className='ml-2 fw-600'> {label}</span > <i className="fa fa-caret-down"></i>
       </div >
 
     </DateRangePicker >

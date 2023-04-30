@@ -21,6 +21,7 @@ import resumeImg from 'assets/images/pdf-ico.svg'
 import passwordImg from 'assets/images/employee/ri_lock-password-line.svg'
 import { useSelector } from 'react-redux';
 import profilePic from 'assets/images/person-fill.svg'
+import userProfileImg from 'assets/images/profile.png'
 
 interface Props {
   isOpen: boolean;
@@ -84,29 +85,43 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
       <div className={`lt-sec ${(searchFilter || showFilter) || !isOpen ? 'lt-sec-short' : ''}`}>
         {(!searchFilter && !showFilter) && isOpen && (
           <>
+          {userType ==='Employee' ?  <div style={{
+              marginTop:'80px'
+            }}>
+              <div className="comp-img mt-5">
+                <div className="profile-img">
+                  <img src={userProfileImg} alt="" height={235} width={280} />
+                  </div>
+              </div>
+              <div style={{
+                textAlign:'center',
+                paddingTop:'70px'
+              }}>
+                <div className="hd-16 fw-500 cl-dark">Samar Dhiman</div>
+                <div className='cl-dark'>Web Designer</div>
+              </div>
+            </div> :
             <div className='comp-img mb-5'>
               <div className='cover-img'>
                 <img src={profileDetails.coverPic.url} height={235} width={280} alt='' />
               </div>
-              {/* <div > */}
               <img src={profilePic} className='profile-img' alt='' />
-              {/* </div> */}
-            </div>
+            </div>}
             <div className='text-center pt-4'>
               <div className='hd-16 fw-500 cl-dark mb-1'>{profileDetails.companyName}</div>
               {profileDetails.yearOfIncorporation ? <div>Since {profileDetails.yearOfIncorporation}</div> : ""}
             </div>
-            <div className='text-center pt-4 mb-3'>
+            <div className='text-center mb-3'>
               <button
                 type='button'
-                className={userType?.includes('Employer') ? 'btn btn-wt img-reflect' :  'btn btn-wt img-reflect'}
+                className={userType?.includes('Employer') ? 'btn btn-wt img-reflect' : 'btn btn-wt img-reflect'}
                 onClick={() => {
-                  if(userType?.includes('Employer')){
-                  history.push('/employer/profile')
-                  }else{
+                  if (userType?.includes('Employer')) {
+                    history.push('/employer/profile')
+                  } else {
                     history.push('/employee/profile')
                   }
-                  }
+                }
                 }
               >
                 <img className='mr-2' src={viewIMg} alt='' />
@@ -114,13 +129,13 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
               </button>
               <button
                 type='button'
-                className={userType?.includes('Employer') ? 'btn btn-yl ml-2' :  'btn btn-yl ml-2'}
-                
+                className={userType?.includes('Employer') ? 'btn btn-yl ml-2' : 'btn btn-yl ml-2'}
+
                 onClick={() => {
-                  if(userType?.includes('Employer'))
-                  history.push('/employer/profile?mode=edit')
-                  else{
-                    history.push('/employee/profile?mode=edit') 
+                  if (userType?.includes('Employer'))
+                    history.push('/employer/profile?mode=edit')
+                  else {
+                    history.push('/employee/profile?mode=edit')
                   }
                 }
                 }
@@ -174,7 +189,7 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
           <div className='employee-navigation mb-5'>
             <ul className='nav pb-5'>
               <li>
-                <NavLink className='img-reflect' to={'/employer/dashboard'}>
+                <NavLink className='img-reflect' to={'/employee/dashboard'}>
                   <img className='mr-2' src={homeImg} alt='' />
                   <span>Dashboard</span>
                 </NavLink>

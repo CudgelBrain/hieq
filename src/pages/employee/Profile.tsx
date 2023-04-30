@@ -1,24 +1,35 @@
 import { useAppQuery } from 'app/hooks'
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { hieqService } from 'utils'
 import camera from 'assets/images/camara.svg'
 import profile from 'assets/images/profile.svg'
 import { Formik, Field, ErrorMessage, Form, FieldArray } from 'formik'
 import star from 'assets/images/star-solid.svg'
 import starBlank from 'assets/images/star-grey.svg'
-import plus from 'assets/images/plus.svg'
 import deleteImg from 'assets/images/employee/delete.svg'
-import plusDark from 'assets/images/plus-fill.svg'
+import plusDark from 'assets/images/employee/plus.svg'
 import 'assets/styles/employee/style.css'
 import info from 'assets/images/employee/info.svg'
+import profileImg from 'assets/images/profile.png'
+import Accordion from 'components/Accordian/Accordian'
+import * as Yup from 'yup'
+import plusFilled from 'assets/images/employee/plus_fille.svg'
 
 function Profile() {
-
   const [mode, setMode] = useState<string | null>('view')
   const query = useAppQuery().get('mode')
   const [isExperience, setIsExprience] = useState(false)
   const [index, setIndex] = useState(0)
-  const [userProfile, setUserProfile]= useState({})
+  const [userProfile, setUserProfile] = useState<any | null>({})
+  const [isPresent, steIsPresent] = useState(false);
+  const [isValidLiftime, setIsValidLifeTime] = useState(false)
+
+
+  const personalRef = useRef(null)
+  const educationRef = useRef(null)
+  const workRef = useRef(null)
+  const skillsRef = useRef(null)
+  const documentsRef = useRef(null)
 
 
   React.useEffect(() => setMode(query ?? 'view'), [query]);
@@ -27,111 +38,217 @@ function Profile() {
   React.useEffect(() => {
     getUserProfile()
   }, [])
-  
-  const getUserProfile =async () =>{
-    const response:any = await hieqService.get('/employeeProfile')
+
+  const getUserProfile = async () => {
+    const response: any = await hieqService.get('/employeeProfile')
     console.log(response)
-    if(response.status === 'success'){
-    setUserProfile(response?.data)
+    if (response.status === 'success') {
+      setUserProfile(response?.data)
     }
   }
+
+  //scroll beviours
+  const scrollToSection = (ref: any) => {
+    if (ref.current) {
+      ref.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
 
   console.log(userProfile)
 
 
-  console.log(index)
+
+
+  const stepOneSchema = Yup.object({
+    firstName: Yup.string().required("Required"),
+    email: Yup.string().email("Invalid email address").required("Required"),
+    mobile: Yup.string().required("Required"),
+    gender: Yup.string().required("Required"),
+    // dob: Yup.string().required("Required"),
+  });
+
+  const stepTwoSchema = Yup.array().of(
+    Yup.object({
+      standard: Yup.string().required("Required"),
+      board: Yup.string().required("Required"),
+      yearOfCompletion: Yup.string().required("Required"),
+      school: Yup.string().required("Required"),
+      percentage: Yup.string().required("Required"),
+    })
+  );
+
+  const stepThreeSchema = Yup.array().of(
+    Yup.object({
+      degree: Yup.string().required("Required"),
+      specialization: Yup.string().required("Required"),
+      yearOfCompletion: Yup.string().required("Required"),
+      institute: Yup.string().required("Required"),
+      percentage: Yup.string().required("Required"),
+    })
+  );
+
+  const stepFourSchema = Yup.array().of(
+    Yup.object({
+      organization: Yup.string().required("Required"),
+      designation: Yup.string().required("Required"),
+      employmentType: Yup.string().required("Required"),
+      fromMonth: Yup.string().required("Required"),
+      toMonth: Yup.string().required("Required"),
+      fromYear: Yup.string().required("Required"),
+      toYear: Yup.string().required("Required"),
+      description: Yup.string().required("Required"),
+    })
+  );
+
+  const stepFiveSchema = Yup.object({
+    skills: Yup.array()
+      .of(
+        Yup.object({
+          skill: Yup.string().required("Required"),
+          rating: Yup.string().required("Required"),
+        })
+      )
+      .min(3, "Minimum of 3 skills are required"),
+    links: Yup.array()
+      .of(
+        Yup.object({
+          social: Yup.string().required("Required"),
+          link: Yup.string().required("Required"),
+        })
+      )
+      .min(3, "Minimum of 3 links are required"),
+    additionalInformation: Yup.array().of(
+      Yup.object({
+        certification: Yup.string().required("Required"),
+        insititute: Yup.string().required("Required"),
+        domain: Yup.string().required("Required"),
+        certificationDateMonthFrom: Yup.string().required("Required"),
+        certificationDateYearFrom: Yup.string().required("Required"),
+        certificationDateMonthTo: Yup.string().required("Required"),
+        certificationDateYearTo: Yup.string().required("Required"),
+      })
+    ),
+    postionsOfResponsibility: Yup.string().required("Required"),
+    projectPublications: Yup.string().required("Required"),
+    extraCirricular: Yup.string().required("Required"),
+  });
+
+  const validationSchema = Yup.object({
+    stepOne: stepOneSchema,
+  });
+
+  function checkIsEmpty(array: any[]) {
+    const isEmpty = array?.every((obj: { [s: string]: unknown } | ArrayLike<unknown>) => Object.values(obj).every(val => val === ''));
+    return isEmpty;
+  }
+  console.log(checkIsEmpty(userProfile.stepTwo))
 
 
   return (
     <>
-      <Formik initialValues={{
-        stepOne: {
-          firstName: "",
-          email: "",
-          mobile: "",
-          gender: "",
-          dob: "",
-          profile_summary: ""
-        },
-        stepTwo: [{
-          standard: "",
-          board: "",
-          yearOfCompletion: "",
-          school: "",
-          percentage: "",
-        }],
-        stepThree: [{
-          degree: "",
-          specialization: "",
-          yearOfCompletion: "",
-          institute: "",
-          percentage: "",
-        }],
-        totalWorkMonth: "",
-        totalWorkYear: "",
-        stepFour: [{
+      <Formik
+        enableReinitialize={true}
 
-          organization: "",
-          designation: "",
-          employmentType: "",
-          fromMonth: "",
-          toMonth: "",
-          fromYear: "",
-          toYear: "",
-          description: ""
-        }],
-        stepFive: {
-          skills: [{
-            skill: "",
-            rating: ""
+        initialValues={{
+          stepOne: {
+            firstName: "" || userProfile?.stepOne?.firstName,
+            email: "" || userProfile?.stepOne?.email,
+            mobile: "" || userProfile?.stepOne?.mobile,
+            gender: "" || userProfile?.stepOne?.gender,
+            dob: "" || userProfile?.stepOne?.dob,
+            profile_summary: "" || userProfile?.stepOne?.profile_summary
           },
-          {
-            skill: "",
-            rating: ""
-          },
-          {
-            skill: "",
-            rating: ""
-          },],
-          links: [
-            {
-              social: "",
-              link: ""
+          stepTwo: checkIsEmpty(userProfile?.stepTwo) ? [{
+            standard: "",
+            board: "",
+            yearOfCompletion: "",
+            school: "",
+            percentage: "",
+          }] : userProfile?.stepTwo,
+          stepThree: checkIsEmpty(userProfile?.stepThree) ? [{
+            degree: "",
+            specialization: "",
+            yearOfCompletion: "",
+            institute: "",
+            percentage: "",
+          }] : userProfile?.stepThree,
+          totalWorkMonth: "" || userProfile?.totalWorkMonth,
+          totalWorkYear: "" || userProfile?.totalWorkYear,
+          stepFour: checkIsEmpty(userProfile?.stepFour) ? [{
+            organization: "",
+            designation: "",
+            employmentType: "",
+            fromMonth: "",
+            toMonth: "",
+            fromYear: "",
+            toYear: "",
+            description: ""
+          }] : userProfile?.stepFour,
+          stepFive: {
+            skills: userProfile?.stepFive && checkIsEmpty(userProfile?.stepFive?.skills) ? [{
+              skill: "",
+              rating: ""
             },
             {
-              social: "",
-              link: ""
+              skill: "",
+              rating: ""
             },
             {
-              social: "",
-              link: ""
-            },],
-          additionalInformation: [{
-            certification: "",
-            insititute: "",
-            domain: "",
-            certificationDateMonthFrom: "",
-            certificationDateYearFrom: "",
-            certificationDateMonthTo: "",
-            certificationDateYearTo: "",
-          }],
-          postionsOfResponsibility: "",
-          projectPublications: "",
-          extraCirricular: "",
-          achievment: ""
-        },
-        stepSix: {
+              skill: "",
+              rating: ""
+            },] : userProfile?.stepFive?.skills,
+            links:userProfile?.stepFive && checkIsEmpty(userProfile?.stepFive?.links) ? [
+              {
+                social: "",
+                link: ""
+              },
+              {
+                social: "",
+                link: ""
+              },
+              {
+                social: "",
+                link: ""
+              },]: userProfile?.stepFive?.links,
+            additionalInformation: userProfile?.stepFive && checkIsEmpty(userProfile?.stepFive?.additionalInformation) ? [{
+              certification: "",
+              insititute: "",
+              domain: "",
+              certificationDateMonthFrom: "",
+              certificationDateYearFrom: "",
+              certificationDateMonthTo: "",
+              certificationDateYearTo: "",
+            }] : userProfile?.stepFive?.additionalInformation,
+            postionsOfResponsibility: "" || userProfile?.stepFive?.postionsOfResponsibility, 
+            projectPublications: "" || userProfile?.stepFive?.projectPublications,
+            extraCirricular: "" || userProfile?.stepFive?.extraCirricular,
+            achievment: "" || userProfile?.stepFive?.achievment,
+          },
+          stepSix: {
+
+          }
+        }
 
         }
-      }
-
-      }
         onSubmit={async (values) => {
+          console.log(values)
           let data = {}
-          if (index === 1) {
+          if (index === 1 && !userProfile?.stepOne) {
             data = values.stepOne;
             console.log(data)
             const response: any = await hieqService.post('/employeeProfile', data)
+            if (response?.status === 'success') {
+              alert('Data saved successfully')
+            }
+            return;
+          }
+          else if (index === 1 && userProfile?.stepOne.firstName && userProfile?.stepOne?.email) {
+            data = { stepOne: values.stepOne };
+            console.log(data)
+            const response: any = await hieqService.put('/employeeProfile', data)
             if (response?.status === 'success') {
               alert('Data saved successfully')
             }
@@ -143,19 +260,23 @@ function Profile() {
               stepThree: values.stepThree
             };
           } else if (index === 3) {
-            data = values.stepFour;
+            data = {
+              stepFour: values.stepFour
+            }
           }
           else if (index === 4) {
-            data = values.stepFive
+            data = {
+              stepFive: values.stepFive
+            }
           }
           const response: any = await hieqService.put('/employeeProfile', data)
           if (response?.status === 'success') {
             alert('Data saved successfully')
           }
         }}>
-        {({ values, handleChange, handleBlur, handleSubmit }) => <Form>
+        {({ values, handleChange, handleBlur, handleSubmit, errors, touched }) => <Form>
           <div className="col-md-12 pt-4 pb-5">
-            <div className="box-container mb-4">
+            <div className="box-container mb-4" ref={personalRef}>
               <div className="box-container-inner">
                 <div className="text-left mb-4">
                   <h2 className="bc-heading">1. Personal Information</h2>
@@ -171,6 +292,9 @@ function Profile() {
                           value={values.stepOne.firstName}
                           onChange={handleChange}
                         />
+                        {touched?.stepOne?.firstName && errors?.stepOne?.firstName ? (
+                          <div className="errors">{errors?.stepOne?.firstName}</div>
+                        ) : null}
                       </div>
                       <div className="col-12">
                         <div className="form-row">
@@ -182,6 +306,9 @@ function Profile() {
                               value={values.stepOne.email}
                               onChange={handleChange}
                             />
+                            {touched?.stepOne?.email && errors?.stepOne?.email ? (
+                              <div className="errors">{errors?.stepOne?.email}</div>
+                            ) : null}
                           </div>
                           <div className="form-group col-sm-6">
                             <label className="label mb-1">Contact Number<span className="required">*</span></label>
@@ -190,6 +317,9 @@ function Profile() {
                               value={values.stepOne.mobile}
                               onChange={handleChange}
                             />
+                            {touched?.stepOne?.mobile && errors?.stepOne?.mobile ? (
+                              <div className="errors">{errors?.stepOne?.mobile}</div>
+                            ) : null}
                           </div>
                           <div className="form-group col-sm-6">
                             <label className="label mb-1">Gender<span className="required">*</span></label>
@@ -202,17 +332,23 @@ function Profile() {
                               <option value="female">Female</option>
                               <option value="not">Prefer dont say</option>
                             </select>
+                            {touched?.stepOne?.gender && errors?.stepOne?.gender ? (
+                              <div className="errors">{errors?.stepOne?.gender}</div>
+                            ) : null}
                           </div>
                           <div className="form-group col-sm-6">
                             <label className="label mb-1">Date of Birth<span className="required">*</span></label>
                             <div className="input-group">
-                              <input type="date" className="form-control" placeholder="dd-mm-yyy" value="" disabled={mode === 'view'}
+                              <input type="date" className="form-control" placeholder="dd-mm-yyy" value={values.stepOne.dob} disabled={mode === 'view'}
                                 name="dob"
                                 onChange={handleChange}
                               />
                               <div className="input-group-append"> <span className="input-group-text"><img
                                 src="assets/images/calendar.svg" height="20" alt="" /></span> </div>
                             </div>
+                            {/* {touched?.stepOne?.dob && errors?.stepOne?.dob ? (
+                          <div className="errors">{errors?.stepOne?.dob}</div>
+                        ) : null} */}
                           </div>
                         </div>
                       </div>
@@ -221,7 +357,7 @@ function Profile() {
                   <div className="col-4 text-center">
                     <div className="change-img">
                       <div className="browseImg"><img src={camera} width="25" alt="" /></div>
-                      <div className="featured"><img src={profile} width="150" height="150"
+                      <div className="featured"><img src={profileImg} width={280} height={235}
                         alt="" /></div>
                     </div>
                   </div>
@@ -229,6 +365,7 @@ function Profile() {
                     <label className="label mb-1">Profile Summary</label>
                     <textarea rows={4} cols={2} className="form-control" disabled={mode === 'view'}
                       name="[stepOne.profile_summary]"
+                      value={values.stepOne.profile_summary}
                       onChange={handleChange}
                     />
                     <div className="text-right"><span className="note">250 words limit</span></div>
@@ -236,18 +373,18 @@ function Profile() {
                   <div className="col-12 mt-4">
                     <div className="form-row">
                       <div className="col-md-6">
-                        <button className="btn btn-yl btn-sm">BACK</button>
+                        <button className="btn btn-yl btn-sm" type='button' onClick={() => scrollToSection(personalRef)}>BACK</button>
                       </div>
                       <div className="col-md-6 text-right">
                         <button className="btn btn-yl btn-sm" type="submit" onClick={() => { setIndex(1); handleSubmit() }}>SAVE</button>
-                        <button className="btn btn-yl btn-sm ml-3" onClick={() => { setIndex(1); handleSubmit() }}>NEXT</button>
+                        <button className="btn btn-yl btn-sm ml-3" type="button" onClick={() => scrollToSection(educationRef)}>NEXT</button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="box-container mb-4">
+            <div className="box-container mb-4" ref={educationRef}>
               <div className="box-container-inner">
                 <FieldArray name="stepTwo">
                   {({ insert, remove, push }) => (
@@ -256,74 +393,83 @@ function Profile() {
                         <h2 className="bc-heading">2. Education</h2>
                       </div>
                       <div className="row">
-                        {values.stepTwo.map((el, index) => <div className="col-12">
-                          <div className="form-row">
-                            <div className="form-group col-sm-4">
-                              <label className="label mb-1">Class<span className="required">*</span></label>
-                              <Field type="text" className="form-control" placeholder="High School (10th)" disabled={mode === 'view'}
-                                name={`stepTwo.${index}.standard`}
-                                value={el.standard}
-                                onChange={handleChange}
-                              />
-                            </div>
-                            <div className="form-group col-sm-4">
-                              <label className="label mb-1">Board<span className="required">*</span></label>
-                              <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                name={`stepTwo.${index}.board`}
-                                value={el.board}
-                              >
-                                <option value="">CBSE</option>
-                              </select>
-                            </div>
-                            <div className="form-group col-sm-4">
-                              <label className="label mb-1">Year of Completion<span className="required">*</span></label>
-                              <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                name={`stepTwo.${index}.yearOfCompletion`}
-                                value={el.yearOfCompletion}
-                              >
-                                <option value="2002">2022</option>
-                              </select>
-                            </div>
-                            <div className="form-group col-sm-8">
-                              <label className="label mb-1">School<span className="required">*</span></label>
-                              <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                name={`stepTwo.${index}.school`}
-                                value={el.school}
-                              >
-                                <option value="">Kendriya Vidyalaya No.1</option>
-                              </select>
-                            </div>
-                            <div className="form-group col-sm-4">
-                              <label className="label mb-1">CGPA/Percentage<span className="required">*</span><span className="ml-1"
-                                data-toggle="tooltip" data-placement="top" title="Tooltip on top"><img
-                                  src={info} width="16" height="16" alt="" /></span></label>
-                              <Field type="text" className="form-control" placeholder="7.46" disabled={mode === 'view'}
-                                name={`stepTwo.${index}.percentage`}
-                                value={el.percentage}
-                              />
-                            </div>
-                          </div>
-                        </div>)}
+                        {values?.stepTwo?.map((el?: any, index?: any, row?: any) =>
+                          values.stepTwo &&
+                          <>
+                            <div className="col-12">
+                              <div className="form-row">
+                                <div className="form-group col-sm-4">
+                                  <label className="label mb-1">Class<span className="required">*</span></label>
+                                  <Field type="text" className="form-control" placeholder="High School (10th)" disabled={mode === 'view'}
+                                    name={`stepTwo.${index}.standard`}
+                                    value={el.standard}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                                <div className="form-group col-sm-4">
+                                  <label className="label mb-1">Board<span className="required">*</span></label>
+                                  <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                    name={`stepTwo.${index}.board`}
+                                    value={el.board}
+                                  >
+                                    <option value="asdfdasf">CBSE</option>
+                                  </select>
+                                </div>
+                                <div className="form-group col-sm-4">
+                                  <label className="label mb-1">Year of Completion<span className="required">*</span></label>
+                                  <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                    name={`stepTwo.${index}.yearOfCompletion`}
+                                    value={el.yearOfCompletion}
+                                  >
+                                    <option value="2002">2022</option>
+                                  </select>
+                                </div>
+                                <div className="form-group col-sm-8">
+                                  <label className="label mb-1">School<span className="required">*</span></label>
+                                  <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                    name={`stepTwo.${index}.school`}
+                                    value={el.school}
+                                  >
+                                    <option value="afasdfdsa">Kendriya Vidyalaya No.1</option>
+                                  </select>
+                                </div>
+                                <div className="form-group col-sm-4">
+                                  <label className="label mb-1">CGPA/Percentage<span className="required">*</span><span className="ml-1"
+                                    data-toggle="tooltip" data-placement="top" title="Tooltip on top"><img
+                                      src={info} width="16" height="16" alt="" /></span></label>
+                                  <Field type="text" className="form-control" placeholder="7.46" disabled={mode === 'view'}
+                                    name={`stepTwo.${index}.percentage`}
+                                    value={el.percentage}
+                                  />
+                                </div>
+                              </div>
 
-                        <div className="col-12 mb-4">
-                          <div className="row">
-                            <div className="col-6">
-                              <button className="plus-btn" type="button" onClick={() => push({
-                                standard: "",
-                                board: "",
-                                yearOfCompletion: "",
-                              school: "",
-                                percentage: "",
-                              })}><img src={plus} width="20"
-
-                                height="20" alt="" /><span className="ml-1">Add Senior Secondary details</span></button>
                             </div>
-                            {values?.stepTwo.length > 1 && <div className="col-6 text-right pr-3">
-                              <button className="plus-btn" type="button"><img src={deleteImg} width="16"
-                                height="18" alt="" /></button>
-                            </div>}
-                          </div>
-                        </div>
+                            <div className="col-12 mb-4">
+                              <div className="row">
+                                <div className="col-6">
+                                  {index === row.length - 1 && <button className="plus-btn" type="button" onClick={() => push({
+                                    standard: "",
+                                    board: "",
+                                    yearOfCompletion: "",
+                                    school: "",
+                                    percentage: "",
+                                  })}><img src={plusDark} width="20"
+
+                                    height="20" alt="" /><span className="ml-1">Add Senior Secondary details</span></button>}
+                                </div>
+                                {values?.stepTwo.length > 1 && <div className="col-6 text-right pr-3">
+                                  <button className="plus-btn" type="button"
+                                    onClick={() => remove(index)}
+                                  ><img src={deleteImg} width="16"
+                                    height="18" alt="" /></button>
+                                </div>}
+                              </div>
+                            </div>
+                          </>
+                        )}
+
+
                       </div>
                     </>
                   )}
@@ -334,79 +480,84 @@ function Profile() {
                       <div className="row pt-4">
                         <div className="col-md-12 pt-4 bt-1">&nbsp;</div>
 
-                        {values.stepThree.map((el, index) => <div className="col-12">
-                          <div className="form-row">
-                            <div className="form-group col-sm-4">
-                              <label className="label mb-1">Degree<span className="required">*</span></label>
-                              <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                name={`stepThree.${index}.degree`}
-                                value={el.degree}
-                                onChange={handleChange}
-                              >
-                                <option value="ccc">MBA</option>
-                                <option value="aaa">MBA</option>
-                              </select>
+                        {values?.stepThree?.map((el?:any, index?:any, row?:any) =>
+                          <>
+                            <div className="col-12">
+                              <div className="form-row">
+                                <div className="form-group col-sm-4">
+                                  <label className="label mb-1">Degree<span className="required">*</span></label>
+                                  <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                    name={`stepThree.${index}.degree`}
+                                    value={el.degree}
+                                    onChange={handleChange}
+                                  >
+                                    <option value="ccc">MBA</option>
+                                    <option value="aaa">MBA</option>
+                                  </select>
+                                </div>
+                                <div className="form-group col-sm-4">
+                                  <label className="label mb-1">Specialization<span className="required">*</span></label>
+                                  <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                    name={`stepThree.${index}.specialization`}
+                                    value={el.specialization}
+                                    onChange={handleChange}
+                                  >
+                                    <option value="">General Management</option>
+                                  </select>
+                                </div>
+                                <div className="form-group col-sm-4">
+                                  <label className="label mb-1">Year of Completion<span className="required">*</span></label>
+                                  <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                    name={`stepThree.${index}.yearOfCompletion`}
+                                    value={el.yearOfCompletion}
+                                    onChange={handleChange}
+                                  >
+                                    <option value="">2022</option>
+                                  </select>
+                                </div>
+                                <div className="form-group col-sm-8">
+                                  <label className="label mb-1">Institute<span className="required">*</span></label>
+                                  <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                    name={`stepThree.${index}.institute`}
+                                    value={el.institute}
+                                    onChange={handleChange}
+                                  >
+                                    <option value="">Indian Institute of Mangement, Kashipur</option>
+                                  </select>
+                                </div>
+                                <div className="form-group col-sm-4">
+                                  <label className="label mb-1">CGPA/Percentage<span className="required">*</span><span className="ml-1"
+                                    data-toggle="tooltip" data-placement="top" title="Tooltip on top"><img
+                                      src={info} width="16" height="16" alt="" /></span></label>
+                                  <input type="text" className="form-control" placeholder="7.46" disabled={mode === 'view'} name={`stepThree.${index}.percentage`}
+                                    value={el.percentage}
+                                    onChange={handleChange}
+                                  />
+                                </div>
+                              </div>
                             </div>
-                            <div className="form-group col-sm-4">
-                              <label className="label mb-1">Specialization<span className="required">*</span></label>
-                              <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                name={`stepThree.${index}.specialization`}
-                                value={el.specialization}
-                                onChange={handleChange}
-                              >
-                                <option value="">General Management</option>
-                              </select>
+                            <div className="col-12 mb-4">
+                              <div className="row">
+                                <div className="col-6">
+                                  {index === row.length - 1 && <button className="plus-btn ml-0" onClick={() => push({
+                                    degree: "",
+                                    specialization: "",
+                                    yearOfCompletion: "",
+                                    institute: "",
+                                    percentage: ""
+                                  })}><img src={plusDark} width="20"
+                                    height="20" alt="" /><span className="ml-1">Add More</span></button>}
+                                </div>
+                                {values?.stepThree.length > 1 && <div className="col-6 text-right pr-3">
+                                  <button className="plus-btn" type="button" onClick={() => remove(index)} ><img src={deleteImg} width="16"
+                                    height="18" alt="" /></button>
+                                </div>}
+                              </div>
                             </div>
-                            <div className="form-group col-sm-4">
-                              <label className="label mb-1">Year of Completion<span className="required">*</span></label>
-                              <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                name={`stepThree.${index}.yearOfCompletion`}
-                                value={el.yearOfCompletion}
-                                onChange={handleChange}
-                              >
-                                <option value="">2022</option>
-                              </select>
-                            </div>
-                            <div className="form-group col-sm-8">
-                              <label className="label mb-1">Institute<span className="required">*</span></label>
-                              <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                name={`stepThree.${index}.institute`}
-                                value={el.institute}
-                                onChange={handleChange}
-                              >
-                                <option value="">Indian Institute of Mangement, Kashipur</option>
-                              </select>
-                            </div>
-                            <div className="form-group col-sm-4">
-                              <label className="label mb-1">CGPA/Percentage<span className="required">*</span><span className="ml-1"
-                                data-toggle="tooltip" data-placement="top" title="Tooltip on top"><img
-                                  src={info} width="16" height="16" alt="" /></span></label>
-                              <input type="text" className="form-control" placeholder="7.46" disabled={mode === 'view'} name={`stepThree.${index}.percentage`}
-                                value={el.percentage}
-                                onChange={handleChange}
-                              />
-                            </div>
-                          </div>
-                        </div>)}
+                          </>
+                        )}
 
-                        <div className="col-12 mb-4">
-                          <div className="row">
-                            <div className="col-6">
-                              <button className="plus-btn" onClick={() => push({
-                                degree: "",
-                                specialization: "",
-                                yearOfCompletion: "",
-                                institute: "",
-                                percentage: ""
-                              })}><img src={plus} width="20"
-                                height="20" alt="" /><span className="ml-1">Add More</span></button>
-                            </div>
-                            {values?.stepThree.length > 1 && <div className="col-6 text-right pr-3">
-                              <button className="plus-btn" type="button" ><img src={deleteImg} width="16"
-                                height="18" alt="" /></button>
-                            </div>}
-                          </div>
-                        </div>
+
                       </div>
                     </>
                   )}
@@ -415,11 +566,11 @@ function Profile() {
                   <div className="col-12 mt-4">
                     <div className="form-row">
                       <div className="col-md-6">
-                        <button className="btn btn-yl btn-sm" type="button">BACK</button>
+                        <button className="btn btn-yl btn-sm" type="button" onClick={() => scrollToSection(personalRef)}>BACK</button>
                       </div>
                       <div className="col-md-6 text-right">
                         <button className="btn btn-yl btn-sm" onClick={() => { setIndex(2); handleSubmit() }}>SAVE</button>
-                        <button className="btn btn-yl btn-sm ml-3" onClick={() => { setIndex(2); handleSubmit() }}>NEXT</button>
+                        <button className="btn btn-yl btn-sm ml-3" type="button" onClick={() => scrollToSection(workRef)}>NEXT</button>
                       </div>
                     </div>
                   </div>
@@ -430,7 +581,7 @@ function Profile() {
               {({ insert, remove, push }) => (
                 <>
                   <div className="box-container mb-4">
-                    <div className="box-container-inner">
+                    <div className="box-container-inner" ref={workRef}>
                       <div className="text-left mb-4">
                         <h2 className="bc-heading">3. Work Experience</h2>
                       </div>
@@ -439,39 +590,41 @@ function Profile() {
                         <div className="form-group col-12">
                           <div className="d-flex align-items-center txt-md">
                             <span className="mr-2">Fresher</span>
-                            <div className="custom-control custom-switch custom-switch-lg">
+                            <div className="custom-control custom-switch custom-switch-lg" onClick={() => setIsExprience(!isExperience)}>
                               <input type="checkbox" className="custom-control-input" id="switchVariable" disabled={mode === 'view'}
                                 checked={isExperience}
-                                onChange={(e) => setIsExprience(!isExperience)}
                               />
                               <label className="custom-control-label">Experienced</label>
                             </div>
                           </div>
                         </div>
-                        <div className="form-group d-inline-flex align-items-center pr-0 col-2 pt-2">
-                          <label className="label mb-0">Total Work Experience<span className="required">*</span></label>
-                        </div>
-                        <div className="form-group col-4 pt-2">
-                          <div className="form-row">
-                            <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'} name="totalWorkYear"
-                              value={values.totalWorkYear}
-                              onChange={handleChange}
-                            >
-                              <option value="">Year</option>
-                            </select></div>
-                            <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                              name="totalWorkMonth"
-                              onChange={handleChange}
-                              value={values.totalWorkMonth}
-                            >
-                              <option value="">Month</option>
-                            </select></div>
+                        {isExperience && <>
+                          <div className="form-group d-inline-flex align-items-center pr-0 col-2 pt-2">
+                            <label className="label mb-0">Total Work Experience<span className="required">*</span></label>
                           </div>
-                        </div>
+                          <div className="form-group col-4 pt-2">
+                            <div className="form-row">
+                              <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'} name="totalWorkYear"
+                                value={values.totalWorkYear}
+                                onChange={handleChange}
+                              >
+                                <option value="">Year</option>
+                              </select></div>
+                              <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
+                                name="totalWorkMonth"
+                                onChange={handleChange}
+                                value={values.totalWorkMonth}
+                              >
+                                <option value="">Month</option>
+                              </select></div>
+                            </div>
+                          </div>
+                        </>
+                        }
                       </div>
 
                       <div className="row pt-2">
-                        {values.stepFour.map((el, index) => <>
+                        {values?.stepFour?.map((el:any, index:any) => <>
                           <div className="col-12">
                             <div className="form-row">
                               <div className="form-group col-4">
@@ -481,7 +634,7 @@ function Profile() {
                                   onChange={handleChange}
                                   value={el.organization}
                                 >
-                                  <option value="">Tata Consultancy Services (TCS)</option>
+                                  <option value="tcs">Tata Consultancy Services (TCS)</option>
                                 </select>
                               </div>
                               <div className="form-group col-4">
@@ -491,7 +644,7 @@ function Profile() {
                                   onChange={handleChange}
                                   value={el.designation}
                                 >
-                                  <option value="">Systems Engineer</option>
+                                  <option value="sys">Systems Engineer</option>
                                 </select>
                               </div>
                               <div className="form-group col-4">
@@ -501,7 +654,7 @@ function Profile() {
                                   onChange={handleChange}
                                   value={el.employmentType}
                                 >
-                                  <option value="">Full-Time Job</option>
+                                  <option value="fulltime">Full-Time Job</option>
                                 </select>
                               </div>
                               <div className="form-group col-4">
@@ -512,18 +665,18 @@ function Profile() {
                                     onChange={handleChange}
                                     value={el.fromMonth}
                                   >
-                                    <option value="">Month</option>
+                                    <option value="aug">Month</option>
                                   </select></div>
                                   <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
                                     name={`stepFour.${index}.fromYear`}
                                     onChange={handleChange}
                                     value={el.fromYear}
                                   >
-                                    <option value="">Year</option>
+                                    <option value="2022">Year</option>
                                   </select></div>
                                 </div>
                               </div>
-                              <div className="form-group col-4">
+                              {!isPresent && <div className="form-group col-4">
                                 <label className="label mb-1">To<span className="required">*</span></label>
                                 <div className="form-row">
                                   <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
@@ -531,21 +684,23 @@ function Profile() {
                                     onChange={handleChange}
                                     value={el.toMonth}
                                   >
-                                    <option value="">Month</option>
+                                    <option value="aug">Month</option>
                                   </select></div>
                                   <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
                                     name={`stepFour.${index}.toYear`}
                                     onChange={handleChange}
                                     value={el.toYear}
                                   >
-                                    <option value="">Year</option>
+                                    <option value="2022">Year</option>
                                   </select></div>
                                 </div>
-                              </div>
+                              </div>}
                               <div className="col-4 d-flex align-items-center">
                                 <div className="custom-inline">
-                                  <div className="custom-control custom-checkbox">
+                                  <div className="custom-control custom-checkbox" onClick={() => steIsPresent(!isPresent)}>
                                     <input type="checkbox" className="custom-control-input" id="loctype1" name="loctype" disabled={mode === 'view'}
+                                      checked={isPresent}
+
                                     />
                                     <label className="custom-control-label pl-1">I currently work here</label>
                                   </div>
@@ -562,39 +717,40 @@ function Profile() {
                             ></textarea>
                             <div className="text-right"><span className="note">250 words limit</span></div>
                           </div>
-                        </>)}
-                        <div className="col-12 mb-4">
-                          <div className="row">
-                            <div className="col-6">
-                              <button className="plus-btn" type="button" onClick={() => push({
-                                organization: "",
-                                designation: "",
-                                employmentType: "",
-                                fromMonth: "",
-                                toMonth: "",
-                                fromYear: "",
-                                toYear: "",
-                                description: ""
-                              })}><img src={plus} width="20"
-                                height="20" alt="" /><span className="ml-1">Add More</span></button>
+                          <div className="col-12 mb-4">
+                            <div className="row">
+                              <div className="col-6">
+                                <button className="plus-btn" type="button" onClick={() => push({
+                                  organization: "",
+                                  designation: "",
+                                  employmentType: "",
+                                  fromMonth: "",
+                                  toMonth: "",
+                                  fromYear: "",
+                                  toYear: "",
+                                  description: ""
+                                })}><img src={plusDark} width="20"
+                                  height="20" alt="" /><span className="ml-1">Add More</span></button>
+                              </div>
+                              {values?.stepFour.length > 1 && <div className="col-6 text-right pr-3">
+                                <button className="plus-btn" type="button" onClick={() => remove(index)}><img src={deleteImg} width="16"
+                                  height="18" alt="" /></button>
+                              </div>}
                             </div>
-                            {values?.stepFour.length > 1 && <div className="col-6 text-right pr-3">
-                              <button className="plus-btn" type="button"><img src={deleteImg} width="16"
-                                height="18" alt="" /></button>
-                            </div>}
                           </div>
-                        </div>
+                        </>)}
+
                       </div>
 
                       <div className="row">
                         <div className="col-12 mt-4">
                           <div className="form-row">
                             <div className="col-md-6">
-                              <button className="btn btn-yl btn-sm" type="button">BACK</button>
+                              <button className="btn btn-yl btn-sm" type="button" onClick={() => scrollToSection(educationRef)}>BACK</button>
                             </div>
                             <div className="col-md-6 text-right">
                               <button className="btn btn-yl btn-sm" onClick={() => { setIndex(3); handleSubmit() }}>SAVE</button>
-                              <button className="btn btn-yl btn-sm ml-3" onClick={() => { setIndex(3); handleSubmit() }}>NEXT</button>
+                              <button className="btn btn-yl btn-sm ml-3" type='button' onClick={() => scrollToSection(skillsRef)}>NEXT</button>
                             </div>
                           </div>
                         </div>
@@ -604,7 +760,7 @@ function Profile() {
                 </>)}
             </FieldArray>
 
-            <div className="box-container mb-4">
+            <div className="box-container mb-4" ref={skillsRef}>
               <div className="box-container-inner">
                 <div className="text-left mb-4">
                   <h2 className="bc-heading">4. Skills</h2>
@@ -613,15 +769,16 @@ function Profile() {
                   <FieldArray name="stepFive.skills">
                     {({ insert, remove, push }) => (
                       <>
-                        {values.stepFive.skills.map((el, index) => <div className="col-12">
+                        {values?.stepFive?.skills?.map((el:any, index:any) => <div className="col-12">
                           <div className="form-row align-items-center">
                             <div className="form-group col-3">
                               <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                name={`stepFive.${index}.skill`}
+                                name={`stepFive.skills.${index}.skill`}
                                 value={el.skill}
                                 onChange={handleChange}
                               >
-                                <option value="">HTML</option>
+                                <option value="Hmtl">HTML</option>
+                                <option value="Hmtl">HTML</option>
                               </select>
                             </div>
                             <div className="form-group col-4"
@@ -648,7 +805,7 @@ function Profile() {
                               <button className="plus-btn" type="button" onClick={() => push({
                                 skill: "",
                                 rating: ""
-                              })}><img src={plus} width="20"
+                              })}><img src={plusDark} width="20"
                                 height="20" alt="" /><span className="ml-1" >Add More</span></button>
                             </div>
                           </div>
@@ -667,11 +824,11 @@ function Profile() {
                           <div className="col-12">
                             <label className="label mb-2 heading-xs">Social Media Links and Work Portfolio</label>
                           </div>
-                          {values.stepFive.links.map((el, index) => <div className="col-12">
+                          {values?.stepFive?.links?.map((el:any, index:any) => <div className="col-12">
                             <div className="form-row align-items-center">
                               <div className="form-group col-2">
                                 <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                  name={`stepFive.${index}.social`}
+                                  name={`stepFive.links.${index}.social`}
                                   value={el.social}
                                   onChange={handleChange}
                                 >
@@ -680,7 +837,7 @@ function Profile() {
                               </div>
                               <div className="form-group d-flex align-items-center col-5">
                                 <input type="text" className="form-control" placeholder="Enter or Paste link here" disabled={mode === 'view'}
-                                  name={`stepFive.${index}.link`}
+                                  name={`stepFive.links.${index}.link`}
                                   value={el.link}
                                   onChange={handleChange}
                                 />
@@ -698,7 +855,7 @@ function Profile() {
                                 <button className="plus-btn" type="button" onClick={() => push({
                                   link: "",
                                   social: ""
-                                })}><img src={plus} width="20"
+                                })}><img src={plusDark} width="20"
                                   height="20" alt="" /><span className="ml-1">Add More</span></button>
                               </div>
                             </div>
@@ -724,157 +881,156 @@ function Profile() {
                         {({ insert, remove, push }) => (
                           <>
                             <div className="row pt-4">
-                              {values.stepFive.additionalInformation.map((el, index) => <div className="col-12">
-                                <div className="form-row">
-                                  <div className="form-group col-4">
-                                    <label className="label mb-1">Certification<span className="required">*</span></label>
-                                    <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                      name={`stepFive.${index}.certification`}
-                                      value={el.certification}
-                                      onChange={handleChange}
-                                    >
-                                      <option value="">Scrum Master</option>
-                                    </select>
-                                  </div>
-                                  <div className="form-group col-4">
-                                    <label className="label mb-1">Institute<span className="required">*</span></label>
-                                    <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                      name={`stepFive.${index}.institute`}
-                                      value={el.insititute}
-                                      onChange={handleChange}
-                                    >
-                                      <option value="">Project Management Institute</option>
-                                    </select>
-                                  </div>
-                                  <div className="form-group col-4">
-                                    <label className="label mb-1">Domain<span className="required">*</span></label>
-                                    <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                      name={`stepFive.${index}.Domain`}
-                                      value={el.domain}
-                                      onChange={handleChange}
-                                    >
-                                      <option value="">Project Management</option>
-                                    </select>
-                                  </div>
-                                  <div className="form-group col-4">
-                                    <label className="label mb-1">Certification Date<span className="required">*</span></label>
+                              {values?.stepFive?.additionalInformation?.map((el:any, index:any, row:any) =>
+                                <>
+                                  <div className="col-12">
                                     <div className="form-row">
-                                      <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                        name={`stepFive.${index}.certificationDateMonthFrom`}
-                                        value={el.certificationDateMonthFrom}
-                                        onChange={handleChange}
-                                      >
-                                        <option value="">Month</option>
-                                      </select></div>
-                                      <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                        name={`stepFive.${index}.certificationDateMonthFrom`}
-                                        value={el.certificationDateMonthFrom}
-                                        onChange={handleChange}
-                                      >
-                                        <option value="">Year</option>
-                                      </select></div>
-                                    </div>
-                                  </div>
-                                  <div className="form-group col-4">
-                                    <label className="label mb-1">Valid till<span className="required">*</span></label>
-                                    <div className="form-row">
-                                      <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                        name={`stepFive.${index}.certificationDateYearTo`}
-                                        value={el.certificationDateYearTo}
-                                        onChange={handleChange}
-                                      >
-                                        <option value="">Month</option>
-                                      </select></div>
-                                      <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                        name={`stepFive.${index}.certificationDateYearTo`}
-                                        value={el.certificationDateYearTo}
-                                        onChange={handleChange}
-                                      >
-                                        <option value="">Year</option>
-                                      </select></div>
-                                    </div>
-                                  </div>
-                                  <div className="col-4 d-flex align-items-center">
-                                    <div className="custom-inline">
-                                      <div className="custom-control custom-checkbox">
-                                        <input type="checkbox" className="custom-control-input" id="loctype1" name="loctype" disabled={mode === 'view'} />
-                                        <label className="custom-control-label pl-1">Valid for Lifetime</label>
+                                      <div className="form-group col-4">
+                                        <label className="label mb-1">Certification<span className="required">*</span></label>
+                                        <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                          name={`stepFive.${index}.certification`}
+                                          value={el.certification}
+                                          onChange={handleChange}
+                                        >
+                                          <option value="">Scrum Master</option>
+                                        </select>
+                                      </div>
+                                      <div className="form-group col-4">
+                                        <label className="label mb-1">Institute<span className="required">*</span></label>
+                                        <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                          name={`stepFive.${index}.institute`}
+                                          value={el.insititute}
+                                          onChange={handleChange}
+                                        >
+                                          <option value="">Project Management Institute</option>
+                                        </select>
+                                      </div>
+                                      <div className="form-group col-4">
+                                        <label className="label mb-1">Domain<span className="required">*</span></label>
+                                        <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                          name={`stepFive.${index}.Domain`}
+                                          value={el.domain}
+                                          onChange={handleChange}
+                                        >
+                                          <option value="">Project Management</option>
+                                        </select>
+                                      </div>
+                                      <div className="form-group col-4">
+                                        <label className="label mb-1">Certification Date<span className="required">*</span></label>
+                                        <div className="form-row">
+                                          <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
+                                            name={`stepFive.${index}.certificationDateMonthFrom`}
+                                            value={el.certificationDateMonthFrom}
+                                            onChange={handleChange}
+                                          >
+                                            <option value="">Month</option>
+                                          </select></div>
+                                          <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
+                                            name={`stepFive.${index}.certificationDateMonthFrom`}
+                                            value={el.certificationDateMonthFrom}
+                                            onChange={handleChange}
+                                          >
+                                            <option value="">Year</option>
+                                          </select></div>
+                                        </div>
+                                      </div>
+                                      {!isValidLiftime && <div className="form-group col-4">
+                                        <label className="label mb-1">Valid till<span className="required">*</span></label>
+                                        <div className="form-row">
+                                          <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
+                                            name={`stepFive.${index}.certificationDateYearTo`}
+                                            value={el.certificationDateYearTo}
+                                            onChange={handleChange}
+                                          >
+                                            <option value="">Month</option>
+                                          </select></div>
+                                          <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
+                                            name={`stepFive.${index}.certificationDateYearTo`}
+                                            value={el.certificationDateYearTo}
+                                            onChange={handleChange}
+                                          >
+                                            <option value="">Year</option>
+                                          </select></div>
+                                        </div>
+                                      </div>}
+                                      <div className="col-4 d-flex align-items-center">
+                                        <div className="custom-inline">
+                                          <div className="custom-control custom-checkbox" onClick={() => setIsValidLifeTime(!isValidLiftime)}>
+                                            <input type="checkbox" className="custom-control-input" id="loctype1" name="loctype" disabled={mode === 'view'} checked={isValidLiftime}/>
+                                            
+                                            <label className="custom-control-label pl-1">Valid for Lifetime</label>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              </div>)}
-                              <div className="col-12 mb-4">
-                                <div className="row">
-                                  <div className="col-6">
-                                    <button className="plus-btn" type="button" onClick={() => push({
-                                      certification: "",
-                                      insititute: "",
-                                      domain: "",
-                                      certificationDateMonthFrom: "",
-                                      certificationDateYearFrom: "",
-                                      certificationDateMonthTo: "",
-                                      certificationDateYearTo: "",
-                                    })}><img src={plus} width="20"
-                                      height="20" alt="" /><span className="ml-1" >Add More</span></button>
+                                  <div className="col-12 mb-4">
+                                    <div className="row">
+                                      <div className="col-6">
+                                        {index === row.length - 1 && <button className="plus-btn" type="button" onClick={() => push({
+                                          certification: "",
+                                          insititute: "",
+                                          domain: "",
+                                          certificationDateMonthFrom: "",
+                                          certificationDateYearFrom: "",
+                                          certificationDateMonthTo: "",
+                                          certificationDateYearTo: "",
+                                        })}><img src={plusDark} width="20"
+                                          height="20" alt="" /><span className="ml-1" >Add More</span></button>}
+                                      </div>
+                                      <div className="col-6 text-right pr-3">
+                                        <button className="plus-btn" type="button" onClick={() => remove(index)}><img src={deleteImg}
+                                          width="16" height="18" alt="" /></button>
+                                      </div>
+                                    </div>
                                   </div>
-                                  <div className="col-6 text-right pr-3">
-                                    <button className="plus-btn" type="button"><img src={deleteImg}
-                                      width="16" height="18" alt="" /></button>
-                                  </div>
-                                </div>
-                              </div>
+                                </>
+                              )}
+
                             </div>
                           </>)}
                       </FieldArray>
                     </>
 
-                    <div className="row">
-                      <div className="col-12 mt-3">
-                        <button className="plus-btn"><img src={plusDark} width="20"
-                          height="20" alt="" /><span className="ml-1 cc-dark">Positions of Responsibility</span></button>
-                      </div>
-                      <div className="col-12 mt-2">
-                        <textarea rows={4} className="form-control" disabled={mode === 'view'}></textarea>
-                        <div className="text-right"><span className="note">250 words limit</span></div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-12 mt-3">
-                        <button className="plus-btn"><img src={plusDark} width="20"
-                          height="20" alt="" /><span className="ml-1 cc-dark">Projects, Publications</span></button>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-12 mt-3">
-                        <button className="plus-btn"><img src={plusDark} width="20"
-                          height="20" alt="" /><span className="ml-1 cc-dark">EXTRA-curriculars</span></button>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-12 mt-3">
-                        <button className="plus-btn"><img src={plusDark} width="20"
-                          height="20" alt="" /><span className="ml-1 cc-dark">ACHIEVEMENTS</span></button>
-                      </div>
-                    </div>
+                    <Accordion icon={plusFilled} mode={mode} title="Positions of Responsibility"
+                      name="[stepFive.postionsOfResponsibility]"
+                      value={values.stepFive.postionsOfResponsibility}
+                      handleChange={handleChange}
+                    />
+                    <Accordion icon={plusFilled} mode={mode} title="Projects, Publications"
+                      name="[stepFive.projectPublications]"
+                      value={values.stepFive.projectPublications}
+                      handleChange={handleChange}
+                    />
+                    <Accordion icon={plusFilled} mode={mode} title="EXTRA-curriculars"
+                      name="[stepFive.extraCirricular]"
+                      value={values.stepFive.extraCirricular}
+                      handleChange={handleChange} />
+                    <Accordion icon={plusFilled} mode={mode}
+                      name="[stepFive.achievment]"
+                      value={values.stepFive.achievment}
+                      handleChange={handleChange}
+                      title="Acheivements" />
+
+
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-12 mt-4">
                     <div className="form-row">
                       <div className="col-md-6">
-                        <button className="btn btn-yl btn-sm" type="button">BACK</button>
+                        <button className="btn btn-yl btn-sm" type="button" onClick={() => scrollToSection(workRef)}>BACK</button>
                       </div>
                       <div className="col-md-6 text-right">
                         <button className="btn btn-yl btn-sm" type="submit" onClick={() => { setIndex(4); handleSubmit() }}>SAVE</button>
-                        <button className="btn btn-yl btn-sm ml-3" type='submit' onClick={() => { setIndex(4); handleSubmit() }}>NEXT</button>
+                        <button className="btn btn-yl btn-sm ml-3" type='button' onClick={() => scrollToSection(documentsRef)}>NEXT</button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="box-container mb-4">
+            <div className="box-container mb-4" ref={documentsRef}>
               <div className="box-container-inner">
                 <div className="text-left mb-4">
                   <h2 className="bc-heading">5. Documents</h2>
@@ -1062,7 +1218,7 @@ function Profile() {
               <div className="col-12 mt-1">
                 <div className="form-row">
                   <div className="col-md-6">
-                    <button className="btn btn-yl btn-sm" type="submit">BACK</button>
+                    <button className="btn btn-yl btn-sm" type="button" onClick={() => scrollToSection(skillsRef)}>BACK</button>
                   </div>
                   <div className="col-md-6 text-right">
                     <button className="btn btn-yl btn-sm">SAVE</button>
