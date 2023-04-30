@@ -28,6 +28,8 @@ const MainRoute: React.FC<Props> = (props) => {
   const [defaultSidebarState, defaultFilterState, searchFilterState] = parsePath(path as string);
   const [sidebarState, setSidebarState] = React.useState(defaultSidebarState);
   const [closeSideBar, setCloseSideBar] = React.useState(true)
+  const userType = localStorage.getItem('userType')
+  console.log('UserType ', userType)
   React.useEffect(() => {
     if (defaultSidebarState || defaultFilterState || searchFilterState) {
       setCloseSideBar(true)
@@ -38,7 +40,7 @@ const MainRoute: React.FC<Props> = (props) => {
   console.log(path)
   if (isAuthenticated()) {
     return (
-      <div className={`dash-wrapper emp-panel ${mode === 'dark' ? 'dark-mode' : ''}`}>
+      <div className={`${userType ==="Employee" ? "dash-wrapper empl-panel" : "dash-wrapper emp-panel"} ${mode === 'dark' ? 'dark-mode' : ''}`}>
         <Header
           themeMode={mode}
           setThemeMode={setMode}

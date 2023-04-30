@@ -9,6 +9,8 @@ import starBlank from 'assets/images/star-grey.svg'
 import plus from 'assets/images/plus.svg'
 import deleteImg from 'assets/images/employee/delete.svg'
 import plusDark from 'assets/images/plus-fill.svg'
+import 'assets/styles/employee/style.css'
+import info from 'assets/images/employee/info.svg'
 
 function Profile() {
 
@@ -234,11 +236,11 @@ function Profile() {
                   <div className="col-12 mt-4">
                     <div className="form-row">
                       <div className="col-md-6">
-                        <button className="btn btn-gr btn-sm">BACK</button>
+                        <button className="btn btn-yl btn-sm">BACK</button>
                       </div>
                       <div className="col-md-6 text-right">
-                        <button className="btn btn-gr btn-sm" type="submit" onClick={() => { setIndex(1); handleSubmit() }}>SAVE</button>
-                        <button className="btn btn-gr btn-sm ml-3" onClick={() => { setIndex(1); handleSubmit() }}>NEXT</button>
+                        <button className="btn btn-yl btn-sm" type="submit" onClick={() => { setIndex(1); handleSubmit() }}>SAVE</button>
+                        <button className="btn btn-yl btn-sm ml-3" onClick={() => { setIndex(1); handleSubmit() }}>NEXT</button>
                       </div>
                     </div>
                   </div>
@@ -294,7 +296,7 @@ function Profile() {
                             <div className="form-group col-sm-4">
                               <label className="label mb-1">CGPA/Percentage<span className="required">*</span><span className="ml-1"
                                 data-toggle="tooltip" data-placement="top" title="Tooltip on top"><img
-                                  src="assets/images/employee/info.svg" width="16" height="16" alt="" /></span></label>
+                                  src={info} width="16" height="16" alt="" /></span></label>
                               <Field type="text" className="form-control" placeholder="7.46" disabled={mode === 'view'}
                                 name={`stepTwo.${index}.percentage`}
                                 value={el.percentage}
@@ -306,18 +308,18 @@ function Profile() {
                         <div className="col-12 mb-4">
                           <div className="row">
                             <div className="col-6">
-                              <button className="plus-btn btn btn-gr" type="button" onClick={() => push({
+                              <button className="plus-btn" type="button" onClick={() => push({
                                 standard: "",
                                 board: "",
                                 yearOfCompletion: "",
-                                school: "",
+                              school: "",
                                 percentage: "",
                               })}><img src={plus} width="20"
 
                                 height="20" alt="" /><span className="ml-1">Add Senior Secondary details</span></button>
                             </div>
                             {values?.stepTwo.length > 1 && <div className="col-6 text-right pr-3">
-                              <button className="plus-btn btn btn-gr" type="button"><img src={deleteImg} width="16"
+                              <button className="plus-btn" type="button"><img src={deleteImg} width="16"
                                 height="18" alt="" /></button>
                             </div>}
                           </div>
@@ -378,7 +380,7 @@ function Profile() {
                             <div className="form-group col-sm-4">
                               <label className="label mb-1">CGPA/Percentage<span className="required">*</span><span className="ml-1"
                                 data-toggle="tooltip" data-placement="top" title="Tooltip on top"><img
-                                  src="assets/images/employee/info.svg" width="16" height="16" alt="" /></span></label>
+                                  src={info} width="16" height="16" alt="" /></span></label>
                               <input type="text" className="form-control" placeholder="7.46" disabled={mode === 'view'} name={`stepThree.${index}.percentage`}
                                 value={el.percentage}
                                 onChange={handleChange}
@@ -390,7 +392,7 @@ function Profile() {
                         <div className="col-12 mb-4">
                           <div className="row">
                             <div className="col-6">
-                              <button className="plus-btn btn btn-gr" onClick={() => push({
+                              <button className="plus-btn" onClick={() => push({
                                 degree: "",
                                 specialization: "",
                                 yearOfCompletion: "",
@@ -400,7 +402,7 @@ function Profile() {
                                 height="20" alt="" /><span className="ml-1">Add More</span></button>
                             </div>
                             {values?.stepThree.length > 1 && <div className="col-6 text-right pr-3">
-                              <button className="plus-btn btn btn-gr" type="button" ><img src={deleteImg} width="16"
+                              <button className="plus-btn" type="button" ><img src={deleteImg} width="16"
                                 height="18" alt="" /></button>
                             </div>}
                           </div>
@@ -413,11 +415,11 @@ function Profile() {
                   <div className="col-12 mt-4">
                     <div className="form-row">
                       <div className="col-md-6">
-                        <button className="btn btn-gr btn-sm" type="button">BACK</button>
+                        <button className="btn btn-yl btn-sm" type="button">BACK</button>
                       </div>
                       <div className="col-md-6 text-right">
-                        <button className="btn btn-gr btn-sm" onClick={() => { setIndex(2); handleSubmit() }}>SAVE</button>
-                        <button className="btn btn-gr btn-sm ml-3" onClick={() => { setIndex(2); handleSubmit() }}>NEXT</button>
+                        <button className="btn btn-yl btn-sm" onClick={() => { setIndex(2); handleSubmit() }}>SAVE</button>
+                        <button className="btn btn-yl btn-sm ml-3" onClick={() => { setIndex(2); handleSubmit() }}>NEXT</button>
                       </div>
                     </div>
                   </div>
@@ -564,7 +566,7 @@ function Profile() {
                         <div className="col-12 mb-4">
                           <div className="row">
                             <div className="col-6">
-                              <button className="plus-btn btn btn-gr" type="button" onClick={() => push({
+                              <button className="plus-btn" type="button" onClick={() => push({
                                 organization: "",
                                 designation: "",
                                 employmentType: "",
@@ -577,7 +579,7 @@ function Profile() {
                                 height="20" alt="" /><span className="ml-1">Add More</span></button>
                             </div>
                             {values?.stepFour.length > 1 && <div className="col-6 text-right pr-3">
-                              <button className="plus-btn btn btn-gr" type="button"><img src={deleteImg} width="16"
+                              <button className="plus-btn" type="button"><img src={deleteImg} width="16"
                                 height="18" alt="" /></button>
                             </div>}
                           </div>
@@ -588,11 +590,11 @@ function Profile() {
                         <div className="col-12 mt-4">
                           <div className="form-row">
                             <div className="col-md-6">
-                              <button className="btn btn-gr btn-sm" type="button">BACK</button>
+                              <button className="btn btn-yl btn-sm" type="button">BACK</button>
                             </div>
                             <div className="col-md-6 text-right">
-                              <button className="btn btn-gr btn-sm" onClick={() => { setIndex(3); handleSubmit() }}>SAVE</button>
-                              <button className="btn btn-gr btn-sm ml-3" onClick={() => { setIndex(3); handleSubmit() }}>NEXT</button>
+                              <button className="btn btn-yl btn-sm" onClick={() => { setIndex(3); handleSubmit() }}>SAVE</button>
+                              <button className="btn btn-yl btn-sm ml-3" onClick={() => { setIndex(3); handleSubmit() }}>NEXT</button>
                             </div>
                           </div>
                         </div>
@@ -643,7 +645,7 @@ function Profile() {
                         <div className="col-12 mb-4">
                           <div className="row">
                             <div className="col-6">
-                              <button className="plus-btn btn btn-gr" type="button" onClick={() => push({
+                              <button className="plus-btn" type="button" onClick={() => push({
                                 skill: "",
                                 rating: ""
                               })}><img src={plus} width="20"
@@ -693,7 +695,7 @@ function Profile() {
                           <div className="col-12 mb-4">
                             <div className="row">
                               <div className="col-6">
-                                <button className="plus-btn btn btn-gr" type="button" onClick={() => push({
+                                <button className="plus-btn" type="button" onClick={() => push({
                                   link: "",
                                   social: ""
                                 })}><img src={plus} width="20"
@@ -713,7 +715,7 @@ function Profile() {
                     <label className="label mb-2 heading-xs">Additional Information</label>
                   </div>
                   <div className="col-12 mt-3">
-                    <button className="plus-btn btn"><img src={plusDark} width="20"
+                    <button className="plus-btn"><img src={plusDark} width="20"
                       height="20" alt="" /><span className="ml-1 cc-dark">Certifications/Licenses</span></button>
                   </div>
                   <div className="col-12 mb-4">
@@ -805,7 +807,7 @@ function Profile() {
                               <div className="col-12 mb-4">
                                 <div className="row">
                                   <div className="col-6">
-                                    <button className="plus-btn btn btn-gr" type="button" onClick={() => push({
+                                    <button className="plus-btn" type="button" onClick={() => push({
                                       certification: "",
                                       insititute: "",
                                       domain: "",
@@ -817,7 +819,7 @@ function Profile() {
                                       height="20" alt="" /><span className="ml-1" >Add More</span></button>
                                   </div>
                                   <div className="col-6 text-right pr-3">
-                                    <button className="plus-btn btn" type="button"><img src={deleteImg}
+                                    <button className="plus-btn" type="button"><img src={deleteImg}
                                       width="16" height="18" alt="" /></button>
                                   </div>
                                 </div>
@@ -829,7 +831,7 @@ function Profile() {
 
                     <div className="row">
                       <div className="col-12 mt-3">
-                        <button className="plus-btn btn"><img src={plusDark} width="20"
+                        <button className="plus-btn"><img src={plusDark} width="20"
                           height="20" alt="" /><span className="ml-1 cc-dark">Positions of Responsibility</span></button>
                       </div>
                       <div className="col-12 mt-2">
@@ -839,19 +841,19 @@ function Profile() {
                     </div>
                     <div className="row">
                       <div className="col-12 mt-3">
-                        <button className="plus-btn btn"><img src={plusDark} width="20"
+                        <button className="plus-btn"><img src={plusDark} width="20"
                           height="20" alt="" /><span className="ml-1 cc-dark">Projects, Publications</span></button>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-12 mt-3">
-                        <button className="plus-btn btn"><img src={plusDark} width="20"
+                        <button className="plus-btn"><img src={plusDark} width="20"
                           height="20" alt="" /><span className="ml-1 cc-dark">EXTRA-curriculars</span></button>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-12 mt-3">
-                        <button className="plus-btn btn"><img src={plusDark} width="20"
+                        <button className="plus-btn"><img src={plusDark} width="20"
                           height="20" alt="" /><span className="ml-1 cc-dark">ACHIEVEMENTS</span></button>
                       </div>
                     </div>
@@ -861,11 +863,11 @@ function Profile() {
                   <div className="col-12 mt-4">
                     <div className="form-row">
                       <div className="col-md-6">
-                        <button className="btn btn-gr btn-sm" type="button">BACK</button>
+                        <button className="btn btn-yl btn-sm" type="button">BACK</button>
                       </div>
                       <div className="col-md-6 text-right">
-                        <button className="btn btn-gr btn-sm" type="submit" onClick={() => { setIndex(4); handleSubmit() }}>SAVE</button>
-                        <button className="btn btn-gr btn-sm ml-3" type='submit' onClick={() => { setIndex(4); handleSubmit() }}>NEXT</button>
+                        <button className="btn btn-yl btn-sm" type="submit" onClick={() => { setIndex(4); handleSubmit() }}>SAVE</button>
+                        <button className="btn btn-yl btn-sm ml-3" type='submit' onClick={() => { setIndex(4); handleSubmit() }}>NEXT</button>
                       </div>
                     </div>
                   </div>
@@ -1060,10 +1062,10 @@ function Profile() {
               <div className="col-12 mt-1">
                 <div className="form-row">
                   <div className="col-md-6">
-                    <button className="btn btn-gr btn-sm" type="submit">BACK</button>
+                    <button className="btn btn-yl btn-sm" type="submit">BACK</button>
                   </div>
                   <div className="col-md-6 text-right">
-                    <button className="btn btn-gr btn-sm">SAVE</button>
+                    <button className="btn btn-yl btn-sm">SAVE</button>
                   </div>
                 </div>
               </div>

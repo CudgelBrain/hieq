@@ -114,7 +114,7 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
               </button>
               <button
                 type='button'
-                className={userType?.includes('Employer') ? 'btn btn-yl ml-2' :  'btn btn-gr ml-2'}
+                className={userType?.includes('Employer') ? 'btn btn-yl ml-2' :  'btn btn-yl ml-2'}
                 
                 onClick={() => {
                   if(userType?.includes('Employer'))

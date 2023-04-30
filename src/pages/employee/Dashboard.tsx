@@ -5,6 +5,7 @@ import { history } from 'utils';
 import Stats from '../../components/Employee/Stats'
 import Opportunities from 'features/employee/dashboard/Opportunity'
 import RangeSelector from 'components/RangeSelector';
+import 'assets/styles/employee/style.css'
 
 function EmployeeDashboard() {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
@@ -23,7 +24,7 @@ function EmployeeDashboard() {
         <div className="pg-title flex-grow-1">Dashboard</div>
         <div className="text-right">
           <span className="label">50% Complete Profile</span>
-          <span className="progress progress-bar mt-1"><span className="bg-green" style={{ width: "50%" }}></span></span>
+          <span className="progress-bar mt-1 bg-white"><span className="bg-green" style={{ width: "50%" }}></span></span>
         </div>
       </div>
 

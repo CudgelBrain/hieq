@@ -103,14 +103,18 @@ const Header: React.FC<Props> = ({ sidebarState, themeMode, setSidebarState, set
                 </div>
               </div>
               <div className="col-6 pt-3 pb-3 lt-sec-pd">
-                <button type="submit" className="btn" style={{
+                {/* <button type="submit" className="btn" style={{
                   borderRadius: '30px',
                   backgroundColor: "#5BC287"
 
                 }}>
                   <img className="mr-3" src={searchImg} height="20"
                     alt="" />
-                  <input type="text" placeholder='JOBS, INTERNSHIPS' style={{ height: '30px', width: "100%", color: 'white', fontSize: "1rem", backgroundColor: "#5BC287", border: 'none' }} /></button>
+                  <input type="text" placeholder='JOBS, INTERNSHIPS' style={{ height: '30px', width: "100%", color: 'white', fontSize: "1rem", backgroundColor: "#5BC287", border: 'none' }} /></button> */}
+                    <button type="submit" className="btn btn-yl">
+                  <img className="mr-3" src={searchImg} height="20"
+                alt=""/> Jobs, internships</button>
+
               </div>
               <div className="col-6 pt-3 pb-3 text-right">
                 <div className="tprt-link">
