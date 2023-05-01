@@ -41,7 +41,11 @@ const Header: React.FC<Props> = ({ sidebarState, themeMode, setSidebarState, set
           (<div className='container-fluid'>
             <div className='row position-relative'>
               <div className='lt-sec'>
-                <img src={hieqImg} height='40' alt='' />
+                <div style={{
+                  backgroundColor:'red'
+                }}>
+                <img src={hieqImg} height='40' width={'40'} alt='' />
+                </div>
                 <div
                   className='nav-bar'
                   style={{ cursor: 'pointer' }}
@@ -114,7 +118,6 @@ const Header: React.FC<Props> = ({ sidebarState, themeMode, setSidebarState, set
                     <button type="submit" className="btn btn-yl">
                   <img className="mr-3" src={searchImg} height="20"
                 alt=""/> Jobs, internships</button>
-
               </div>
               <div className="col-6 pt-3 pb-3 text-right">
                 <div className="tprt-link">

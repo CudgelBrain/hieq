@@ -1,5 +1,5 @@
 import { useAppQuery } from 'app/hooks'
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { hieqService } from 'utils'
 import camera from 'assets/images/camara.svg'
 import profile from 'assets/images/profile.svg'
@@ -34,6 +34,89 @@ function Profile() {
 
   React.useEffect(() => setMode(query ?? 'view'), [query]);
 
+  const [initialValues, setInitialValues] = useState({
+    stepOne: {
+      firstName: "",
+      email: "",
+      mobile: "",
+      gender: "",
+      dob: "",
+      profile_summary: ""
+    },
+    stepTwo: [{
+      standard: "",
+      board: "",
+      yearOfCompletion: "",
+      school: "",
+      percentage: "",
+    }],
+    stepThree: [{
+      degree: "",
+      specialization: "",
+      yearOfCompletion: "",
+      institute: "",
+      percentage: "",
+    }],
+    totalWorkMonth: "" || userProfile?.totalWorkMonth,
+    totalWorkYear: "" || userProfile?.totalWorkYear,
+    stepFour: [{
+      organization: "",
+      designation: "",
+      employmentType: "",
+      fromMonth: "",
+      toMonth: "",
+      fromYear: "",
+      toYear: "",
+      description: ""
+    }],
+    stepFive:
+    {
+      skills: [{
+        skill: "",
+        rating: ""
+      },
+      {
+        skill: "",
+        rating: ""
+      },
+      {
+        skill: "",
+        rating: ""
+      },],
+      links: [
+        {
+          social: "",
+          link: ""
+        },
+        {
+          social: "",
+          link: ""
+        },
+        {
+          social: "",
+          link: ""
+        },],
+      additionalInformation: [{
+        certification: "",
+        insititute: "",
+        domain: "",
+        certificationDateMonthFrom: "",
+        certificationDateYearFrom: "",
+        certificationDateMonthTo: "",
+        certificationDateYearTo: "",
+      }],
+      postionsOfResponsibility: "",
+      projectPublications: "",
+      extraCirricular: "",
+      achievment: "",
+
+    },
+    stepSix: {
+
+    }
+  });
+
+
 
   React.useEffect(() => {
     getUserProfile()
@@ -41,8 +124,139 @@ function Profile() {
 
   const getUserProfile = async () => {
     const response: any = await hieqService.get('/employeeProfile')
-    console.log(response)
     if (response.status === 'success') {
+      let data = response?.data;
+      setInitialValues({
+        stepOne: {
+          firstName: data.stepOne?.firstName || "",
+          email: data.stepOne?.email || "",
+          mobile: data.stepOne?.mobile || "",
+          gender: data.stepOne?.gender || "",
+          dob: data.stepOne?.dob || "",
+          profile_summary: data.stepOne?.profile_summary || "",
+        },
+        stepTwo: data && data?.stepTwo && data?.stepTwo?.length > 0 &&  data?.stepTwo?.map((item?: any) => ({
+          standard: item.standard || "",
+          board: item.board || "",
+          yearOfCompletion: item.yearOfCompletion || "",
+          school: item.school || "",
+          percentage: item.percentage || "",
+        })) || [
+            {
+              standard: "",
+              board: "",
+              yearOfCompletion: "",
+              school: "",
+              percentage: "",
+            },
+          ],
+        stepThree: data && data?.stepThree && data?.stepThree?.length > 0 && data?.stepThree?.map((item?: any) => ({
+          degree: item.degree || "",
+          specialization: item.specialization || "",
+          yearOfCompletion: item.yearOfCompletion || "",
+          institute: item.institute || "",
+          percentage: item.percentage || "",
+        })) || [
+            {
+              degree: "",
+              specialization: "",
+              yearOfCompletion: "",
+              institute: "",
+              percentage: "",
+            },
+          ],
+        totalWorkMonth: "" || userProfile?.totalWorkMonth,
+        totalWorkYear: "" || userProfile?.totalWorkYear,
+        stepFour: data && data?.stepFour && data?.stepFour?.length > 0 && data?.stepFour?.map((item?: any) => ({
+          organization: data.stepFour?.organization || "",
+          designation: data.stepFour?.designation || "",
+          employmentType: data.stepFour?.employmentType || "",
+          fromMonth: data.stepFour?.fromMonth || "",
+          toMonth: data.stepFour?.toMonth || "",
+          fromYear: data.stepFour?.fromYear || "",
+          toYear: data.stepFour?.toYear || "",
+          description: data.stepFour?.description || "",
+        })) || [{
+          organization: "",
+          designation: "",
+          employmentType: "",
+          fromMonth: "",
+          toMonth: "",
+          fromYear: "",
+          toYear: "",
+          description: ""
+        }],
+
+        stepFive: {
+          skills:
+          data && data?.stepFive && data?.stepFive?.skills  &&  data?.stepFive?.skills?.length > 0 && data?.stepFive?.skills?.map((item?: any) => ({
+              skill: item.skill || "",
+              rating: item.rating || "",
+            })) || [
+              {
+                skill: "",
+                rating: "",
+              },
+              {
+                skill: "",
+                rating: ""
+              },
+              {
+                skill: "",
+                rating: ""
+              },
+            ],
+          links:
+          data && data?.stepFive && data?.stepFive?.links  &&  data?.stepFive?.links?.length > 0 && 
+            data.stepFive?.links?.map((item?: any) => ({
+              social: item.social || "",
+              link: item.link || "",
+            })) || [
+              {
+                social: "",
+                link: "",
+              },
+              {
+                social: "",
+                link: "",
+              },
+              {
+                social: "",
+                link: "",
+              },
+            ],
+          additionalInformation:
+          data && data?.stepFive && data?.stepFive?.additionalInformation  &&  data?.stepFive?.additionalInformation.length > 0 && 
+            data.stepFive?.additionalInformation?.map((item?:any) => ({
+              certification: item.certification || "",
+              insititute: item.insititute || "",
+              domain: item.domain || "",
+              certificationDateMonthFrom:
+                item.certificationDateMonthFrom || "",
+              certificationDateYearFrom: item.certificationDateYearFrom || "",
+              certificationDateMonthTo: item.certificationDateMonthTo || "",
+              certificationDateYearTo: item.certificationDateYearTo || "",
+            })) || [
+              {
+                certification: "",
+                insititute: "",
+                domain: "",
+                certificationDateMonthFrom: "",
+                certificationDateYearFrom: "",
+                certificationDateMonthTo: "",
+                certificationDateYearTo: "",
+              },
+            ],
+          postionsOfResponsibility: data?.stepFive?.postionsOfResponsibility || "",
+          projectPublications: data?.stepFive?.projectPublications || "",
+          extraCirricular: data?.stepFive?.extraCirricular || "",
+          achievment: data?.stepFive?.achievment || ""
+        },
+        stepSix: {
+
+        }
+      });
+
       setUserProfile(response?.data)
     }
   }
@@ -140,98 +354,26 @@ function Profile() {
     stepOne: stepOneSchema,
   });
 
-  function checkIsEmpty(array: any[]) {
-    const isEmpty = array?.every((obj: { [s: string]: unknown } | ArrayLike<unknown>) => Object.values(obj).every(val => val === ''));
-    return isEmpty;
+  function checkIsEmpty(array: any) {
+    let isEmpty = false
+    if (array === undefined || typeof (array) === 'object') {
+      console.log("jjj")
+      isEmpty = true;
+    } else if (array && array?.length > 0) {
+      console.log('yp')
+      isEmpty = array?.every((obj: { [s: string]: unknown } | ArrayLike<unknown>) => Object.keys(obj).every(val => val === ''));
+      console.log(isEmpty, "aaa")
+    }
+    return isEmpty
   }
-  console.log(checkIsEmpty(userProfile.stepTwo))
 
 
   return (
     <>
       <Formik
         enableReinitialize={true}
-
-        initialValues={{
-          stepOne: {
-            firstName: "" || userProfile?.stepOne?.firstName,
-            email: "" || userProfile?.stepOne?.email,
-            mobile: "" || userProfile?.stepOne?.mobile,
-            gender: "" || userProfile?.stepOne?.gender,
-            dob: "" || userProfile?.stepOne?.dob,
-            profile_summary: "" || userProfile?.stepOne?.profile_summary
-          },
-          stepTwo: checkIsEmpty(userProfile?.stepTwo) ? [{
-            standard: "",
-            board: "",
-            yearOfCompletion: "",
-            school: "",
-            percentage: "",
-          }] : userProfile?.stepTwo,
-          stepThree: checkIsEmpty(userProfile?.stepThree) ? [{
-            degree: "",
-            specialization: "",
-            yearOfCompletion: "",
-            institute: "",
-            percentage: "",
-          }] : userProfile?.stepThree,
-          totalWorkMonth: "" || userProfile?.totalWorkMonth,
-          totalWorkYear: "" || userProfile?.totalWorkYear,
-          stepFour: checkIsEmpty(userProfile?.stepFour) ? [{
-            organization: "",
-            designation: "",
-            employmentType: "",
-            fromMonth: "",
-            toMonth: "",
-            fromYear: "",
-            toYear: "",
-            description: ""
-          }] : userProfile?.stepFour,
-          stepFive: {
-            skills: userProfile?.stepFive && checkIsEmpty(userProfile?.stepFive?.skills) ? [{
-              skill: "",
-              rating: ""
-            },
-            {
-              skill: "",
-              rating: ""
-            },
-            {
-              skill: "",
-              rating: ""
-            },] : userProfile?.stepFive?.skills,
-            links:userProfile?.stepFive && checkIsEmpty(userProfile?.stepFive?.links) ? [
-              {
-                social: "",
-                link: ""
-              },
-              {
-                social: "",
-                link: ""
-              },
-              {
-                social: "",
-                link: ""
-              },]: userProfile?.stepFive?.links,
-            additionalInformation: userProfile?.stepFive && checkIsEmpty(userProfile?.stepFive?.additionalInformation) ? [{
-              certification: "",
-              insititute: "",
-              domain: "",
-              certificationDateMonthFrom: "",
-              certificationDateYearFrom: "",
-              certificationDateMonthTo: "",
-              certificationDateYearTo: "",
-            }] : userProfile?.stepFive?.additionalInformation,
-            postionsOfResponsibility: "" || userProfile?.stepFive?.postionsOfResponsibility, 
-            projectPublications: "" || userProfile?.stepFive?.projectPublications,
-            extraCirricular: "" || userProfile?.stepFive?.extraCirricular,
-            achievment: "" || userProfile?.stepFive?.achievment,
-          },
-          stepSix: {
-
-          }
-        }
-
+        initialValues={
+          initialValues
         }
         onSubmit={async (values) => {
           console.log(values)
@@ -480,7 +622,7 @@ function Profile() {
                       <div className="row pt-4">
                         <div className="col-md-12 pt-4 bt-1">&nbsp;</div>
 
-                        {values?.stepThree?.map((el?:any, index?:any, row?:any) =>
+                        {values?.stepThree?.map((el?: any, index?: any, row?: any) =>
                           <>
                             <div className="col-12">
                               <div className="form-row">
@@ -624,7 +766,7 @@ function Profile() {
                       </div>
 
                       <div className="row pt-2">
-                        {values?.stepFour?.map((el:any, index:any) => <>
+                        {values?.stepFour?.map((el: any, index: any) => <>
                           <div className="col-12">
                             <div className="form-row">
                               <div className="form-group col-4">
@@ -769,7 +911,7 @@ function Profile() {
                   <FieldArray name="stepFive.skills">
                     {({ insert, remove, push }) => (
                       <>
-                        {values?.stepFive?.skills?.map((el:any, index:any) => <div className="col-12">
+                        {values?.stepFive?.skills?.map((el: any, index: any) => <div className="col-12">
                           <div className="form-row align-items-center">
                             <div className="form-group col-3">
                               <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
@@ -824,7 +966,7 @@ function Profile() {
                           <div className="col-12">
                             <label className="label mb-2 heading-xs">Social Media Links and Work Portfolio</label>
                           </div>
-                          {values?.stepFive?.links?.map((el:any, index:any) => <div className="col-12">
+                          {values?.stepFive?.links?.map((el: any, index: any) => <div className="col-12">
                             <div className="form-row align-items-center">
                               <div className="form-group col-2">
                                 <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
@@ -881,7 +1023,7 @@ function Profile() {
                         {({ insert, remove, push }) => (
                           <>
                             <div className="row pt-4">
-                              {values?.stepFive?.additionalInformation?.map((el:any, index:any, row:any) =>
+                              {values?.stepFive?.additionalInformation?.map((el: any, index: any, row: any) =>
                                 <>
                                   <div className="col-12">
                                     <div className="form-row">
@@ -956,8 +1098,8 @@ function Profile() {
                                       <div className="col-4 d-flex align-items-center">
                                         <div className="custom-inline">
                                           <div className="custom-control custom-checkbox" onClick={() => setIsValidLifeTime(!isValidLiftime)}>
-                                            <input type="checkbox" className="custom-control-input" id="loctype1" name="loctype" disabled={mode === 'view'} checked={isValidLiftime}/>
-                                            
+                                            <input type="checkbox" className="custom-control-input" id="loctype1" name="loctype" disabled={mode === 'view'} checked={isValidLiftime} />
+
                                             <label className="custom-control-label pl-1">Valid for Lifetime</label>
                                           </div>
                                         </div>
