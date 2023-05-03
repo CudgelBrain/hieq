@@ -766,7 +766,7 @@ function Profile() {
                       </div>
 
                       <div className="row pt-2">
-                        {values?.stepFour?.map((el: any, index: any) => <>
+                        {values?.stepFour?.map((el: any, index: any, row:any) => <>
                           <div className="col-12">
                             <div className="form-row">
                               <div className="form-group col-4">
@@ -862,7 +862,7 @@ function Profile() {
                           <div className="col-12 mb-4">
                             <div className="row">
                               <div className="col-6">
-                                <button className="plus-btn" type="button" onClick={() => push({
+                              {index === row.length - 1 &&  <button className="plus-btn" type="button" onClick={() => push({
                                   organization: "",
                                   designation: "",
                                   employmentType: "",
@@ -872,7 +872,7 @@ function Profile() {
                                   toYear: "",
                                   description: ""
                                 })}><img src={plusDark} width="20"
-                                  height="20" alt="" /><span className="ml-1">Add More</span></button>
+                                  height="20" alt="" /><span className="ml-1">Add More</span></button>}
                               </div>
                               {values?.stepFour.length > 1 && <div className="col-6 text-right pr-3">
                                 <button className="plus-btn" type="button" onClick={() => remove(index)}><img src={deleteImg} width="16"
