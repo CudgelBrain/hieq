@@ -8,6 +8,7 @@ import { store } from './app/store';
 
 // Import Global Stylings
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.render(
   <Provider store={store}>
