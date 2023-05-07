@@ -140,7 +140,7 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
                 }
                 }
               >
-                <img className='mr-2' src={editIMg} alt='' />
+                <img className='mr-2 ' src={editIMg} alt='' />
                 Edit
               </button>
             </div>

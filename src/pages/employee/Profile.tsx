@@ -24,7 +24,7 @@ function Profile() {
   const [userProfile, setUserProfile] = useState<any | null>({})
   const [isPresent, steIsPresent] = useState(false);
   const [isValidLiftime, setIsValidLifeTime] = useState(false)
-  const [profileImage, setProfileImage] = useState({uri:""}) 
+  const [profileImage, setProfileImage] = useState({ uri: "" })
 
 
   const personalRef = useRef(null)
@@ -297,25 +297,26 @@ function Profile() {
     // dob: Yup.string().required("Required"),
   });
 
-  const stepTwoSchema =  Yup.object().shape({
+  const stepTwoSchema = Yup.object().shape({
     stepTwo: Yup.array().of(
-    Yup.object({
-      standard: Yup.string().required("Required"),
-      board: Yup.string().required("Required"),
-      yearOfCompletion: Yup.string().required("Required"),
-      school: Yup.string().required("Required"),
-      percentage: Yup.string().required("Required"),
-    }))}
+      Yup.object({
+        standard: Yup.string().required("Required"),
+        board: Yup.string().required("Required"),
+        yearOfCompletion: Yup.string().required("Required"),
+        school: Yup.string().required("Required"),
+        percentage: Yup.string().required("Required"),
+      }))
+  }
   );
-  const stepThreeSchema =Yup.object().shape({
+  const stepThreeSchema = Yup.object().shape({
     stepThree: Yup.array().of(
-    Yup.object({
-      degree: Yup.string().required("Required"),
-      specialization: Yup.string().required("Required"),
-      yearOfCompletion: Yup.string().required("Required"),
-      institute: Yup.string().required("Required"),
-      percentage: Yup.string().required("Required"),
-    })
+      Yup.object({
+        degree: Yup.string().required("Required"),
+        specialization: Yup.string().required("Required"),
+        yearOfCompletion: Yup.string().required("Required"),
+        institute: Yup.string().required("Required"),
+        percentage: Yup.string().required("Required"),
+      })
     )
   });
 
@@ -477,14 +478,14 @@ function Profile() {
                     <div className="col-4 text-center">
                       <div className="change-img">
                         <div className="browseImg" id="#file">
-                        <label htmlFor="file-input">
-                          <img src={camera} width="25" alt="" />
-                        </label>
-                          </div>
-                        <input type='file' id='file-input' multiple={false} hidden onChange={(e:any) => setProfileImage(e.target.files[0])}/>
+                          <label htmlFor="file-input">
+                            <img src={camera} width="25" alt="" />
+                          </label>
+                        </div>
+                        <input type='file' id='file-input' multiple={false} hidden onChange={(e: any) => setProfileImage(e.target.files[0])} />
                         <div className="featured">
                           <img src={profileImage && profileImage?.uri ? profileImage?.uri : profileImg} width={280} height={235}
-                          alt="" /></div>
+                            alt="" /></div>
                       </div>
                     </div>
                     <div className="form-group col-12">
@@ -964,42 +965,46 @@ function Profile() {
               <div className="box-container mb-4" ref={skillsRef}>
                 <div className="box-container-inner">
                   <div className="text-left mb-4">
-                    <h2 className="bc-heading">4. Skills</h2>
+                    <h2 className="bc-heading">4. Skills Portfolio</h2>
                   </div>
                   <div className="row pt-2">
                     <FieldArray name="stepFive.skills">
                       {({ insert, remove, push }) => (
                         <>
-                          {values?.stepFive?.skills?.map((el: any, index: any) => <div className="col-12" key={index}>
-                            <div className="form-row align-items-center">
-                              <div className="form-group col-3">
-                                <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                  name={`stepFive.skills.${index}.skill`}
-                                  value={el.skill}
-                                  onChange={handleChange}
-                                >
-                                  <option value="Hmtl">HTML</option>
-                                  <option value="Hmtl">HTML</option>
-                                </select>
-                              </div>
-                              <div className="form-group col-4">
-                                <StarRating name={`stepFive.skills.${index}.rating`}  setFieldValue={setFieldValue} key={index}/>
+                          {values?.stepFive?.skills?.map((el: any, index: any, row:any) =>
+                            <>
+                              <div className="col-12" key={index}>
 
-                              </div>
-                            </div>
-                          </div>)}
+                                <div className="form-row align-items-center">
+                                  <div className="form-group col-3">
+                                    <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                      name={`stepFive.skills.${index}.skill`}
+                                      value={el.skill}
+                                      onChange={handleChange}
+                                    >
+                                      <option value="Hmtl">HTML</option>
+                                      <option value="Hmtl">HTML</option>
+                                    </select>
+                                  </div>
+                                  <div className="form-group col-4">
+                                    <StarRating name={`stepFive.skills.${index}.rating`} itemIndex={index} setFieldValue={setFieldValue} key={index} remove={remove} />
 
-                          <div className="col-12 mb-4">
-                            <div className="row">
-                              <div className="col-6">
-                                <button className="plus-btn" type="button" onClick={() => push({
-                                  skill: "",
-                                  rating: ""
-                                })}><img src={plusDark} width="20"
-                                  height="20" alt="" /><span className="ml-1" >Add More</span></button>
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          </div>
+
+                              {index < 5 && index === row.length - 1 &&  <div className="col-12 mb-4">
+                                <div className="row">
+                                  <div className="col-6">
+                                    <button className="plus-btn" type="button" onClick={() => push({
+                                      skill: "",
+                                      rating: ""
+                                    })}><img src={plusDark} width="20"
+                                      height="20" alt="" /><span className="ml-1" >Add More</span></button>
+                                  </div>
+                                </div>
+                              </div>}
+                            </>)}
                         </>)}
                     </FieldArray>
                   </div>
@@ -1014,7 +1019,8 @@ function Profile() {
                             <div className="col-12">
                               <label className="label mb-2 heading-xs">Social Media Links and Work Portfolio</label>
                             </div>
-                            {values?.stepFive?.links?.map((el: any, index: any) => <div className="col-12">
+                            {values?.stepFive?.links?.map((el: any, index: any, row:any) =><>
+                             <div className="col-12">
                               <div className="form-row align-items-center">
                                 <div className="form-group col-2">
                                   <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
@@ -1032,14 +1038,16 @@ function Profile() {
                                     onChange={handleChange}
                                   />
                                 </div>
-                                <div className="form-group col-1">
-                                  <button className="plus-btn ml-2" type="button" onClick={() => remove(index)}><img src={deleteImg}
+                                 <div className="form-group col-1">
+                                  <button className="plus-btn ml-2" type="button" onClick={() => remove(index)}
+                                  disabled={index < 3}
+                                  ><img src={deleteImg}
                                     width="16" height="18" alt="" /></button>
                                 </div>
 
                               </div>
-                            </div>)}
-                            <div className="col-12 mb-4">
+                            </div>
+                            {index < 9 && index === row.length - 1 &&  <div className="col-12 mb-4">
                               <div className="row">
                                 <div className="col-6">
                                   <button className="plus-btn" type="button" onClick={() => push({
@@ -1049,7 +1057,8 @@ function Profile() {
                                     height="20" alt="" /><span className="ml-1">Add More</span></button>
                                 </div>
                               </div>
-                            </div>
+                            </div>}
+                            </>)}
                           </div>
                         </>)}
                     </FieldArray>

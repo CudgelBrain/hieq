@@ -41,7 +41,7 @@ const Header: React.FC<Props> = ({ sidebarState, themeMode, setSidebarState, set
           (<div className='container-fluid'>
             <div className='row position-relative'>
               <div className='lt-sec'>
-                <img src={hieqImg} alt='' />
+                <img src={hieqImg} alt='' width={"125px"} height={"56px"} />
                 <div
                   className='nav-bar'
                   style={{ cursor: 'pointer' }}

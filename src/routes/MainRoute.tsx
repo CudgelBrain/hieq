@@ -4,6 +4,7 @@ import { isAuthenticated } from 'utils';
 import Header from 'components/Header/Main';
 import Sidebar from 'components/Navigation/Sidebar/Main';
 import 'assets/styles/main.css';
+import 'assets/styles/employee/style.css'
 
 interface Props extends RouteProps {
   component: React.FC;
