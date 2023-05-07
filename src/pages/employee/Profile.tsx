@@ -15,6 +15,12 @@ import Accordion from 'components/Accordian/Accordian'
 import * as Yup from 'yup'
 import plusFilled from 'assets/images/employee/plus_fille.svg'
 import StarRating from './RatingBar'
+import getYear from 'date-fns/getYear'
+import { OptionType, createOption } from 'features/employer/common'
+import calender from 'assets/images/calendar.svg'
+import DatePicker from 'react-datepicker'
+
+
 
 function Profile() {
   const [mode, setMode] = useState<string | null>('view')
@@ -25,6 +31,128 @@ function Profile() {
   const [isPresent, steIsPresent] = useState(false);
   const [isValidLiftime, setIsValidLifeTime] = useState(false)
   const [profileImage, setProfileImage] = useState({ uri: "" })
+  const [degree, setDegree] = useState([])
+  const [skills, setSkills] = useState([])
+  const [college, setCollege] = useState([])
+  const [company, setCompany] = useState([])
+  const [certification, setcertification] = useState([])
+  const [isInternship, setIsInternship] = useState(false)
+
+
+  const expyears: readonly OptionType[] = [
+    { value: '', label: 'Select Years' },
+    { value: '0', label: '0' },
+    { value: '1', label: '1' },
+    { value: '2', label: '2' },
+    { value: '3', label: '3' },
+    { value: '4', label: '4' },
+    { value: '5', label: '5' },
+    { value: '6', label: '6' },
+    { value: '7', label: '7' },
+    { value: '8', label: '8' },
+    { value: '9', label: '9' },
+    { value: '10', label: '10' },
+    { value: '11', label: '11' },
+    { value: '12', label: '12' },
+    { value: '13', label: '13' },
+    { value: '14', label: '14' },
+    { value: '15', label: '15' },
+    { value: '16', label: '16' },
+    { value: '17', label: '17' },
+    { value: '18', label: '18' },
+    { value: '19', label: '19' },
+    { value: '20', label: '20' },
+    { value: '21', label: '21' },
+    { value: '22', label: '22' },
+    { value: '23', label: '23' },
+    { value: '24', label: '24' },
+    { value: '25', label: '25' },
+    { value: '25+', label: '25+' },
+  ];
+
+  const months: readonly OptionType[] = [
+    { value: '', label: 'Select Months' },
+    { value: '0', label: '0' },
+    { value: '1', label: '1' },
+    { value: '2', label: '2' },
+    { value: '3', label: '3' },
+    { value: '4', label: '4' },
+    { value: '5', label: '5' },
+    { value: '6', label: '6' },
+    { value: '7', label: '7' },
+    { value: '8', label: '8' },
+    { value: '9', label: '9' },
+    { value: '10', label: '10' },
+    { value: '11', label: '11' },
+    { value: '12', label: '12' },
+  ];
+
+  const monthsName: readonly OptionType[] = [
+    { value: '', label: 'Select Month' },
+    { value: 'jan', label: 'January' },
+    { value: 'feb', label: 'Febraury' },
+    { value: 'mar', label: 'March' },
+    { value: 'apr', label: 'April' },
+    { value: 'may', label: 'May' },
+    { value: 'jun', label: 'June' },
+    { value: 'jul', label: 'July' },
+    { value: 'aug', label: 'August' },
+    { value: 'sep', label: 'September' },
+    { value: 'oct', label: 'October' },
+    { value: 'nov', label: 'November' },
+    { value: 'dec', label: 'December' },
+
+  ];
+
+
+
+  const getDegree = async () => {
+    const response: any = await hieqService.get('/specialization/list')
+    if (response?.status === 'success') {
+      setDegree(response?.data?.items)
+    }
+  }
+
+  const getSkills = async () => {
+    const response: any = await hieqService.get('/skill/list')
+    if (response?.status === 'success') {
+      setSkills(response?.data?.items)
+    }
+  }
+
+  const getCollege = async () => {
+    const response: any = await hieqService.get('/college/list')
+    if (response?.status === 'success') {
+      setCollege(response?.data?.items)
+    }
+  }
+
+  const getCompany = async () => {
+    const response: any = await hieqService.get('/company/list')
+    if (response?.status === 'success') {
+      setCompany(response?.data?.items)
+    }
+  }
+
+  const getCertification = async () => {
+    const response: any = await hieqService.get('/certification/list')
+    if (response?.status === 'success') {
+      setcertification(response?.data?.items)
+    }
+  }
+
+
+  const years: OptionType[] = [];
+  for (let year = getYear(new Date()); year > 1950; year--) {
+    years.push(createOption(year.toString()));
+  }
+
+  const links: readonly OptionType[] = [
+    { value: 'Facebook', label: 'Facebook' },
+    { value: 'Twitter', label: 'Twitter' },
+    { value: 'Instagram', label: 'Instagram' },
+    { value: 'Github', label: 'Github' },
+  ];
 
 
   const personalRef = useRef(null)
@@ -130,20 +258,23 @@ function Profile() {
 
   React.useEffect(() => {
     getUserProfile()
+    getDegree();
+    getSkills(); getCollege();
+    getCompany();
+    getCertification();
   }, [])
 
   const getUserProfile = async () => {
     const response: any = await hieqService.get('/employeeProfile')
     if (response.status === 'success') {
       let data = response?.data;
-      console.log(data, "data")
       if (data?.user) {
         setStepOneInitialValues({
           firstName: data?.user.name || "",
           email: data?.user?.email || "",
           mobile: data?.user?.phone || "",
           gender: data?.user?.gender || "",
-          dob: data?.user?.dob || "",
+          dob: data?.user?.dob || data?.stepOne.dob || "",
           profile_summary: data?.user?.profile_summary || data?.stepOne.profile_summary || "",
         })
       } else {
@@ -305,7 +436,7 @@ function Profile() {
     email: Yup.string().email("Invalid email address").required("Required"),
     mobile: Yup.string().required("Required"),
     gender: Yup.string().required("Required"),
-    // dob: Yup.string().required("Required"),
+    dob: Yup.string().required("Required"),
   });
 
   const stepTwoSchema = Yup.object().shape({
@@ -403,7 +534,7 @@ function Profile() {
           }
 
           }>
-          {({ values, handleChange, handleBlur, handleSubmit, errors, touched }) =>
+          {({ values, handleChange, handleBlur, setFieldValue, handleSubmit, errors, touched }) =>
 
             <Form>
               <div className="box-container mb-4" ref={personalRef}>
@@ -418,7 +549,7 @@ function Profile() {
                           <label className="label mb-1">Full Name<span className="required">*</span></label>
                           <Field type="text" className="form-control" placeholder="Enter full name"
                             name="[firstName]"
-                            disabled={mode === 'view'  ||  mode === 'edit'}
+                            disabled={mode === 'view' || mode === 'edit'}
                             value={values.firstName}
                             onChange={handleChange}
                           />
@@ -431,7 +562,7 @@ function Profile() {
                             <div className="form-group col-sm-6">
                               <label className="label mb-1">Email Address<span className="required">*</span></label>
                               <Field type="text" className="form-control" placeholder="Enter email address"
-                                disabled={mode === 'view'  ||  mode === 'edit'}
+                                disabled={mode === 'view' || mode === 'edit'}
                                 name="[email]"
                                 value={values.email}
                                 onChange={handleChange}
@@ -442,9 +573,9 @@ function Profile() {
                             </div>
                             <div className="form-group col-sm-6">
                               <label className="label mb-1">Contact Number<span className="required">*</span></label>
-                              <input type="text" className="form-control" placeholder="Enter phone number" 
+                              <input type="text" className="form-control" placeholder="Enter phone number"
                                 name="[mobile]"
-                                disabled={mode === 'view'  ||  mode === 'edit'}
+                                disabled={mode === 'view' || mode === 'edit'}
                                 value={values.mobile}
                                 onChange={handleChange}
                               />
@@ -470,12 +601,15 @@ function Profile() {
                             <div className="form-group col-sm-6">
                               <label className="label mb-1">Date of Birth<span className="required">*</span></label>
                               <div className="input-group">
-                                <input type="date" className="form-control" placeholder="dd-mm-yyy" value={values.dob} disabled={mode === 'view'}
+                                <input type="date" className="form-control" placeholder="dd-mm-yyy"
+                                  value={values.dob}
+                                  disabled={mode === 'view'}
                                   name="dob"
+
                                   onChange={handleChange}
                                 />
-                                <div className="input-group-append"> <span className="input-group-text"><img
-                                  src="assets/images/calendar.svg" height="20" alt="" /></span> </div>
+                                {/* <div className="input-group-append"> <span className="input-group-text"><img
+                                  src={calender} height="20" alt="" /></span> </div> */}
                               </div>
                               {touched?.dob && errors?.dob ? (
                                 <div className="errors">{errors?.dob}</div>
@@ -551,13 +685,13 @@ function Profile() {
             <Form>
               <div className="box-container mb-4" ref={educationRef}>
                 <div className="box-container-inner">
-                        <div className="text-left mb-4">
-                          <h2 className="bc-heading">2. Education Background</h2>
-                        </div>
+                  <div className="text-left mb-4">
+                    <h2 className="bc-heading">2. Education Background</h2>
+                  </div>
                   {/* <FieldArray name="stepTwo">
                     {({ insert, remove, push }) => (
                       <> */}
-                        {/* <div className="row">
+                  {/* <div className="row">
                           {values?.stepTwo?.map((el?: any, index?: any, row?: any) =>
                             values.stepTwo &&
                             <>
@@ -636,7 +770,7 @@ function Profile() {
 
 
                         </div> */}
-                      {/* </>
+                  {/* </>
                     )}
                   </FieldArray> */}
                   <FieldArray name="stepThree">
@@ -656,8 +790,8 @@ function Profile() {
                                       value={el.degree}
                                       onChange={handleChange}
                                     >
-                                      <option value="ccc">MBA</option>
-                                      <option value="aaa">MBA</option>
+                                      {degree.length > 0 && degree.map((el: any) => <option key={el.ID} value={el.degree}>{el.degree.toUpperCase()}</option>
+                                      )}
                                     </select>
                                   </div>
                                   <div className="form-group col-sm-4">
@@ -667,7 +801,8 @@ function Profile() {
                                       value={el.specialization}
                                       onChange={handleChange}
                                     >
-                                      <option value="">General Management</option>
+                                      {degree.length > 0 && degree.map((el: any) => <option key={el.ID} value={el.name}>{el.name.toUpperCase()}</option>
+                                      )}
                                     </select>
                                   </div>
                                   <div className="form-group col-sm-4">
@@ -677,7 +812,7 @@ function Profile() {
                                       value={el.yearOfCompletion}
                                       onChange={handleChange}
                                     >
-                                      <option value="">2022</option>
+                                      {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                     </select>
                                   </div>
                                   <div className="form-group col-sm-8">
@@ -687,7 +822,7 @@ function Profile() {
                                       value={el.institute}
                                       onChange={handleChange}
                                     >
-                                      <option value="">Indian Institute of Mangement, Kashipur</option>
+                                      {college.length > 0 && college.map((el: any) => <option key={el.ID} value={el.name}>{el.name}</option>)}
                                     </select>
                                   </div>
                                   <div className="form-group col-sm-4">
@@ -786,7 +921,7 @@ function Profile() {
                               </div>
                             </div>
                           </div>
-                          {isExperience && <>
+                          {isExperience ? <>
                             <div className="form-group d-inline-flex align-items-center pr-0 col-2 pt-2">
                               <label className="label mb-0">Total Work Experience<span className="required">*</span></label>
                             </div>
@@ -796,22 +931,32 @@ function Profile() {
                                   value={values.totalWorkYear}
                                   onChange={handleChange}
                                 >
-                                  <option value="">Year</option>
+                                  {expyears.length > 0 && expyears.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                 </select></div>
                                 <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
                                   name="totalWorkMonth"
                                   onChange={handleChange}
                                   value={values.totalWorkMonth}
                                 >
-                                  <option value="">Month</option>
+                                  {months.length > 0 && months.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                 </select></div>
                               </div>
                             </div>
-                          </>
+                          </> : <div className="col-4 d-flex align-items-center mb-2">
+                            <div className="custom-inline">
+                              <div className="custom-control custom-checkbox" onClick={() => setIsInternship(!isInternship)}> 
+                                <input type="checkbox" className="custom-control-input" id="loctype1" name="loctype" disabled={mode === 'view'}
+                                  checked={isInternship}
+                                />
+
+                                <label className="custom-control-label pl-1">Have any internship experience ?</label>
+                              </div>
+                            </div>
+                          </div>
                           }
                         </div>
 
-                        <div className="row pt-2">
+                        {(isExperience || isInternship) && <div className="row pt-2">
                           {values?.stepFour?.map((el: any, index: any, row: any) => <>
                             <div className="col-12">
                               <div className="form-row">
@@ -822,7 +967,7 @@ function Profile() {
                                     onChange={handleChange}
                                     value={el.organization}
                                   >
-                                    <option value="tcs">Tata Consultancy Services (TCS)</option>
+                                    {company.length > 0 && company.map((el: any) => <option value={el.name}>{el?.name}</option>)}
                                   </select>
                                 </div>
                                 <div className="form-group col-4">
@@ -833,6 +978,7 @@ function Profile() {
                                     value={el.designation}
                                   >
                                     <option value="sys">Systems Engineer</option>
+                                    <option value="sys">Systems Engineera 2</option>
                                   </select>
                                 </div>
                                 <div className="form-group col-4">
@@ -842,7 +988,9 @@ function Profile() {
                                     onChange={handleChange}
                                     value={el.employmentType}
                                   >
-                                    <option value="fulltime">Full-Time Job</option>
+                                    <option value="full-time">Full-Time Job</option>
+                                    <option value="part-time">Part-Time Job</option>
+                                    <option value="hybrid">Hybrid Job</option>
                                   </select>
                                 </div>
                                 <div className="form-group col-4">
@@ -853,14 +1001,14 @@ function Profile() {
                                       onChange={handleChange}
                                       value={el.fromMonth}
                                     >
-                                      <option value="aug">Month</option>
+                                      {monthsName.length > 0 && monthsName.map((el: any) => <option key={el.label} value={el.value}>{el.label}</option>)}
                                     </select></div>
                                     <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
                                       name={`stepFour.${index}.fromYear`}
                                       onChange={handleChange}
                                       value={el.fromYear}
                                     >
-                                      <option value="2022">Year</option>
+                                      {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                     </select></div>
                                   </div>
                                 </div>
@@ -872,14 +1020,14 @@ function Profile() {
                                       onChange={handleChange}
                                       value={el.toMonth}
                                     >
-                                      <option value="aug">Month</option>
+                                      {monthsName.length > 0 && monthsName.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                     </select></div>
                                     <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
                                       name={`stepFour.${index}.toYear`}
                                       onChange={handleChange}
                                       value={el.toYear}
                                     >
-                                      <option value="2022">Year</option>
+                                      {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                     </select></div>
                                   </div>
                                 </div>}
@@ -928,7 +1076,7 @@ function Profile() {
                             </div>
                           </>)}
 
-                        </div>
+                        </div>}
 
                         <div className="row">
                           <div className="col-12 mt-4">
@@ -991,8 +1139,7 @@ function Profile() {
                                       value={el.skill}
                                       onChange={handleChange}
                                     >
-                                      <option value="Hmtl">HTML</option>
-                                      <option value="Hmtl">HTML</option>
+                                      {skills.length > 0 && skills.map((el: any) => <option key={el.ID} value={el.name}>{el.name.toUpperCase()}</option>)}
                                     </select>
                                   </div>
                                   <div className="form-group col-4">
@@ -1037,7 +1184,7 @@ function Profile() {
                                       value={el.social}
                                       onChange={handleChange}
                                     >
-                                      <option value="">Facebook</option>
+                                      {links.length > 0 && links.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                     </select>
                                   </div>
                                   <div className="form-group d-flex align-items-center col-5">
@@ -1089,35 +1236,35 @@ function Profile() {
                           {({ insert, remove, push }) => (
                             <>
                               <div className="row pt-4">
-                                {values?.stepFive?.additionalInformation?.map((el: any, index: any, row: any) =>
+                                {values?.stepFive?.additionalInformation?.map((item: any, index: any, row: any) =>
                                   <>
                                     <div className="col-12">
                                       <div className="form-row">
                                         <div className="form-group col-4">
                                           <label className="label mb-1">Certification<span className="required">*</span></label>
                                           <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                            name={`stepFive.${index}.certification`}
-                                            value={el.certification}
+                                            name={`stepFive.additionalInformation.${index}.certification`}
+                                            value={item.certification}
                                             onChange={handleChange}
                                           >
-                                            <option value="">Scrum Master</option>
+                                            {certification.length > 0 && certification.map((el: any) => <option value={el.name}>{el.name}</option>)}
                                           </select>
                                         </div>
                                         <div className="form-group col-4">
                                           <label className="label mb-1">Institute<span className="required">*</span></label>
                                           <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                            name={`stepFive.${index}.institute`}
-                                            value={el.insititute}
+                                            name={`stepFive.additionalInformation.${index}.institute`}
+                                            value={item.insititute}
                                             onChange={handleChange}
                                           >
-                                            <option value="">Project Management Institute</option>
+                                            {college.length > 0 && college.map((el: any) => <option value={el.name}>{el.name}</option>)}
                                           </select>
                                         </div>
                                         <div className="form-group col-4">
                                           <label className="label mb-1">Domain<span className="required">*</span></label>
                                           <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                            name={`stepFive.${index}.Domain`}
-                                            value={el.domain}
+                                            name={`stepFive.additionalInformation.${index}.Domain`}
+                                            value={item.domain}
                                             onChange={handleChange}
                                           >
                                             <option value="">Project Management</option>
@@ -1127,18 +1274,18 @@ function Profile() {
                                           <label className="label mb-1">Certification Date<span className="required">*</span></label>
                                           <div className="form-row">
                                             <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                              name={`stepFive.${index}.certificationDateMonthFrom`}
-                                              value={el.certificationDateMonthFrom}
+                                              name={`stepFive.additionalInformation.${index}.certificationDateMonthFrom`}
+                                              value={item.certificationDateMonthFrom}
                                               onChange={handleChange}
                                             >
-                                              <option value="">Month</option>
+                                              {monthsName.length > 0 && monthsName.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                             </select></div>
                                             <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                              name={`stepFive.${index}.certificationDateMonthFrom`}
-                                              value={el.certificationDateMonthFrom}
+                                              name={`stepFive.additionalInformation.${index}.certificationDateYearFrom`}
+                                              value={item.certificationDateYearFrom}
                                               onChange={handleChange}
                                             >
-                                              <option value="">Year</option>
+                                              {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                             </select></div>
                                           </div>
                                         </div>
@@ -1146,18 +1293,18 @@ function Profile() {
                                           <label className="label mb-1">Valid till<span className="required">*</span></label>
                                           <div className="form-row">
                                             <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                              name={`stepFive.${index}.certificationDateYearTo`}
-                                              value={el.certificationDateYearTo}
+                                              name={`stepFive.additionalInformation.${index}.certificationDateMonthTo`}
+                                              value={item.certificationDateMonthTo}
                                               onChange={handleChange}
                                             >
-                                              <option value="">Month</option>
+                                              {monthsName.length > 0 && monthsName.map((el: any) => <option key={el.value} value={el.value}>{el.label}</option>)}
                                             </select></div>
                                             <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                              name={`stepFive.${index}.certificationDateYearTo`}
-                                              value={el.certificationDateYearTo}
+                                              name={`stepFive.additionalInformation.${index}.certificationDateYearTo`}
+                                              value={item.certificationDateYearTo}
                                               onChange={handleChange}
                                             >
-                                              <option value="">Year</option>
+                                              {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                             </select></div>
                                           </div>
                                         </div>}
@@ -1187,7 +1334,9 @@ function Profile() {
                                             height="20" alt="" /><span className="ml-1" >Add More</span></button>}
                                         </div>
                                         <div className="col-6 text-right pr-3">
-                                          <button className="plus-btn" type="button" onClick={() => remove(index)}><img src={deleteImg}
+                                          <button className="plus-btn" type="button" onClick={() => remove(index)}
+                                          disabled={index  ===0}
+                                          ><img src={deleteImg}
                                             width="16" height="18" alt="" /></button>
                                         </div>
                                       </div>

@@ -175,7 +175,7 @@ const salaryDetailSchema = {
   // variablecycle: yup.string().required('Variable Cycle is required'),
   // variableCurrency: yup.string().required('Variable Currency is required'),
   additionalDetail: yup.string().required('Additional detail is required'),
-  // visibleToCandidate: yup.boolean().required('Visible to candidate is required'),
+  // visibleToCandi: yup.boolean().required('Visible to candidate is required'),
   showSalary: yup.boolean().required('show salary is required'),
   cycle: yup.string().required('Cycle is required'),
   currency: yup.string().required('Currency is required'),
