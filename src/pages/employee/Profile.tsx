@@ -417,8 +417,8 @@ function Profile() {
                         <div className="form-group col-12">
                           <label className="label mb-1">Full Name<span className="required">*</span></label>
                           <Field type="text" className="form-control" placeholder="Enter full name"
-                            disabled={mode === 'view'}
                             name="[firstName]"
+                            disabled={mode === 'view'  ||  mode === 'edit'}
                             value={values.firstName}
                             onChange={handleChange}
                           />
@@ -431,7 +431,7 @@ function Profile() {
                             <div className="form-group col-sm-6">
                               <label className="label mb-1">Email Address<span className="required">*</span></label>
                               <Field type="text" className="form-control" placeholder="Enter email address"
-                                disabled={mode === 'view'}
+                                disabled={mode === 'view'  ||  mode === 'edit'}
                                 name="[email]"
                                 value={values.email}
                                 onChange={handleChange}
@@ -442,8 +442,9 @@ function Profile() {
                             </div>
                             <div className="form-group col-sm-6">
                               <label className="label mb-1">Contact Number<span className="required">*</span></label>
-                              <input type="text" className="form-control" placeholder="Enter phone number" disabled={mode === 'view'}
+                              <input type="text" className="form-control" placeholder="Enter phone number" 
                                 name="[mobile]"
+                                disabled={mode === 'view'  ||  mode === 'edit'}
                                 value={values.mobile}
                                 onChange={handleChange}
                               />
@@ -551,7 +552,7 @@ function Profile() {
               <div className="box-container mb-4" ref={educationRef}>
                 <div className="box-container-inner">
                         <div className="text-left mb-4">
-                          <h2 className="bc-heading">2. Education</h2>
+                          <h2 className="bc-heading">2. Education Background</h2>
                         </div>
                   {/* <FieldArray name="stepTwo">
                     {({ insert, remove, push }) => (

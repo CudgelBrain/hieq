@@ -114,7 +114,7 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
             <div className='text-center mb-3'>
               <button
                 type='button'
-                className={userType?.includes('Employer') ? 'btn btn-wt img-reflect' : 'btn btn-wt img-reflect'}
+                className={userType?.includes('Employer') ? 'btn btn-wt img-reflect' : 'btn btn-wt btn-md img-reflect'}
                 onClick={() => {
                   if (userType?.includes('Employer')) {
                     history.push('/employer/profile')
@@ -129,7 +129,7 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
               </button>
               <button
                 type='button'
-                className={userType?.includes('Employer') ? 'btn btn-yl ml-2' : 'btn btn-yl ml-2'}
+                className={userType?.includes('Employer') ? 'btn btn-yl ml-2' : 'btn btn-yl btn-md ml-2'}
 
                 onClick={() => {
                   if (userType?.includes('Employer'))

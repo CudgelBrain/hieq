@@ -30,16 +30,16 @@ const StarRating = ({ name, setFieldValue, remove, itemIndex }) => {
                         onMouseLeave={() => setHover(rating)}
                     >
                         {index <= (hover || rating) ? <img src={starFilled} width="18" height="18" alt="" /> :
-                            <img src={star} width="18" height="18" alt="" />
+                            <img className="p-0" src={star} width="18" height="18" alt="" />
                         }
                     </button>
                 );
             })}
-               { <button className="plus-btn ml-4" type="button" onClick={() => remove(itemIndex)}
-               disabled={itemIndex < 3}
-               ><img src={deleteImg}
-               
-                    width="16" height="18" alt="" /></button>}
+            {<button className="plus-btn ml-4" type="button" onClick={() => remove(itemIndex)}
+                disabled={itemIndex < 3}
+            ><img src={deleteImg}
+
+                width="16" height="18" alt="" /></button>}
         </div>
     );
 };
