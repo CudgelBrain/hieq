@@ -46,13 +46,13 @@ function Profile() {
     profile_summary: ""
   })
   const [stepTwoIntialValues, setStepTwoInitialValues] = useState({
-    stepTwo: [{
-      standard: "",
-      board: "",
-      yearOfCompletion: "",
-      school: "",
-      percentage: "",
-    }],
+    // stepTwo: [{
+    //   standard: "",
+    //   board: "",
+    //   yearOfCompletion: "",
+    //   school: "",
+    //   percentage: "",
+    // }],
     stepThree: [{
       degree: "",
       specialization: "",
@@ -137,31 +137,42 @@ function Profile() {
     if (response.status === 'success') {
       let data = response?.data;
       console.log(data, "data")
-      setStepOneInitialValues({
-        firstName: data?.stepOne.firstName || "",
-        email: data?.stepOne.email || "",
-        mobile: data?.stepOne.mobile || "",
-        gender: data?.stepOne.gender || "",
-        dob: data?.stepOne.dob || "",
-        profile_summary: data?.stepOne.profile_summary || "",
-      })
+      if (data?.user) {
+        setStepOneInitialValues({
+          firstName: data?.user.name || "",
+          email: data?.user?.email || "",
+          mobile: data?.user?.phone || "",
+          gender: data?.user?.gender || "",
+          dob: data?.user?.dob || "",
+          profile_summary: data?.user?.profile_summary || data?.stepOne.profile_summary || "",
+        })
+      } else {
+        setStepOneInitialValues({
+          firstName: data?.stepOne.firstName || "",
+          email: data?.stepOne.email || "",
+          mobile: data?.stepOne.mobile || "",
+          gender: data?.stepOne.gender || "",
+          dob: data?.stepOne.dob || "",
+          profile_summary: data?.stepOne.profile_summary || "",
+        })
+      }
 
       setStepTwoInitialValues({
-        stepTwo: data && data?.stepTwo && data?.stepTwo?.length > 0 && data?.stepTwo?.map((item?: any) => ({
-          standard: item.standard || "",
-          board: item.board || "",
-          yearOfCompletion: item.yearOfCompletion || "",
-          school: item.school || "",
-          percentage: item.percentage || "",
-        })) || [
-            {
-              standard: "",
-              board: "",
-              yearOfCompletion: "",
-              school: "",
-              percentage: "",
-            },
-          ],
+        // stepTwo: data && data?.stepTwo && data?.stepTwo?.length > 0 && data?.stepTwo?.map((item?: any) => ({
+        //   standard: item.standard || "",
+        //   board: item.board || "",
+        //   yearOfCompletion: item.yearOfCompletion || "",
+        //   school: item.school || "",
+        //   percentage: item.percentage || "",
+        // })) || [
+        //     {
+        //       standard: "",
+        //       board: "",
+        //       yearOfCompletion: "",
+        //       school: "",
+        //       percentage: "",
+        //     },
+        //   ],
         stepThree: data && data?.stepThree && data?.stepThree?.length > 0 && data?.stepThree?.map((item?: any) => ({
           degree: item.degree || "",
           specialization: item.specialization || "",
@@ -320,10 +331,10 @@ function Profile() {
     )
   });
 
-  const combinedSchema = Yup.object().shape({
-    ...stepTwoSchema.fields,
-    ...stepThreeSchema.fields,
-  });
+  // const combinedSchema = Yup.object().shape({
+  //   // ...stepTwoSchema.fields,
+  //   ...stepThreeSchema.fields,
+  // });
 
 
   const stepFourSchema = Yup.array().of(
@@ -522,11 +533,10 @@ function Profile() {
           initialValues={
             stepTwoIntialValues
           }
-          validationSchema={combinedSchema}
+          validationSchema={stepThreeSchema}
           onSubmit={async (values) => {
             console.log(values)
             let data = {
-              stepTwo: values.stepTwo,
               stepThree: values.stepThree
             };
 
@@ -538,17 +548,15 @@ function Profile() {
           {({ values, handleChange, handleBlur, handleSubmit, errors, touched }) =>
 
             <Form>
-
-
               <div className="box-container mb-4" ref={educationRef}>
                 <div className="box-container-inner">
-                  <FieldArray name="stepTwo">
-                    {({ insert, remove, push }) => (
-                      <>
                         <div className="text-left mb-4">
                           <h2 className="bc-heading">2. Education</h2>
                         </div>
-                        <div className="row">
+                  {/* <FieldArray name="stepTwo">
+                    {({ insert, remove, push }) => (
+                      <> */}
+                        {/* <div className="row">
                           {values?.stepTwo?.map((el?: any, index?: any, row?: any) =>
                             values.stepTwo &&
                             <>
@@ -626,15 +634,15 @@ function Profile() {
                           )}
 
 
-                        </div>
-                      </>
+                        </div> */}
+                      {/* </>
                     )}
-                  </FieldArray>
+                  </FieldArray> */}
                   <FieldArray name="stepThree">
                     {({ insert, remove, push }) => (
                       <>
                         <div className="row pt-4">
-                          <div className="col-md-12 pt-4 bt-1">&nbsp;</div>
+                          {/* <div className="col-md-12 pt-4 bt-1">&nbsp;</div> */}
 
                           {values?.stepThree?.map((el?: any, index?: any, row?: any) =>
                             <>
@@ -971,7 +979,7 @@ function Profile() {
                     <FieldArray name="stepFive.skills">
                       {({ insert, remove, push }) => (
                         <>
-                          {values?.stepFive?.skills?.map((el: any, index: any, row:any) =>
+                          {values?.stepFive?.skills?.map((el: any, index: any, row: any) =>
                             <>
                               <div className="col-12" key={index}>
 
@@ -993,7 +1001,7 @@ function Profile() {
                                 </div>
                               </div>
 
-                              {index < 5 && index === row.length - 1 &&  <div className="col-12 mb-4">
+                              {index < 5 && index === row.length - 1 && <div className="col-12 mb-4">
                                 <div className="row">
                                   <div className="col-6">
                                     <button className="plus-btn" type="button" onClick={() => push({
@@ -1019,45 +1027,45 @@ function Profile() {
                             <div className="col-12">
                               <label className="label mb-2 heading-xs">Social Media Links and Work Portfolio</label>
                             </div>
-                            {values?.stepFive?.links?.map((el: any, index: any, row:any) =><>
-                             <div className="col-12">
-                              <div className="form-row align-items-center">
-                                <div className="form-group col-2">
-                                  <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                    name={`stepFive.links.${index}.social`}
-                                    value={el.social}
-                                    onChange={handleChange}
-                                  >
-                                    <option value="">Facebook</option>
-                                  </select>
-                                </div>
-                                <div className="form-group d-flex align-items-center col-5">
-                                  <input type="text" className="form-control" placeholder="Enter or Paste link here" disabled={mode === 'view'}
-                                    name={`stepFive.links.${index}.link`}
-                                    value={el.link}
-                                    onChange={handleChange}
-                                  />
-                                </div>
-                                 <div className="form-group col-1">
-                                  <button className="plus-btn ml-2" type="button" onClick={() => remove(index)}
-                                  disabled={index < 3}
-                                  ><img src={deleteImg}
-                                    width="16" height="18" alt="" /></button>
-                                </div>
+                            {values?.stepFive?.links?.map((el: any, index: any, row: any) => <>
+                              <div className="col-12">
+                                <div className="form-row align-items-center">
+                                  <div className="form-group col-2">
+                                    <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                      name={`stepFive.links.${index}.social`}
+                                      value={el.social}
+                                      onChange={handleChange}
+                                    >
+                                      <option value="">Facebook</option>
+                                    </select>
+                                  </div>
+                                  <div className="form-group d-flex align-items-center col-5">
+                                    <input type="text" className="form-control" placeholder="Enter or Paste link here" disabled={mode === 'view'}
+                                      name={`stepFive.links.${index}.link`}
+                                      value={el.link}
+                                      onChange={handleChange}
+                                    />
+                                  </div>
+                                  <div className="form-group col-1">
+                                    <button className="plus-btn ml-2" type="button" onClick={() => remove(index)}
+                                      disabled={index < 3}
+                                    ><img src={deleteImg}
+                                      width="16" height="18" alt="" /></button>
+                                  </div>
 
-                              </div>
-                            </div>
-                            {index < 9 && index === row.length - 1 &&  <div className="col-12 mb-4">
-                              <div className="row">
-                                <div className="col-6">
-                                  <button className="plus-btn" type="button" onClick={() => push({
-                                    link: "",
-                                    social: ""
-                                  })}><img src={plusDark} width="20"
-                                    height="20" alt="" /><span className="ml-1">Add More</span></button>
                                 </div>
                               </div>
-                            </div>}
+                              {index < 9 && index === row.length - 1 && <div className="col-12 mb-4">
+                                <div className="row">
+                                  <div className="col-6">
+                                    <button className="plus-btn" type="button" onClick={() => push({
+                                      link: "",
+                                      social: ""
+                                    })}><img src={plusDark} width="20"
+                                      height="20" alt="" /><span className="ml-1">Add More</span></button>
+                                  </div>
+                                </div>
+                              </div>}
                             </>)}
                           </div>
                         </>)}
