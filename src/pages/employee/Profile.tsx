@@ -686,7 +686,7 @@ function Profile() {
               <div className="box-container mb-4" ref={educationRef}>
                 <div className="box-container-inner">
                   <div className="text-left mb-4">
-                    <h2 className="bc-heading">2. Education Background</h2>
+                    <h2 className="bc-heading">2. Educational Background</h2>
                   </div>
                   {/* <FieldArray name="stepTwo">
                     {({ insert, remove, push }) => (
@@ -776,7 +776,7 @@ function Profile() {
                   <FieldArray name="stepThree">
                     {({ insert, remove, push }) => (
                       <>
-                        <div className="row pt-4">
+                        <div className="row">
                           {/* <div className="col-md-12 pt-4 bt-1">&nbsp;</div> */}
 
                           {values?.stepThree?.map((el?: any, index?: any, row?: any) =>
@@ -1122,7 +1122,7 @@ function Profile() {
               <div className="box-container mb-4" ref={skillsRef}>
                 <div className="box-container-inner">
                   <div className="text-left mb-4">
-                    <h2 className="bc-heading">4. Skills Portfolio</h2>
+                    <h2 className="bc-heading">4. Skills & Portfolio</h2>
                   </div>
                   <div className="row pt-2">
                     <FieldArray name="stepFive.skills">

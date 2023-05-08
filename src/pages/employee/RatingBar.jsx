@@ -24,13 +24,14 @@ const StarRating = ({ name, setFieldValue, remove, itemIndex }) => {
                 return (
                     <button
                         type="button"
+                        className="p-0"
                         key={index}
                         onClick={() => { handleChange(index); setRating(index) }}
                         onMouseEnter={() => setHover(index)}
                         onMouseLeave={() => setHover(rating)}
                     >
                         {index <= (hover || rating) ? <img src={starFilled} width="18" height="18" alt="" /> :
-                            <img className="p-0" src={star} width="18" height="18" alt="" />
+                            <img  src={star} width="18" height="18" alt="" />
                         }
                     </button>
                 );
