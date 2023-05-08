@@ -4,7 +4,7 @@ import { Controller } from 'react-hook-form';
 import 'react-datepicker/dist/react-datepicker.css';
 import calendarIcon from 'assets/images/calendar.svg';
 
-export const InputField = React.forwardRef((props: any, ref) => {
+const InputField = React.forwardRef((props: any, ref) => {
   const { value, onClick } = props;
   return (
     <div className='input-group ig-append' onClick={onClick}>

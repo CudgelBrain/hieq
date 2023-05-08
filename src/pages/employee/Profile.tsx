@@ -944,7 +944,7 @@ function Profile() {
                             </div>
                           </> : <div className="col-4 d-flex align-items-center mb-2">
                             <div className="custom-inline">
-                              <div className="custom-control custom-checkbox" onClick={() => setIsInternship(!isInternship)}> 
+                              <div className="custom-control custom-checkbox" onClick={() => setIsInternship(!isInternship)}>
                                 <input type="checkbox" className="custom-control-input" id="loctype1" name="loctype" disabled={mode === 'view'}
                                   checked={isInternship}
                                 />
@@ -1335,7 +1335,7 @@ function Profile() {
                                         </div>
                                         <div className="col-6 text-right pr-3">
                                           <button className="plus-btn" type="button" onClick={() => remove(index)}
-                                          disabled={index  ===0}
+                                            disabled={index === 0}
                                           ><img src={deleteImg}
                                             width="16" height="18" alt="" /></button>
                                         </div>
