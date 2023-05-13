@@ -37,7 +37,7 @@ function EmployeeDashboard() {
                 onClick={() => {
                   setCurrentPage(1);
                   setActiveCategory('job');
-                  // history.push('/employer/dashboard/?category=job');
+                  history.push('/employee/postopportunity');
                 }}
                 className={`employee-tabs-btn ${activeCategory === 'job' ? 'employee_active' : ''}`}
               >
