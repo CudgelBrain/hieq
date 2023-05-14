@@ -18,9 +18,14 @@ const parsePath = (path: string) => {
       return [false, false, true];
     case '/employer/applicant/:applicantID':
       return [false, false, false];
-
     case "/employee/searchForJobsAndInternships": 
-       return [false,false , false]
+       return [false,false , false];
+    case "/employee/jobDescription":
+      return [false,false,false];
+    case "/employee/quickApply":
+      return [false,false,false];
+    case "/employee/reviewApplication":
+      return [false,false,false];
     default:
       return [true, false, false];
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import Select  from 'react-select';
+import Select from 'react-select';
 import JobBoxSection from './JobBoxSection';
 import searchWhite from 'assets/images/search-white.svg';
 import filter from 'assets/images/filter.svg';
@@ -100,6 +100,7 @@ const SearchForJobsAndInternships = () => {
                               value='15'
                               className='slider'
                               id='myRange'
+                              onChange  ={e => console.log(e)}
                             />
                             <div className='rg-slider-text'>
                               {' '}
@@ -165,8 +166,10 @@ const SearchForJobsAndInternships = () => {
                             type='text'
                             className='form-control'
                             placeholder='Job title, skills, company'
+                            onChange  ={e => console.log(e)}
                           />
-                          <input type='text' className='form-control' placeholder='Location' />
+                          <input type='text' className='form-control' placeholder='Location' onChange  ={e => console.log(e)}
+/>
                           <button type='submit' className='btn btn-yl btn-rd-37h'>
                             <img src={searchWhite} width='30' alt='' />
                           </button>

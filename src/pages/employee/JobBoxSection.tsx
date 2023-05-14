@@ -1,5 +1,5 @@
 import React from "react";
-import hclBanrndImg from "assets/images/hcl.jpg";
+import hclBrandImg from "assets/images/hcl.jpg";
 import rupee from "assets/images/rupee.svg";
 import locationImg from "assets/images/location.svg"
 import file from "assets/images/file.svg"
@@ -12,7 +12,7 @@ const JobBoxSection = () => {
                 <div className="jb-box-section">
                 <div className="jb-box-inner text-center flex-grow-1 first">
                     <figure className="jb-logo">
-                    <img src={hclBanrndImg} width="100" height="100" alt=""/>
+                    <img src={hclBrandImg} width="100" height="100" alt=""/>
                     </figure>
                     <h2 className="heading">Software Engineer</h2>
                     <h3 className="heading-sm">HCL Technologies</h3>

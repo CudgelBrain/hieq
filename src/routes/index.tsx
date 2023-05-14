@@ -59,6 +59,9 @@ import NotFound from 'pages/employer/NotFound';
 import EmployeeProfile from 'pages/employee/Profile'
 import EmployeeDashboard from 'pages/employee/Dashboard';
 import SearchForJobsAndInternships from 'pages/employee/SearchForJobsAndInternships';
+import JobDescription from 'pages/employee/JobDescription';
+import QuickApply from 'pages/employee/QuickApply';
+import ReviewApplication from 'pages/employee/ReviewApplication';
 
 const MainRoute = lazy(() => import('./MainRoute'));
 const AdminRoute = lazy(() => import('./AdminRoute'));
@@ -162,6 +165,9 @@ const AppRouter = () => {
           <MainRoute exact path='/employee/dashboard' component={EmployeeDashboard} />
           <MainRoute exact path='/employee/profile' component={EmployeeProfile} />
           <MainRoute exact path='/employee/searchForJobsAndInternships' component={SearchForJobsAndInternships}/>
+          <MainRoute exact path='/employee/jobDescription' component={JobDescription}/>
+          <MainRoute exact path='/employee/quickApply' component={QuickApply}/>
+          <MainRoute exact path='/employee/reviewApplication' component={ReviewApplication}/>
           
           <MainRoute path="*" component={NotFound} />
         </Switch>

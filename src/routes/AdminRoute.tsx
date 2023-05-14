@@ -10,7 +10,7 @@ interface Props extends RouteProps {
 
 const AdminRoute: React.FC<Props> = (props) => {
   if (isAuthenticated()) {
-    if (getUserType() == "Admin") {
+    if (getUserType() === "Admin") {
       return (
         <div className='root'>
           <div className='app'>
