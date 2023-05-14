@@ -187,13 +187,6 @@ const SearchForJobsAndInternships = () => {
                           </div>
                         </div>
                       </div>
-                    {
-                      [
-                        {
-                          
-                        }
-                      ]
-                    }
                       <JobBoxSection/>
 
                       {/* <div className="row align-items-center mb-4">

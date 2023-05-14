@@ -3,11 +3,13 @@ import hclBrandImg from "assets/images/hcl.jpg";
 import rupee from "assets/images/rupee.svg";
 import locationImg from "assets/images/location.svg"
 import file from "assets/images/file.svg"
+import {useHistory} from 'react-router-dom'
 
 const JobBoxSection = () => {
+    const navigate = useHistory();
     return (
         <>
-        <div className="row align-items-center mb-4">
+        <div className="row align-items-center mb-4" >
             <div className="col-md-12">
                 <div className="jb-box-section">
                 <div className="jb-box-inner text-center flex-grow-1 first">
@@ -43,8 +45,8 @@ const JobBoxSection = () => {
                 </div>
                 </div>
                 <div className="d-flex justify-content-end mt-3">
-                <button type="submit" className="btn btn-wt btn-md img-reflect">EXPLORE</button>
-                <button type="submit" className="btn btn-yl btn-md ml-2">APPLY</button>
+                <button type="submit" className="btn btn-wt btn-md img-reflect" onClick={() => navigate.push('/employee/jobDescription')}>EXPLORE</button>
+                <button className="btn btn-yl btn-md ml-2" onClick={() => navigate.push('/employee/quickApply')}>APPLY</button>
                 </div>
             </div>
             </div>

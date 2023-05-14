@@ -1,32 +1,13 @@
 import React from 'react';
 import tcsImg from 'assets/images/tcs.jpg'
 import leftArrow from 'assets/images/left-chevron.svg';
+import { useHistory } from 'react-router-dom';
 
 const QuickApply = () => {
+  const history = useHistory();
      return (
         <>
             <div className="dash-wrapper empl-panel">
-    <header className="header">
-      {/* <div className="container-fluid">
-        <div className="row position-relative align-items-center">
-          <div className="lt-sec"> <img src="assets/images/hieq.svg" height="40" alt="" />
-            <div className="nav-bar"><img src="assets/images/bar.svg" height="20" alt="" /></div>
-          </div>
-          <div className="col-6 pt-3 pb-3 lt-sec-pd">
-            <button type="submit" className="btn btn-yl"><img className="mr-3" src="assets/images/search-white.svg" height="20"
-                alt=""/> Jobs, internships</button>
-          </div>
-          <div className="col-6 pt-3 pb-3 text-right">
-            <div className="tprt-link"> <button type="button" className="text-link" title="Dark Mode"><img
-                  src="assets/images/dark-mode.svg" height="28" alt="" /></button> <button type="button"
-                className="text-link" title="Notifications"><img src="assets/images/notifications.svg" height="28"
-                  alt="" /></button> <button type="button" className="text-link" title="Help"><img
-                  src="assets/images/help.svg" height="23" alt="" /></button> <button type="button" className="text-link"
-                title="Logout"><img src="assets/images/logout.svg" height="21" alt="" /></button> </div>
-          </div>
-        </div>
-      </div> */}
-    </header>
     <main>
       <section className="main-wrapper">
         <div className="container-fluid">
@@ -98,8 +79,8 @@ const QuickApply = () => {
                           <h3 className="heading-sm">TCS</h3>
                         </div>
                         <div className="d-flex flex-column text-center mt-5 margin-auto">
-                          <div className="mw-200"><button type="submit" className="btn btn-yl btn-lg w-100">Quick Apply</button></div>
-                          <div className="mw-200 mt-3"><button type="submit" className="btn btn-yl btn-lg w-100">Review and
+                          <div className="mw-200"><button  className="btn btn-yl btn-lg w-100" >Quick Apply</button></div>
+                          <div className="mw-200 mt-3"><button className="btn btn-yl btn-lg w-100" onClick={() => history.push('/employee/reviewApplication')}>Review and
                               Apply</button></div>
                         </div>
                       </div>

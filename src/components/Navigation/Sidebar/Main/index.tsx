@@ -39,8 +39,6 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
   } = useAppProfile();
   let { status, profile } = useAppSelector((state: RootState) => state.employerProfile);
   let localProfile = localStorage.getItem("profile")
-  let userProfile = {}
-  console.log(userProfile)
 
   const profileDetails: EmployerProfileForm = React.useMemo(
     () => ({
@@ -195,7 +193,7 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
                 </NavLink>
               </li>
               <li>
-                <NavLink className='img-reflect selected' to={'/employer/postopportunity'}>
+                <NavLink className='img-reflect selected' to={'/employee/searchForJobsAndInternships'}>
                   <img className='mr-2' src={searchImg} alt='' />
                   <span>Search Jobs, internships</span>
                 </NavLink>
