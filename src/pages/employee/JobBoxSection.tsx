@@ -45,7 +45,7 @@ const JobBoxSection = () => {
                 </div>
                 </div>
                 <div className="d-flex justify-content-end mt-3">
-                <button type="submit" className="btn btn-wt btn-md img-reflect" onClick={() => navigate.push('/employee/jobDescription')}>EXPLORE</button>
+                <button type="submit" className="btn btn-wt btn-md img-reflect" onClick={() => navigate.push('/employee/jobDescription  ')}>EXPLORE</button>
                 <button className="btn btn-yl btn-md ml-2" onClick={() => navigate.push('/employee/quickApply')}>APPLY</button>
                 </div>
             </div>
