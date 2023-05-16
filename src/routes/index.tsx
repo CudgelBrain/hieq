@@ -62,6 +62,8 @@ import SearchForJobsAndInternships from 'pages/employee/SearchForJobsAndInternsh
 import JobDescription from 'pages/employee/JobDescription';
 import QuickApply from 'pages/employee/QuickApply';
 import ReviewApplication from 'pages/employee/ReviewApplication';
+import SavedOpportunities from 'pages/employee/SavedOpportunities'
+import ViewApplication from 'pages/employee/ViewApplication';
 
 const MainRoute = lazy(() => import('./MainRoute'));
 const AdminRoute = lazy(() => import('./AdminRoute'));
@@ -168,7 +170,9 @@ const AppRouter = () => {
           <MainRoute exact path='/employee/jobDescription' component={JobDescription}/>
           <MainRoute exact path='/employee/quickApply' component={QuickApply}/>
           <MainRoute exact path='/employee/reviewApplication' component={ReviewApplication}/>
-          
+          <MainRoute exact path='/employee/saved_oppotunities' component={SavedOpportunities}/>
+          <MainRoute exact path='/employee/view_application' component={ViewApplication}/>
+
           <MainRoute path="*" component={NotFound} />
         </Switch>
       </Suspense>
