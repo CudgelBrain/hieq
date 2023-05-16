@@ -84,7 +84,7 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
         {(!searchFilter && !showFilter) && isOpen && (
           <>
           {userType ==='Employee' ?  <div style={{
-              marginTop:'80px'
+              marginTop:'30px'
             }}>
               <div className="comp-img mt-5">
                 <div className="profile-img">
@@ -93,7 +93,7 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
               </div>
               <div style={{
                 textAlign:'center',
-                paddingTop:'70px'
+                paddingTop:'20px'
               }}>
                 <div className="hd-16 fw-500 cl-dark">Samar Dhiman</div>
                 <div className='cl-dark'>Web Designer</div>
@@ -199,7 +199,7 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
                 </NavLink>
               </li>
               <li>
-                <NavLink className='img-reflect' to={'/employer/jobs'}>
+                <NavLink className='img-reflect' to={'/employee/saved_oppotunities'}>
                   <img className='mr-2' src={StarImg} alt='' />
                   <span>Saved opportunites</span>
                 </NavLink>
