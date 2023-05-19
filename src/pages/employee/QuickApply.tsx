@@ -4,7 +4,7 @@ import leftArrow from 'assets/images/left-chevron.svg';
 import { useHistory } from 'react-router-dom';
 
 const QuickApply = () => {
-  const history = useHistory();
+  const history = useHistory(); 
      return (
         <>
             <div className="dash-wrapper empl-panel">
