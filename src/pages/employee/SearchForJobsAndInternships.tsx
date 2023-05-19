@@ -3,6 +3,7 @@ import Select from 'react-select';
 import JobBoxSection from './JobBoxSection';
 import searchWhite from 'assets/images/search-white.svg';
 import filter from 'assets/images/filter.svg';
+import leftArrow from 'assets/images/left-chevron.svg';
 
 const SearchForJobsAndInternships = () => {
  
@@ -20,6 +21,12 @@ const SearchForJobsAndInternships = () => {
     { value: 'Work from Home', label: 'Work from Home' }
   ]
 
+  const employmentType=[
+    {value:'Full-time',label:'Full-time'},
+    {value:'Work from home',label:'Work from home'},
+    {value:'Hybrid',label:'Hybrid'},
+  ]
+
   const location =[
     { value: 'Delhi', label: 'Delhi' },
     { value: 'Gurgaon, Haryana', label: 'Gurgaon, Haryana' },
@@ -35,6 +42,15 @@ const SearchForJobsAndInternships = () => {
   const industry =[
     { value: 'Information Technology', label: 'Information Technology' },
     { value: 'Research Technology', label: 'Research Technology' }
+  ]
+
+  const workPersona = [
+    {value:'Strategic Solver',label:'Strategic Solver'},
+  ]
+
+  const cognitiveAbility = [
+    {value:'High',label:'High'},
+
   ]
 
   const skills =[
@@ -67,8 +83,9 @@ const SearchForJobsAndInternships = () => {
 
   const recommended =[
     {value:"Recommended", label:"Recommended"},
-    {value:"Low to High", label:"Low to High"},
-    {value:"High to Low", label:"High to Low"}
+    {value:"Applied", label:"Applied"},
+    {value:"Saved", label:"Saved"},
+    {value:"Not Interested", label:"Not Interested"}
   ]
 
 
@@ -118,6 +135,10 @@ const SearchForJobsAndInternships = () => {
                           <Select options={oppotunityType} placeholder="Nothing-Selected"/>
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
+                          <h3 className='filter-widget-heading'>Employment Type</h3>
+                          <Select options={employmentType} placeholder="Full-time"/>
+                        </div>
+                        <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Location</h3>
                           <Select options={location} placeholder="Nothing-Selected"/>
                         </div>
@@ -128,6 +149,14 @@ const SearchForJobsAndInternships = () => {
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Industry</h3>
                           <Select options={industry} placeholder="Nothing-Selected"/>
+                        </div>
+                        <div className='filter-widget mt-3 pb-1'>
+                          <h3 className='filter-widget-heading'>Work Persona</h3>
+                          <Select options={workPersona} placeholder="Strategic Solver"/>
+                        </div>
+                        <div className='filter-widget mt-3 pb-1'>
+                          <h3 className='filter-widget-heading'>Cognitive ability</h3>
+                          <Select options={cognitiveAbility} placeholder="High"/>
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Skills</h3>
@@ -157,9 +186,22 @@ const SearchForJobsAndInternships = () => {
                 <div className='col-md-10 pt-4 pb-2' style={{ marginLeft: '15% ' }}>
                   <div className='box-container mb-4'>
                     <div className='box-container-inner'>
+                  <div className="mb-4 text-right">
+                    <button type="button" className="btn btn-link cc-green"><img className="mr-1" src={leftArrow} width="13" height="11"/>Back to dashboard</button>
+                  </div>
                       <div className='text-left mb-4'>
                         <h2 className='bc-heading'>Search for jobs and internships.</h2>
                       </div>
+                      <div className="form-group custom-inline col-12">
+                    <div className="custom-control custom-radio">
+                      <input type="radio" className="custom-control-input" id="customRadio1" name="example" checked/>
+                      <label className="custom-control-label" htmlFor="customRadio1">Exact Search</label>
+                    </div>
+                    <div className="custom-control custom-radio">
+                      <input type="radio" className="custom-control-input" id="customRadio2" name="example"/>
+                      <label className="custom-control-label" htmlFor="customRadio2">Similar Search</label>
+                    </div>
+                  </div>
                       <div className='text-center d-flex align-items-center mb-4'>
                         <div className='job-search-group flex-grow-1'>
                           <input
@@ -174,9 +216,6 @@ const SearchForJobsAndInternships = () => {
                             <img src={searchWhite} width='30' alt='' />
                           </button>
                         </div>
-                        <button type='submit' title='Filter' className='btn btn-link btn-md ml-3'>
-                          <img src={filter} width='30' alt='' />
-                        </button>
                       </div>
                       <div className='mb-4'>
                         <div className='d-flex align-items-center font14 bt-1 pt-3'>

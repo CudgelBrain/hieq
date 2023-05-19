@@ -6,12 +6,12 @@ import tcsImg from 'assets/images/tcs.jpg';
 import share from 'assets/images/share.svg';
 import leftArrow from 'assets/images/left-chevron.svg';
 import flag from 'assets/images/flag.svg';
+import pdf from 'assets/images/pdf-ico.svg';
 
 const JobDescription = () =>{
     return(
         <>
              <div className="dash-wrapper empl-panel">
-        <header className="header">
       {/* <div className="container-fluid">
         <div className="row position-relative align-items-center">
           <div className="lt-sec"> <img src="assets/images/hieq.svg" height="40" alt="" />
@@ -31,7 +31,6 @@ const JobDescription = () =>{
           </div>
         </div>
       </div> */}
-    </header>
     <main>
       <section className="main-wrapper">
         <div className="container-fluid">
@@ -155,6 +154,19 @@ const JobDescription = () =>{
                             in 1991 when HCL entered into the software services business. The company has offices in 52
                             countries and over 210,966 employees. <a href="#" className="btn-link cc-black">Know more</a>
                           </p>
+                        </div>
+                        <div className="mt-4">
+                          <div className="content content-fade">
+                            <h2>Links</h2>
+                            <a href="#" className="btn-link cc-black">www.hcltechnologies.com/about</a>
+                          </div>
+                        </div>
+                        <div className="mt-4">
+                          <div className="content content-fade">
+                            <h2>Attachments</h2>
+                            <a href="#" className="tag pdf-attach"><span className="mr-1"><img src={pdf}/></span>Job Description</a>
+                            <a href="#" className="tag pdf-attach"><span className="mr-1"><img src={pdf}/></span>Job Description</a>
+                          </div>
                         </div>
                         <div className="mt-4">
                           <div className="content content-fade ul-w50">

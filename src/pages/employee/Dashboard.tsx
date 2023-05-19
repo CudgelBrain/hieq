@@ -6,6 +6,8 @@ import Stats from '../../components/Employee/Stats'
 import Opportunities from 'features/employee/dashboard/Opportunity'
 import RangeSelector from 'components/RangeSelector';
 import 'assets/styles/employee/style.css'
+import search from 'assets/images/search.svg';
+import Select from 'react-select';
 
 function EmployeeDashboard() {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
@@ -15,6 +17,16 @@ function EmployeeDashboard() {
   const [activeCategory, setActiveCategory] = React.useState(
     useAppQuery().get('category') || 'job',
   );
+
+  const allJobs = [
+    {value:"All jobs",label:"All jobs"},
+    {value:"Applied",label:"Applied"},
+    {value:"Awaiting",label:"Awaiting"},
+    {value:"In-Progress",label:"In-Progress"},
+    {value:"Selected",label:"Selected"},
+    {value:"Withdrawn",label:"Withdrawn"},
+    {value:"Rejected",label:"Rejected"}
+  ]
 
   return (
     <div className='col-md-12 pt-4 pb-2' style={{
@@ -70,19 +82,18 @@ function EmployeeDashboard() {
         </div>
         <div className='box-container-inner'>
           <div className='row mb-4'>
-            <div className='col-lg-4 col-xl-4 col-md-4'>
-              <div> <input type="search" className="form-control" placeholder="Enter search here" />
-
-              </div>
-            </div>
-            <div className='col-lg-4 col-xl-4 col-md-4'>
-              <select className="selectpicker form-control" data-live-search="true">
-                <option value="">All Jobs</option>
-                <option value="">Select one</option>
-                <option value="">Select one</option>
-                <option value="">Select one</option>
-              </select>
-            </div>
+            <div className='col-lg-4 col-xl-5 col-md-4'>
+            <div className="input-group group-prepend-wrapper">
+                            <div className="input-group-prepend"><span className="input-group-text">
+                                <button type="submit" className="icon-btn"><img src={search} height="20"
+                                    alt=""/></button>
+                              </span></div>
+                            <input type="text" className="form-control pl-0" placeholder="Enter search here..."/>
+                          </div>
+                        </div>
+            <div className='col-lg-4 col-xl-3 col-md-4'>
+              <Select options={allJobs} placeholder='All Jobs'/>
+            </div>  
             <div className='col-lg-4 col-xl-4 col-md-4'>
               <RangeSelector setStartDate={setStartDate} setEndDate={setEndDate} />
             </div>

@@ -86,14 +86,14 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
           {userType ==='Employee' ?  <div style={{
               marginTop:'30px'
             }}>
-              <div className="comp-img mt-5">
+              <div className="comp-img mt-2">
                 <div className="profile-img">
                   <img src={userProfileImg} alt="" height={235} width={280} />
                   </div>
               </div>
               <div style={{
                 textAlign:'center',
-                paddingTop:'20px'
+                paddingTop:'10px'
               }}>
                 <div className="hd-16 fw-500 cl-dark">Samar Dhiman</div>
                 <div className='cl-dark'>Web Designer</div>
@@ -205,21 +205,15 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
                 </NavLink>
               </li>
               <li>
+                <NavLink className='img-reflect' to={'/employee/dashboard'}>
+                  <img className='mr-2' src={plusFillImg} alt='' />
+                  <span>Badges</span>
+                </NavLink>
+              </li>
+              <li>
                 <NavLink className='img-reflect' to={'/employer/messaging'}>
                   <img className='mr-2' src={messageImg} alt='' />
                   <span>My resumes</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className='img-reflect' to={'/employer/supportDesk'}>
-                  <img className='mr-2' src={plusFillImg} alt='' />
-                  <span>Assessment</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className='img-reflect' to={'/employer/supportDesk'}>
-                  <img className='mr-2' src={supportImg} alt='' />
-                  <span>Support Desk</span>
                 </NavLink>
               </li>
               <li>

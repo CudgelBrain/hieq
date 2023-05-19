@@ -5,6 +5,7 @@ import locationImg from 'assets/images/location.svg';
 import file from 'assets/images/file.svg';
 import { useHistory } from 'react-router-dom';
 import star from 'assets/images/star.svg';
+import delist from 'assets/images/delist.svg';
 
 const JobBoxSection = () => {
   const navigate = useHistory();
@@ -59,6 +60,8 @@ const JobBoxSection = () => {
             <button type='submit' className='btn btn-link btn-md'>
               <img src={star} width='24' alt='' />
             </button>
+            <button className="btn btn-link btn-md mt-2"><img src={delist} width="24"
+                                alt=""/></button>
           </div>
           {/* </div> */}
         </div>

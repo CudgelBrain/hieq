@@ -28,6 +28,8 @@ const parsePath = (path: string) => {
       return [false,false,false];
     case "/employee/view_application":
       return [false,false,false];
+    case "/employee/assessments":
+      return [false,false,false];
     default:
       return [true, false, false];
   }

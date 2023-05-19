@@ -3119,7 +3119,9 @@ ul.grid-2 li {
           .view-input .dropdown-toggle::after,.view-input .input-group-append {display: none;}
           
           .btn-pencil {background: #eee; width: 28px; height: 28px; display: inline-flex; margin-left: 0.5em; line-height: normal; padding: 0; align-items: center; justify-content: center; min-width: auto; border-radius: 50%;}
-          
+
+          .pdf-attach,.pdf-attach:hover {background: #F03939; color: #fff; text-decoration: none;}
+        
           /* Employee Css */
           .empl-panel .btn {text-transform: uppercase;}
           .empl-panel .btn-sm {height: 26px; line-height: 26px; font-size: 13px; min-width: 80px;}
