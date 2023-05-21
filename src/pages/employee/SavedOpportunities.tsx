@@ -1,7 +1,28 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
+import { hieqService } from 'utils';
+
 import JobBoxSection from './JobBoxSection';
 
 const SavedOpportunities = () => {
+  const [data, setData] = useState([]);
+
+  const getdata = async () => {
+    try {
+      let res = await hieqService.get(
+        '/opportunity/status?status=&from_date=&to_date=&category=job',
+      );
+      console.log(res.data.items);
+      setData(res.data.items);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getdata();
+  }, []);
+
+  
     return(
         <>
             <div className="dash-wrapper empl-panel">
@@ -65,7 +86,10 @@ const SavedOpportunities = () => {
                       <button className="tabs-btn">Internships</button>
                     </div>
                   </div>
-            <JobBoxSection/>
+                  {data.map((job) => {
+                        return <JobBoxSection job={job} />;
+                      })}
+            {/* <JobBoxSection job={{}}/> */}
                 </div>
               </div>
             </div>

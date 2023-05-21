@@ -7,7 +7,11 @@ import { useHistory } from 'react-router-dom';
 import star from 'assets/images/star.svg';
 import delist from 'assets/images/delist.svg';
 
-const JobBoxSection = () => {
+interface Props {
+ job:any
+}
+
+const JobBoxSection : React.FC<Props> = ({job}) => {
   const navigate = useHistory();
   return (
     <>
@@ -18,8 +22,8 @@ const JobBoxSection = () => {
             <figure className='jb-logo'>
               <img src={hclBrandImg} width='100' height='100' alt='' />
             </figure>
-            <h2 className='heading'>Software Engineer</h2>
-            <h3 className='heading-sm'>HCL Technologies</h3>
+            <h2 className='heading'>{job.stepOne.opportunityTitle}</h2>
+            <h3 className='heading-sm'>{job.stepOne.opportunityDomain}</h3>
           </div>
           <div className='jb-box-inner pl-4 second'>
             <div className='tag tag-fl bg-blue text-uppercase'>strategic solver</div>
@@ -34,22 +38,24 @@ const JobBoxSection = () => {
               <span className='ico mr-2'>
                 <img src={locationImg} width='20' height='20' alt='' />
               </span>
-              Gurgaon, Haryana
+              {job.stepOne.locations.join(",")}
             </div>
             <div className='list d-flex align-items-center'>
               <span className='ico mr-2'>
                 <img src={file} width='20' height='20' alt='' />
               </span>
-              7-12 Yrs
+              {job?.stepThree?.workExperience?.min?.year} - {job?.stepThree?.workExperience?.max?.year} Yrs
             </div>
             <div className='list d-flex align-items-center'>
               <span className='ico mr-2'>
                 <img src={rupee} width='20' height='20' alt='' />
               </span>
-              Not available
+              {job?.stepTwo?.salaryDetail?.fixedAmount !== undefined
+                ? job.stepTwo.salaryDetail.fixedAmount
+                : 'Not Available'}
             </div>
             <div className='list'>
-              <strong>Education : </strong> Bachelors, Masters
+              <strong>Education : </strong> {job?.stepThree?.qualifications}
             </div>
             <div className='list'>
               <strong>Specialization : </strong> Computer Science, IT

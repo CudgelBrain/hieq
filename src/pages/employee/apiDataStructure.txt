@@ -1,0 +1,231 @@
+{
+    "ID": "6d2074b3-c0c9-4f7b-b9c8-2828cc530049",
+    "stepOne": {
+        "openings": "5",
+        "locations": [
+            "noida"
+        ],
+        "locationType": "hybrid",
+        "opportunityType": "fullTime",
+        "opportunityTitle": "Full Stack Developer",
+        "opportunityDomain": "webjooll"
+    },
+    "stepTwo": {
+        "contacts": [
+            {
+                "name": "Sakshi Jha",
+                "email": "Jha02megha@gmail.com",
+                "number": "09656787878"
+            }
+        ],
+        "attachments": [
+            {
+                "url": "http://beta.hieq.in/uploads/opportunity/job.pdf",
+                "file": "job.pdf",
+                "title": "job"
+            }
+        ],
+        "description": "<p>uyu</p>",
+        "descFileName": "undefined",
+        "salaryDetail": {
+            "cycle": "Month",
+            "currency": "INR",
+            "variable": true,
+            "salaryType": "fixed",
+            "showSalary": true,
+            "fixedAmount": 30000,
+            "variableType": "fixed",
+            "variableCycle": "Month",
+            "additionalDetail": "<p>hj</p>",
+            "variableCurrency": "INR",
+            "variablePercentage": 1000,
+            "visibleToCandidate": false
+        },
+        "externalLinks": [
+            {
+                "url": "https://www.bing.com/aclick?ld=e83X3dkfUD0AOCiosnVkVb-jVUCUzoK5MfeotKCMuF8EcElw_51p1okd2tvFAqeIUUIKP_6ZeWIFQrRDXQyihhdtNVGHzX1dy8sHGVVo9Ka7pawMOdqm80F0ssSAtTkoDv1_wkg0tMuX5FuI-bZpUQjgPzYl6yiTxvdseEtyRUwZSazN9r_fE1rxi7-_8DliQRReF2jA&u=aHR0cHMlM2ElMmYlMmZ3d3cuZm5wLmNvbSUyZmdpZnQlMmZjaGFybWluZy1yb3NlcyUzZnNfa3djaWQlM2RBTCExNDc1NyExMCE3NDQ5MjA3MjU1NDUyOCE0NTc4MDkxNjEyMDY0NjE2JTI2bXNjbGtpZCUzZDg4ZTc0ZjdlOTEwNjFiZDgzMjNmMmI0MzE1OGNhOTYx&rlid=88e74f7e91061bd8323f2b43158ca961&ntb=1",
+                "title": "job"
+            }
+        ]
+    },
+    "stepThree": {
+        "skills": {
+            "public_skills": [
+                {
+                    "level": "Intermediate",
+                    "title": "HTML 2"
+                }
+            ],
+            "personal_skills": [
+                {
+                    "level": "Intermediate",
+                    "title": "HTML"
+                }
+            ],
+            "technical_skills": [
+                {
+                    "level": "Intermediate",
+                    "title": "javascript"
+                }
+            ]
+        },
+        "coverLetter": true,
+        "videoResume": true,
+        "qualifications": [
+            "engineer"
+        ],
+        "workExperience": {
+            "max": {
+                "year": "1",
+                "month": "1"
+            },
+            "min": {
+                "year": "1",
+                "month": "1"
+            }
+        },
+        "assessmentScore": {
+            "cognitive": {
+                "min": "D"
+            },
+            "behavioural": {
+                "min": "D"
+            }
+        }
+    },
+    "stepFour": {},
+    "stepFive": {},
+    "jobDescriptionFile": {
+        "url": "http://beta.hieq.in/uploads/opportunity/add/description/work-2-text-note-1.pdf",
+        "desc": "uploads/opportunity/add/description/work-2-text-note-1.pdf",
+        "name": "work-2-text-note-1.pdf"
+    },
+    "category": "job",
+    "status": "closed",
+    "views": 0,
+    "opportunityStartDate": "2023-04-28",
+    "opportunityEndDate": "2023-05-05",
+    "isActive": true,
+    "createdAt": "2023-04-21T07:38:09.123Z"
+}
+
+
+{
+    "ID": "af35805c-3f08-47fa-8dcd-178c736f74e5",
+    "stepOne": {
+        "openings": "5",
+        "locations": [
+            "faridabad"
+        ],
+        "locationType": "office",
+        "opportunityType": "fullTime",
+        "opportunityTitle": "Back end Dev",
+        "opportunityDomain": "Sales & Marketing"
+    },
+    "stepTwo": {
+        "contacts": [
+            {
+                "name": "Himanshu Sangwan",
+                "email": "himanshu@yopmail.com",
+                "number": "08398836380"
+            }
+        ],
+        "attachments": [
+            {
+                "file": "nothing.pdf",
+                "title": "nothing"
+            },
+            {
+                "file": "nothing-22.pdf",
+                "title": "nothing 22"
+            }
+        ],
+        "description": "<p>hellossfs</p>\r\n",
+        "descFileName": "",
+        "salaryDetail": {
+            "cycle": "Month",
+            "currency": "USD",
+            "variable": true,
+            "maxAmount": 50000,
+            "minAmount": 30000,
+            "salaryType": "range",
+            "showSalary": true,
+            "variableMax": 10,
+            "variableMin": 1,
+            "variableType": "range",
+            "additionalDetail": "<p>hello 22</p>\n",
+            "visibleToCandidate": true
+        },
+        "externalLinks": [
+            {
+                "url": "http://sdaffdsa.com",
+                "title": "sdalkfjl"
+            }
+        ]
+    },
+    "stepThree": {
+        "skills": {
+            "public_skills": [
+                {
+                    "level": "Expert",
+                    "title": "Bootstrap"
+                },
+                {
+                    "level": "Intermediate",
+                    "title": "HTML 5.0"
+                }
+            ],
+            "personal_skills": [
+                {
+                    "level": "Expert",
+                    "title": "HTML 5.0"
+                }
+            ],
+            "technical_skills": [
+                {
+                    "level": "Intermediate",
+                    "title": "HTML 5.0"
+                }
+            ]
+        },
+        "coverLetter": true,
+        "videoResume": true,
+        "qualifications": [
+            "BBA"
+        ],
+        "workExperience": {
+            "max": {
+                "year": "3",
+                "month": "2"
+            },
+            "min": {
+                "year": "1",
+                "month": "2"
+            }
+        },
+        "assessmentScore": {
+            "cognitive": {
+                "max": "10",
+                "min": "5"
+            },
+            "behavioural": {
+                "max": "10",
+                "min": "5"
+            }
+        }
+    },
+    "stepFour": {},
+    "stepFive": {},
+    "jobDescriptionFile": {
+        "url": "http://beta.hieq.com/uploads/opportunity/add/description/harish-kumar-resume.pdf",
+        "desc": "uploads/opportunity/add/description/harish-kumar-resume.pdf",
+        "name": "harish-kumar-resume.pdf"
+    },
+    "category": "job",
+    "status": "closed",
+    "views": 0,
+    "opportunityStartDate": "2022-11-13",
+    "opportunityEndDate": "2022-11-13",
+    "isActive": true,
+    "createdAt": "2022-10-28T08:48:09.199Z"
+}

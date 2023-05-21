@@ -1,93 +1,102 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import JobBoxSection from './JobBoxSection';
 import searchWhite from 'assets/images/search-white.svg';
 import filter from 'assets/images/filter.svg';
 import leftArrow from 'assets/images/left-chevron.svg';
-
+import { hieqService } from 'utils';
 const SearchForJobsAndInternships = () => {
- 
-  const datePosted = [
-    { value: 'Today',label:'Today'},
-  { value: 'Yesterday',label:'Yesterday'},
-  { value: 'This Week' ,label:'This Week'},
-  { value: 'This Month' ,label:'This Month'}
-  ]
+  const [data, setData] = useState([]);
 
-  const oppotunityType =[
+  const getdata = async () => {
+    try {
+      let res = await hieqService.get(
+        '/opportunity/status?status=&from_date=&to_date=&category=job',
+      );
+      console.log(res.data.items);
+      setData(res.data.items);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getdata();
+  }, []);
+
+  const datePosted = [
+    { value: 'Today', label: 'Today' },
+    { value: 'Yesterday', label: 'Yesterday' },
+    { value: 'This Week', label: 'This Week' },
+    { value: 'This Month', label: 'This Month' },
+  ];
+
+  const oppotunityType = [
     { value: 'Full TIme', label: 'Full TIme' },
     { value: 'Part-Time', label: 'Part-Time' },
     { value: 'Hybrid', label: 'Hybrid' },
-    { value: 'Work from Home', label: 'Work from Home' }
-  ]
+    { value: 'Work from Home', label: 'Work from Home' },
+  ];
 
-  const employmentType=[
-    {value:'Full-time',label:'Full-time'},
-    {value:'Work from home',label:'Work from home'},
-    {value:'Hybrid',label:'Hybrid'},
-  ]
+  const employmentType = [
+    { value: 'Full-time', label: 'Full-time' },
+    { value: 'Work from home', label: 'Work from home' },
+    { value: 'Hybrid', label: 'Hybrid' },
+  ];
 
-  const location =[
+  const location = [
     { value: 'Delhi', label: 'Delhi' },
     { value: 'Gurgaon, Haryana', label: 'Gurgaon, Haryana' },
     { value: 'Jaipur', label: 'Jaipur' },
-    { value: 'Banglore', label: 'Banglore' }
-  ]
-  
-  const domain =[
+    { value: 'Banglore', label: 'Banglore' },
+  ];
+
+  const domain = [
     { value: 'Software Development', label: 'Software Development' },
     { value: 'Ui & UX Designer', label: 'Ui & UX Designer' },
-  ]
+  ];
 
-  const industry =[
+  const industry = [
     { value: 'Information Technology', label: 'Information Technology' },
-    { value: 'Research Technology', label: 'Research Technology' }
-  ]
+    { value: 'Research Technology', label: 'Research Technology' },
+  ];
 
-  const workPersona = [
-    {value:'Strategic Solver',label:'Strategic Solver'},
-  ]
+  const workPersona = [{ value: 'Strategic Solver', label: 'Strategic Solver' }];
 
-  const cognitiveAbility = [
-    {value:'High',label:'High'},
+  const cognitiveAbility = [{ value: 'High', label: 'High' }];
 
-  ]
-
-  const skills =[
+  const skills = [
     { value: 'Java', label: 'Java' },
     { value: 'HTML5', label: 'HTML5' },
     { value: 'SCSS', label: 'SCSS' },
-    { value: 'CSS 3.0', label: 'CSS 3.0' }
-  ]
-  
-  const organisationType =[
+    { value: 'CSS 3.0', label: 'CSS 3.0' },
+  ];
+
+  const organisationType = [
     { value: 'Medium Scale', label: 'Medium Scale' },
     { value: 'Large Scale', label: 'Large Scale' },
-  ]
-  
-  const education =[
+  ];
+
+  const education = [
     { value: 'B.Tech', label: 'B.Tech' },
     { value: 'BBA', label: 'BBA' },
     { value: 'MBA', label: 'MBA' },
-    { value: 'M.Tech', label: 'M.Tech' }
-  ]
+    { value: 'M.Tech', label: 'M.Tech' },
+  ];
 
-  const salaryRange =[
+  const salaryRange = [
     { value: '8-12 Lakhs', label: '8-12 Lakhs' },
     { value: '15-18 Lakhs', label: '15-18 Lakhs' },
-  ]
+  ];
 
-  const workMode =[
-    {value:"Hybrid", label:"Hybrid"}
-  ]
+  const workMode = [{ value: 'Hybrid', label: 'Hybrid' }];
 
-  const recommended =[
-    {value:"Recommended", label:"Recommended"},
-    {value:"Applied", label:"Applied"},
-    {value:"Saved", label:"Saved"},
-    {value:"Not Interested", label:"Not Interested"}
-  ]
-
+  const recommended = [
+    { value: 'Recommended', label: 'Recommended' },
+    { value: 'Applied', label: 'Applied' },
+    { value: 'Saved', label: 'Saved' },
+    { value: 'Not Interested', label: 'Not Interested' },
+  ];
 
   return (
     <>
@@ -117,7 +126,7 @@ const SearchForJobsAndInternships = () => {
                               value='15'
                               className='slider'
                               id='myRange'
-                              onChange  ={e => console.log(e)}
+                              onChange={(e) => console.log(e)}
                             />
                             <div className='rg-slider-text'>
                               {' '}
@@ -128,55 +137,55 @@ const SearchForJobsAndInternships = () => {
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Date Posted</h3>
-                          <Select options={datePosted} placeholder="Today" />
+                          <Select options={datePosted} placeholder='Today' />
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Opportunity type</h3>
-                          <Select options={oppotunityType} placeholder="Nothing-Selected"/>
+                          <Select options={oppotunityType} placeholder='Nothing-Selected' />
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Employment Type</h3>
-                          <Select options={employmentType} placeholder="Full-time"/>
+                          <Select options={employmentType} placeholder='Full-time' />
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Location</h3>
-                          <Select options={location} placeholder="Nothing-Selected"/>
+                          <Select options={location} placeholder='Nothing-Selected' />
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Domain</h3>
-                          <Select options={domain} placeholder="Nothing-Selected"/>
+                          <Select options={domain} placeholder='Nothing-Selected' />
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Industry</h3>
-                          <Select options={industry} placeholder="Nothing-Selected"/>
+                          <Select options={industry} placeholder='Nothing-Selected' />
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Work Persona</h3>
-                          <Select options={workPersona} placeholder="Strategic Solver"/>
+                          <Select options={workPersona} placeholder='Strategic Solver' />
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Cognitive ability</h3>
-                          <Select options={cognitiveAbility} placeholder="High"/>
+                          <Select options={cognitiveAbility} placeholder='High' />
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Skills</h3>
-                          <Select options={skills} placeholder="Nothing-Selected"/>
+                          <Select options={skills} placeholder='Nothing-Selected' />
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Organization type</h3>
-                          <Select options={organisationType} placeholder="Nothing-Selected"/>
+                          <Select options={organisationType} placeholder='Nothing-Selected' />
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Education</h3>
-                          <Select options={education} placeholder="Nothing-Selected"/>
+                          <Select options={education} placeholder='Nothing-Selected' />
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Salary Range</h3>
-                          <Select options={salaryRange} placeholder="Nothing-Selected"/>
+                          <Select options={salaryRange} placeholder='Nothing-Selected' />
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Work Mode</h3>
-                          <Select options={workMode} placeholder="Nothing-Selected"/>
+                          <Select options={workMode} placeholder='Nothing-Selected' />
                         </div>
                       </div>
                     </div>
@@ -186,32 +195,54 @@ const SearchForJobsAndInternships = () => {
                 <div className='col-md-10 pt-4 pb-2' style={{ marginLeft: '15% ' }}>
                   <div className='box-container mb-4'>
                     <div className='box-container-inner'>
-                  <div className="mb-4 text-right">
-                    <button type="button" className="btn btn-link cc-green"><img className="mr-1" src={leftArrow} width="13" height="11"/>Back to dashboard</button>
-                  </div>
+                      <div className='mb-4 text-right'>
+                        <button type='button' className='btn btn-link cc-green'>
+                          <img className='mr-1' src={leftArrow} width='13' height='11' />
+                          Back to dashboard
+                        </button>
+                      </div>
                       <div className='text-left mb-4'>
                         <h2 className='bc-heading'>Search for jobs and internships.</h2>
                       </div>
-                      <div className="form-group custom-inline col-12">
-                    <div className="custom-control custom-radio">
-                      <input type="radio" className="custom-control-input" id="customRadio1" name="example" checked/>
-                      <label className="custom-control-label" htmlFor="customRadio1">Exact Search</label>
-                    </div>
-                    <div className="custom-control custom-radio">
-                      <input type="radio" className="custom-control-input" id="customRadio2" name="example"/>
-                      <label className="custom-control-label" htmlFor="customRadio2">Similar Search</label>
-                    </div>
-                  </div>
+                      <div className='form-group custom-inline col-12'>
+                        <div className='custom-control custom-radio'>
+                          <input
+                            type='radio'
+                            className='custom-control-input'
+                            id='customRadio1'
+                            name='example'
+                            checked
+                          />
+                          <label className='custom-control-label' htmlFor='customRadio1'>
+                            Exact Search
+                          </label>
+                        </div>
+                        <div className='custom-control custom-radio'>
+                          <input
+                            type='radio'
+                            className='custom-control-input'
+                            id='customRadio2'
+                            name='example'
+                          />
+                          <label className='custom-control-label' htmlFor='customRadio2'>
+                            Similar Search
+                          </label>
+                        </div>
+                      </div>
                       <div className='text-center d-flex align-items-center mb-4'>
                         <div className='job-search-group flex-grow-1'>
                           <input
                             type='text'
                             className='form-control'
                             placeholder='Job title, skills, company'
-                            onChange  ={e => console.log(e)}
+                            onChange={(e) => console.log(e)}
                           />
-                          <input type='text' className='form-control' placeholder='Location' onChange  ={e => console.log(e)}
-/>
+                          <input
+                            type='text'
+                            className='form-control'
+                            placeholder='Location'
+                            onChange={(e) => console.log(e)}
+                          />
                           <button type='submit' className='btn btn-yl btn-rd-37h'>
                             <img src={searchWhite} width='30' alt='' />
                           </button>
@@ -222,11 +253,14 @@ const SearchForJobsAndInternships = () => {
                           <div className='flex-grow-1'>1 - 11 of 11 Software Engineer jobs</div>
                           <div className='d-flex align-items-center'>
                             <span className='flex-grow-1 white-space-pre'>Sort by:</span>
-                            <Select options={recommended} placeholder="Recommended"/>
+                            <Select options={recommended} placeholder='Recommended' />
                           </div>
                         </div>
                       </div>
-                      <JobBoxSection/>
+
+                      {data.map((job) => {
+                        return <JobBoxSection job={job} />;
+                      })}
                     </div>
                   </div>
                 </div>

@@ -78,6 +78,9 @@ const QuickApply = () => {
                           <h2 className="heading">Software Engineer</h2>
                           <h3 className="heading-sm">TCS</h3>
                         </div>
+                        <div className="d-flex flex-column justify-content-center mt-2">
+                            <button type="button" className="btn btn-link">Review job profile</button>
+                          </div>
                         <div className="d-flex flex-column text-center mt-5 margin-auto">
                           <div className="mw-200"><button  className="btn btn-yl btn-lg w-100" >Quick Apply</button></div>
                           <div className="mw-200 mt-3"><button className="btn btn-yl btn-lg w-100" onClick={() => history.push('/employee/reviewApplication')}>Review and
