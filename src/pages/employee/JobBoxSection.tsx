@@ -75,7 +75,9 @@ const JobBoxSection : React.FC<Props> = ({job}) => {
               <button
                 type='submit'
                 className='btn btn-wt btn-md img-reflect'
-                onClick={() => navigate.push('/employee/jobDescription')}
+                onClick={() => navigate.push({pathname:'/employee/jobDescription', state:{
+                    data: job}
+                })}
               >
                 EXPLORE
               </button>

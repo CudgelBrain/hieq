@@ -174,13 +174,6 @@ function Profile() {
     profile_summary: ""
   })
   const [stepTwoIntialValues, setStepTwoInitialValues] = useState({
-    // stepTwo: [{
-    //   standard: "",
-    //   board: "",
-    //   yearOfCompletion: "",
-    //   school: "",
-    //   percentage: "",
-    // }],
     stepThree: [{
       degree: "",
       specialization: "",
@@ -251,8 +244,19 @@ function Profile() {
     },
 
   });
+  
+  const [stepSixInitialValues, setStepSixInitialValues] = useState({
+     resume : null,
+     visume:null,
+     idProof:null,
+     pgCertificate:null,
+     ugCertificate:null,
+     twelfthMarksheet:null,
+     tenthMarksheet:null,
+     otherDegree:null,
+     experienceLetter:null,
+  })
 
-  console.log(stepOneIntialValues)
 
 
 
@@ -289,21 +293,6 @@ function Profile() {
       }
 
       setStepTwoInitialValues({
-        // stepTwo: data && data?.stepTwo && data?.stepTwo?.length > 0 && data?.stepTwo?.map((item?: any) => ({
-        //   standard: item.standard || "",
-        //   board: item.board || "",
-        //   yearOfCompletion: item.yearOfCompletion || "",
-        //   school: item.school || "",
-        //   percentage: item.percentage || "",
-        // })) || [
-        //     {
-        //       standard: "",
-        //       board: "",
-        //       yearOfCompletion: "",
-        //       school: "",
-        //       percentage: "",
-        //     },
-        //   ],
         stepThree: data && data?.stepThree && data?.stepThree?.length > 0 && data?.stepThree?.map((item?: any) => ({
           degree: item.degree || "",
           specialization: item.specialization || "",
@@ -426,9 +415,6 @@ function Profile() {
     }
   };
 
-  console.log(userProfile)
-
-
 
 
   const stepOneSchema = Yup.object({
@@ -461,11 +447,6 @@ function Profile() {
       })
     )
   });
-
-  // const combinedSchema = Yup.object().shape({
-  //   // ...stepTwoSchema.fields,
-  //   ...stepThreeSchema.fields,
-  // });
 
 
   const stepFourSchema = Yup.array().of(
@@ -513,6 +494,17 @@ function Profile() {
     projectPublications: Yup.string().required("Required"),
     extraCirricular: Yup.string().required("Required"),
   });
+
+  const submitDocuments = () =>{
+     if(!stepSixInitialValues){
+       alert('Please select files')
+     }
+
+     const formData = new FormData()
+  }
+
+
+
 
   return (
     <>
@@ -608,8 +600,7 @@ function Profile() {
 
                                   onChange={handleChange}
                                 />
-                                {/* <div className="input-group-append"> <span className="input-group-text"><img
-                                  src={calender} height="20" alt="" /></span> </div> */}
+
                               </div>
                               {touched?.dob && errors?.dob ? (
                                 <div className="errors">{errors?.dob}</div>
@@ -688,96 +679,10 @@ function Profile() {
                   <div className="text-left mb-4">
                     <h2 className="bc-heading">2. Educational Background</h2>
                   </div>
-                  {/* <FieldArray name="stepTwo">
-                    {({ insert, remove, push }) => (
-                      <> */}
-                  {/* <div className="row">
-                          {values?.stepTwo?.map((el?: any, index?: any, row?: any) =>
-                            values.stepTwo &&
-                            <>
-                              <div className="col-12">
-                                <div className="form-row">
-                                  <div className="form-group col-sm-4">
-                                    <label className="label mb-1">Class<span className="required">*</span></label>
-                                    <Field type="text" className="form-control" placeholder="High School (10th)" disabled={mode === 'view'}
-                                      name={`stepTwo.${index}.standard`}
-                                      value={el.standard}
-                                      onChange={handleChange}
-                                    />
-                                  </div>
-                                  <div className="form-group col-sm-4">
-                                    <label className="label mb-1">Board<span className="required">*</span></label>
-                                    <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                      name={`stepTwo.${index}.board`}
-                                      value={el.board}
-                                    >
-                                      <option value="asdfdasf">CBSE</option>
-                                    </select>
-                                  </div>
-                                  <div className="form-group col-sm-4">
-                                    <label className="label mb-1">Year of Completion<span className="required">*</span></label>
-                                    <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                      name={`stepTwo.${index}.yearOfCompletion`}
-                                      value={el.yearOfCompletion}
-                                    >
-                                      <option value="2002">2022</option>
-                                    </select>
-                                  </div>
-                                  <div className="form-group col-sm-8">
-                                    <label className="label mb-1">School<span className="required">*</span></label>
-                                    <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                      name={`stepTwo.${index}.school`}
-                                      value={el.school}
-                                    >
-                                      <option value="afasdfdsa">Kendriya Vidyalaya No.1</option>
-                                    </select>
-                                  </div>
-                                  <div className="form-group col-sm-4">
-                                    <label className="label mb-1">CGPA/Percentage<span className="required">*</span><span className="ml-1"
-                                      data-toggle="tooltip" data-placement="top" title="Tooltip on top"><img
-                                        src={info} width="16" height="16" alt="" /></span></label>
-                                    <Field type="text" className="form-control" placeholder="7.46" disabled={mode === 'view'}
-                                      name={`stepTwo.${index}.percentage`}
-                                      value={el.percentage}
-                                    />
-                                  </div>
-                                </div>
-
-                              </div>
-                              <div className="col-12 mb-4">
-                                <div className="row">
-                                  <div className="col-6">
-                                    {index === row.length - 1 && <button className="plus-btn" type="button" onClick={() => push({
-                                      standard: "",
-                                      board: "",
-                                      yearOfCompletion: "",
-                                      school: "",
-                                      percentage: "",
-                                    })}><img src={plusDark} width="20"
-
-                                      height="20" alt="" /><span className="ml-1">Add Senior Secondary details</span></button>}
-                                  </div>
-                                  {values?.stepTwo.length > 1 && <div className="col-6 text-right pr-3">
-                                    <button className="plus-btn" type="button"
-                                      onClick={() => remove(index)}
-                                    ><img src={deleteImg} width="16"
-                                      height="18" alt="" /></button>
-                                  </div>}
-                                </div>
-                              </div>
-                            </>
-                          )}
-
-
-                        </div> */}
-                  {/* </>
-                    )}
-                  </FieldArray> */}
                   <FieldArray name="stepThree">
                     {({ insert, remove, push }) => (
                       <>
                         <div className="row">
-                          {/* <div className="col-md-12 pt-4 bt-1">&nbsp;</div> */}
 
                           {values?.stepThree?.map((el?: any, index?: any, row?: any) =>
                             <>
@@ -793,6 +698,9 @@ function Profile() {
                                       {degree.length > 0 && degree.map((el: any) => <option key={el.ID} value={el.degree}>{el.degree.toUpperCase()}</option>
                                       )}
                                     </select>
+                                    <ErrorMessage name={`stepThree.${index}.degree`} />
+                                    {console.log(errors)}
+
                                   </div>
                                   <div className="form-group col-sm-4">
                                     <label className="label mb-1">Specialization<span className="required">*</span></label>
@@ -804,6 +712,7 @@ function Profile() {
                                       {degree.length > 0 && degree.map((el: any) => <option key={el.ID} value={el.name}>{el.name.toUpperCase()}</option>
                                       )}
                                     </select>
+                                    <ErrorMessage name={`stepThree.${index}.specialization`} />
                                   </div>
                                   <div className="form-group col-sm-4">
                                     <label className="label mb-1">Year of Completion<span className="required">*</span></label>
@@ -814,6 +723,7 @@ function Profile() {
                                     >
                                       {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                     </select>
+                                    <ErrorMessage name={`stepThree.${index}.yearOfCompletion`} />
                                   </div>
                                   <div className="form-group col-sm-8">
                                     <label className="label mb-1">Institute<span className="required">*</span></label>
@@ -824,6 +734,7 @@ function Profile() {
                                     >
                                       {college.length > 0 && college.map((el: any) => <option key={el.ID} value={el.name}>{el.name}</option>)}
                                     </select>
+                                    <ErrorMessage name={`stepThree.${index}.institute`} />
                                   </div>
                                   <div className="form-group col-sm-4">
                                     <label className="label mb-1">CGPA/Percentage<span className="required">*</span><span className="ml-1"
@@ -833,6 +744,7 @@ function Profile() {
                                       value={el.percentage}
                                       onChange={handleChange}
                                     />
+                                    <ErrorMessage name={`stepThree.${index}.percentage`} />
                                   </div>
                                 </div>
                               </div>
@@ -1249,6 +1161,7 @@ function Profile() {
                                           >
                                             {certification.length > 0 && certification.map((el: any) => <option value={el.name}>{el.name}</option>)}
                                           </select>
+                                          <ErrorMessage name={`stepFive.additionalInformation.${index}.certification`} />
                                         </div>
                                         <div className="form-group col-4">
                                           <label className="label mb-1">Institute<span className="required">*</span></label>
@@ -1259,6 +1172,7 @@ function Profile() {
                                           >
                                             {college.length > 0 && college.map((el: any) => <option value={el.name}>{el.name}</option>)}
                                           </select>
+                                          <ErrorMessage name={`stepFive.additionalInformation.${index}.institute`} />
                                         </div>
                                         <div className="form-group col-4">
                                           <label className="label mb-1">Domain<span className="required">*</span></label>
@@ -1269,6 +1183,7 @@ function Profile() {
                                           >
                                             <option value="">Project Management</option>
                                           </select>
+                                          <ErrorMessage name={`stepFive.additionalInformation.${index}.Domain`} />
                                         </div>
                                         <div className="form-group col-4">
                                           <label className="label mb-1">Certification Date<span className="required">*</span></label>
@@ -1279,14 +1194,18 @@ function Profile() {
                                               onChange={handleChange}
                                             >
                                               {monthsName.length > 0 && monthsName.map((el: any) => <option value={el.value}>{el.label}</option>)}
-                                            </select></div>
+                                            </select>
+                                            <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateMonthFrom`} />
+                                            </div>
                                             <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
                                               name={`stepFive.additionalInformation.${index}.certificationDateYearFrom`}
                                               value={item.certificationDateYearFrom}
                                               onChange={handleChange}
                                             >
                                               {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
-                                            </select></div>
+                                            </select>
+                                            <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateYearFrom`} />
+                                            </div>
                                           </div>
                                         </div>
                                         {!isValidLiftime && <div className="form-group col-4">
@@ -1298,14 +1217,17 @@ function Profile() {
                                               onChange={handleChange}
                                             >
                                               {monthsName.length > 0 && monthsName.map((el: any) => <option key={el.value} value={el.value}>{el.label}</option>)}
-                                            </select></div>
+                                            </select>
+                                            <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateMonthTo`} /></div>
                                             <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
                                               name={`stepFive.additionalInformation.${index}.certificationDateYearTo`}
                                               value={item.certificationDateYearTo}
                                               onChange={handleChange}
                                             >
                                               {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
-                                            </select></div>
+                                            </select>
+                                            <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateYearTo`} />
+                                            </div>
                                           </div>
                                         </div>}
                                         <div className="col-4 d-flex align-items-center">
@@ -1390,55 +1312,10 @@ function Profile() {
             </Form>}
         </Formik>
 
-        <Formik
-          enableReinitialize={true}
-          initialValues={
-            {}
-          }
-          onSubmit={async (values) => {
-            // console.log(values)
-            // let data = {}
-            // if (index === 1 && !userProfile?.stepOne) {
-            //   data = values.stepOne;
-            //   console.log(data)
-            //   const response: any = await hieqService.post('/employeeProfile', data)
-            //   if (response?.status === 'success') {
-            //     alert('Data saved successfully')
-            //   }
-            //   return;
-            // }
-            // else if (index === 1 && userProfile?.firstName && userProfile?.email) {
-            //   data = { stepOne: values.stepOne };
-            //   console.log(data)
-            //   const response: any = await hieqService.put('/employeeProfile', data)
-            //   if (response?.status === 'success') {
-            //     alert('Data saved successfully')
-            //   }
-            //   return;
-            // }
-            // else if (index === 2) {
-            //   data = {
-            //     stepTwo: values.stepTwo,
-            //     stepThree: values.stepThree
-            //   };
-            // } else if (index === 3) {
-            //   data = {
-            //     stepFour: values.stepFour
-            //   }
-            // }
-            // else if (index === 4) {
-            //   data = {
-            //     stepFive: values.stepFive
-            //   }
-            // }
-            // const response: any = await hieqService.put('/employeeProfile', data)
-            // if (response?.status === 'success') {
-            //   alert('Data saved successfully')
-            // }
-          }}>
-          {({ values, handleChange, handleBlur, handleSubmit, errors, touched }) =>
-
-            <Form>
+        {/* Doucment Form Component */}
+            <form onSubmit={() => {
+              console.log('Submitting the doucment list')
+            }}>
               <div className="box-container mb-4" ref={documentsRef}>
                 <div className="box-container-inner">
                   <div className="text-left mb-4">
@@ -1452,8 +1329,16 @@ function Profile() {
                       <label className="label mb-1">Upload File<span className="required">*</span> <span className="note">(.pdf
                         format only)</span></label>
                       <div className="custom-file">
-                        <input type="file" className="custom-file-input form-control" id="inputGroupFile01"
-                          aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
+                        <input type="file"    
+                           className="custom-file-input form-control" id="inputGroupFile01"
+                          aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} 
+                          // onChange={(event) => {
+                          //   setStepSixInitialValues((pre) => ({
+                          //     ...pre, 
+                          //     resume:event.target.files[0]
+                          //   }))
+                          // }}
+                          />
                         <label className="custom-file-label mb-0 form-control">Choose file</label>
                       </div>
                       <span className="note fw-400">File must be less than 1MB</span><button
@@ -1485,7 +1370,14 @@ function Profile() {
                           <label className="label mb-1">Upload File<span className="required">*</span> <span className="note">(.pdf
                             format only)</span></label>
                           <div className="custom-file">
-                            <input type="file" className="custom-file-input form-control" id="inputGroupFile01"
+                            <input type="file"   
+                          //    onChange={(event) => {
+                          //   setStepSixInitialValues((pre) => ({
+                          //     ...pre, 
+                          //     visume:event.target.files[0]
+                          //   }))
+                          // }}
+                           className="custom-file-input form-control" id="inputGroupFile01"
                               aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                             <label className="custom-file-label mb-0 form-control">Choose
                               file</label>
@@ -1511,7 +1403,14 @@ function Profile() {
                         <div className="col-4">
                           <label className="label mb-1">PG Certificate<span className="required">*</span> </label>
                           <div className="custom-file">
-                            <input type="file" className="custom-file-input form-control" id="inputGroupFile01"
+                            <input type="file"  
+                          //     onChange={(event) => {
+                          //   setStepSixInitialValues((pre) => ({
+                          //     ...pre, 
+                          //     pgCertificate:event.target.files[0]
+                          //   }))
+                          // }} 
+                          className="custom-file-input form-control" id="inputGroupFile01"
                               aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                             <label className="custom-file-label mb-0 form-control">Choose
                               file</label>
@@ -1528,7 +1427,14 @@ function Profile() {
                         <div className="col-4">
                           <label className="label mb-1">UG Certificate<span className="required">*</span> </label>
                           <div className="custom-file">
-                            <input type="file" className="custom-file-input form-control" id="inputGroupFile01"
+                            <input type="file"  
+                          //     onChange={(event) => {
+                          //   setStepSixInitialValues((pre) => ({
+                          //     ...pre, 
+                          //     ugCertificate:event.target.files[0]
+                          //   }))
+                          // }} 
+                          className="custom-file-input form-control" id="inputGroupFile01"
                               aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                             <label className="custom-file-label mb-0 form-control">Choose
                               file</label>
@@ -1545,7 +1451,14 @@ function Profile() {
                         <div className="col-4">
                           <label className="label mb-1">XII Marksheet<span className="required">*</span> </label>
                           <div className="custom-file">
-                            <input type="file" className="custom-file-input form-control" id="inputGroupFile01"
+                            <input type="file" 
+                          //      onChange={(event) => {
+                          //   setStepSixInitialValues((pre) => ({
+                          //     ...pre, 
+                          //     twelfthMarksheet:event.target.files[0]
+                          //   }))
+                          // }} 
+                          className="custom-file-input form-control" id="inputGroupFile01"
                               aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                             <label className="custom-file-label mb-0 form-control" >Choose
                               file</label>
@@ -1562,7 +1475,14 @@ function Profile() {
                         <div className="col-4">
                           <label className="label mb-1">X Marksheet<span className="required">*</span> </label>
                           <div className="custom-file">
-                            <input type="file" className="custom-file-input form-control" id="inputGroupFile01"
+                            <input type="file"  
+                          //     onChange={(event) => {
+                          //   setStepSixInitialValues((pre) => ({
+                          //     ...pre, 
+                          //     tenthMarksheet:event.target.files[0]
+                          //   }))
+                          // }}
+                           className="custom-file-input form-control" id="inputGroupFile01"
                               aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                             <label className="custom-file-label mb-0 form-control" >Choose
                               file</label>
@@ -1579,7 +1499,14 @@ function Profile() {
                         <div className="col-4">
                           <label className="label mb-1">Other Degree<span className="required">*</span> </label>
                           <div className="custom-file">
-                            <input type="file" className="custom-file-input form-control" id="inputGroupFile01"
+                            <input type="file"   
+                          //    onChange={(event) => {
+                          //   setStepSixInitialValues((pre) => ({
+                          //     ...pre, 
+                          //     otherDegree:event.target.files[0]
+                          //   }))
+                          // }} 
+                          className="custom-file-input form-control" id="inputGroupFile01"
                               aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                             <label className="custom-file-label mb-0 form-control" >Choose
                               file</label>
@@ -1606,7 +1533,14 @@ function Profile() {
                           <label className="label mb-1">Experience letter, appointment letter, etc. <span
                             className="required">*</span> </label>
                           <div className="custom-file">
-                            <input type="file" className="custom-file-input form-control" id="inputGroupFile01"
+                            <input type="file"    
+                          //   onChange={(event) => {
+                          //   setStepSixInitialValues((pre:any) => ({
+                               
+                          //     experienceLetter:event.target.files[0]
+                          //   }))
+                          // }}
+                           className="custom-file-input form-control" id="inputGroupFile01"
                               aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                             <label className="custom-file-label mb-0 form-control" >Choose
                               file</label>
@@ -1635,11 +1569,8 @@ function Profile() {
                   </div>
                 </div>
               </div>
-            </Form>}
-        </Formik>
+            </form>
       </div>
-
-
     </>
   )
 }
