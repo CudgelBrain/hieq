@@ -33,8 +33,6 @@ const Accordion: React.FC<AccordionProps> = ({ icon, mode, title, handleChange, 
 
     const toggleAccordion = () => setIsOpen(!isOpen);
 
-
-
     return (
         <div className="row">
             <div className="col-12 mt-3">

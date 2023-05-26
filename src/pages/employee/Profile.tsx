@@ -104,8 +104,6 @@ function Profile() {
 
   ];
 
-
-
   const getDegree = async () => {
     const response: any = await hieqService.get('/specialization/list')
     if (response?.status === 'success') {
@@ -141,7 +139,6 @@ function Profile() {
     }
   }
 
-
   const years: OptionType[] = [];
   for (let year = getYear(new Date()); year > 1950; year--) {
     years.push(createOption(year.toString()));
@@ -154,13 +151,11 @@ function Profile() {
     { value: 'Github', label: 'Github' },
   ];
 
-
   const personalRef = useRef(null)
   const educationRef = useRef(null)
   const workRef = useRef(null)
   const skillsRef = useRef(null)
   const documentsRef = useRef(null)
-
 
   React.useEffect(() => setMode(query ?? 'view'), [query]);
   console.log(profileImage)
@@ -588,11 +583,10 @@ function Profile() {
                               <select className="selectpicker form-control" disabled={mode === 'view'}
                                 name="[gender]"
                                 value={values.gender}
-                                onChange={handleChange}
-                              >
+                                onChange={handleChange}>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
-                                <option value="not">Prefer dont say</option>
+                                <option value="not">Prefer don't say</option>
                               </select>
                               {touched?.gender && errors?.gender ? (
                                 <div className="errors">{errors?.gender}</div>
@@ -686,7 +680,7 @@ function Profile() {
               <div className="box-container mb-4" ref={educationRef}>
                 <div className="box-container-inner">
                   <div className="text-left mb-4">
-                    <h2 className="bc-heading">2. Educational Background</h2>
+                    <h2 className="bc-heading">2. Education</h2>
                   </div>
                   {/* <FieldArray name="stepTwo">
                     {({ insert, remove, push }) => (
@@ -1122,7 +1116,7 @@ function Profile() {
               <div className="box-container mb-4" ref={skillsRef}>
                 <div className="box-container-inner">
                   <div className="text-left mb-4">
-                    <h2 className="bc-heading">4. Skills & Portfolio</h2>
+                    <h2 className="bc-heading">4. Skills</h2>
                   </div>
                   <div className="row pt-2">
                     <FieldArray name="stepFive.skills">

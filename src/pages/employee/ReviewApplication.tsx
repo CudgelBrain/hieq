@@ -13,7 +13,8 @@ import plus from 'assets/images/plus.svg';
 import starBlank from 'assets/images/star-blank.svg';
 import starSolid from 'assets/images/star-solid.svg';
 
-const ReviewApplication = () => {
+const ReviewApplication:React.FC = () => {
+
     return(
         <>
              <div className="dash-wrapper empl-panel">
@@ -106,7 +107,7 @@ const ReviewApplication = () => {
                         <div className="text-left mb-4">
                           <h2 className="bc-heading bc-heading-sm">1. Personal Information <button type="button" className="btn btn-pencil" title="Edit"><img width="12" src={pencil}/></button></h2>
                         </div>
-                        <div className="mb-4 hide">
+                        {/* <div className="mb-4 hide">
                         <div className="row">
                           <div className="col-md-8">
                             <div className="row">
@@ -156,11 +157,12 @@ const ReviewApplication = () => {
                             <div className="text-right"><span className="note">250 words limit</span></div>
                           </div>
                         </div>
-                      </div>                      
+                      </div>                       */}
+
                         <div className="text-left mb-4">
-                          <h2 className="bc-heading bc-heading-sm">2. Education <button type="button" className="btn btn-pencil" title="Edit"><img width="12" src={pencil}/></button></h2>
+                          <h2 className="bc-heading bc-heading-sm">2. Educational Background  <button type="button" className="btn btn-pencil" title="Edit"><img width="12" src={pencil}/></button></h2>
                         </div>
-                        <div className="mb-4 hide">
+                        {/* <div className="mb-4 hide">
                         <div className="row">
                           <div className="col-12">
                             <div className="form-row">
@@ -256,7 +258,7 @@ const ReviewApplication = () => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                         <div className="text-left mb-4">
                           <h2 className="bc-heading bc-heading-sm">3. Work Experience <button type="button" className="btn btn-pencil" title="Edit"><img width="12" src={pencil}/></button></h2>
                         </div>
@@ -358,7 +360,7 @@ const ReviewApplication = () => {
                         </div>
                       </div>
                         <div className="text-left mb-4">
-                          <h2 className="bc-heading bc-heading-sm">4. Skills <button type="button" className="btn btn-pencil" title="Edit"><img width="12" src={pencil}/></button></h2>
+                          <h2 className="bc-heading bc-heading-sm">4. Skills and Portfolio <button type="button" className="btn btn-pencil" title="Edit"><img width="12" src={pencil}/></button></h2>
                         </div>
                         <div className="mb-4 hide">
                         <div className="row pt-2">
