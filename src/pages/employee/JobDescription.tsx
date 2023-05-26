@@ -7,8 +7,16 @@ import share from 'assets/images/share.svg';
 import leftArrow from 'assets/images/left-chevron.svg';
 import flag from 'assets/images/flag.svg';
 import pdf from 'assets/images/pdf-ico.svg';
+import { useLocation } from "react-router-dom";
 
 const JobDescription = () =>{
+
+  const {state} = useLocation()
+
+   const jobDescription:any = state;
+  console.log(jobDescription,"location")
+
+
     return(
         <>
              <div className="dash-wrapper empl-panel">
