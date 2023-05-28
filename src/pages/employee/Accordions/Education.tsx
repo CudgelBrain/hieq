@@ -24,7 +24,6 @@ const Education:React.FC<Props> = ({degree,specialization,yearOfCompletion,insti
                               <div className="form-group col-sm-4">
                                 <label className="label mb-1">Specialization<span className="required">*</span></label>
                                 <select className="selectpicker form-control" data-live-search="true">
-                                  <option value="">CBSE</option>
                                 </select>
                               </div>
                               <div className="form-group col-sm-4">
