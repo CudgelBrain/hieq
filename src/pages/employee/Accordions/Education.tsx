@@ -1,4 +1,7 @@
-import React ,{useState} from ' react ';
+import React ,{useState} from 'react';
+import info from 'assets/images/info.svg'
+import plus from 'assets/images/plus.svg'
+import deleteImg from 'assets/images/delete.svg'
 
 interface Props {
     degree:any;
@@ -24,7 +27,6 @@ const Education:React.FC<Props> = ({degree,specialization,yearOfCompletion,insti
                               <div className="form-group col-sm-4">
                                 <label className="label mb-1">Specialization<span className="required">*</span></label>
                                 <select className="selectpicker form-control" data-live-search="true">
-                                  <option value="">CBSE</option>
                                 </select>
                               </div>
                               <div className="form-group col-sm-4">

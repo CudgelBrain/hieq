@@ -12,6 +12,7 @@ import info from 'assets/images/info.svg';
 import plus from 'assets/images/plus.svg';
 import starBlank from 'assets/images/star-blank.svg';
 import starSolid from 'assets/images/star-solid.svg';
+import PersonalInfo from "./Accordions/PersonalInfo";
 
 const ReviewApplication:React.FC = () => {
 
@@ -158,7 +159,7 @@ const ReviewApplication:React.FC = () => {
                           </div>
                         </div>
                       </div>                       */}
-
+                      <PersonalInfo/>
                         <div className="text-left mb-4">
                           <h2 className="bc-heading bc-heading-sm">2. Educational Background  <button type="button" className="btn btn-pencil" title="Edit"><img width="12" src={pencil}/></button></h2>
                         </div>
