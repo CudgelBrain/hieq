@@ -1,4 +1,4 @@
-import React ,{useState} from ' react ';
+import React ,{useState} from 'react';
 
 interface Props {
     degree:any;
@@ -42,7 +42,7 @@ const Education:React.FC<Props> = ({degree,specialization,yearOfCompletion,insti
                               <div className="form-group col-sm-4">
                                 <label className="label mb-1">CGPA/Percentage<span className="required">*</span><span className="ml-1"
                                     data-toggle="tooltip" data-placement="top" title="Tooltip on top"><img
-                                      src={info} width="16" height="16" alt=""/></span></label>
+                                      src={""} width="16" height="16" alt=""/></span></label>
                                 <input type="text" className="form-control" placeholder="7.46"/>
                               </div>
                             </div>
@@ -50,11 +50,11 @@ const Education:React.FC<Props> = ({degree,specialization,yearOfCompletion,insti
                           <div className="col-12 mb-4">
                             <div className="row">
                               <div className="col-6">
-                                <button type="submit" className="plus-btn"><img src={plus} width="20"
+                                <button type="submit" className="plus-btn"><img src={""} width="20"
                                     height="20" alt=""/><span className="ml-1">Add Senior Secondary details</span></button>
                               </div>
                               <div className="col-6 text-right pr-3">
-                                <button type="submit" className="plus-btn"><img src={deleteImg} width="16"
+                                <button type="submit" className="plus-btn"><img src={""} width="16"
                                     height="18" alt=""/></button>
                               </div>
                             </div>
@@ -91,7 +91,7 @@ const Education:React.FC<Props> = ({degree,specialization,yearOfCompletion,insti
                               <div className="form-group col-sm-4">
                                 <label className="label mb-1">CGPA/Percentage<span className="required">*</span><span className="ml-1"
                                     data-toggle="tooltip" data-placement="top" title="Tooltip on top"><img
-                                      src={info} width="16" height="16" alt=""/></span></label>
+                                      src={""} width="16" height="16" alt=""/></span></label>
                                 <input type="text" className="form-control" placeholder="7.46"/>
                               </div>
                             </div>
@@ -99,11 +99,11 @@ const Education:React.FC<Props> = ({degree,specialization,yearOfCompletion,insti
                           <div className="col-12 mb-4">
                             <div className="row">
                               <div className="col-6">
-                                <button type="submit" className="plus-btn"><img src={plus} width="20"
+                                <button type="submit" className="plus-btn"><img src={""} width="20"
                                     height="20" alt=""/><span className="ml-1">Add More</span></button>
                               </div>
                               <div className="col-6 text-right pr-3">
-                                <button type="submit" className="plus-btn"><img src={deleteImg} width="16"
+                                <button type="submit" className="plus-btn"><img src={""} width="16"
                                     height="18" alt=""/></button>
                               </div>
                             </div>

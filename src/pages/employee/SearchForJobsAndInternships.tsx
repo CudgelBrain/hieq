@@ -98,6 +98,33 @@ const SearchForJobsAndInternships = () => {
     { value: 'Not Interested', label: 'Not Interested' },
   ];
 
+  const [searchType, setSearchType] = useState(1)
+
+  console.log(searchType)
+
+  const handleSearch = (searchText: any) => {
+    console.log(data)
+    // Perform your search logic here
+    // You can use regular expressions for exact and similar search
+    if(searchType === 1){
+    // Example: Exact search
+    const exactResults = data.filter((item:any) => {
+        return item?.stepOne?.opportunityTitle?.toLowerCase() === searchText.toLowerCase()
+    });
+    setData(exactResults); // 
+    }else{
+
+    // Example: Similar search
+    const similarResults = data.filter((item:any)=> {
+      return Object.keys(item).some(key =>
+        item[key]?.toLowerCase().includes(searchText.toLowerCase())
+      );
+    }
+    );
+    setData(similarResults); // Set the appropriate search results
+    }
+  };
+
   return (
     <>
       <div className='dash-wrapper empl-panel'>
@@ -211,7 +238,8 @@ const SearchForJobsAndInternships = () => {
                             className='custom-control-input'
                             id='customRadio1'
                             name='example'
-                            checked
+                            onChange={() => setSearchType(1)}
+                            checked={searchType === 1}
                           />
                           <label className='custom-control-label' htmlFor='customRadio1'>
                             Exact Search
@@ -223,6 +251,8 @@ const SearchForJobsAndInternships = () => {
                             className='custom-control-input'
                             id='customRadio2'
                             name='example'
+                            onChange={() => setSearchType(2)}
+                            checked={searchType === 2}
                           />
                           <label className='custom-control-label' htmlFor='customRadio2'>
                             Similar Search
@@ -235,7 +265,7 @@ const SearchForJobsAndInternships = () => {
                             type='text'
                             className='form-control'
                             placeholder='Job title, skills, company'
-                            onChange={(e) => console.log(e)}
+                            onChange={(e) =>handleSearch(e.target.value)}
                           />
                           <input
                             type='text'

@@ -88,6 +88,7 @@
     "immutable": "^4.1.0",
     "jquery": "^3.6.1",
     "popper.js": "^1.16.1",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "react-error-overlay": "^6.0.9"
   }
 }
