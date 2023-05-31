@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 import star from 'assets/images/star.svg';
 import delist from 'assets/images/delist.svg';
 
-interface Props {
+export interface Props {
  job:any
 }
 

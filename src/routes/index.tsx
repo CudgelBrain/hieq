@@ -163,7 +163,7 @@ const AppRouter = () => {
               '/employer/postOpportunity/:category/:ID',
             ]}
             component={PostOpportunity}
-          />
+            />
           {/* Employee Routes */}
           <MainRoute exact path='/employee/dashboard' component={EmployeeDashboard} />
           <MainRoute exact path='/employee/profile' component={EmployeeProfile} />
@@ -174,7 +174,10 @@ const AppRouter = () => {
           <MainRoute exact path='/employee/saved_oppotunities' component={SavedOpportunities}/>
           <MainRoute exact path='/employee/view_application' component={ViewApplication}/>
           <MainRoute exact path='/employee/assessments' component={Assessments}/>
-
+          {/* <MainRoute exact path ={[
+            'employee/jobDescription/:category/:ID',
+          ]}
+          component={JobDescription}/> */}
           <MainRoute path="*" component={NotFound} />
         </Switch>
       </Suspense>

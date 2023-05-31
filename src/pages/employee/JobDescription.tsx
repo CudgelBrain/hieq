@@ -1,5 +1,4 @@
 import React,{useState,useEffect} from "react";
-import { hieqService } from "utils";
 import locationImg from 'assets/images/location.svg';
 import file from 'assets/images/file.svg';
 import rupee from 'assets/images/rupee.svg'
@@ -10,57 +9,60 @@ import leftArrow from 'assets/images/left-chevron.svg';
 import flag from 'assets/images/flag.svg';
 import pdf from 'assets/images/pdf-ico.svg';
 import { useLocation } from "react-router-dom";
-import axios from "axios";
 
-// interface Props {
-//   job:any
-//  }
-   
+interface Props {
+  job:any
+}
+
   const JobDescription = () => {
-    const [data, setData] = useState([]);
+      
+    
+    
+    // const [data, setData] = useState([]);
 
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get("/opportunity/status", {
-            params: {
-              status: "",
-              from_date: "",
-              to_date: "",
-              category: "job"
-            }
-          });
-          setData(response.data.items);
-        } catch (error) {
-          console.log(error);
-        }
-      };
+    // useEffect(() => {
+    //   const fetchData = async () => {
+    //     try {
+    //       const response = await axios.get("/opportunity/status", {
+    //         params: {
+    //           status: "",
+    //           from_date: "",
+    //           to_date: "",
+    //           category: "job"
+    //         }
+    //       });
+    //       setData(response.data.items);
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   };
   
-      fetchData();
-    }, []);
+    //   fetchData();
+    // }, []);
    
 //     const [data, setData] = useState([]);
 
 //   const getdata = async () => {
 //     try {
-//       let res = await hieqService.get('/opportunity/status?status=&from_date=&to_date=&category=job');
-//       console.log(res.data.items);
-//       setData(res.data.items);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
-//   const navigate = useHistory();
-
-//   useEffect(() => {
-//     getdata();
-//   }, []);
-
-  // const {state} = useLocation()
-
-  //  const jobDescription:any = state;
-  // console.log(jobDescription,"location")
-
+  //       let res = await hieqService.get('/opportunity/status?status=&from_date=&to_date=&category=job');
+  //       console.log(res.data.items);
+  //       setData(res.data.items);
+  //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   };
+    // const navigate = useHistory();
+    
+    //   useEffect(() => {
+      //     getdata();
+      //   }, []);
+      
+      const {state} = useLocation()
+      
+      const jobDescription:any = state;
+      console.log(jobDescription,"location")
+      
+      
 
     return(
         <>
@@ -81,21 +83,24 @@ import axios from "axios";
                   <div className="row">
                     <div className="col-md-12 text-center">
                       <div className="jb-box-section jb-box-center">
+                        
                         <div className="jb-box-inner text-center flex-grow-1 first">
                           <figure className="jb-logo">
                             <img src={tcsImg} width="100" height="100" alt=""/>
                           </figure>
-                          <h2 className="heading">SOftware Engineer</h2>
-                          <h3 className="heading-sm">TCS</h3>
+                          <h2 className="heading">{jobDescription && jobDescription?.data?.stepOne?.opportunityTitle || ""}</h2>
+                          <h3 className="heading-sm">{jobDescription && jobDescription?.data?.stepOne?.opportunityDomain || ""}</h3>
                         </div>
                         <div className="jb-box-inner mt-4 flex-grow-1 third">
                           <div className="list d-flex align-items-center"><span className="ico mr-2"><img
-                                src={locationImg} width="20" height="20" alt=""/></span>Gurgaon, Haryana
+                                src={locationImg} width="20" height="20" alt=""/></span>{jobDescription && jobDescription?.data?.stepOne?.location || ""}   
                           </div>
                           <div className="list d-flex align-items-center"><span className="ico mr-2"><img
-                                src={file} width="20" height="20" alt=""/></span>7-12 Yrs</div>
+                                src={file} width="20" height="20" alt=""/></span>{jobDescription && jobDescription?.data?.workExperience?.min?.year || ""} - {jobDescription && jobDescription?.data?.workExperience?.max?.year || ""}  Yrs</div>
                           <div className="list d-flex align-items-center"><span className="ico mr-2"><img
-                                src={rupee} width="20" height="20" alt=""/></span>Not available</div>
+                                src={rupee} width="20" height="20" alt=""/></span>{jobDescription && jobDescription?.data?.stepTwo?.salaryDetail?.fixedAmount !== undefined
+                                  ? jobDescription && jobDescription?.data.stepTwo.salaryDetail.fixedAmount 
+                                  : 'Not Available'}</div>
                         </div>
                         <div className="d-flex justify-content-center mt-5">
                           <button type="submit" className="btn btn-wt btn-lg img-reflect">Save</button>
@@ -108,7 +113,7 @@ import axios from "axios";
                         <div className="content">
                           <h2>What you will do :</h2>
                           <ul>
-                            <li>Must have good working experience in Photoshop,CorelDraw,and HTML</li>
+                            <li>{jobDescription && jobDescription?.data?.jobDescriptionFile?.desc || ""}</li>
                             <li>Candidate must have good experience in web designing</li>
                             <li> Good understanding of front-end optimization techniques,cross-browser compatibility,and
                               Responsive web design</li>
