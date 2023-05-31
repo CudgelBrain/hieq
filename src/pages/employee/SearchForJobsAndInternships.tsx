@@ -7,6 +7,7 @@ import leftArrow from 'assets/images/left-chevron.svg';
 import { hieqService } from 'utils';
 const SearchForJobsAndInternships = () => {
   const [data, setData] = useState([]);
+  const [searchText, setSearchText] = useState("")
 
   const getdata = async () => {
     try {
@@ -21,8 +22,14 @@ const SearchForJobsAndInternships = () => {
   };
 
   useEffect(() => {
+    if(searchText === ""){
     getdata();
-  }, []);
+    }
+  }, [searchText]);
+
+ useEffect(() =>{
+  getdata();
+ }, [])
 
   const datePosted = [
     { value: 'Today', label: 'Today' },
@@ -102,26 +109,28 @@ const SearchForJobsAndInternships = () => {
 
   console.log(searchType)
 
-  const handleSearch = (searchText: any) => {
-    console.log(data)
+  const handleSearch = async () => {
+
+    if (searchText === "") {
+      await getdata()
+    }
     // Perform your search logic here
     // You can use regular expressions for exact and similar search
-    if(searchType === 1){
-    // Example: Exact search
-    const exactResults = data.filter((item:any) => {
+    if (searchType === 1) {
+      // Example: Exact search
+      const exactResults = data.filter((item: any) => {
+        console.log(item.stepOne.opportunityTitle, searchText)
         return item?.stepOne?.opportunityTitle?.toLowerCase() === searchText.toLowerCase()
-    });
-    setData(exactResults); // 
-    }else{
+      });
+      setData(exactResults); // 
+    } else {
 
-    // Example: Similar search
-    const similarResults = data.filter((item:any)=> {
-      return Object.keys(item).some(key =>
-        item[key]?.toLowerCase().includes(searchText.toLowerCase())
+      // Example: Similar search
+      const similarResults = data.filter((item: any) => {
+        return item?.stepOne?.opportunityTitle?.toLowerCase().includes(searchText.toLowerCase())
+      }
       );
-    }
-    );
-    setData(similarResults); // Set the appropriate search results
+      setData(similarResults); // Set the appropriate search results
     }
   };
 
@@ -265,7 +274,7 @@ const SearchForJobsAndInternships = () => {
                             type='text'
                             className='form-control'
                             placeholder='Job title, skills, company'
-                            onChange={(e) =>handleSearch(e.target.value)}
+                            onChange={(e) => setSearchText(e.target.value)}
                           />
                           <input
                             type='text'
@@ -273,7 +282,7 @@ const SearchForJobsAndInternships = () => {
                             placeholder='Location'
                             onChange={(e) => console.log(e)}
                           />
-                          <button type='submit' className='btn btn-yl btn-rd-37h'>
+                          <button type='button' className='btn btn-yl btn-rd-37h' onClick={handleSearch}>
                             <img src={searchWhite} width='30' alt='' />
                           </button>
                         </div>
