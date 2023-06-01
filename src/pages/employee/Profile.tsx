@@ -19,6 +19,8 @@ import getYear from 'date-fns/getYear'
 import { OptionType, createOption } from 'features/employer/common'
 import calender from 'assets/images/calendar.svg'
 import DatePicker from 'react-datepicker'
+import { ToastContainer, toast } from 'react-toastify'
+
 
 
 
@@ -492,7 +494,18 @@ function Profile() {
 
   const submitDocuments = () =>{
      if(!stepSixInitialValues){
-       alert('Please select files')
+      toast.success('Data saved successfully', 
+      {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+                      
+    });
      }
 
      const formData = new FormData()
@@ -503,6 +516,7 @@ function Profile() {
 
   return (
     <>
+    <ToastContainer/>
       <div className="col-md-12 pt-4 pb-5">
         <Formik
           enableReinitialize={true}
@@ -515,7 +529,18 @@ function Profile() {
             let data = values;
             const response: any = await hieqService.post('/employeeProfile', data)
             if (response?.status === 'success') {
-              alert('Data saved successfully')
+              toast.success('Data saved successfully', 
+                {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                                
+              });
             }
             return;
           }
@@ -662,7 +687,18 @@ function Profile() {
 
             const response: any = await hieqService.put('/employeeProfile', data)
             if (response?.status === 'success') {
-              alert('Data saved successfully')
+              toast.success('Data saved successfully', 
+                {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                                
+              });
             }
           }}>
           {({ values, handleChange, handleBlur, handleSubmit, errors, touched }) =>
@@ -800,7 +836,18 @@ function Profile() {
 
             const response: any = await hieqService.put('/employeeProfile', data)
             if (response?.status === 'success') {
-              alert('Data saved successfully')
+              toast.success('Data saved successfully', 
+                {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                                
+              });
             }
           }}>
           {({ values, handleChange, handleBlur, handleSubmit, errors, touched }) =>
@@ -1019,7 +1066,18 @@ function Profile() {
             }
             const response: any = await hieqService.put('/employeeProfile', data)
             if (response?.status === 'success') {
-              alert('Data saved successfully')
+              toast.success('Data saved successfully', 
+                {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                                
+              });
             }
           }}>
           {({ values, handleChange, setFieldValue, handleBlur, handleSubmit, errors, touched }) =>
