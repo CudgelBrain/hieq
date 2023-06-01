@@ -1,40 +1,38 @@
 import React, { ChangeEventHandler, useState } from 'react';
 import calender from 'assets/images/calendar.svg';
 import profile from 'assets/images/profile.jpg';
-import downArrow from 'assets/images/down-arrow.svg';
 
 interface PersonalProps {
   open :boolean
 }
 
 const PersonalInfo: React.FC<PersonalProps> = ({open}): JSX.Element  => {
-  const [nameData, setName] = useState('');
-  const [emailData, setEmail] = useState('');
-  const [phData, setPh] = useState<number>(0);
-  const [genderData, setGender] = useState();
-  const [dobData, setDob] = useState();
-  const [summaryData, setSummary] = useState();
+  // const [nameData, setName] = useState('');
+  // const [emailData, setEmail] = useState('');
+  // const [phData, setPh] = useState<number>(0);
+  // const [genderData, setGender] = useState();
+  // const [dobData, setDob] = useState();
+  // const [summaryData, setSummary] = useState();
 
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-  const handlePhChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    const newValue = parseInt(event.target.value, 10);
-    setPh(newValue);
-  };
-  const handleGenderChange = (next: any) => {
-    setGender(next);
-  };
-  const handledobChange = (next: any) => {
-    setDob(next);
-  };
-  const handleSummaryChange = (next: any) => {
-    setSummary(next);
-  };
-
+  // const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setName(event.target.value);
+  // };
+  // const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setEmail(event.target.value);
+  // };
+  // const handlePhChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  //   const newValue = parseInt(event.target.value, 10);
+  //   setPh(newValue);
+  // };
+  // const handleGenderChange = (next: any) => {
+  //   setGender(next);
+  // };
+  // const handledobChange = (next: any) => {
+  //   setDob(next);
+  // };
+  // const handleSummaryChange = (next: any) => {
+  //   setSummary(next);
+  // };
 
   return (
     <>
@@ -46,7 +44,9 @@ const PersonalInfo: React.FC<PersonalProps> = ({open}): JSX.Element  => {
                 <label className='label mb-1'>
                   Full Name <span className='required'>*</span>
                 </label>
-                <input type='text' className='form-control' onChange={handleNameChange} disabled />
+                <input type='text' className='form-control' 
+                // onChange={handleNameChange} 
+                disabled />
               </div>
               <div className='col-12'>
                 <div className='form-row'>
@@ -57,7 +57,7 @@ const PersonalInfo: React.FC<PersonalProps> = ({open}): JSX.Element  => {
                     <input
                       type='text'
                       className='form-control'
-                      onChange={handleEmailChange}
+                      // onChange={handleEmailChange}
                       disabled
                     />
                   </div>
@@ -68,7 +68,7 @@ const PersonalInfo: React.FC<PersonalProps> = ({open}): JSX.Element  => {
                     <input
                       type='text'
                       className='form-control'
-                      onChange={handlePhChange}
+                      // onChange={handlePhChange}
                       disabled
                     />
                   </div>
@@ -79,7 +79,7 @@ const PersonalInfo: React.FC<PersonalProps> = ({open}): JSX.Element  => {
                     <select
                       className='selectpicker form-control'
                       name='[gender]'
-                      onChange={handleGenderChange}
+                      // onChange={handleGenderChange}
                     >
                       <option value='male'>Male</option>
                       <option value='female'>Female</option>
@@ -94,7 +94,7 @@ const PersonalInfo: React.FC<PersonalProps> = ({open}): JSX.Element  => {
                       <input
                         type='text'
                         className='form-control'
-                        onChange={handledobChange}
+                        // onChange={handledobChange}
                         disabled
                       />
                       <div className='input-group-append'>
@@ -109,16 +109,18 @@ const PersonalInfo: React.FC<PersonalProps> = ({open}): JSX.Element  => {
               </div>
             </div>
           </div>
-          <div className='col-4 text-center'>
+          <div className='col-4 text-center' style={{display:"flex", marginLeft:"120%"}}>
             <div className='change-img'>
-              <div className='featured'>
+              <div className='featured'  style={{marginTop:"-165px"}}>
                 <img src={profile} width='150' height='150' alt='' />
               </div>
             </div>
           </div>
           <div className='form-group col-12'>
             <label className='label mb-1'>Profile Summary</label>
-            <textarea rows={4} className='form-control' onChange={handleSummaryChange} />
+            <textarea rows={4} className='form-control' 
+            // onChange={handleSummaryChange} 
+            />
           </div>
         </div>
       </div>}

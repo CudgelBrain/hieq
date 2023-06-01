@@ -1,25 +1,19 @@
 import React ,{useState} from 'react';
 
 interface Props {
-    degree:any;
-    specialization:any;
-    yearOfCompletion: number;
-    institute:any;
-    cgpa:number;
+    open:boolean;
 }
-const Education:React.FC<Props> = ({degree,specialization,yearOfCompletion,institute,cgpa}) => {
-    const[isOpen,setIsOpen] = useState(false);
-    const toggleAccordion = (!isOpen);
+const Education:React.FC<Props> = ({open}): JSX.Element => {
 
     return (
         <>
-              <div className="mb-4 hide">
+             {open && <div className="mb-4">
                         <div className="row">
                           <div className="col-12">
                             <div className="form-row">
                               <div className="form-group col-sm-4">
                                 <label className="label mb-1">Degree<span className="required">*</span></label>
-                                <input type="text" className="form-control" value={degree} placeholder="High School (10th)"/>
+                                <input type="text" className="form-control" placeholder="High School (10th)"/>
                               </div>
                               <div className="form-group col-sm-4">
                                 <label className="label mb-1">Specialization<span className="required">*</span></label>
@@ -109,9 +103,9 @@ const Education:React.FC<Props> = ({degree,specialization,yearOfCompletion,insti
                           </div>
                         </div>
                       </div>
-
+                      }
         </>
     )
 }
 
-
+export default Education;
