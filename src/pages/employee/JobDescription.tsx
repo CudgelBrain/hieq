@@ -9,15 +9,12 @@ import leftArrow from 'assets/images/left-chevron.svg';
 import flag from 'assets/images/flag.svg';
 import pdf from 'assets/images/pdf-ico.svg';
 import { useLocation } from "react-router-dom";
-
 interface Props {
   job:any
 }
 
   const JobDescription = () => {
       
-    
-    
     // const [data, setData] = useState([]);
 
     // useEffect(() => {
@@ -88,7 +85,7 @@ interface Props {
                           <figure className="jb-logo">
                             <img src={tcsImg} width="100" height="100" alt=""/>
                           </figure>
-                          <h2 className="heading">{jobDescription && jobDescription?.data?.stepOne?.opportunityTitle || ""}</h2>
+                          <h2 className="heading">{jobDescription && jobDescription?.data?.stepOne?.opportunityTitle}</h2>
                           <h3 className="heading-sm">{jobDescription && jobDescription?.data?.stepOne?.opportunityDomain || ""}</h3>
                         </div>
                         <div className="jb-box-inner mt-4 flex-grow-1 third">
@@ -113,7 +110,7 @@ interface Props {
                         <div className="content">
                           <h2>What you will do :</h2>
                           <ul>
-                            <li>{jobDescription && jobDescription?.data?.jobDescriptionFile?.desc || ""}</li>
+                            <li> {jobDescription && jobDescription?.data?.jobDescriptionFile?.desc || ""}</li>
                             <li>Candidate must have good experience in web designing</li>
                             <li> Good understanding of front-end optimization techniques,cross-browser compatibility,and
                               Responsive web design</li>
@@ -150,22 +147,21 @@ interface Props {
                         <div className="mt-4">
                           <div className="content content-fade">
                             <h2>Links</h2>
-                            <a href="#" className="btn-link cc-black">www.hcltechnologies.com/about</a>
+                            <a href="#" className="btn-link cc-black"> {jobDescription && jobDescription?.data?.stepTwo?.externalLinks[0].url}</a>
                           </div>
                         </div>
                         <div className="mt-4">
                           <div className="content content-fade">
                             <h2>Attachments</h2>
-                            <a href="#" className="tag pdf-attach"><span className="mr-1"><img src={pdf}/></span>Job Description</a>
-                            <a href="#" className="tag pdf-attach"><span className="mr-1"><img src={pdf}/></span>Job Description</a>
+                            <a href="#" className="tag pdf-attach"><span className="mr-1"><img src={pdf}/></span>{jobDescription && jobDescription?.data?.stepTwo?.attachments[0]?.file || " "}</a>
+                            <a href="#" className="tag pdf-attach"><span className="mr-1"><img src={pdf}/></span>{jobDescription && jobDescription?.data?.stepTwo?.attachments[1]?.file || " "}</a>
                           </div>
                         </div>
                         <div className="mt-4">
                           <div className="content content-fade ul-w50">
                             <h2>Job Highlights</h2>
                             <ul>
-                              <li>
-                                Industry Type</li>
+                              <li>{jobDescription && jobDescription?.data?.stepOne?.locationType}</li>
                               <li> Functional Area</li>
                               <li> Employment Type</li>
                               <li> Type of organization
@@ -173,24 +169,23 @@ interface Props {
                               <li>
                                 IT Services & Consulting</li>
                               <li> UX, Design & Architecture</li>
-                              <li>Full Time</li>
-                              <li> Large scale
-                              </li>
+                              <li>{jobDescription && jobDescription?.data?.stepOne?.opportunityType}</li>
+                              <li>{jobDescription && jobDescription?.data?.stepOne?.opportunityDomain}</li>
                             </ul>
                           </div>
                         </div>
                         <div className="mt-4">
                           <div className="content content-fade">
                             <h2>Qualifications</h2>
-                            <p>Bachelors Degree in Computer Science</p>
+                            <p> {jobDescription && jobDescription?.data?.stepThree?.qualifications || ""}</p>
                           </div>
                         </div>
                         <div className="mt-4">
                           <div className="content content-fade">
                             <h2>Key Skills</h2>
-                            <div className="tag">HTML 5</div>
-                            <div className="tag">CSS 3.0</div>
-                            <div className="tag">PHP</div>
+                            <div className="tag"> {jobDescription && jobDescription?.data?.stepThree?.skills?.public_skills[0].title || ""}</div>
+                            <div className="tag">{jobDescription && jobDescription?.data?.stepThree?.skills?.personal_skills[0].title || ""}</div>
+                            <div className="tag">{jobDescription && jobDescription?.data?.stepThree?.skills?.technical_skills[0].title || ""}</div>
                             <div className="tag">Bootstrap</div>
                           </div>
                         </div>
