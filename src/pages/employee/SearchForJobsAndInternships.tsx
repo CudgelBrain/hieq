@@ -22,14 +22,14 @@ const SearchForJobsAndInternships = () => {
   };
 
   useEffect(() => {
-    if(searchText === ""){
-    getdata();
+    if (searchText === "") {
+      getdata();
     }
   }, [searchText]);
 
- useEffect(() =>{
-  getdata();
- }, [])
+  useEffect(() => {
+    getdata();
+  }, [])
 
   const datePosted = [
     { value: 'Today', label: 'Today' },
@@ -111,9 +111,10 @@ const SearchForJobsAndInternships = () => {
 
   const handleSearch = async () => {
 
-    if (searchText === "") {
-      await getdata()
-    }
+    if(searchText === ""){
+      setSearchText("")
+    }else{
+
     // Perform your search logic here
     // You can use regular expressions for exact and similar search
     if (searchType === 1) {
@@ -132,6 +133,7 @@ const SearchForJobsAndInternships = () => {
       );
       setData(similarResults); // Set the appropriate search results
     }
+  }
   };
 
   return (

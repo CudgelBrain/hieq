@@ -11,6 +11,7 @@ import darkModeImg from 'assets/images/dark-mode.svg';
 import lightModeImg from 'assets/images/light-mode.svg';
 import notificationImg from 'assets/images/notifications.svg';
 import searchImg from 'assets/images/employee/search.svg'
+import { useLocation } from 'react-router-dom';
 interface Props {
   themeMode: string;
   sidebarState: boolean;
@@ -32,7 +33,28 @@ const Header: React.FC<Props> = ({ sidebarState, themeMode, setSidebarState, set
     history.push('/login/password');
   };
 
-  console.log(userType)
+  console.log(sidebarState, 'state')
+  const location = useLocation()
+  console.log(location.pathname === "/employee/searchForJobsAndInternships")
+
+  useEffect(() =>{
+
+  if(sidebarState ===true && location.pathname === "/employee/searchForJobsAndInternships"){
+    console.log("working")
+    setSidebarState(false)
+  }
+  }, [location.pathname])
+
+  function handleSideBarToggle(){
+
+    if(location.pathname === "/employee/searchForJobsAndInternships"){
+      console.log('working')
+      return
+    }else 
+    {
+      setSidebarState(!sidebarState)
+    }
+  }
 
   return (
     <React.Fragment>
@@ -45,7 +67,7 @@ const Header: React.FC<Props> = ({ sidebarState, themeMode, setSidebarState, set
                 <div
                   className='nav-bar'
                   style={{ cursor: 'pointer' }}
-                  onClick={() => setSidebarState(!sidebarState)}
+                  onClick={() => handleSideBarToggle()}
                 >
                   <img src={barImg} height='20' alt='' />
                 </div>
@@ -96,7 +118,7 @@ const Header: React.FC<Props> = ({ sidebarState, themeMode, setSidebarState, set
                 <div
                   className='nav-bar'
                   style={{ cursor: 'pointer' }}
-                  onClick={() => setSidebarState(!sidebarState)}
+                  onClick={() =>handleSideBarToggle()}
                 >
                   <img src={barImg} height='20' alt='' />
                 </div>

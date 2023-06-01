@@ -13,9 +13,11 @@ export interface Props {
 
 const JobBoxSection : React.FC<Props> = ({job}) => {
   const navigate = useHistory();
+
+
+
   return (
     <>
-      {/* <div className="row align-items-center mb-4" > */}
       <div className='col-md-12 mt-4'>
         <div className='jb-box-section'>
           <div className='jb-box-inner text-center flex-grow-1 first'>
