@@ -40,7 +40,7 @@ function EmployeeDashboard() {
         </div>
       </div>
 
-      <div className='box-container mb-4'>
+      <div className='box-container mb-4 p-4'>
         <div className='row'>
           <div className='col-md-12'>
             <div className='d-flex'>
@@ -60,29 +60,18 @@ function EmployeeDashboard() {
                 onClick={() => {
                   setCurrentPage(1);
                   setActiveCategory('internship');
-                  // history.push('/employer/dashboard/?category=internship');
                 }}
                 className={`employee-tabs-btn ${activeCategory === 'internship' ? 'employee_active' : ''}`}
               >
                 Internships
               </button>
-              {/* <button
-              type='button'
-              onClick={() => {
-                setCurrentPage(1);
-                setActiveCategory('competition');
-                history.push('/employer/dashboard/?category=competition');
-              }}
-              className={`tabs-btn ${activeCategory === 'competition' ? 'active' : ''}`}
-            >
-              Competitions
-            </button> */}
+          
             </div>
           </div>
         </div>
-        <div className='box-container-inner'>
-          <div className='row mb-4'>
-            <div className='col-lg-4 col-xl-5 col-md-4'>
+        <div className='box-container-inner p-0 pt-4'>
+          <div className='form-row mb-4'>
+            <div className='col-5'>
             <div className="input-group group-prepend-wrapper">
                             <div className="input-group-prepend"><span className="input-group-text">
                                 <button type="submit" className="icon-btn"><img src={search} height="20"
@@ -91,10 +80,10 @@ function EmployeeDashboard() {
                             <input type="text" className="form-control pl-0" placeholder="Enter search here..."/>
                           </div>
                         </div>
-            <div className='col-lg-4 col-xl-3 col-md-4'>
+            <div className='col-3'>
               <Select options={allJobs} placeholder='All Jobs'/>
             </div>  
-            <div className='col-lg-4 col-xl-4 col-md-4'>
+            <div className='col-4'>
               <RangeSelector setStartDate={setStartDate} setEndDate={setEndDate} />
             </div>
           </div>

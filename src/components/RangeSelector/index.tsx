@@ -89,7 +89,6 @@ const RangeSelector: React.FC<Props> = ({ startDate, endDate, label, setStartDat
           ],
 
         },
-
       }
       }
       onCallback={handleCallback}
@@ -102,7 +101,7 @@ const RangeSelector: React.FC<Props> = ({ startDate, endDate, label, setStartDat
           cursor: 'pointer',
           padding: '5px 10px',
           border: '1px solid #ccc',
-          width: '80%',
+          width: '10yy0%',
           alignItems:'center',
           height:'38px',
           borderRadius: "4px"
@@ -115,33 +114,6 @@ const RangeSelector: React.FC<Props> = ({ startDate, endDate, label, setStartDat
     </DateRangePicker >
   )
 
-
-
-
-
-
-
-
-
-
-  // let stDate = moment().subtract(6, "d").format("YYYY-MM-DD")
-  // const [dateRange, setDateRange] = useState<(Date | null)[]>([new Date(stDate), new Date()]);
-  // React.useEffect(() => {
-  //   if (dateRange.length > 1) {
-  //     setStartDate(moment(dateRange[0]).format("YYYY-MM-DD"))
-  //     setEndDate(moment(dateRange[1]).format("YYYY-MM-DD"))
-  //   }
-  // }, [dateRange])
-  // return (
-  //   <DatePicker
-  //     selectsRange={true}
-  //     dateFormat='dd LLL yyyy'
-  //     startDate={startDate ?? dateRange[0]}
-  //     endDate={endDate ?? dateRange[1]}
-  //     customInput={<InputField label={label} />}
-  //     onChange={(dateRange) => setDateRange(dateRange)}
-  //   />
-  // );
 };
 
 export default RangeSelector;

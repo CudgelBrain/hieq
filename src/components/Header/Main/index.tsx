@@ -114,7 +114,10 @@ const Header: React.FC<Props> = ({ sidebarState, themeMode, setSidebarState, set
           (<div className="container-fluid">
             <div className="row position-relative">
               <div className='lt-sec' >
-                <img src={hieqImg} alt=''/>
+                <img src={hieqImg} alt=''
+                width={"89px"}
+                height={"40px"}
+                />
                 <div
                   className='nav-bar'
                   style={{ cursor: 'pointer' }}
@@ -130,16 +133,16 @@ const Header: React.FC<Props> = ({ sidebarState, themeMode, setSidebarState, set
               </div>
               <div className="col-6 pt-3 pb-3 text-right">
                 <div className="tprt-link">
-                  <button type="button" className="text-link mr-2" title="Dark Mode" onClick={() => setThemeMode(themeMode === 'light' ? 'dark' : 'light')}>
+                  <button type="button" className="text-link" title="Dark Mode" onClick={() => setThemeMode(themeMode === 'light' ? 'dark' : 'light')}>
                     <img
                       src={themeMode === 'light' ? darkModeImg : lightModeImg}
                       height="28" alt="" />
                   </button>
                   <button type="button"
-                    className="text-link mr-2" title="Notifications">
+                    className="text-link" title="Notifications">
                     <img src={notificationImg} height="28"
                       alt="" /></button>
-                  <button type="button" className="text-link mr-2" title="Help"><img
+                  <button type="button" className="text-link" title="Help"><img
                     src={helpImg} height="23" alt="" /></button>
                   <button type="button" className="text-link" onClick={() => logout()}
                     title="Logout"><img src={logoutImg} height="21" alt="" /></button> </div>

@@ -243,6 +243,7 @@ function Profile() {
   });
   
   const [stepSixInitialValues, setStepSixInitialValues] = useState({
+    profileImage:null,
      resume : null,
      visume:null,
      idProof:null,
@@ -509,6 +510,7 @@ function Profile() {
      }
 
      const formData = new FormData()
+    //  formData.append('profilePic', stepSixInitialValues.profileImage)
   }
 
 
@@ -770,7 +772,8 @@ function Profile() {
                                     <label className="label mb-1">CGPA/Percentage<span className="required">*</span><span className="ml-1"
                                       data-toggle="tooltip" data-placement="top" title="Tooltip on top"><img
                                         src={info} width="16" height="16" alt="" /></span></label>
-                                    <input type="text" className="form-control" placeholder="7.46" disabled={mode === 'view'} name={`stepThree.${index}.percentage`}
+                                    <input type="number" className="form-control" placeholder="7.46" disabled={mode === 'view'} name={`stepThree.${index}.percentage`}
+                                    pattern='[0-9]'
                                       value={el.percentage}
                                       onChange={handleChange}
                                     />

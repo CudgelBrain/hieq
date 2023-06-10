@@ -16,8 +16,8 @@ import helpImg from 'assets/images/help-dark.svg';
 import messageImg from 'assets/images/message.svg';
 import supportImg from 'assets/images/support.svg';
 import plusFillImg from 'assets/images/plus-fill.svg';
-import StarImg from 'assets/images/employee/star_11.svg'
-import resumeImg from 'assets/images/pdf-ico.svg'
+import StarImg from 'assets/images/star.svg'
+import resumeImg from 'assets/images/my-resumes.svg'
 import passwordImg from 'assets/images/employee/ri_lock-password-line.svg'
 import { useSelector } from 'react-redux';
 import profilePic from 'assets/images/person-fill.svg'
@@ -84,17 +84,13 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
         {(!searchFilter && !showFilter) && isOpen && (
           <>
           {userType ==='Employee' ?  <div style={{
-              marginTop:'30px'
             }}>
-              <div className="comp-img mt-2">
+              <div className="comp-img mt-4">
                 <div className="profile-img">
                   <img src={userProfileImg} alt="" height={235} width={280} />
                   </div>
               </div>
-              <div style={{
-                textAlign:'center',
-                paddingTop:'10px'
-              }}>
+              <div className='text-center pt-2'>
                 <div className="hd-16 fw-500 cl-dark">Samar Dhiman</div>
                 <div className='cl-dark'>Web Designer</div>
               </div>
@@ -105,11 +101,11 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
               </div>
               <img src={profilePic} className='profile-img' alt='' />
             </div>}
-            <div className='text-center pt-4'>
+            <div className='text-center pt-2'>
               <div className='hd-16 fw-500 cl-dark mb-1'>{profileDetails.companyName}</div>
               {profileDetails.yearOfIncorporation ? <div>Since {profileDetails.yearOfIncorporation}</div> : ""}
             </div>
-            <div className='text-center mb-3'>
+            <div className='text-center pt-4 mb-4'>
               <button
                 type='button'
                 className={userType?.includes('Employer') ? 'btn btn-wt img-reflect' : 'btn btn-wt btn-md img-reflect'}
@@ -187,15 +183,15 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
           <div className='employee-navigation mb-5'>
             <ul className='nav pb-5'>
               <li>
-                <NavLink className='img-reflect' to={'/employee/dashboard'}>
-                  <img className='mr-2' src={homeImg} alt='' />
-                  <span>Dashboard</span>
-                </NavLink>
-              </li>
-              <li>
                 <NavLink className='img-reflect selected' to={'/employee/searchForJobsAndInternships'}>
                   <img className='mr-2' src={searchImg} alt='' />
                   <span>Search Jobs, internships</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className='img-reflect' to={'/employee/dashboard'}>
+                  <img className='mr-2' src={homeImg} alt='' />
+                  <span>Dashboard</span>
                 </NavLink>
               </li>
               <li>
@@ -212,7 +208,7 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
               </li>
               <li>
                 <NavLink className='img-reflect' to={'/employer/messaging'}>
-                  <img className='mr-2' src={messageImg} alt='' />
+                  <img className='mr-2' src={resumeImg} alt='' />
                   <span>My resumes</span>
                 </NavLink>
               </li>
