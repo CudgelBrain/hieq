@@ -434,6 +434,11 @@ function Profile() {
       }))
   }
   );
+
+
+  //Issue fixed
+  
+
   const stepThreeSchema = Yup.object().shape({
     stepThree: Yup.array().of(
       Yup.object({
