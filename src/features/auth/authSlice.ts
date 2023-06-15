@@ -225,7 +225,7 @@ export const Login =
         const { data: token } = await handShake();
         storeToken(token.deviceToken);
         const { data } = await login(formData);
-        console.log(data,"dekh bc ye dat ahai")
+        localStorage.setItem("userType", data?.userType)
         storeToken(data.accessToken);
         storeRefreshToken(data.refreshToken);
         const [profile, redirectTo] = await handleRedirection();

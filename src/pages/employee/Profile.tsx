@@ -32,14 +32,14 @@ function Profile() {
   const [userProfile, setUserProfile] = useState<any | null>({})
   const [isPresent, steIsPresent] = useState(false);
   const [isValidLiftime, setIsValidLifeTime] = useState(false)
-  const [profileImage, setProfileImage] = useState({ uri: "" })
+  const [profileImage, setProfileImage] = useState(null)
   const [degree, setDegree] = useState([])
   const [skills, setSkills] = useState([])
   const [college, setCollege] = useState([])
   const [company, setCompany] = useState([])
   const [certification, setcertification] = useState([])
   const [isInternship, setIsInternship] = useState(false)
-
+  const [userData, setData] = useState<any | null>({})
 
   const expyears: readonly OptionType[] = [
     { value: '', label: 'Select Years' },
@@ -241,20 +241,22 @@ function Profile() {
     },
 
   });
-  
-  const [stepSixInitialValues, setStepSixInitialValues] = useState({
-    profileImage:null,
-     resume : null,
-     visume:null,
-     idProof:null,
-     pgCertificate:null,
-     ugCertificate:null,
-     twelfthMarksheet:null,
-     tenthMarksheet:null,
-     otherDegree:null,
-     experienceLetter:null,
-  })
 
+
+  const [resume, setResume] = useState<any | null>({})
+  const [visumeLink, setVisuemeLink] = useState<any | null>({})
+  const [idProof, setIdProof] = useState<any | null>({})
+  const [pgCertificate, setPgCertificate] = useState<any | null>({})
+  const [ugCertificate, setUgCertificate] = useState<any | null>({})
+  const [twelfthMarksheet, setTwelftheMarksheet] = useState<any | null>({})
+  const [tenthMarksheet, setTenthMarkSheet] = useState<any | null>({})
+  const [otherDegree, setOtherDegree] = useState<any | null>({})
+  const [experienceLetter, setExperienceLetter] = useState<any | null>({})
+
+
+
+
+  console.log(userData);
 
 
 
@@ -270,6 +272,7 @@ function Profile() {
     const response: any = await hieqService.get('/employeeProfile')
     if (response.status === 'success') {
       let data = response?.data;
+      setData(data);
       if (data?.user) {
         setStepOneInitialValues({
           firstName: data?.user.name || "",
@@ -437,7 +440,7 @@ function Profile() {
 
 
   //Issue fixed
-  
+
 
   const stepThreeSchema = Yup.object().shape({
     stepThree: Yup.array().of(
@@ -498,10 +501,79 @@ function Profile() {
     extraCirricular: Yup.string().required("Required"),
   });
 
-  const submitDocuments = () =>{
-     if(!stepSixInitialValues){
-      toast.success('Data saved successfully', 
-      {
+
+
+
+  const submitDocuments =async () => {
+
+
+    console.log(
+
+      resume,
+      visumeLink,
+      idProof,
+      pgCertificate,
+      ugCertificate,
+      twelfthMarksheet,
+      tenthMarksheet,
+      otherDegree,
+      experienceLetter,
+    )
+    const formData = new FormData();
+    if(resume){
+      formData.append('resume', resume);
+    }
+    if(idProof){
+      formData.append('proof', idProof);
+    }
+    if(ugCertificate){
+      formData.append('ug_certificate', ugCertificate);
+    }
+    if(pgCertificate){
+      formData.append('pg_certificate', pgCertificate);
+    }
+    if(twelfthMarksheet){
+      formData.append('xii_certificate', twelfthMarksheet);
+    }
+    if(tenthMarksheet){
+      formData.append('x_certificate', tenthMarksheet);
+    }
+    if(otherDegree){
+      formData.append('other_certificate', otherDegree);
+    }
+    if(experienceLetter){
+      formData.append('employeement_certificate', experienceLetter );
+    }
+
+    console.log(formData);
+    
+
+    const response: any = await hieqService.put('/employeeProfile', formData);
+    if (response?.status === 'success') {
+      toast.success('Data saved successfully',
+        {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+
+        });
+    }
+
+
+  }
+
+  const hanldeProfileUpload = async (img: any) => {
+    console.log(img);
+    const formData = new FormData();
+    formData.append('profilePic', img);
+    const response: any = await hieqService.put('/employeeProfile', formData);
+    if (response.status === 'success') {
+      toast.success('Profile picture uploading successfully', {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -510,20 +582,15 @@ function Profile() {
         draggable: true,
         progress: undefined,
         theme: "light",
-                      
-    });
-     }
-
-     const formData = new FormData()
-    //  formData.append('profilePic', stepSixInitialValues.profileImage)
+      });
+    }
   }
-
 
 
 
   return (
     <>
-    <ToastContainer/>
+      <ToastContainer />
       <div className="col-md-12 pt-4 pb-5">
         <Formik
           enableReinitialize={true}
@@ -536,7 +603,7 @@ function Profile() {
             let data = values;
             const response: any = await hieqService.post('/employeeProfile', data)
             if (response?.status === 'success') {
-              toast.success('Data saved successfully', 
+              toast.success('Data saved successfully',
                 {
                   position: "top-center",
                   autoClose: 5000,
@@ -546,8 +613,8 @@ function Profile() {
                   draggable: true,
                   progress: undefined,
                   theme: "light",
-                                
-              });
+
+                });
             }
             return;
           }
@@ -645,9 +712,9 @@ function Profile() {
                             <img src={camera} width="25" alt="" />
                           </label>
                         </div>
-                        <input type='file' id='file-input' multiple={false} hidden onChange={(e: any) => setProfileImage(e.target.files[0])} />
+                        <input type='file' id='file-input' multiple={false} hidden onChange={(e: any) => { setProfileImage(e.target.files[0]); hanldeProfileUpload(profileImage) }} />
                         <div className="featured">
-                          <img src={profileImage && profileImage?.uri ? profileImage?.uri : profileImg} width={280} height={235}
+                          <img src={userData && userData.profilePic ? `http://beta.hieq.in:9000/${userData?.profilePic[0]?.filepath}` : "https://idronline.org/wp-content/themes/wphidr/images/person-dummy.jpg"} width={280} height={235}
                             alt="" /></div>
                       </div>
                     </div>
@@ -694,7 +761,7 @@ function Profile() {
 
             const response: any = await hieqService.put('/employeeProfile', data)
             if (response?.status === 'success') {
-              toast.success('Data saved successfully', 
+              toast.success('Data saved successfully',
                 {
                   position: "top-center",
                   autoClose: 5000,
@@ -704,8 +771,8 @@ function Profile() {
                   draggable: true,
                   progress: undefined,
                   theme: "light",
-                                
-              });
+
+                });
             }
           }}>
           {({ values, handleChange, handleBlur, handleSubmit, errors, touched }) =>
@@ -778,7 +845,7 @@ function Profile() {
                                       data-toggle="tooltip" data-placement="top" title="Tooltip on top"><img
                                         src={info} width="16" height="16" alt="" /></span></label>
                                     <input type="number" className="form-control" placeholder="7.46" disabled={mode === 'view'} name={`stepThree.${index}.percentage`}
-                                    pattern='[0-9]'
+                                      pattern='[0-9]'
                                       value={el.percentage}
                                       onChange={handleChange}
                                     />
@@ -844,7 +911,7 @@ function Profile() {
 
             const response: any = await hieqService.put('/employeeProfile', data)
             if (response?.status === 'success') {
-              toast.success('Data saved successfully', 
+              toast.success('Data saved successfully',
                 {
                   position: "top-center",
                   autoClose: 5000,
@@ -854,8 +921,8 @@ function Profile() {
                   draggable: true,
                   progress: undefined,
                   theme: "light",
-                                
-              });
+
+                });
             }
           }}>
           {({ values, handleChange, handleBlur, handleSubmit, errors, touched }) =>
@@ -1074,7 +1141,7 @@ function Profile() {
             }
             const response: any = await hieqService.put('/employeeProfile', data)
             if (response?.status === 'success') {
-              toast.success('Data saved successfully', 
+              toast.success('Data saved successfully',
                 {
                   position: "top-center",
                   autoClose: 5000,
@@ -1084,8 +1151,8 @@ function Profile() {
                   draggable: true,
                   progress: undefined,
                   theme: "light",
-                                
-              });
+
+                });
             }
           }}>
           {({ values, handleChange, setFieldValue, handleBlur, handleSubmit, errors, touched }) =>
@@ -1255,7 +1322,7 @@ function Profile() {
                                             >
                                               {monthsName.length > 0 && monthsName.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                             </select>
-                                            <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateMonthFrom`} />
+                                              <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateMonthFrom`} />
                                             </div>
                                             <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
                                               name={`stepFive.additionalInformation.${index}.certificationDateYearFrom`}
@@ -1264,7 +1331,7 @@ function Profile() {
                                             >
                                               {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                             </select>
-                                            <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateYearFrom`} />
+                                              <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateYearFrom`} />
                                             </div>
                                           </div>
                                         </div>
@@ -1278,7 +1345,7 @@ function Profile() {
                                             >
                                               {monthsName.length > 0 && monthsName.map((el: any) => <option key={el.value} value={el.value}>{el.label}</option>)}
                                             </select>
-                                            <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateMonthTo`} /></div>
+                                              <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateMonthTo`} /></div>
                                             <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
                                               name={`stepFive.additionalInformation.${index}.certificationDateYearTo`}
                                               value={item.certificationDateYearTo}
@@ -1286,7 +1353,7 @@ function Profile() {
                                             >
                                               {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                             </select>
-                                            <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateYearTo`} />
+                                              <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateYearTo`} />
                                             </div>
                                           </div>
                                         </div>}
@@ -1373,263 +1440,230 @@ function Profile() {
         </Formik>
 
         {/* Doucment Form Component */}
-            <form onSubmit={() => {
-              console.log('Submitting the doucment list')
-            }}>
-              <div className="box-container mb-4" ref={documentsRef}>
-                <div className="box-container-inner">
-                  <div className="text-left mb-4">
-                    <h2 className="bc-heading">5. Documents</h2>
+        <form onSubmit={(event) => {
+          event.preventDefault();
+         submitDocuments();
+        }}>
+          <div className="box-container mb-4" ref={documentsRef}>
+            <div className="box-container-inner">
+              <div className="text-left mb-4">
+                <h2 className="bc-heading">5. Documents</h2>
+              </div>
+              <div className="row">
+                <div className="col-12">
+                  <label className="label mb-2 heading-xs">Resume</label>
+                </div>
+                <div className="col-4">
+                  <label className="label mb-1">Upload File<span className="required">*</span> <span className="note">(.pdf
+                    format only)</span></label>
+                  <div className="custom-file">
+                    <input type="file"  accept='application/pdf'
+                      onChange={(e: any) => setResume(e.target.files[0])}
+                      className="custom-file-input form-control" id="inputGroupFile01"
+                      aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'}
+
+                    />
+                    <label className="custom-file-label mb-0 form-control">Choose file</label>
                   </div>
-                  <div className="row">
-                    <div className="col-12">
-                      <label className="label mb-2 heading-xs">Resume</label>
-                    </div>
+                  <span className="note fw-400">File must be less than 1MB</span><button
+                    className="btn-link ml-2" type="button">view</button>
+                </div>
+                <div className="col-3 d-flex align-items-center">
+                  <button className="plus-btn ml-2 " type="button"><img src={deleteImg}
+                    width="16" height="18" alt="" /></button>
+                </div>
+              </div>
+              <div className="row pt-4">
+                <div className="col-12">
+                  <label className="label mb-2 heading-xs">Visume</label>
+                </div>
+                <div className="col-6">
+                  <label className="label mb-1">Visume Drive Link</label>
+                  <input type="text" className="form-control"
+                  onChange={(e:any) => setVisuemeLink(e.target.value)}
+                  placeholder="Enter or Paste Google Drive / YouTube Link" disabled={mode === 'view'} />
+                </div>
+              </div>
+              <div className="row pt-4">
+                <div className="col-md-12 pt-3 bt-1">&nbsp;</div>
+                <div className="col-12">
+                  <label className="label mb-2 heading-xs">ID Proof <span className="note">(Aadhar or PAN
+                    Card)</span></label>
+                </div>
+                <div className="col-12">
+                  <div className="row mt-3">
                     <div className="col-4">
                       <label className="label mb-1">Upload File<span className="required">*</span> <span className="note">(.pdf
                         format only)</span></label>
                       <div className="custom-file">
-                        <input type="file"    
-                           className="custom-file-input form-control" id="inputGroupFile01"
-                          aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} 
-                          // onChange={(event) => {
-                          //   setStepSixInitialValues((pre) => ({
-                          //     ...pre, 
-                          //     resume:event.target.files[0]
-                          //   }))
-                          // }}
-                          />
-                        <label className="custom-file-label mb-0 form-control">Choose file</label>
+                        <input type="file"  accept='application/pdf'
+
+                          onChange={(e: any) => setIdProof(e.target.files[0])}
+                          className="custom-file-input form-control" id="inputGroupFile01"
+                          aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
+                        <label className="custom-file-label mb-0 form-control">Choose
+                          file</label>
                       </div>
                       <span className="note fw-400">File must be less than 1MB</span><button
                         className="btn-link ml-2" type="button">view</button>
                     </div>
                     <div className="col-3 d-flex align-items-center">
-                      <button className="plus-btn ml-2 " type="button"><img src={deleteImg}
+                      <button className="plus-btn ml-2" type="button"><img src={deleteImg}
                         width="16" height="18" alt="" /></button>
                     </div>
                   </div>
-                  <div className="row pt-4">
-                    <div className="col-12">
-                      <label className="label mb-2 heading-xs">Visume</label>
+                </div>
+              </div>
+              <div className="row pt-4">
+                <div className="col-md-12 pt-3 bt-1">&nbsp;</div>
+                <div className="col-12">
+                  <label className="label mb-2 heading-xs">Educational Certificates <span className="note">(.pdf format
+                    only)</span></label>
+                </div>
+                <div className="col-12">
+                  <div className="row mt-3">
+                    <div className="col-4">
+                      <label className="label mb-1">PG Certificate<span className="required">*</span> </label>
+                      <div className="custom-file">
+                        <input type="file"  accept='application/pdf'
+                          
+                          onChange={(e: any) => setPgCertificate(e.target.files[0])}
+                        
+                          className="custom-file-input form-control" id="inputGroupFile01"
+                          aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
+                        <label className="custom-file-label mb-0 form-control">Choose
+                          file</label>
+                      </div>
+                      <span className="note fw-400">File must be less than 1MB</span><button
+                        className="btn-link ml-2" type="button">view</button>
                     </div>
-                    <div className="col-6">
-                      <label className="label mb-1">Visume Drive Link</label>
-                      <input type="text" className="form-control" placeholder="Enter or Paste Google Drive / YouTube Link" disabled={mode === 'view'} />
+                    <div className="col-3 d-flex align-items-center">
+                      <button className="plus-btn ml-2" type="button"><img src={deleteImg}
+                        width="16" height="18" alt="" /></button>
                     </div>
                   </div>
-                  <div className="row pt-4">
-                    <div className="col-md-12 pt-3 bt-1">&nbsp;</div>
-                    <div className="col-12">
-                      <label className="label mb-2 heading-xs">ID Proof <span className="note">(Aadhar or PAN
-                        Card)</span></label>
-                    </div>
-                    <div className="col-12">
-                      <div className="row mt-3">
-                        <div className="col-4">
-                          <label className="label mb-1">Upload File<span className="required">*</span> <span className="note">(.pdf
-                            format only)</span></label>
-                          <div className="custom-file">
-                            <input type="file"   
-                          //    onChange={(event) => {
-                          //   setStepSixInitialValues((pre) => ({
-                          //     ...pre, 
-                          //     visume:event.target.files[0]
-                          //   }))
-                          // }}
-                           className="custom-file-input form-control" id="inputGroupFile01"
-                              aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
-                            <label className="custom-file-label mb-0 form-control">Choose
-                              file</label>
-                          </div>
-                          <span className="note fw-400">File must be less than 1MB</span><button
-                            className="btn-link ml-2" type="button">view</button>
-                        </div>
-                        <div className="col-3 d-flex align-items-center">
-                          <button className="plus-btn ml-2" type="button"><img src={deleteImg}
-                            width="16" height="18" alt="" /></button>
-                        </div>
+                  <div className="row mt-3">
+                    <div className="col-4">
+                      <label className="label mb-1">UG Certificate<span className="required">*</span> </label>
+                      <div className="custom-file">
+                        <input type="file"  accept='application/pdf'
+                          onChange={(e: any) => setUgCertificate(e.target.files[0])}
+                          className="custom-file-input form-control" id="inputGroupFile01"
+                          aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
+                        <label className="custom-file-label mb-0 form-control">Choose
+                          file</label>
                       </div>
+                      <span className="note fw-400">File must be less than 1MB</span><button
+                        className="btn-link ml-2" type="button">view</button>
+                    </div>
+                    <div className="col-3 d-flex align-items-center">
+                      <button className="plus-btn ml-2" type="button"><img src={deleteImg}
+                        width="16" height="18" alt="" /></button>
                     </div>
                   </div>
-                  <div className="row pt-4">
-                    <div className="col-md-12 pt-3 bt-1">&nbsp;</div>
-                    <div className="col-12">
-                      <label className="label mb-2 heading-xs">Educational Certificates <span className="note">(.pdf format
-                        only)</span></label>
+                  <div className="row mt-3">
+                    <div className="col-4">
+                      <label className="label mb-1">XII Marksheet<span className="required">*</span> </label>
+                      <div className="custom-file">
+                        <input type="file"  accept='application/pdf'
+                          onChange={(e: any) => setTwelftheMarksheet(e.target.files[0])}
+                          className="custom-file-input form-control" id="inputGroupFile01"
+                          aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
+                        <label className="custom-file-label mb-0 form-control" >Choose
+                          file</label>
+                      </div>
+                      <span className="note fw-400">File must be less than 1MB</span><button
+                        className="btn-link ml-2" type="button">view</button>
                     </div>
-                    <div className="col-12">
-                      <div className="row mt-3">
-                        <div className="col-4">
-                          <label className="label mb-1">PG Certificate<span className="required">*</span> </label>
-                          <div className="custom-file">
-                            <input type="file"  
-                          //     onChange={(event) => {
-                          //   setStepSixInitialValues((pre) => ({
-                          //     ...pre, 
-                          //     pgCertificate:event.target.files[0]
-                          //   }))
-                          // }} 
-                          className="custom-file-input form-control" id="inputGroupFile01"
-                              aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
-                            <label className="custom-file-label mb-0 form-control">Choose
-                              file</label>
-                          </div>
-                          <span className="note fw-400">File must be less than 1MB</span><button
-                            className="btn-link ml-2" type="button">view</button>
-                        </div>
-                        <div className="col-3 d-flex align-items-center">
-                          <button className="plus-btn ml-2" type="button"><img src={deleteImg}
-                            width="16" height="18" alt="" /></button>
-                        </div>
-                      </div>
-                      <div className="row mt-3">
-                        <div className="col-4">
-                          <label className="label mb-1">UG Certificate<span className="required">*</span> </label>
-                          <div className="custom-file">
-                            <input type="file"  
-                          //     onChange={(event) => {
-                          //   setStepSixInitialValues((pre) => ({
-                          //     ...pre, 
-                          //     ugCertificate:event.target.files[0]
-                          //   }))
-                          // }} 
-                          className="custom-file-input form-control" id="inputGroupFile01"
-                              aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
-                            <label className="custom-file-label mb-0 form-control">Choose
-                              file</label>
-                          </div>
-                          <span className="note fw-400">File must be less than 1MB</span><button
-                            className="btn-link ml-2" type="button">view</button>
-                        </div>
-                        <div className="col-3 d-flex align-items-center">
-                          <button className="plus-btn ml-2" type="button"><img src={deleteImg}
-                            width="16" height="18" alt="" /></button>
-                        </div>
-                      </div>
-                      <div className="row mt-3">
-                        <div className="col-4">
-                          <label className="label mb-1">XII Marksheet<span className="required">*</span> </label>
-                          <div className="custom-file">
-                            <input type="file" 
-                          //      onChange={(event) => {
-                          //   setStepSixInitialValues((pre) => ({
-                          //     ...pre, 
-                          //     twelfthMarksheet:event.target.files[0]
-                          //   }))
-                          // }} 
-                          className="custom-file-input form-control" id="inputGroupFile01"
-                              aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
-                            <label className="custom-file-label mb-0 form-control" >Choose
-                              file</label>
-                          </div>
-                          <span className="note fw-400">File must be less than 1MB</span><button
-                            className="btn-link ml-2" type="button">view</button>
-                        </div>
-                        <div className="col-3 d-flex align-items-center">
-                          <button className="plus-btn ml-2" type="button"><img src={deleteImg}
-                            width="16" height="18" alt="" /></button>
-                        </div>
-                      </div>
-                      <div className="row mt-3">
-                        <div className="col-4">
-                          <label className="label mb-1">X Marksheet<span className="required">*</span> </label>
-                          <div className="custom-file">
-                            <input type="file"  
-                          //     onChange={(event) => {
-                          //   setStepSixInitialValues((pre) => ({
-                          //     ...pre, 
-                          //     tenthMarksheet:event.target.files[0]
-                          //   }))
-                          // }}
-                           className="custom-file-input form-control" id="inputGroupFile01"
-                              aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
-                            <label className="custom-file-label mb-0 form-control" >Choose
-                              file</label>
-                          </div>
-                          <span className="note fw-400">File must be less than 1MB</span><button
-                            className="btn-link ml-2" type="button">view</button>
-                        </div>
-                        <div className="col-3 d-flex align-items-center">
-                          <button className="plus-btn ml-2" type="button"><img src={deleteImg}
-                            width="16" height="18" alt="" /></button>
-                        </div>
-                      </div>
-                      <div className="row mt-3">
-                        <div className="col-4">
-                          <label className="label mb-1">Other Degree<span className="required">*</span> </label>
-                          <div className="custom-file">
-                            <input type="file"   
-                          //    onChange={(event) => {
-                          //   setStepSixInitialValues((pre) => ({
-                          //     ...pre, 
-                          //     otherDegree:event.target.files[0]
-                          //   }))
-                          // }} 
-                          className="custom-file-input form-control" id="inputGroupFile01"
-                              aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
-                            <label className="custom-file-label mb-0 form-control" >Choose
-                              file</label>
-                          </div>
-                          <span className="note fw-400">File must be less than 1MB</span><button
-                            className="btn-link ml-2" type="button">view</button>
-                        </div>
-                        <div className="col-3 d-flex align-items-center">
-                          <button className="plus-btn ml-2" type="button"><img src={deleteImg}
-                            width="16" height="18" alt="" /></button>
-                        </div>
-                      </div>
+                    <div className="col-3 d-flex align-items-center">
+                      <button className="plus-btn ml-2" type="button"><img src={deleteImg}
+                        width="16" height="18" alt="" /></button>
                     </div>
                   </div>
-                  <div className="row pt-4">
-                    <div className="col-md-12 pt-3 bt-1">&nbsp;</div>
-                    <div className="col-12">
-                      <label className="label mb-2 heading-xs">Employment Proof <span className="note">(.pdf format
-                        only)</span></label>
-                    </div>
-                    <div className="col-12">
-                      <div className="row mt-3">
-                        <div className="col-4">
-                          <label className="label mb-1">Experience letter, appointment letter, etc. <span
-                            className="required">*</span> </label>
-                          <div className="custom-file">
-                            <input type="file"    
-                          //   onChange={(event) => {
-                          //   setStepSixInitialValues((pre:any) => ({
-                               
-                          //     experienceLetter:event.target.files[0]
-                          //   }))
-                          // }}
-                           className="custom-file-input form-control" id="inputGroupFile01"
-                              aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
-                            <label className="custom-file-label mb-0 form-control" >Choose
-                              file</label>
-                          </div>
-                          <span className="note fw-400">File must be less than 1MB</span><button
-                            className="btn-link ml-2" type="button">view</button>
-                        </div>
-                        <div className="col-3 d-flex align-items-center">
-                          <button className="plus-btn ml-2" type="button" ><img src={deleteImg}
-                            width="16" height="18" alt="" /></button>
-                        </div>
+                  <div className="row mt-3">
+                    <div className="col-4">
+                      <label className="label mb-1">X Marksheet<span className="required">*</span> </label>
+                      <div className="custom-file">
+                        <input type="file"  accept='application/pdf'
+                          onChange={(e: any) => setTenthMarkSheet(e.target.files[0])}
+                          className="custom-file-input form-control" id="inputGroupFile01"
+                          aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
+                        <label className="custom-file-label mb-0 form-control" >Choose
+                          file</label>
                       </div>
+                      <span className="note fw-400">File must be less than 1MB</span><button
+                        className="btn-link ml-2" type="button">view</button>
+                    </div>
+                    <div className="col-3 d-flex align-items-center">
+                      <button className="plus-btn ml-2" type="button"><img src={deleteImg}
+                        width="16" height="18" alt="" /></button>
+                    </div>
+                  </div>
+                  <div className="row mt-3">
+                    <div className="col-4">
+                      <label className="label mb-1">Other Degree<span className="required">*</span> </label>
+                      <div className="custom-file">
+                        <input type="file"  accept='application/pdf'
+                          onChange={(e: any) => setOtherDegree(e.target.files[0])}
+                          className="custom-file-input form-control" id="inputGroupFile01"
+                          aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
+                        <label className="custom-file-label mb-0 form-control" >Choose
+                          file</label>
+                      </div>
+                      <span className="note fw-400">File must be less than 1MB</span><button
+                        className="btn-link ml-2" type="button">view</button>
+                    </div>
+                    <div className="col-3 d-flex align-items-center">
+                      <button className="plus-btn ml-2" type="button"><img src={deleteImg}
+                        width="16" height="18" alt="" /></button>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="row">
-                <div className="col-12 mt-1">
-                  <div className="form-row">
-                    <div className="col-md-6">
-                      <button className="btn btn-yl btn-sm" type="button" onClick={() => scrollToSection(skillsRef)}>BACK</button>
+              <div className="row pt-4">
+                <div className="col-md-12 pt-3 bt-1">&nbsp;</div>
+                <div className="col-12">
+                  <label className="label mb-2 heading-xs">Employment Proof <span className="note">(.pdf format
+                    only)</span></label>
+                </div>
+                <div className="col-12">
+                  <div className="row mt-3">
+                    <div className="col-4">
+                      <label className="label mb-1">Experience letter, appointment letter, etc. <span
+                        className="required">*</span> </label>
+                      <div className="custom-file">
+                        <input type="file"  accept='application/pdf'
+                          onChange={(e: any) => setExperienceLetter(e.target.files[0])}
+                          className="custom-file-input form-control" id="inputGroupFile01"
+                          aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
+                        <label className="custom-file-label mb-0 form-control" >Choose
+                          file</label>
+                      </div>
+                      <span className="note fw-400">File must be less than 1MB</span><button
+                        className="btn-link ml-2" type="button">view</button>
                     </div>
-                    <div className="col-md-6 text-right">
-                      <button className="btn btn-yl btn-sm">SAVE</button>
+                    <div className="col-3 d-flex align-items-center">
+                      <button className="plus-btn ml-2" type="button" ><img src={deleteImg}
+                        width="16" height="18" alt="" /></button>
                     </div>
                   </div>
                 </div>
               </div>
-            </form>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12 mt-1">
+              <div className="form-row">
+                <div className="col-md-6">
+                  <button className="btn btn-yl btn-sm" type="button" onClick={() => scrollToSection(skillsRef)}>BACK</button>
+                </div>
+                <div className="col-md-6 text-right">
+                  <button className="btn btn-yl btn-sm">SAVE</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     </>
   )
