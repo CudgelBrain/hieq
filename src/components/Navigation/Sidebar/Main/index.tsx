@@ -184,43 +184,43 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
             <ul className='nav pb-5'>
               <li>
                 <NavLink className='img-reflect selected' to={'/employee/searchForJobsAndInternships'}>
-                  <img className='mr-2' src={searchImg} alt='' />
+                  <img className='mr-2' src={searchImg} alt='' width={"16px"}/>
                   <span>Search Jobs, internships</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink className='img-reflect' to={'/employee/dashboard'}>
-                  <img className='mr-2' src={homeImg} alt='' />
+                  <img className='mr-2' src={homeImg} alt='' width={"16px"}/>
                   <span>Dashboard</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink className='img-reflect' to={'/employee/saved_oppotunities'}>
-                  <img className='mr-2' src={StarImg} alt='' />
+                  <img className='mr-2' src={StarImg} alt='' width={"16px"}/>
                   <span>Saved opportunites</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink className='img-reflect' to={'/employee/dashboard'}>
-                  <img className='mr-2' src={plusFillImg} alt='' />
+                  <img className='mr-2' src={plusFillImg} alt=''width={"16px"}/>
                   <span>Badges</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink className='img-reflect' to={'/employer/messaging'}>
-                  <img className='mr-2' src={resumeImg} alt='' />
+                  <img className='mr-2' src={resumeImg} alt='' width={"16px"}/>
                   <span>My resumes</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink className='img-reflect' to={'/employer/supportDesk'}>
-                  <img className='mr-2' src={passwordImg} alt='' />
+                  <img className='mr-2' src={passwordImg} alt='' width={"16px"}/>
                   <span>Change Password</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink className='img-reflect' to={'/employer/help'}>
-                  <img className='mr-2' src={helpImg} alt='' />
+                  <img className='mr-2' src={helpImg} alt='' width={"16px"}/>
                   <span>Help</span>
                 </NavLink>
               </li>
