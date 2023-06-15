@@ -48,7 +48,7 @@ interface Props {
     //       console.log(error);
     //     }
     //   };
-    // const navigate = useHistory();
+    const history = useHistory();
     
     //   useEffect(() => {
       //     getdata();
@@ -58,8 +58,6 @@ interface Props {
       
       const jobDescription:any = state;
       console.log(jobDescription,"location")
-      
-      
 
     return(
         <>
@@ -74,7 +72,7 @@ interface Props {
               <div className="box-container mb-4">
                 <div className="box-container-inner">
                   <div className="mb-4 text-right">
-                    <button type="button" className="btn btn-link cc-green"><img className="mr-1"
+                    <button type="button" className="btn btn-link cc-green" onClick={() => history.goBack()}><img className="mr-1"
                         src={leftArrow} width="13" height="11" />Back</button>
                   </div>
                   <div className="row">

@@ -5,9 +5,11 @@ import searchWhite from 'assets/images/search-white.svg';
 import filter from 'assets/images/filter.svg';
 import leftArrow from 'assets/images/left-chevron.svg';
 import { hieqService } from 'utils';
+import { useHistory } from 'react-router-dom';
 const SearchForJobsAndInternships = () => {
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState("")
+  const history = useHistory();
 
   const getdata = async () => {
     try {
@@ -107,8 +109,6 @@ const SearchForJobsAndInternships = () => {
 
   const [searchType, setSearchType] = useState(1)
 
-  console.log(searchType)
-
   const handleSearch = async () => {
 
     if(searchText === ""){
@@ -139,7 +139,6 @@ const SearchForJobsAndInternships = () => {
   return (
     <>
       <div className='dash-wrapper empl-panel'>
-        <main>
           <section className='main-wrapper'>
             <div className='container-fluid'>
               <div className='row position-relative'>
@@ -234,7 +233,7 @@ const SearchForJobsAndInternships = () => {
                   <div className='box-container mb-4'>
                     <div className='box-container-inner'>
                       <div className='mb-4 text-right'>
-                        <button type='button' className='btn btn-link cc-green'>
+                        <button type='button' className='btn btn-link cc-green' onClick={() => history.goBack()}>
                           <img className='mr-1' src={leftArrow} width='13' height='11' />
                           Back to dashboard
                         </button>
@@ -293,7 +292,7 @@ const SearchForJobsAndInternships = () => {
                         <div className='d-flex align-items-center font14 bt-1 pt-3'>
                           <div className='flex-grow-1'>1 - 11 of 11 Software Engineer jobs</div>
                           <div className='d-flex align-items-center'>
-                            <span className='flex-grow-1 white-space-pre'>Sort by:</span>
+                            <span className='flex-grow-1 white-space-pre mr-2'>Sort by:</span>
                             <Select options={recommended} placeholder='Recommended' />
                           </div>
                         </div>
@@ -308,7 +307,6 @@ const SearchForJobsAndInternships = () => {
               </div>
             </div>
           </section>
-        </main>
       </div>
     </>
   );
