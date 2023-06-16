@@ -274,7 +274,6 @@ function Profile() {
       let data = response?.data;
       setData(data);
       
-  console.log(`http://beta.hieq.in/${data?.profilePic[0]?.filepath}`);
       if (data?.user) {
         setStepOneInitialValues({
           firstName: data?.user.name || "",
