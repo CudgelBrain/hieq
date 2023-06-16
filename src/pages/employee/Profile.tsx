@@ -273,6 +273,8 @@ function Profile() {
     if (response.status === 'success') {
       let data = response?.data;
       setData(data);
+      
+  console.log(`http://beta.hieq.in/${data?.profilePic[0]?.filepath}`);
       if (data?.user) {
         setStepOneInitialValues({
           firstName: data?.user.name || "",
@@ -502,7 +504,30 @@ function Profile() {
   });
 
 
+  // const [fileError, setFileError]
+  
 
+
+
+  function isFileSizeValid(file:any) {
+    const maxSize = 1024 * 1024; // 1MB
+    return file.size <= maxSize;
+  }
+  
+
+  const [fileError, setFileError] = useState<null| any>({
+    resumeError:false,
+    idProofError:false,
+    ugCertificateError:false,
+    pgCertificateError:false,
+    twelfthMarksheetError:false,
+    tenthMarksheetError:false,
+    otherDegreeError:false,
+    experienceLetterError:false
+  });
+
+
+  console.log(fileError)
 
   const submitDocuments =async () => {
 
@@ -520,29 +545,77 @@ function Profile() {
       experienceLetter,
     )
     const formData = new FormData();
-    if(resume){
+    if (resume && resume.size > 0) {
+      if(!isFileSizeValid(resume)){
+        setFileError((pre:any) =>({
+          ...pre, resumeError:true
+        }))
+        return;
+      }
       formData.append('resume', resume);
     }
-    if(idProof){
+    if (idProof && idProof.size > 0) {
+      if(!isFileSizeValid(idProof)){
+        setFileError((pre:any) =>({
+          ...pre, idProofError:true
+        }))
+        return;
+      }
       formData.append('proof', idProof);
     }
-    if(ugCertificate){
+    if (ugCertificate && ugCertificate.size > 0) {
+      if(!isFileSizeValid(ugCertificate)){
+        setFileError((pre:any) =>({
+          ...pre, ugCertificateError:true
+        }))
+        return;
+      }
       formData.append('ug_certificate', ugCertificate);
     }
-    if(pgCertificate){
+    if (pgCertificate && pgCertificate.size > 0) {
+      if(!isFileSizeValid(pgCertificate)){
+        setFileError((pre:any) =>({
+          ...pre, pgCertificateError:true
+        }))
+        return;
+      }
       formData.append('pg_certificate', pgCertificate);
     }
-    if(twelfthMarksheet){
+    if (twelfthMarksheet && twelfthMarksheet.size > 0) {
+      if(!isFileSizeValid(twelfthMarksheet)){
+        setFileError((pre:any) =>({
+          ...pre, twelfthMarksheetError:true
+        }))
+        return;
+      }
       formData.append('xii_certificate', twelfthMarksheet);
     }
-    if(tenthMarksheet){
+    if (tenthMarksheet && tenthMarksheet.size > 0) {
+      if(!isFileSizeValid(tenthMarksheet)){
+        setFileError((pre:any) =>({
+          ...pre, tenthMarksheetError:true
+        }))
+        return;
+      }
       formData.append('x_certificate', tenthMarksheet);
     }
-    if(otherDegree){
+    if (otherDegree && otherDegree.size > 0) {
+      if(!isFileSizeValid(otherDegree)){
+        setFileError((pre:any) =>({
+          ...pre, otherDegreeError:true
+        }))
+        return;
+      }
       formData.append('other_certificate', otherDegree);
     }
-    if(experienceLetter){
-      formData.append('employeement_certificate', experienceLetter );
+    if (experienceLetter && experienceLetter.size > 0) {
+      if(!isFileSizeValid(experienceLetter)){
+        setFileError((pre:any) =>({
+          ...pre, experienceLetterError:true
+        }))
+        return;
+      }
+      formData.append('employeement_certificate', experienceLetter);
     }
 
     console.log(formData);
@@ -714,7 +787,7 @@ function Profile() {
                         </div>
                         <input type='file' id='file-input' multiple={false} hidden onChange={(e: any) => { setProfileImage(e.target.files[0]); hanldeProfileUpload(profileImage) }} />
                         <div className="featured">
-                          <img src={userData && userData.profilePic ? `http://beta.hieq.in:9000/${userData?.profilePic[0]?.filepath}` : "https://idronline.org/wp-content/themes/wphidr/images/person-dummy.jpg"} width={280} height={235}
+                          <img src={userData && userData.profilePic ? `http://beta.hieq.in/${userData?.profilePic[0]?.filepath}` : "https://idronline.org/wp-content/themes/wphidr/images/person-dummy.jpg"} width={280} height={235}
                             alt="" /></div>
                       </div>
                     </div>
@@ -1454,19 +1527,24 @@ function Profile() {
                   <label className="label mb-2 heading-xs">Resume</label>
                 </div>
                 <div className="col-4">
-                  <label className="label mb-1">Upload File<span className="required">*</span> <span className="note">(.pdf
+                  <label className="label mb-1" htmlFor="inputGroupFile01">Upload File<span className="required">*</span> <span className="note">(.pdf
                     format only)</span></label>
                   <div className="custom-file">
                     <input type="file"  accept='application/pdf'
+                     name="resume"
                       onChange={(e: any) => setResume(e.target.files[0])}
                       className="custom-file-input form-control" id="inputGroupFile01"
                       aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'}
-
                     />
+                    {/* <input type="text" value={resume ? resume.name : ''} readOnly /> */}
                     <label className="custom-file-label mb-0 form-control">Choose file</label>
                   </div>
-                  <span className="note fw-400">File must be less than 1MB</span><button
-                    className="btn-link ml-2" type="button">view</button>
+                  <span className="note fw-400">File must be less than 1MB</span>
+                  {userProfile && userProfile.resume && userProfile?.resume.length > 0 && <a
+                    className="btn-link ml-2" type="button"
+                    href={`http://beta.hieq.in/${userProfile.resume[0].filepath}`}
+                    >view</a>}
+                  {fileError.resumeError && <div className=" note errors">Files must be less than 1MB</div>}
                 </div>
                 <div className="col-3 d-flex align-items-center">
                   <button className="plus-btn ml-2 " type="button"><img src={deleteImg}
@@ -1497,15 +1575,19 @@ function Profile() {
                         format only)</span></label>
                       <div className="custom-file">
                         <input type="file"  accept='application/pdf'
-
                           onChange={(e: any) => setIdProof(e.target.files[0])}
                           className="custom-file-input form-control" id="inputGroupFile01"
                           aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                         <label className="custom-file-label mb-0 form-control">Choose
                           file</label>
                       </div>
-                      <span className="note fw-400">File must be less than 1MB</span><button
-                        className="btn-link ml-2" type="button">view</button>
+                      <span className="note fw-400">File must be less than 1MB</span>
+                      {userProfile && userProfile.idProof && userProfile?.idProof.length > 0 && <a
+                    className="btn-link ml-2" type="button"
+                    href={`http://beta.hieq.in/${userProfile.idProof[0].filepath}`}
+                    >view</a>}
+                    {fileError.idProofError && <div className=" note errors">Files must be less than 1MB</div>}
+
                     </div>
                     <div className="col-3 d-flex align-items-center">
                       <button className="plus-btn ml-2" type="button"><img src={deleteImg}
@@ -1534,8 +1616,12 @@ function Profile() {
                         <label className="custom-file-label mb-0 form-control">Choose
                           file</label>
                       </div>
-                      <span className="note fw-400">File must be less than 1MB</span><button
-                        className="btn-link ml-2" type="button">view</button>
+                      <span className="note fw-400">File must be less than 1MB</span>{userProfile && userProfile.pg_certificate && userProfile?.pg_certificate.length > 0 && <a
+                    className="btn-link ml-2" type="button"
+                    href={`http://beta.hieq.in/${userProfile.pg_certificate[0].filepath}`}
+                    >view</a>}
+                                          {fileError.pgCertificateError && <div className=" note errors">Files must be less than 1MB</div>}
+
                     </div>
                     <div className="col-3 d-flex align-items-center">
                       <button className="plus-btn ml-2" type="button"><img src={deleteImg}
@@ -1553,8 +1639,13 @@ function Profile() {
                         <label className="custom-file-label mb-0 form-control">Choose
                           file</label>
                       </div>
-                      <span className="note fw-400">File must be less than 1MB</span><button
-                        className="btn-link ml-2" type="button">view</button>
+                      <span className="note fw-400">File must be less than 1MB</span>
+                      {userProfile && userProfile.ug_certificate && userProfile?.ug_certificate.length > 0 && <a
+                    className="btn-link ml-2" type="button"
+                    href={`http://beta.hieq.in/${userProfile.ug_certificate[0].filepath}`}
+                    >view</a>}
+                                          {fileError.ugCertificateError && <div className=" note errors">Files must be less than 1MB</div>}
+
                     </div>
                     <div className="col-3 d-flex align-items-center">
                       <button className="plus-btn ml-2" type="button"><img src={deleteImg}
@@ -1572,8 +1663,14 @@ function Profile() {
                         <label className="custom-file-label mb-0 form-control" >Choose
                           file</label>
                       </div>
-                      <span className="note fw-400">File must be less than 1MB</span><button
-                        className="btn-link ml-2" type="button">view</button>
+                      <span className="note fw-400">File must be less than 1MB</span>                     
+                       {userProfile && userProfile.xii_certificate && userProfile?.xii_certificate.length > 0 && <a
+                    className="btn-link ml-2" type="button"
+                    href={`http://beta.hieq.in/${userProfile.xii_certificate[0].filepath}`}
+                    >view</a>}
+
+                                          {fileError.twelfthMarksheetError && <div className=" note errors">Files must be less than 1MB</div>}
+
                     </div>
                     <div className="col-3 d-flex align-items-center">
                       <button className="plus-btn ml-2" type="button"><img src={deleteImg}
@@ -1591,8 +1688,13 @@ function Profile() {
                         <label className="custom-file-label mb-0 form-control" >Choose
                           file</label>
                       </div>
-                      <span className="note fw-400">File must be less than 1MB</span><button
-                        className="btn-link ml-2" type="button">view</button>
+                      <span className="note fw-400">File must be less than 1MB</span>
+                      {userProfile && userProfile.x_certificate && userProfile?.x_certificate.length > 0 && <a
+                    className="btn-link ml-2" type="button"
+                    href={`http://beta.hieq.in/${userProfile.x_certificate[0].filepath}`}
+                    >view</a>}
+                        {fileError.tenthMarksheetError && <div className=" note errors">Files must be less than 1MB</div>}
+
                     </div>
                     <div className="col-3 d-flex align-items-center">
                       <button className="plus-btn ml-2" type="button"><img src={deleteImg}
@@ -1610,8 +1712,13 @@ function Profile() {
                         <label className="custom-file-label mb-0 form-control" >Choose
                           file</label>
                       </div>
-                      <span className="note fw-400">File must be less than 1MB</span><button
-                        className="btn-link ml-2" type="button">view</button>
+                      <span className="note fw-400">File must be less than 1MB</span>
+                        {userProfile && userProfile.other_certificate && userProfile?.other_certificate.length > 0 && <a
+                    className="btn-link ml-2" type="button"
+                    href={`http://beta.hieq.in/${userProfile.other_certificate[0].filepath}`}
+                    >view</a>}
+            {fileError.otherDegreeError && <div className=" note errors">Files must be less than 1MB</div>}
+
                     </div>
                     <div className="col-3 d-flex align-items-center">
                       <button className="plus-btn ml-2" type="button"><img src={deleteImg}
@@ -1635,12 +1742,18 @@ function Profile() {
                         <input type="file"  accept='application/pdf'
                           onChange={(e: any) => setExperienceLetter(e.target.files[0])}
                           className="custom-file-input form-control" id="inputGroupFile01"
+                          
                           aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                         <label className="custom-file-label mb-0 form-control" >Choose
                           file</label>
                       </div>
-                      <span className="note fw-400">File must be less than 1MB</span><button
-                        className="btn-link ml-2" type="button">view</button>
+                      <span className="note fw-400">File must be less than 1MB</span>
+                      {userProfile && userProfile.employeement_certificate && userProfile?.employeement_certificate.length > 0 && <a
+                    className="btn-link ml-2" type="button"
+                    href={`http://beta.hieq.in/${userProfile.employeement_certificate[0].filepath}`}
+                    >view</a>}
+                                    {fileError.experienceLetterError && <div className=" note errors">Files must be less than 1MB</div>}
+
                     </div>
                     <div className="col-3 d-flex align-items-center">
                       <button className="plus-btn ml-2" type="button" ><img src={deleteImg}
