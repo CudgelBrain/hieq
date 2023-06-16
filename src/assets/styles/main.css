@@ -3140,4 +3140,10 @@ ul.grid-2 li {
           .empl-panel .shortlist-progress .list.active {color: #20A45A;}
           .empl-panel .shortlist-progress .list.active::before {border-color: #20A45A transparent transparent transparent;}
           
+  .sidebar-container {
+    height: 100vh; /* Specify the desired height of the sidebar */
+    width:99%; /* Specify the desired width of the sidebar */
+    overflow-y: auto; /* Enable the scrollbar for vertical scrolling */
+    color:black
+  }
           

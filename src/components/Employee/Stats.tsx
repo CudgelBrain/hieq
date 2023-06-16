@@ -21,6 +21,7 @@ const Stats: React.FC<Props> = ({ setActiveStatus, category }) => {
   }, [category]);
   const getOpportunityStat = async () => {
     const { data } = await getOpportunityStatus(category);
+    console.log(status);
     setStatus({ ...data })
   };
   return (

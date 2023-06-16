@@ -5,6 +5,7 @@ import locationImg from 'assets/images/location.svg';
 import file from 'assets/images/file.svg';
 import { useHistory } from 'react-router-dom';
 import star from 'assets/images/star.svg';
+import starFill from 'assets/images/star-solid.svg'
 import delist from 'assets/images/delist.svg';
 
 export interface Props {
@@ -13,8 +14,6 @@ export interface Props {
 
 const JobBoxSection : React.FC<Props> = ({job}) => {
   const navigate = useHistory();
-
-
 
   return (
     <>
@@ -66,10 +65,9 @@ const JobBoxSection : React.FC<Props> = ({job}) => {
           <div className='jb-box-inner d-flex flex-column fourth'>  
             <span className='note text-uppercase'>5 Days ago</span>
             <button type='submit' className='btn btn-link btn-md'>
-              <img src={star} width='24' alt='' />
+                <img src={star} width='24' alt=''/>
             </button>
-            <button className="btn btn-link btn-md mt-2"><img src={delist} width="24"
-                                alt=""/></button>
+            <button className="btn btn-link btn-md mt-2"><img src={delist} width="24" alt=""/></button>
           </div>
           {/* </div> */}
         </div>

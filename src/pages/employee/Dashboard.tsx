@@ -7,9 +7,14 @@ import Opportunities from 'features/employee/dashboard/Opportunity'
 import RangeSelector from 'components/RangeSelector';
 import 'assets/styles/employee/style.css'
 import search from 'assets/images/search.svg';
+import { hieqService } from 'utils';
 import Select from 'react-select';
+import SearchBox from './SearchBox';
 
 function EmployeeDashboard() {
+  const [data, setData] = React.useState([]);
+  const [searchType, setSearchType] = React.useState(1)
+  const [searchText, setSearchText] = React.useState("")
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [activeStatus, setActiveStatus] = React.useState<string>("");
   const [startDate, setStartDate] = React.useState<string>("");
@@ -17,6 +22,30 @@ function EmployeeDashboard() {
   const [activeCategory, setActiveCategory] = React.useState(
     useAppQuery().get('category') || 'job',
   );
+
+  const getdata = async (text:any) => {
+    try {
+      let res = await hieqService.get(
+        `/opportunity/search?q=${text}`,
+      );
+      console.log(res.data.items);
+      setData(res.data.items);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  React.useEffect(() => {
+    if (searchText === "") 
+    {
+      getdata(searchText);
+    }
+  }, [searchText]);
+
+  // React.useEffect(() => {
+  //   getdata();
+  // }, [])
+
 
   const allJobs = [
     {value:"All jobs",label:"All jobs"},
@@ -40,7 +69,7 @@ function EmployeeDashboard() {
         </div>
       </div>
 
-      <div className='box-container mb-4 p-4'>
+      <div className='box-container mb-4 p-4 sidebar-container'>
         <div className='row'>
           <div className='col-md-12'>
             <div className='d-flex'>
@@ -77,7 +106,8 @@ function EmployeeDashboard() {
                                 <button type="submit" className="icon-btn"><img src={search} height="20"
                                     alt=""/></button>
                               </span></div>
-                            <input type="text" className="form-control pl-0" placeholder="Enter search here..."/>
+                              <SearchBox />
+                            {/* <input type="text" className="form-control pl-0" placeholder="Enter search here..." value={input} onChange={(e) => handleSearch()}/> */}
                           </div>
                         </div>
             <div className='col-3'>
