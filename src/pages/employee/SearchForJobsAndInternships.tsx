@@ -1,23 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
+import Select, { SingleValue } from 'react-select';
 import JobBoxSection from './JobBoxSection';
+import { listSearchFilteredOpportunities } from 'features/employer/postOpportunity/postOpportunityAPI';
 import searchWhite from 'assets/images/search-white.svg';
 import filter from 'assets/images/filter.svg';
 import leftArrow from 'assets/images/left-chevron.svg';
 import { hieqService } from 'utils';
+import { useAppDispatch } from 'app/hooks';
+import Slider from 'rc-slider';
 import { useHistory } from 'react-router-dom';
+import { OptionType } from 'features/auth/authSlice';
+
 const SearchForJobsAndInternships = () => {
-  const [data, setData] = useState([]);
+  const [dataStatus, setData] = useState([]);
   const [searchText, setSearchText] = useState("")
+  const [categoryFilter,setCategoryFilter] = useState<any>([]);
+  const [domainFilter,setDomainFilter] = useState([]);
+  const [statusFilter,setStatusFilter] = useState([]);
+  const [empTypeFilter,setEmpTypeFilter] = useState([]);
+  const [salaryFilter,setSalaryFilter] = useState(0);
+  const [expFilter,setExpFilter] = useState(0);
+  const [percentage, setPercentage] = React.useState({
+    experience: 0,
+    salary: 0,
+  });
   const history = useHistory();
 
-  const getdata = async () => {
-    try {
-      let res = await hieqService.get(
-        '/opportunity/status?status=&from_date=&to_date=&category=job',
-      );
-      console.log(res.data.items);
-      setData(res.data.items);
+const getdata = async () => {
+  try {
+      //category, domain, statuss, employType, salary, experience
+      const { data, status } = await listSearchFilteredOpportunities(categoryFilter,domainFilter,statusFilter,empTypeFilter,salaryFilter,expFilter)
+      console.log("new daata ",data);
+      // let res = await hieqService.get(
+      //   '/opportunity/status?status=&from_date=&to_date=&category=job',
+      // );
+      // console.log(res.data.data);
+      setData(data.items);
     } catch (error) {
       console.log(error);
     }
@@ -27,11 +45,26 @@ const SearchForJobsAndInternships = () => {
     if (searchText === "") {
       getdata();
     }
-  }, [searchText]);
+  }, [searchText,categoryFilter,domainFilter,statusFilter,empTypeFilter,salaryFilter,expFilter]);
 
   useEffect(() => {
     getdata();
   }, [])
+
+  const initialState = () => {
+    setPercentage({experience:0, salary:0})
+  }
+
+  // const handleReset = () => {
+  //   setCategoryFilter = '';
+  //   setStatusFilter = '';
+  //   setDomainFilter = '';
+  //   setExpFilter = '';
+  //   setSalaryFilter = '';
+  //   setEmpTypeFilter = '';
+  // }
+
+  const { experience, salary } = percentage;
 
   const datePosted = [
     { value: 'Today', label: 'Today' },
@@ -40,7 +73,7 @@ const SearchForJobsAndInternships = () => {
     { value: 'This Month', label: 'This Month' },
   ];
 
-  const oppotunityType = [
+  const oppotunityType : OptionType[] = [
     { value: 'Full TIme', label: 'Full TIme' },
     { value: 'Part-Time', label: 'Part-Time' },
     { value: 'Hybrid', label: 'Hybrid' },
@@ -119,7 +152,7 @@ const SearchForJobsAndInternships = () => {
     // You can use regular expressions for exact and similar search
     if (searchType === 1) {
       // Example: Exact search
-      const exactResults = data.filter((item: any) => {
+      const exactResults = dataStatus.filter((item: any) => {
         console.log(item.stepOne.opportunityTitle, searchText)
         return item?.stepOne?.opportunityTitle?.toLowerCase() === searchText.toLowerCase()
       });
@@ -127,7 +160,7 @@ const SearchForJobsAndInternships = () => {
     } else {
 
       // Example: Similar search
-      const similarResults = data.filter((item: any) => {
+      const similarResults = dataStatus.filter((item: any) => {
         return item?.stepOne?.opportunityTitle?.toLowerCase().includes(searchText.toLowerCase())
       }
       );
@@ -156,15 +189,12 @@ const SearchForJobsAndInternships = () => {
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading mb-2'>Experience</h3>
                           <div className='slidecontainer'>
-                            <input
-                              type='range'
-                              min='1'
-                              max='100'
-                              value='15'
-                              className='slider'
-                              id='myRange'
-                              onChange={(e) => console.log(e)}
-                            />
+                            <Slider
+                            min={0}
+                            max={100}
+                            value={experience}
+                            onChange={(value) => setPercentage({ ...percentage, experience: value as number })}
+                            /> 
                             <div className='rg-slider-text'>
                               {' '}
                               <span className='small'>0 yrs</span>
@@ -178,7 +208,11 @@ const SearchForJobsAndInternships = () => {
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Opportunity type</h3>
-                          <Select options={oppotunityType} placeholder='Nothing-Selected' />
+                          <Select options={oppotunityType} placeholder='Nothing-Selected' 
+                          onChange={(option: SingleValue<OptionType>) => {
+                            console.log(option?.value)
+                            setCategoryFilter([option?.value])
+                          }}/>
                         </div>
                         <div className='filter-widget mt-3 pb-1'>
                           <h3 className='filter-widget-heading'>Employment Type</h3>
@@ -298,7 +332,7 @@ const SearchForJobsAndInternships = () => {
                         </div>
                       </div>
 
-                      {data.map((job) => {
+                      {dataStatus.map((job) => {
                         return <JobBoxSection job={job} />;
                       })}
                     </div>

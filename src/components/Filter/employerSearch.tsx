@@ -15,10 +15,7 @@ const getOpportunityDomains = async () => {
 };
 const EmployerSearchFilter = () => {
     const dispatch = useAppDispatch();
-    const {
-        status,
-        pageNo
-    } = useAppSelector((state: RootState) => state.searchFilter);
+    const {status,pageNo} = useAppSelector((state: RootState) => state.searchFilter);
     const [employType, setEmployType] = React.useState<string[]>([])
     const [category, setCategory] = React.useState<string[]>([])
     const [domain, setDomain] = React.useState<string[]>([])

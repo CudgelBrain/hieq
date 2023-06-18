@@ -3141,9 +3141,43 @@ ul.grid-2 li {
           .empl-panel .shortlist-progress .list.active::before {border-color: #20A45A transparent transparent transparent;}
           
   .sidebar-container {
-    height: 100vh; /* Specify the desired height of the sidebar */
-    width:99%; /* Specify the desired width of the sidebar */
-    overflow-y: auto; /* Enable the scrollbar for vertical scrolling */
+    height:100vh; /* Specify the desired height of the sidebar */
+    width:100%; /* Specify the desired width of the sidebar */
+    overflow-y:auto; /* Enable the scrollbar for vertical scrolling */
     color:black
   }
-          
+
+  /* scrollbar.css */
+
+/* Track */
+::-webkit-scrollbar {
+  width: 8px; /* Adjust the width of the scrollbar */
+}
+
+/* Thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #5BC287; /* Set the color of the scrollbar thumb */
+  border-radius: 4px; /* Round the edges of the thumb */
+}
+
+/* Arrow buttons (optional) */
+::-webkit-scrollbar-button {
+  display: none; /* Hide the scrollbar arrow buttons */
+}
+
+.rc-slider-track{
+  background-color:#5BC287 !important;
+}
+
+.rc-slider-handle{
+  border:#5bc287 solid 2px;
+}
+
+.rc-slider-handle:hover{  
+  color:#5bc287 !important;
+}
+
+.rc-slider-handle:active{
+  box-shadow:none !important;
+  border:#5BC287 solid 2px !important; 
+}

@@ -25,6 +25,7 @@ function EmployeeDashboard() {
 
   const getdata = async (text:any) => {
     try {
+
       let res = await hieqService.get(
         `/opportunity/search?q=${text}`,
       );
@@ -69,7 +70,7 @@ function EmployeeDashboard() {
         </div>
       </div>
 
-      <div className='box-container mb-4 p-4 sidebar-container'>
+      <div className='box-container mb-4 p-4 sidebar-container scrollbar'>
         <div className='row'>
           <div className='col-md-12'>
             <div className='d-flex'>
