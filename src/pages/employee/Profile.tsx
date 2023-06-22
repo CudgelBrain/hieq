@@ -692,7 +692,6 @@ function Profile() {
     const response: any = await hieqService.put('/employeeProfile', formData);
 
     if (response.status === 'success') {
-      setProfileImage(null)
       toast.success('Profile picture uploading successfully', {
         position: "top-center",
         autoClose: 5000,
