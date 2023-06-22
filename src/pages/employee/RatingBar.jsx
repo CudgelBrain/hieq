@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './rating.css';
 import star from 'assets/images/star-grey.svg'
 import starFilled from 'assets/images/star-solid.svg'
 import deleteImg from 'assets/images/employee/delete.svg'
 
-const StarRating = ({ name, setFieldValue, remove, itemIndex }) => {
+const StarRating = ({ name, setFieldValue, remove, itemIndex, defaultRating }) => {
     console.log(name)
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
@@ -14,8 +14,11 @@ const StarRating = ({ name, setFieldValue, remove, itemIndex }) => {
         setFieldValue(name, newValue);
     };
 
-
-    console.log(rating)
+    useEffect(() =>{
+        if(defaultRating){
+            setRating(defaultRating)
+        }
+    }, [defaultRating])
 
     return (
         <div className="star-rating d-flex align-items-center">

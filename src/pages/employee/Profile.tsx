@@ -160,7 +160,6 @@ function Profile() {
   const documentsRef = useRef(null)
 
   React.useEffect(() => setMode(query ?? 'view'), [query]);
-  console.log(profileImage)
 
   const [stepOneIntialValues, setStepOneInitialValues] = useState({
     firstName: "",
@@ -182,8 +181,10 @@ function Profile() {
 
   const [stepFourIntialValues, setStepFourInitialValues] = useState({
 
-    totalWorkMonth: "" || userProfile?.totalWorkMonth,
-    totalWorkYear: "" || userProfile?.totalWorkYear,
+    totalWorkMonth: "",
+    totalWorkYear: "",
+    experienced: isExperience,
+    internshiped: isInternship,
     stepFour: [{
       organization: "",
       designation: "",
@@ -194,7 +195,19 @@ function Profile() {
       toYear: "",
       description: ""
     }],
+    internship: [{
+      organization: "",
+      designation: "",
+      employmentType: "",
+      fromMonth: "",
+      toMonth: "",
+      fromYear: "",
+      toYear: "",
+      description: ""
+    }]
   })
+
+  console.log(stepFourIntialValues)
 
   const [stepFiveIntialValues, setStepFiveIntialValues] = useState({
     stepFive:
@@ -252,23 +265,27 @@ function Profile() {
   const [tenthMarksheet, setTenthMarkSheet] = useState<any | null>({})
   const [otherDegree, setOtherDegree] = useState<any | null>({})
   const [experienceLetter, setExperienceLetter] = useState<any | null>({})
+  const [loading, setIsLoading] = useState(false)
 
 
 
-
-  console.log(userData);
+  console.log(userData?.stepFour);
 
 
 
   React.useEffect(() => {
-    getUserProfile()
     getDegree();
     getSkills(); getCollege();
     getCompany();
     getCertification();
   }, [])
 
+
+  React.useEffect(() => {
+    getUserProfile()
+  }, [])
   const getUserProfile = async () => {
+    setIsLoading(true)
     const response: any = await hieqService.get('/employeeProfile')
     if (response.status === 'success') {
       let data = response?.data;
@@ -311,18 +328,53 @@ function Profile() {
             },
           ],
       })
+
+
+      if (data && data?.stepFour && data?.stepFour?.experienced) {
+        setIsExprience(true)
+      } else {
+        setIsExprience(false)
+      }
+
+      if (data && data?.stepFour && data?.stepFour?.internshiped) {
+        setIsInternship(true)
+      } else {
+        setIsInternship(false)
+      }
+
       setStepFourInitialValues({
-        totalWorkMonth: "" || userProfile?.totalWorkMonth,
-        totalWorkYear: "" || userProfile?.totalWorkYear,
-        stepFour: data && data?.stepFour && data?.stepFour?.length > 0 && data?.stepFour?.map((item?: any) => ({
-          organization: data.stepFour?.organization || "",
-          designation: data.stepFour?.designation || "",
-          employmentType: data.stepFour?.employmentType || "",
-          fromMonth: data.stepFour?.fromMonth || "",
-          toMonth: data.stepFour?.toMonth || "",
-          fromYear: data.stepFour?.fromYear || "",
-          toYear: data.stepFour?.toYear || "",
-          description: data.stepFour?.description || "",
+        totalWorkMonth: "" || data?.stepFour?.totalWorkMonth,
+        totalWorkYear: "" || data?.stepFour?.totalWorkYear,
+        experienced: isExperience || data?.stepFour?.experienced,
+        internshiped: data?.stepFour?.isIntershiped || isInternship,
+        internship: data && data?.stepFour && data?.stepFour?.insternship && data?.stepFour?.internship.length > 0 && data?.stepFour?.intership?.map((item?: any) => ({
+          organization: item?.organization || "",
+          designation: item?.designation || "",
+          employmentType: item?.employmentType || "",
+          fromMonth: item?.fromMonth || "",
+          toMonth: item?.toMonth,
+          fromYear: item?.fromYear || "",
+          toYear: item?.toYear || "",
+          description: item?.description || "",
+        })) || [{
+          organization: "",
+          designation: "",
+          employmentType: "",
+          fromMonth: "",
+          toMonth: "",
+          fromYear: "",
+          toYear: "",
+          description: ""
+        }],
+        stepFour: data && data?.stepFour && data?.stepFour?.stepFour && data?.stepFour?.stepFour.length > 0 && data?.stepFour?.stepFour?.map((item?: any) => ({
+          organization: item?.organization || "",
+          designation: item?.designation ||"",
+          employmentType: item?.employmentType ||"",
+          fromMonth: item?.fromMonth || "",
+          toMonth: item?.toMonth || "",
+          fromYear: item?.fromYear || "",
+          toYear: item?.toYear || "",
+          description: item?.description || "",
         })) || [{
           organization: "",
           designation: "",
@@ -405,6 +457,7 @@ function Profile() {
 
       setUserProfile(response?.data)
     }
+    setIsLoading(false)
   }
 
   //scroll beviours
@@ -503,11 +556,6 @@ function Profile() {
   });
 
 
-  // const [fileError, setFileError]
-
-
-
-
   function isFileSizeValid(file: any) {
     const maxSize = 1024 * 1024; // 1MB
     return file.size <= maxSize;
@@ -526,23 +574,9 @@ function Profile() {
   });
 
 
-  console.log(fileError)
 
   const submitDocuments = async () => {
 
-
-    console.log(
-
-      resume,
-      visumeLink,
-      idProof,
-      pgCertificate,
-      ugCertificate,
-      twelfthMarksheet,
-      tenthMarksheet,
-      otherDegree,
-      experienceLetter,
-    )
     const formData = new FormData();
     if (resume && resume.size > 0) {
       if (!isFileSizeValid(resume)) {
@@ -614,23 +648,10 @@ function Profile() {
         }))
         return;
       }
-  
+
       formData.append('employeement_certificate', experienceLetter);
     }
-  
 
-    console.log(formData);
-
-
-    // if(visumeLink && visumeLink.length > 0){
-    //   let data ={
-    
-    //       stepSix: visumeLink}
-
-    //   const response: any = await hieqService.put('/employeeProfile',data);
-    //   console.log(response)
-
-    // }
 
     const response: any = await hieqService.put('/employeeProfile', formData);
     if (response?.status === 'success') {
@@ -652,11 +673,26 @@ function Profile() {
   }
 
   const hanldeProfileUpload = async (img: any) => {
-    console.log(img);
+    if (!img) {
+      toast.success('Image not selected', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+
     const formData = new FormData();
     formData.append('profilePic', img);
     const response: any = await hieqService.put('/employeeProfile', formData);
+
     if (response.status === 'success') {
+      setProfileImage(null)
       toast.success('Profile picture uploading successfully', {
         position: "top-center",
         autoClose: 5000,
@@ -670,7 +706,12 @@ function Profile() {
     }
   }
 
-
+console.log(stepFourIntialValues);
+if(loading){
+  return <div className='d-flex justify-content-center'>
+    Loading
+  </div>
+}
 
   return (
     <>
@@ -683,9 +724,9 @@ function Profile() {
           }
           validationSchema={stepOneSchema}
           onSubmit={async (values) => {
-            console.log(values)
-            let data = values;
-            const response: any = await hieqService.post('/employeeProfile', data)
+            const formData = new FormData()
+            formData.append("stepOne", JSON.stringify(values))
+            const response: any = await hieqService.post('/employeeProfile', formData)
             if (response?.status === 'success') {
               toast.success('Data saved successfully',
                 {
@@ -796,7 +837,10 @@ function Profile() {
                             <img src={camera} width="25" alt="" />
                           </label>
                         </div>
-                        <input type='file' id='file-input' multiple={false} hidden onChange={(e: any) => { setProfileImage(e.target.files[0]); hanldeProfileUpload(profileImage) }} />
+                        <input type='file' id='file-input' multiple={false} hidden accept='image/jpeg' onChange={(e: any) => {
+                          setProfileImage(e.target.files[0]); hanldeProfileUpload(profileImage)
+                        }}
+                        />
                         <div className="featured">
                           <img src={userData && userData.profilePic ? `http://beta.hieq.in/${userData?.profilePic[0]?.filepath}` : "https://idronline.org/wp-content/themes/wphidr/images/person-dummy.jpg"} width={280} height={235}
                             alt="" /></div>
@@ -838,12 +882,11 @@ function Profile() {
           }
           validationSchema={stepThreeSchema}
           onSubmit={async (values) => {
-            console.log(values)
-            let data = {
-              stepThree: values.stepThree
-            };
 
-            const response: any = await hieqService.put('/employeeProfile', data)
+            const formData = new FormData();
+            formData.append('stepThree', JSON.stringify(values.stepThree))
+
+            const response: any = await hieqService.put('/employeeProfile', formData)
             if (response?.status === 'success') {
               toast.success('Data saved successfully',
                 {
@@ -867,6 +910,7 @@ function Profile() {
                   <div className="text-left mb-4">
                     <h2 className="bc-heading">2. Education</h2>
                   </div>
+
                   <FieldArray name="stepThree">
                     {({ insert, remove, push }) => (
                       <>
@@ -887,7 +931,6 @@ function Profile() {
                                       )}
                                     </select>
                                     <ErrorMessage name={`stepThree.${index}.degree`} />
-                                    {console.log(errors)}
 
                                   </div>
                                   <div className="form-group col-sm-4">
@@ -963,6 +1006,7 @@ function Profile() {
                       </>
                     )}
                   </FieldArray>
+
                   <div className="row">
                     <div className="col-12 mt-4">
                       <div className="form-row">
@@ -985,15 +1029,15 @@ function Profile() {
           initialValues={
             stepFourIntialValues
           }
-          validationSchema={stepFourSchema}
           onSubmit={async (values) => {
-            console.log(values)
-            let data = {}
-            data = {
-              stepFour: values.stepFour
-            }
+            console.log(values, 'data hai cb');
+            values.experienced = isExperience;
+            values.internshiped = isInternship;
 
-            const response: any = await hieqService.put('/employeeProfile', data)
+            const formData = new FormData();
+            formData.append('stepFour', JSON.stringify(values))
+
+            const response: any = await hieqService.put('/employeeProfile', formData)
             if (response?.status === 'success') {
               toast.success('Data saved successfully',
                 {
@@ -1012,201 +1056,336 @@ function Profile() {
           {({ values, handleChange, handleBlur, handleSubmit, errors, touched }) =>
 
             <Form>
-              <FieldArray name="stepFour">
-                {({ insert, remove, push }) => (
-                  <>
-                    <div className="box-container mb-4">
-                      <div className="box-container-inner" ref={workRef}>
-                        <div className="text-left mb-4">
-                          <h2 className="bc-heading">3. Work Experience</h2>
+
+
+
+
+              <div className="box-container mb-4">
+                <div className="box-container-inner" ref={workRef}>
+                  <div className="text-left mb-4">
+                    <h2 className="bc-heading">3. Work Experience</h2>
+                  </div>
+
+                  <div className="row">
+                    <div className="form-group col-12">
+                      <div className="d-flex align-items-center txt-md">
+                        <span className="mr-2">Fresher</span>
+                        <div className="custom-control custom-switch custom-switch-lg" onClick={() => setIsExprience(!isExperience)}>
+                          <input type="checkbox" className="custom-control-input" id="switchVariable" disabled={mode === 'view'}
+                            checked={isExperience}
+                          />
+                          <label className="custom-control-label">Experienced</label>
                         </div>
-
-                        <div className="row">
-                          <div className="form-group col-12">
-                            <div className="d-flex align-items-center txt-md">
-                              <span className="mr-2">Fresher</span>
-                              <div className="custom-control custom-switch custom-switch-lg" onClick={() => setIsExprience(!isExperience)}>
-                                <input type="checkbox" className="custom-control-input" id="switchVariable" disabled={mode === 'view'}
-                                  checked={isExperience}
-                                />
-                                <label className="custom-control-label">Experienced</label>
-                              </div>
-                            </div>
+                      </div>
+                    </div>
+                    {isExperience ? <>
+                      <div className="form-group d-inline-flex align-items-center pr-0 col-2 pt-2">
+                        <label className="label mb-0">Total Work Experience<span className="required">*</span></label>
+                      </div>
+                      <div className="form-group col-4 pt-2">
+                        <div className="form-row">
+                          <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'} name="totalWorkYear"
+                            value={values.totalWorkYear}
+                            onChange={handleChange}
+                          >
+                            {expyears.length > 0 && expyears.map((el: any) => <option value={el.value}>{el.label}</option>)}
+                          </select>
                           </div>
-                          {isExperience ? <>
-                            <div className="form-group d-inline-flex align-items-center pr-0 col-2 pt-2">
-                              <label className="label mb-0">Total Work Experience<span className="required">*</span></label>
-                            </div>
-                            <div className="form-group col-4 pt-2">
-                              <div className="form-row">
-                                <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'} name="totalWorkYear"
-                                  value={values.totalWorkYear}
-                                  onChange={handleChange}
-                                >
-                                  {expyears.length > 0 && expyears.map((el: any) => <option value={el.value}>{el.label}</option>)}
-                                </select></div>
-                                <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                  name="totalWorkMonth"
-                                  onChange={handleChange}
-                                  value={values.totalWorkMonth}
-                                >
-                                  {months.length > 0 && months.map((el: any) => <option value={el.value}>{el.label}</option>)}
-                                </select></div>
-                              </div>
-                            </div>
-                          </> : <div className="col-4 d-flex align-items-center mb-2">
-                            <div className="custom-inline">
-                              <div className="custom-control custom-checkbox" onClick={() => setIsInternship(!isInternship)}>
-                                <input type="checkbox" className="custom-control-input" id="loctype1" name="loctype" disabled={mode === 'view'}
-                                  checked={isInternship}
-                                />
-
-                                <label className="custom-control-label pl-1">Have any internship experience ?</label>
-                              </div>
-                            </div>
-                          </div>
-                          }
+                          <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
+                            name="totalWorkMonth"
+                            onChange={handleChange}
+                            value={values.totalWorkMonth}
+                          >
+                            {months.length > 0 && months.map((el: any) => <option value={el.value}>{el.label}</option>)}
+                          </select></div>
                         </div>
+                      </div>
+                    </> : <div className="col-4 d-flex align-items-center mb-2">
+                      <div className="custom-inline">
+                        <div className="custom-control custom-checkbox" onClick={() => setIsInternship(!isInternship)}>
+                          <input type="checkbox" className="custom-control-input" id="loctype1" name="loctype" disabled={mode === 'view'}
+                            checked={isInternship}
+                          />
 
-                        {(isExperience || isInternship) && <div className="row pt-2">
-                          {values?.stepFour?.map((el: any, index: any, row: any) => <>
-                            <div className="col-12">
-                              <div className="form-row">
-                                <div className="form-group col-4">
-                                  <label className="label mb-1">Organization<span className="required">*</span></label>
-                                  <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                    name={`stepFour.${index}.organization`}
-                                    onChange={handleChange}
-                                    value={el.organization}
-                                  >
-                                    {company.length > 0 && company.map((el: any) => <option value={el.name}>{el?.name}</option>)}
-                                  </select>
-                                </div>
-                                <div className="form-group col-4">
-                                  <label className="label mb-1">Designation<span className="required">*</span></label>
-                                  <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                    name={`stepFour.${index}.designation`}
-                                    onChange={handleChange}
-                                    value={el.designation}
-                                  >
-                                    <option value="sys">Systems Engineer</option>
-                                    <option value="sys">Systems Engineera 2</option>
-                                  </select>
-                                </div>
-                                <div className="form-group col-4">
-                                  <label className="label mb-1">Employment Type<span className="required">*</span></label>
-                                  <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                    name={`stepFour.${index}.employmentType`}
-                                    onChange={handleChange}
-                                    value={el.employmentType}
-                                  >
-                                    <option value="full-time">Full-Time Job</option>
-                                    <option value="part-time">Part-Time Job</option>
-                                    <option value="hybrid">Hybrid Job</option>
-                                  </select>
-                                </div>
-                                <div className="form-group col-4">
-                                  <label className="label mb-1">From<span className="required">*</span></label>
-                                  <div className="form-row">
-                                    <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                      name={`stepFour.${index}.fromMonth`}
-                                      onChange={handleChange}
-                                      value={el.fromMonth}
-                                    >
-                                      {monthsName.length > 0 && monthsName.map((el: any) => <option key={el.label} value={el.value}>{el.label}</option>)}
-                                    </select></div>
-                                    <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                      name={`stepFour.${index}.fromYear`}
-                                      onChange={handleChange}
-                                      value={el.fromYear}
-                                    >
-                                      {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
-                                    </select></div>
-                                  </div>
-                                </div>
-                                {!isPresent && <div className="form-group col-4">
-                                  <label className="label mb-1">To<span className="required">*</span></label>
-                                  <div className="form-row">
-                                    <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                      name={`stepFour.${index}.toMonth`}
-                                      onChange={handleChange}
-                                      value={el.toMonth}
-                                    >
-                                      {monthsName.length > 0 && monthsName.map((el: any) => <option value={el.value}>{el.label}</option>)}
-                                    </select></div>
-                                    <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                      name={`stepFour.${index}.toYear`}
-                                      onChange={handleChange}
-                                      value={el.toYear}
-                                    >
-                                      {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
-                                    </select></div>
-                                  </div>
-                                </div>}
-                                <div className="col-4 d-flex align-items-center">
-                                  <div className="custom-inline">
-                                    <div className="custom-control custom-checkbox" onClick={() => steIsPresent(!isPresent)}>
-                                      <input type="checkbox" className="custom-control-input" id="loctype1" name="loctype" disabled={mode === 'view'}
-                                        checked={isPresent}
+                          <label className="custom-control-label pl-1">Have any internship experience ?</label>
+                        </div>
+                      </div>
+                    </div>
+                    }
+                  </div>
 
-                                      />
-                                      <label className="custom-control-label pl-1">I currently work here</label>
+
+                  <FieldArray name="stepFour">
+                    {({ insert, remove, push }) => (
+                      <>
+
+                        {(isExperience) && <div className="row pt-2">
+                          {values?.stepFour?.map((el: any, index: any, row: any) =>
+                            <>
+                              <div className="col-12">
+                                <div className="form-row">
+                                  <div className="form-group col-4">
+                                    <label className="label mb-1">Organization<span className="required">*</span></label>
+                                    <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                      name={`stepFour.[${index}].organization`}
+                                      onChange={handleChange}
+                                      value={el.organization}
+                                    >
+                                      {company.length > 0 && company.map((el: any) => <option value={el.name}>{el?.name}</option>)}
+                                    </select>
+                                  </div>
+                                  <div className="form-group col-4">
+                                    <label className="label mb-1">Designation<span className="required">*</span></label>
+                                    <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                      name={`stepFour.[${index}].designation`}
+                                      onChange={handleChange}
+                                      value={el.designation}
+                                    >
+                                      <option value="sys">Systems Engineer</option>
+                                      <option value="sys">Systems Engineera 2</option>
+                                    </select>
+                                  </div>
+                                  <div className="form-group col-4">
+                                    <label className="label mb-1">Employment Type<span className="required">*</span></label>
+                                    <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                      name={`stepFour.[${index}].employmentType`}
+                                      onChange={handleChange}
+                                      value={el.employmentType}
+                                    >
+                                      <option value="full-time">Full-Time Job</option>
+                                      <option value="part-time">Part-Time Job</option>
+                                      <option value="hybrid">Hybrid Job</option>
+                                    </select>
+                                  </div>
+                                  <div className="form-group col-4">
+                                    <label className="label mb-1">From<span className="required">*</span></label>
+                                    <div className="form-row">
+                                      <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
+                                        name={`stepFour.[${index}].fromMonth`}
+                                        onChange={handleChange}
+                                        value={el.fromMonth}
+                                      >
+                                        {monthsName.length > 0 && monthsName.map((el: any) => <option key={el.label} value={el.value}>{el.label}</option>)}
+                                      </select></div>
+                                      <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
+                                        name={`stepFour.[${index}].fromYear`}
+                                        onChange={handleChange}
+                                        value={el.fromYear}
+                                      >
+                                        {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
+                                      </select></div>
+                                    </div>
+                                  </div>
+                                  {!isPresent && <div className="form-group col-4">
+                                    <label className="label mb-1">To<span className="required">*</span></label>
+                                    <div className="form-row">
+                                      <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
+                                        name={`stepFour.[${index}].toMonth`}
+                                        onChange={handleChange}
+                                        value={el.toMonth}
+                                      >
+                                        {monthsName.length > 0 && monthsName.map((el: any) => <option value={el.value}>{el.label}</option>)}
+                                      </select></div>
+                                      <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
+                                        name={`stepFour.[${index}].toYear`}
+                                        onChange={handleChange}
+                                        value={el.toYear}
+                                      >
+                                        {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
+                                      </select></div>
+                                    </div>
+                                  </div>}
+                                  <div className="col-4 d-flex align-items-center">
+                                    <div className="custom-inline">
+                                      <div className="custom-control custom-checkbox" onClick={() => steIsPresent(!isPresent)}>
+                                        <input type="checkbox" className="custom-control-input" id="loctype1" name="loctype" disabled={mode === 'view'}
+                                          checked={isPresent}
+
+                                        />
+                                        <label className="custom-control-label pl-1">I currently work here</label>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                            <div className="form-group col-12">
-                              <label className="label mb-1">Description (Role, responsibilities, achievements etc.)</label>
-                              <textarea rows={8} className="form-control" disabled={mode === 'view'}
-                                name={`stepFour.${index}.description`}
-                                onChange={handleChange}
-                                value={el.description}
-                              ></textarea>
-                              <div className="text-right"><span className="note">250 words limit</span></div>
-                            </div>
-                            <div className="col-12 mb-4">
-                              <div className="row">
-                                <div className="col-6">
-                                  {index === row.length - 1 && <button className="plus-btn" type="button" onClick={() => push({
-                                    organization: "",
-                                    designation: "",
-                                    employmentType: "",
-                                    fromMonth: "",
-                                    toMonth: "",
-                                    fromYear: "",
-                                    toYear: "",
-                                    description: ""
-                                  })}><img src={plusDark} width="20"
-                                    height="20" alt="" /><span className="ml-1">Add More</span></button>}
-                                </div>
-                                {values?.stepFour.length > 1 && <div className="col-6 text-right pr-3">
-                                  <button className="plus-btn" type="button" onClick={() => remove(index)}><img src={deleteImg} width="16"
-                                    height="18" alt="" /></button>
-                                </div>}
+                              <div className="form-group col-12">
+                                <label className="label mb-1">Description (Role, responsibilities, achievements etc.)</label>
+                                <textarea rows={8} className="form-control" disabled={mode === 'view'}
+                                  name={`stepFour.[${index}].description`}
+                                  onChange={handleChange}
+                                  value={el.description}
+                                ></textarea>
+                                <div className="text-right"><span className="note">250 words limit</span></div>
                               </div>
-                            </div>
-                          </>)}
+                              <div className="col-12 mb-4">
+                                <div className="row">
+                                  <div className="col-6">
+                                    {index === row.length - 1 && <button className="plus-btn" type="button" onClick={() => push({
+                                      organization: "",
+                                      designation: "",
+                                      employmentType: "",
+                                      fromMonth: "",
+                                      toMonth: "",
+                                      fromYear: "",
+                                      toYear: "",
+                                      description: ""
+                                    })}><img src={plusDark} width="20"
+                                      height="20" alt="" /><span className="ml-1">Add More</span></button>}
+                                  </div>
+                                  {values?.stepFour.length > 1 && <div className="col-6 text-right pr-3">
+                                    <button className="plus-btn" type="button" onClick={() => remove(index)}><img src={deleteImg} width="16"
+                                      height="18" alt="" /></button>
+                                  </div>}
+                                </div>
+                              </div>
+                            </>)}
+                        </div>}
+                      </>)}
+                  </FieldArray>
+                  <FieldArray name="internship">
+                    {({ insert, remove, push }) => (
+                      <>
+                        {(isInternship) && <div className="row pt-2">
+                          {values?.internship?.map((el: any, index: any, row: any) =>
+                            <>
+                              <div className="col-12">
+                                <div className="form-row">
+                                  <div className="form-group col-4">
+                                    <label className="label mb-1">Organization<span className="required">*</span></label>
+                                    <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                      name={`internship.[${index}].organization`}
+                                      onChange={handleChange}
+                                      value={el.organization}
+                                    >
+                                      {company.length > 0 && company.map((el: any) => <option value={el.name}>{el?.name}</option>)}
+                                    </select>
+                                  </div>
+                                  <div className="form-group col-4">
+                                    <label className="label mb-1">Designation<span className="required">*</span></label>
+                                    <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                      name={`internship.[${index}].designation`}
+                                      onChange={handleChange}
+                                      value={el.designation}
+                                    >
+                                      <option value="sys">Systems Engineer</option>
+                                      <option value="sys">Systems Engineera 2</option>
+                                    </select>
+                                  </div>
+                                  <div className="form-group col-4">
+                                    <label className="label mb-1">Employment Type<span className="required">*</span></label>
+                                    <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
+                                      name={`internship.[${index}].employmentType`}
+                                      onChange={handleChange}
+                                      value={el.employmentType}
+                                    >
+                                      <option value="full-time">Full-Time Job</option>
+                                      <option value="part-time">Part-Time Job</option>
+                                      <option value="hybrid">Hybrid Job</option>
+                                    </select>
+                                  </div>
+                                  <div className="form-group col-4">
+                                    <label className="label mb-1">From<span className="required">*</span></label>
+                                    <div className="form-row">
+                                      <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
+                                        name={`internship.[${index}].fromMonth`}
+                                        onChange={handleChange}
+                                        value={el.fromMonth}
+                                      >
+                                        {monthsName.length > 0 && monthsName.map((el: any) => <option key={el.label} value={el.value}>{el.label}</option>)}
+                                      </select></div>
+                                      <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
+                                        name={`internship.[${index}].fromYear`}
+                                        onChange={handleChange}
+                                        value={el.fromYear}
+                                      >
+                                        {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
+                                      </select></div>
+                                    </div>
+                                  </div>
+                                  {!isPresent && <div className="form-group col-4">
+                                    <label className="label mb-1">To<span className="required">*</span></label>
+                                    <div className="form-row">
+                                      <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
+                                        name={`internship.[${index}].toMonth`}
+                                        onChange={handleChange}
+                                        value={el.toMonth}
+                                      >
+                                        {monthsName.length > 0 && monthsName.map((el: any) => <option value={el.value}>{el.label}</option>)}
+                                      </select></div>
+                                      <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
+                                        name={`internship.[${index}].toYear`}
+                                        onChange={handleChange}
+                                        value={el.toYear}
+                                      >
+                                        {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
+                                      </select></div>
+                                    </div>
+                                  </div>}
+                                  <div className="col-4 d-flex align-items-center">
+                                    <div className="custom-inline">
+                                      <div className="custom-control custom-checkbox" onClick={() => steIsPresent(!isPresent)}>
+                                        <input type="checkbox" className="custom-control-input" id="loctype1" name="loctype" disabled={mode === 'view'}
+                                          checked={isPresent}
+
+                                        />
+                                        <label className="custom-control-label pl-1">I currently work here</label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="form-group col-12">
+                                <label className="label mb-1">Description (Role, responsibilities, achievements etc.)</label>
+                                <textarea rows={8} className="form-control" disabled={mode === 'view'}
+                                  name={`internship.[${index}].description`}
+                                  onChange={handleChange}
+                                  value={el.description}
+                                ></textarea>
+                                <div className="text-right"><span className="note">250 words limit</span></div>
+                              </div>
+                              <div className="col-12 mb-4">
+                                <div className="row">
+                                  <div className="col-6">
+                                    {index === row.length - 1 && <button className="plus-btn" type="button" onClick={() => push({
+                                      organization: "",
+                                      designation: "",
+                                      employmentType: "",
+                                      fromMonth: "",
+                                      toMonth: "",
+                                      fromYear: "",
+                                      toYear: "",
+                                      description: ""
+                                    })}><img src={plusDark} width="20"
+                                      height="20" alt="" /><span className="ml-1">Add More</span></button>}
+                                  </div>
+                                  {values?.internship.length > 1 && <div className="col-6 text-right pr-3">
+                                    <button className="plus-btn" type="button" onClick={() => remove(index)}><img src={deleteImg} width="16"
+                                      height="18" alt="" /></button>
+                                  </div>}
+                                </div>
+                              </div>
+                            </>)}
 
                         </div>}
+                      </>)}
+                  </FieldArray>
 
-                        <div className="row">
-                          <div className="col-12 mt-4">
-                            <div className="form-row">
-                              <div className="col-md-6">
-                                <button className="btn btn-yl btn-sm" type="button" onClick={() => scrollToSection(educationRef)}>BACK</button>
-                              </div>
-                              <div className="col-md-6 text-right">
-                                <button className="btn btn-yl btn-sm" onClick={() => { setIndex(3); handleSubmit() }}>SAVE</button>
-                                <button className="btn btn-yl btn-sm ml-3" type='button' onClick={() => scrollToSection(skillsRef)}>NEXT</button>
-                              </div>
-                            </div>
-                          </div>
+                  <div className="row">
+                    <div className="col-12 mt-4">
+                      <div className="form-row">
+                        <div className="col-md-6">
+                          <button className="btn btn-yl btn-sm" type="button" onClick={() => scrollToSection(educationRef)}>BACK</button>
+                        </div>
+                        <div className="col-md-6 text-right">
+                          <button className="btn btn-yl btn-sm" onClick={() => { setIndex(3); handleSubmit() }}>SAVE</button>
+                          <button className="btn btn-yl btn-sm ml-3" type='button' onClick={() => scrollToSection(skillsRef)}>NEXT</button>
                         </div>
                       </div>
                     </div>
-                  </>)}
-              </FieldArray>
+                  </div>
+                </div>
+              </div>
+
             </Form>}
         </Formik>
 
@@ -1215,15 +1394,13 @@ function Profile() {
           initialValues={
             stepFiveIntialValues
           }
-          validationSchema={stepFiveSchema}
+          // validationSchema={stepFiveSchema}
           onSubmit={async (values) => {
-            console.log(values)
-            let data = {}
 
-            data = {
-              stepFive: values.stepFive
-            }
-            const response: any = await hieqService.put('/employeeProfile', data)
+
+            const formData = new FormData()
+            formData.append("stepFive", JSON.stringify(values.stepFive))
+            const response: any = await hieqService.put('/employeeProfile', formData)
             if (response?.status === 'success') {
               toast.success('Data saved successfully',
                 {
@@ -1266,7 +1443,9 @@ function Profile() {
                                     </select>
                                   </div>
                                   <div className="form-group col-4">
-                                    <StarRating name={`stepFive.skills.${index}.rating`} itemIndex={index} setFieldValue={setFieldValue} key={index} remove={remove} />
+                                    <StarRating name={`stepFive.skills.${index}.rating`} itemIndex={index} setFieldValue={setFieldValue} key={index} remove={remove}
+                                      defaultRating={el.rating}
+                                    />
 
                                   </div>
                                 </div>
@@ -1372,7 +1551,6 @@ function Profile() {
                                           >
                                             {certification.length > 0 && certification.map((el: any) => <option value={el.name}>{el.name}</option>)}
                                           </select>
-                                          <ErrorMessage name={`stepFive.additionalInformation.${index}.certification`} />
                                         </div>
                                         <div className="form-group col-4">
                                           <label className="label mb-1">Institute<span className="required">*</span></label>
@@ -1383,7 +1561,6 @@ function Profile() {
                                           >
                                             {college.length > 0 && college.map((el: any) => <option value={el.name}>{el.name}</option>)}
                                           </select>
-                                          <ErrorMessage name={`stepFive.additionalInformation.${index}.institute`} />
                                         </div>
                                         <div className="form-group col-4">
                                           <label className="label mb-1">Domain<span className="required">*</span></label>
@@ -1394,7 +1571,6 @@ function Profile() {
                                           >
                                             <option value="">Project Management</option>
                                           </select>
-                                          <ErrorMessage name={`stepFive.additionalInformation.${index}.Domain`} />
                                         </div>
                                         <div className="form-group col-4">
                                           <label className="label mb-1">Certification Date<span className="required">*</span></label>
@@ -1406,7 +1582,6 @@ function Profile() {
                                             >
                                               {monthsName.length > 0 && monthsName.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                             </select>
-                                              <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateMonthFrom`} />
                                             </div>
                                             <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
                                               name={`stepFive.additionalInformation.${index}.certificationDateYearFrom`}
@@ -1415,7 +1590,6 @@ function Profile() {
                                             >
                                               {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                             </select>
-                                              <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateYearFrom`} />
                                             </div>
                                           </div>
                                         </div>
@@ -1429,7 +1603,7 @@ function Profile() {
                                             >
                                               {monthsName.length > 0 && monthsName.map((el: any) => <option key={el.value} value={el.value}>{el.label}</option>)}
                                             </select>
-                                              <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateMonthTo`} /></div>
+                                            </div>
                                             <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
                                               name={`stepFive.additionalInformation.${index}.certificationDateYearTo`}
                                               value={item.certificationDateYearTo}
@@ -1437,7 +1611,6 @@ function Profile() {
                                             >
                                               {years.length > 0 && years.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                             </select>
-                                              <ErrorMessage name={`stepFive.additionalInformation.${index}.certificationDateYearTo`} />
                                             </div>
                                           </div>
                                         </div>}
@@ -1549,7 +1722,7 @@ function Profile() {
                     />
                     {/* <input type="text" value={resume ? resume.name : ''} readOnly /> */}
                     <label className="custom-file-label mb-0 form-control"> {
-                      resume && resume?.name ||  userProfile?.resume && userProfile?.resume.length > 0 ? userProfile?.resume[0]?.filename :"Choose File"
+                      resume && resume?.name || userProfile?.resume && userProfile?.resume.length > 0 ? userProfile?.resume[0]?.filename : "Choose File"
                     }</label>
                   </div>
                   <span className="note fw-400">File must be less than 1MB</span>
@@ -1584,7 +1757,7 @@ function Profile() {
                 <div className="col-12">
                   <div className="row mt-3">
                     <div className="col-4">
-                      <label className="label mb-1">Upload File<span className="required">*</span> <span className="note">(.pdf
+                      <label className="label mb-1">Upload File <span className="note">(.pdf
                         format only)</span></label>
                       <div className="custom-file">
                         <input type="file" accept='application/pdf'
@@ -1592,9 +1765,9 @@ function Profile() {
                           className="custom-file-input form-control" id="inputGroupFile01"
                           aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                         <label className="custom-file-label mb-0 form-control">
-                        {
-                      idProof && idProof?.name ||  userProfile?.proof && userProfile?.proof.length > 0 ? userProfile?.proof[0]?.filename :"Choose File"
-                    }
+                          {
+                            idProof && idProof?.name || userProfile?.proof && userProfile?.proof.length > 0 ? userProfile?.proof[0]?.filename : "Choose File"
+                          }
                         </label>
                       </div>
                       <span className="note fw-400">File must be less than 1MB</span>
@@ -1621,7 +1794,7 @@ function Profile() {
                 <div className="col-12">
                   <div className="row mt-3">
                     <div className="col-4">
-                      <label className="label mb-1">PG Certificate<span className="required">*</span> </label>
+                      <label className="label mb-1">PG Certificate </label>
                       <div className="custom-file">
                         <input type="file" accept='application/pdf'
 
@@ -1630,8 +1803,8 @@ function Profile() {
                           className="custom-file-input form-control" id="inputGroupFile01"
                           aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                         <label className="custom-file-label mb-0 form-control"> {
-                      pgCertificate && pgCertificate?.name ||  userProfile?.pg_certificate && userProfile?.pg_certificate.length > 0 ? userProfile?.pg_certificate[0]?.filename :"Choose File"
-                    }</label>
+                          pgCertificate && pgCertificate?.name || userProfile?.pg_certificate && userProfile?.pg_certificate.length > 0 ? userProfile?.pg_certificate[0]?.filename : "Choose File"
+                        }</label>
                       </div>
                       <span className="note fw-400">File must be less than 1MB</span>{userProfile && userProfile.pg_certificate && userProfile?.pg_certificate.length > 0 && <a
                         className="btn-link ml-2" target="blank" type="button"
@@ -1646,16 +1819,16 @@ function Profile() {
                   </div>
                   <div className="row mt-3">
                     <div className="col-4">
-                      <label className="label mb-1">UG Certificate<span className="required">*</span> </label>
+                      <label className="label mb-1">UG Certificate </label>
                       <div className="custom-file">
                         <input type="file" accept='application/pdf'
                           onChange={(e: any) => setUgCertificate(e.target.files[0])}
                           className="custom-file-input form-control" id="inputGroupFile01"
                           aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                         <label className="custom-file-label mb-0 form-control">
-                        {
-                      ugCertificate && ugCertificate?.name ||  userProfile?.ug_certificate && userProfile?.ug_certificate.length > 0 ? userProfile?.ug_certificate[0]?.filename :"Choose File"
-                    }
+                          {
+                            ugCertificate && ugCertificate?.name || userProfile?.ug_certificate && userProfile?.ug_certificate.length > 0 ? userProfile?.ug_certificate[0]?.filename : "Choose File"
+                          }
                         </label>
                       </div>
                       <span className="note fw-400">File must be less than 1MB</span>
@@ -1673,16 +1846,16 @@ function Profile() {
                   </div>
                   <div className="row mt-3">
                     <div className="col-4">
-                      <label className="label mb-1">XII Marksheet<span className="required">*</span> </label>
+                      <label className="label mb-1">XII Marksheet </label>
                       <div className="custom-file">
                         <input type="file" accept='application/pdf'
                           onChange={(e: any) => setTwelftheMarksheet(e.target.files[0])}
                           className="custom-file-input form-control" id="inputGroupFile01"
                           aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                         <label className="custom-file-label mb-0 form-control" >
-                        {
-                      twelfthMarksheet && twelfthMarksheet?.name ||  userProfile?.xii_certificate && userProfile?.xii_certificate.length > 0 ? userProfile?.xii_certificate[0]?.filename :"Choose File"
-                    }
+                          {
+                            twelfthMarksheet && twelfthMarksheet?.name || userProfile?.xii_certificate && userProfile?.xii_certificate.length > 0 ? userProfile?.xii_certificate[0]?.filename : "Choose File"
+                          }
                         </label>
                       </div>
                       <span className="note fw-400">File must be less than 1MB</span>
@@ -1701,16 +1874,16 @@ function Profile() {
                   </div>
                   <div className="row mt-3">
                     <div className="col-4">
-                      <label className="label mb-1">X Marksheet<span className="required">*</span> </label>
+                      <label className="label mb-1">X Marksheet </label>
                       <div className="custom-file">
                         <input type="file" accept='application/pdf'
                           onChange={(e: any) => setTenthMarkSheet(e.target.files[0])}
                           className="custom-file-input form-control" id="inputGroupFile01"
                           aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                         <label className="custom-file-label mb-0 form-control" >
-                        {
-                      tenthMarksheet && tenthMarksheet?.name ||  userProfile?.x_certificate && userProfile?.x_certificate.length > 0 ? userProfile?.x_certificate[0]?.filename :"Choose File"
-                    }
+                          {
+                            tenthMarksheet && tenthMarksheet?.name || userProfile?.x_certificate && userProfile?.x_certificate.length > 0 ? userProfile?.x_certificate[0]?.filename : "Choose File"
+                          }
                         </label>
                       </div>
                       <span className="note fw-400">File must be less than 1MB</span>
@@ -1728,16 +1901,16 @@ function Profile() {
                   </div>
                   <div className="row mt-3">
                     <div className="col-4">
-                      <label className="label mb-1">Other Degree<span className="required">*</span> </label>
+                      <label className="label mb-1">Other Degree </label>
                       <div className="custom-file">
                         <input type="file" accept='application/pdf'
                           onChange={(e: any) => setOtherDegree(e.target.files[0])}
                           className="custom-file-input form-control" id="inputGroupFile01"
                           aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                         <label className="custom-file-label mb-0 form-control" >
-                        {
-                      otherDegree && otherDegree?.name ||  userProfile?.other_certificate && userProfile?.other_certificate.length > 0 ? userProfile?.other_certificate[0]?.filename :"Choose File"
-                    }
+                          {
+                            otherDegree && otherDegree?.name || userProfile?.other_certificate && userProfile?.other_certificate.length > 0 ? userProfile?.other_certificate[0]?.filename : "Choose File"
+                          }
                         </label>
                       </div>
                       <span className="note fw-400">File must be less than 1MB</span>
@@ -1773,9 +1946,9 @@ function Profile() {
 
                           aria-describedby="inputGroupFileAddon01" disabled={mode === 'view'} />
                         <label className="custom-file-label mb-0 form-control" > {
-                      experienceLetter && experienceLetter?.name ||  userProfile?.employeement_certificate && userProfile?.employeement_certificate.length > 0 ? userProfile?.employeement_certificate[0]?.filename :"Choose File"
-                    }
-                    </label>
+                          experienceLetter && experienceLetter?.name || userProfile?.employeement_certificate && userProfile?.employeement_certificate.length > 0 ? userProfile?.employeement_certificate[0]?.filename : "Choose File"
+                        }
+                        </label>
                       </div>
                       <span className="note fw-400">File must be less than 1MB</span>
                       {userProfile && userProfile.employeement_certificate && userProfile?.employeement_certificate.length > 0 && <a
