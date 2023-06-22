@@ -673,22 +673,10 @@ function Profile() {
   }
 
   const hanldeProfileUpload = async (img: any) => {
-    // if (!img) {
-    //   toast.success('Image not selected', {
-    //     position: "top-center",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    //   return;
-    // }
+  
 
     const formData = new FormData();
-    formData.append('profilePic', img);
+    formData.append('profilePic', img.target.files[0]);
     const response: any = await hieqService.put('/employeeProfile', formData);
 
     if (response.status === 'success') {
@@ -836,8 +824,8 @@ if(loading){
                             <img src={camera} width="25" alt="" />
                           </label>
                         </div>
-                        <input type='file' id='file-input' multiple={false} hidden accept='image/jpeg' onChange={(e: any) => {
-                          setProfileImage(e.target.files[0]); hanldeProfileUpload(profileImage)
+                        <input type='file' id='file-input' multiple={false} hidden accept='image/*' onChange={(e: any) => {
+                          hanldeProfileUpload(e)
                         }}
                         />
                         <div className="featured">
