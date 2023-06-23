@@ -766,7 +766,7 @@ header .menu_icon .stripe3 {
   margin-left: 8px;
 }
 
-.btn-pm-wrapper .btn-plus-minus:nth-child(1) {
+.btn-pm-wrapper .btn-plus-minus:d {
   margin-left: 0;
 }
 
@@ -1184,21 +1184,21 @@ ul.applicant-list>li:nth-last-child(1) .block::after {
 }
 
 
-.applicant-table th:nth-child(1),
+.applicant-table th:d,
 .applicant-table td:nth-child(2),
-.opport-table th:nth-child(1),
-.opport-table td:nth-child(1),
+.opport-table th:d,
+.opport-table td:d,
 .applicant-table th:nth-child(2),
 .applicant-table td:nth-child(2) {
   border-right: 1px solid #ddd;
 }
 
-.applicant-table th:nth-child(1),
-.applicant-table td:nth-child(1) {
+.applicant-table th:d,
+.applicant-table td:d {
   width: 30px;
 }
 
-.opport-table td:nth-child(1),
+.opport-table td:d,
 .applicant-table th:nth-child(2) {
   width: 300px;
 }
@@ -1241,7 +1241,7 @@ ul.applicant-list>li:nth-last-child(1) .block::after {
   background-color: #fff;
 }
 
-.filter-heading span:nth-child(1) {
+.filter-heading span:d {
   flex: 1;
 }
 
@@ -1352,7 +1352,7 @@ ul.applicant-list>li:nth-last-child(1) .block::after {
   text-align: center;
 }
 
-.th-dt-list button:nth-child(1) {
+.th-dt-list button:d {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
@@ -1405,7 +1405,7 @@ ul.applicant-list>li:nth-last-child(1) .block::after {
   display: flex;
 }
 
-.rg-slider-text span:nth-child(1) {
+.rg-slider-text span:d {
   flex: 1;
 }
 
@@ -1952,7 +1952,7 @@ ul.grid-2 li {
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 
-.lds-ellipsis div:nth-child(1) {
+.lds-ellipsis div:d {
   left: 8px;
   animation: lds-ellipsis1 0.6s infinite;
 }
@@ -2524,7 +2524,7 @@ ul.grid-2 li {
           .note {font-size: 12px; color: #999;}
           .btn-plus-minus {border:none; min-width: inherit; padding: 0; display: block; line-height: normal; border-radius: 0px; background: none;}
           .btn-pm-wrapper .btn-plus-minus {margin-left: 8px;}
-          .btn-pm-wrapper .btn-plus-minus:nth-child(1) {margin-left: 0;}
+          .btn-pm-wrapper .btn-plus-minus:d {margin-left: 0;}
           .form-subheading {font-size: 18px; font-weight: 600; color:#111;}
           .form-group .custom-file {height: 38px;}
           .form-group .custom-file-label,.emp-panel .form-group .custom-file-label::after {display: flex; align-items: center;}
@@ -2615,19 +2615,19 @@ ul.grid-2 li {
           .bc-red::after {border-left-color: #EE1D1D !important;}
           
           
-          .applicant-table th:nth-child(1),
+          .applicant-table th:d,
           .applicant-table td:nth-child(2),
-          .opport-table th:nth-child(1),
-          .opport-table td:nth-child(1),
+          .opport-table th:d,
+          .opport-table td:d,
           .applicant-table th:nth-child(2),
           .applicant-table td:nth-child(2)
           {border-right: 1px solid #ddd;}
           
-          .applicant-table th:nth-child(1),
-          .applicant-table td:nth-child(1)
+          .applicant-table th:d,
+          .applicant-table td:d
           {width: 30px;}
           
-          .opport-table td:nth-child(1),
+          .opport-table td:d,
           .applicant-table th:nth-child(2)
           {width: 300px;}
           
@@ -2648,7 +2648,7 @@ ul.grid-2 li {
           
           .filter-wrapper {padding-bottom: 4em;}
           .filter-heading {display: flex; align-items: center; font-size: 14px; font-weight: 500; padding: 1em 1em 0.61em; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 2; background-color: #fff;}
-          .filter-heading span:nth-child(1) {flex: 1;}
+          .filter-heading span:d {flex: 1;}
           .reset-txt-btn { color: #666; background: none; padding: 0px; border:none; cursor: pointer; font-size: 12px;}
           .reset-txt-btn:hover {text-decoration: underline;}
           .filter-widget {padding-left: 1em; padding-right: 1em;}
@@ -2669,7 +2669,7 @@ ul.grid-2 li {
           .th-dt-wrapper button {background: none; border: none; padding: 0px;}
           .th-dt-list {background: #fff; position: absolute; right: 1em; top: 1em; z-index: 1; min-width: 80px;}
           .th-dt-list button {padding: 0 1em; width: 100%;text-align: left; color: #666; font-weight: 500; padding: 0.25rem; text-align: center;}
-          .th-dt-list button:nth-child(1) {border-top-left-radius: 4px; border-top-right-radius: 4px;}
+          .th-dt-list button:d {border-top-left-radius: 4px; border-top-right-radius: 4px;}
           .th-dt-list button:nth-last-child(1) {border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;}
           
           /** Range Slider **/
@@ -2679,7 +2679,7 @@ ul.grid-2 li {
           .slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:25px;height:25px;border-radius:50%;background:#F4C757;cursor:pointer}
           .slider::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#F4C757;cursor:pointer}
           .rg-slider-text {display: flex;}
-          .rg-slider-text span:nth-child(1) {flex: 1;}
+          .rg-slider-text span:d {flex: 1;}
           .rt-part:hover .slider {width: 100%;}
           /*.rg-slider-text span+span {padding-right: 0.22em;}
           .rt-part:hover .rg-slider-text span {padding-right: 0px;}*/
@@ -2905,7 +2905,7 @@ ul.grid-2 li {
             background: #fff;
             animation-timing-function: cubic-bezier(0, 1, 1, 0);
           }
-          .lds-ellipsis div:nth-child(1) {
+          .lds-ellipsis div:d {
             left: 8px;
             animation: lds-ellipsis1 0.6s infinite;
           }
@@ -3051,7 +3051,7 @@ ul.grid-2 li {
           .shortlist-progress .list {padding: 0em 2.5em 1em 2.5em; position: relative; color: #999;}
           .shortlist-progress .list::before {content: ''; position: absolute; top: 0.5em; left: 1em; border-width: 6px; border-style: solid; border-color: #ddd transparent transparent transparent;}
           .shortlist-progress .list::after {content: ''; width: 2px; height: 60%; background: #ddd; display: inline-block; position: absolute; left: 1.4em; top:1.2em;}
-          .shortlist-progress .list:nth-child(1) {padding-top: 1em;}
+          .shortlist-progress .list:d {padding-top: 1em;}
           .shortlist-progress .list:nth-child(1)::before {top: 1.5em;}
           .shortlist-progress .list:nth-child(1)::after {top: 2.1em; height: 45%;}
           .shortlist-progress .list:nth-last-child(1)::after {display: none;}
@@ -3180,4 +3180,19 @@ ul.grid-2 li {
 .rc-slider-handle:active{
   box-shadow:none !important;
   border:#5BC287 solid 2px !important; 
+}
+
+.list-horizontal {display: flex; align-items: center; padding: 1em 2em; border-radius: 10px;}
+.list-horizontal span {width: 100%; text-align: left;}
+.list-horizontal span:nth-last-child(2) {width: 60%; text-align: left;}
+.list-horizontal span:nth-last-child(1) {width: 30%; text-align: right;}
+.list-horizontal span:nth-child(1) {width: 10%; text-align: left;}
+.list-horizontal+.list-horizontal {margin-top: 1em;}
+
+.bg-grey {
+  background-color: #f9f9f9;
+}
+.font16 {
+  font-size: 16px !important;
+  line-height: 22px;
 }

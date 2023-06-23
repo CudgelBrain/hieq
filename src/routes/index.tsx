@@ -67,6 +67,9 @@ import ViewApplication from 'pages/employee/ViewApplication';
 import ChangePwd from 'pages/employee/ChangePwd'
 import Assessments from 'pages/employee/Assessments';
 import FullView from 'pages/employee/FullView';
+import Applied from 'pages/employee/Applied'
+import BehavioralAssessment from 'pages/employee/BehavioralAssessment'
+import MyResumes from 'pages/employee/MyResumes'
 
 const MainRoute = lazy(() => import('./MainRoute'));
 const AdminRoute = lazy(() => import('./AdminRoute'));
@@ -177,6 +180,9 @@ const AppRouter = () => {
           <MainRoute exact path='/employee/view_application' component={ViewApplication}/>
           <MainRoute exact path='/employee/change_password' component={ChangePwd}/>
           <MainRoute exact path='/employee/application_full_view' component={FullView}/>
+          <MainRoute exact path='/employee/applied' component={Applied}/>
+          <MainRoute exact path='/employee/employee_behavioral_assessments_instructions' component={BehavioralAssessment}/>
+          <MainRoute exact path='/employee/my_resumes' component={MyResumes}/>
           <MainRoute exact path='/employee/assessments' component={Assessments}/>
           {/* <MainRoute exact path ={[
             'employee/jobDescription/:category/:ID',
