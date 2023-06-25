@@ -23,7 +23,7 @@ function EmployeeDashboard() {
     useAppQuery().get('category') || 'job',
   );
 
-  const getdata = async (text:any) => {
+  const getdata = async (text: any) => {
     try {
 
       let res = await hieqService.get(
@@ -37,25 +37,20 @@ function EmployeeDashboard() {
   };
 
   React.useEffect(() => {
-    if (searchText === "") 
-    {
+    if (searchText === "") {
       getdata(searchText);
     }
   }, [searchText]);
 
-  // React.useEffect(() => {
-  //   getdata();
-  // }, [])
-
 
   const allJobs = [
-    {value:"All jobs",label:"All jobs"},
-    {value:"Applied",label:"Applied"},
-    {value:"Awaiting",label:"Awaiting"},
-    {value:"In-Progress",label:"In-Progress"},
-    {value:"Selected",label:"Selected"},
-    {value:"Withdrawn",label:"Withdrawn"},
-    {value:"Rejected",label:"Rejected"}
+    { value: "All jobs", label: "All jobs" },
+    { value: "Applied", label: "Applied" },
+    { value: "Awaiting", label: "Awaiting" },
+    { value: "In-Progress", label: "In-Progress" },
+    { value: "Selected", label: "Selected" },
+    { value: "Withdrawn", label: "Withdrawn" },
+    { value: "Rejected", label: "Rejected" }
   ]
 
   return (
@@ -95,25 +90,24 @@ function EmployeeDashboard() {
               >
                 Internships
               </button>
-          
+
             </div>
           </div>
         </div>
         <div className='box-container-inner p-0 pt-4'>
           <div className='form-row mb-4'>
             <div className='col-5'>
-            <div className="input-group group-prepend-wrapper">
-                            <div className="input-group-prepend"><span className="input-group-text">
-                                <button type="submit" className="icon-btn"><img src={search} height="20"
-                                    alt=""/></button>
-                              </span></div>
-                              <SearchBox />
-                            {/* <input type="text" className="form-control pl-0" placeholder="Enter search here..." value={input} onChange={(e) => handleSearch()}/> */}
-                          </div>
-                        </div>
+              <div className="input-group group-prepend-wrapper">
+                <div className="input-group-prepend"><span className="input-group-text">
+                  <button type="submit" className="icon-btn"><img src={search} height="20"
+                    alt="" /></button>
+                </span></div>
+                <SearchBox />
+              </div>
+            </div>
             <div className='col-3'>
-              <Select options={allJobs} placeholder='All Jobs'/>
-            </div>  
+              <Select options={allJobs} placeholder='All Jobs' />
+            </div>
             <div className='col-4'>
               <RangeSelector setStartDate={setStartDate} setEndDate={setEndDate} />
             </div>

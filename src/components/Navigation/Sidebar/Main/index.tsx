@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { history } from 'utils';
 import { debounce, forEach, map, orderBy, isEmpty } from 'lodash';
 import { useAppDispatch, useAppSelector, useAppQuery, useAppProfile } from 'app/hooks';
 import { RootState } from 'app/store';
-import { EmployerProfileForm } from 'features/employer/profile/profileSlice';
+import { EmployerProfileForm, setEmployerProfile } from 'features/employer/profile/profileSlice';
 import Filter from 'components/Filter';
 import EmployerSearchFilter from 'components/Filter/employerSearch';
 import viewIMg from 'assets/images/view.svg';
@@ -78,6 +78,31 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
   );
   React.useEffect(() => { setViewer(!viewer) }, [searchFilter, isOpen])
 
+    const [employeeProfilePic, setProfilePic] = useState<null| string>("");
+    const [employeeName, setUserName] = useState<null| any>("")
+    const [designation, setDesignation] = useState<null| any>("")
+
+    
+React.useEffect(() =>{
+
+  if(localStorage.getItem('profilePic')){
+    setProfilePic(localStorage.getItem('profilePic'));
+    console.log( `http://beta.hieq.in/${employeeProfilePic?.split("\"").join()}`)
+
+  }
+  if(localStorage.getItem('user')){
+    let userDetails = localStorage.getItem('user')
+     setUserName(userDetails);
+      console.log(userDetails, 'gdfsgdf')
+  }
+  if(localStorage.getItem('user')){
+    let employeeDesignation = localStorage.getItem('designation')
+     setDesignation(employeeDesignation);
+  }
+
+}, [])
+
+
   return (
     <div className={`d-flex align-items-start ${(searchFilter || showFilter) || !isOpen ? 'lt-wrapper' : ''}`}>
       <div className={`lt-sec ${(searchFilter || showFilter) || !isOpen ? 'lt-sec-short' : ''}`}>
@@ -87,12 +112,15 @@ const Sidebar: React.FC<Props> = ({ isOpen = false, showFilter = false, searchFi
             }}>
               <div className="comp-img mt-4">
                 <div className="profile-img">
-                  <img src={userProfileImg} alt="" height={235} width={280} />
+                  <img src={employeeProfilePic  ? 
+                     `http://beta.hieq.in/${employeeProfilePic?.split("\"").join("")}`:"https://idronline.org/wp-content/themes/wphidr/images/person-dummy.jpg"} alt="" height={235} width={280} />
                   </div>
               </div>
               <div className='text-center pt-2'>
-                <div className="hd-16 fw-500 cl-dark">Samar Dhiman</div>
-                <div className='cl-dark'>Web Designer</div>
+                <div className="hd-16 fw-500 cl-dark">{employeeName ? employeeName : "N/A"}</div>
+                <div className='cl-dark'>{
+                  designation ? designation.toUpperCase() : "N/A"
+                }</div>
               </div>
             </div> :
             <div className='comp-img mb-5'>

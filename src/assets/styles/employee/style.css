@@ -2831,3 +2831,8 @@ ul.grid-2 li {
   color:#ff0000 !important;
   margin-top: 5px;
 }
+
+.empl-panel .th-dt-list button:hover{
+   background-color: #55B782 !important;
+   color: white !important;
+}

@@ -20,6 +20,7 @@ import { OptionType, createOption } from 'features/employer/common'
 import calender from 'assets/images/calendar.svg'
 import DatePicker from 'react-datepicker'
 import { ToastContainer, toast } from 'react-toastify'
+import { el } from 'date-fns/locale'
 
 
 
@@ -160,6 +161,7 @@ function Profile() {
   const documentsRef = useRef(null)
 
   React.useEffect(() => setMode(query ?? 'view'), [query]);
+  const [isWorkingPresent, setIsWorkingPresent] = useState(false)
 
   const [stepOneIntialValues, setStepOneInitialValues] = useState({
     firstName: "",
@@ -180,31 +182,35 @@ function Profile() {
   })
 
   const [stepFourIntialValues, setStepFourInitialValues] = useState({
+    stepFour: {
+      totalWorkMonth: "",
+      totalWorkYear: "",
+      experienced: isExperience,
+      internshiped: isInternship,
 
-    totalWorkMonth: "",
-    totalWorkYear: "",
-    experienced: isExperience,
-    internshiped: isInternship,
-    stepFour: [{
-      organization: "",
-      designation: "",
-      employmentType: "",
-      fromMonth: "",
-      toMonth: "",
-      fromYear: "",
-      toYear: "",
-      description: ""
-    }],
-    internship: [{
-      organization: "",
-      designation: "",
-      employmentType: "",
-      fromMonth: "",
-      toMonth: "",
-      fromYear: "",
-      toYear: "",
-      description: ""
-    }]
+      stepFour: [{
+        organization: "",
+        designation: "",
+        employmentType: "",
+        fromMonth: "",
+        toMonth: "",
+        fromYear: "",
+        toYear: "",
+        description: "",
+        isWorkingPresent: false,
+      }],
+      internship: [{
+        organization: "",
+        designation: "",
+        employmentType: "",
+        fromMonth: "",
+        toMonth: "",
+        fromYear: "",
+        toYear: "",
+        description: "",
+        isInternshipPresent: false,
+      }]
+    }
   })
 
   console.log(stepFourIntialValues)
@@ -257,7 +263,7 @@ function Profile() {
 
 
   const [resume, setResume] = useState<any | null>({})
-  const [visumeLink, setVisuemeLink] = useState<any | null>({})
+  const [visumeLink, setVisuemeLink] = useState<any | null>("")
   const [idProof, setIdProof] = useState<any | null>({})
   const [pgCertificate, setPgCertificate] = useState<any | null>({})
   const [ugCertificate, setUgCertificate] = useState<any | null>({})
@@ -290,6 +296,20 @@ function Profile() {
     if (response.status === 'success') {
       let data = response?.data;
       setData(data);
+
+      if (data?.profilePic) {
+        localStorage.setItem('profilePic', JSON.stringify(data?.profilePic[0]?.filepath))
+      }
+      if (data?.user) {
+        localStorage.setItem('user',  data?.user?.name)
+      }
+      if (data?.stepFour.stepFour.stepFour && data?.stepFour.stepFour.stepFour.length > 0) {
+        localStorage.setItem('designation',  data?.stepFour.stepFour.stepFour[0]?.designation)
+      }
+
+      if (data?.visume) {
+        setVisuemeLink(data?.visume);
+      }
 
       if (data?.user) {
         setStepOneInitialValues({
@@ -330,62 +350,68 @@ function Profile() {
       })
 
 
-      if (data && data?.stepFour && data?.stepFour?.experienced) {
+      if (data && data?.stepFour && data?.stepFour?.stepFour?.experienced) {
         setIsExprience(true)
       } else {
         setIsExprience(false)
       }
 
-      if (data && data?.stepFour && data?.stepFour?.internshiped) {
+      if (data && data?.stepFour && data?.stepFour?.stepFour?.internshiped) {
         setIsInternship(true)
       } else {
         setIsInternship(false)
       }
-
-      setStepFourInitialValues({
-        totalWorkMonth: "" || data?.stepFour?.totalWorkMonth,
-        totalWorkYear: "" || data?.stepFour?.totalWorkYear,
-        experienced: isExperience || data?.stepFour?.experienced,
-        internshiped: data?.stepFour?.isIntershiped || isInternship,
-        internship: data && data?.stepFour && data?.stepFour?.insternship && data?.stepFour?.internship.length > 0 && data?.stepFour?.intership?.map((item?: any) => ({
-          organization: item?.organization || "",
-          designation: item?.designation || "",
-          employmentType: item?.employmentType || "",
-          fromMonth: item?.fromMonth || "",
-          toMonth: item?.toMonth,
-          fromYear: item?.fromYear || "",
-          toYear: item?.toYear || "",
-          description: item?.description || "",
-        })) || [{
-          organization: "",
-          designation: "",
-          employmentType: "",
-          fromMonth: "",
-          toMonth: "",
-          fromYear: "",
-          toYear: "",
-          description: ""
-        }],
-        stepFour: data && data?.stepFour && data?.stepFour?.stepFour && data?.stepFour?.stepFour.length > 0 && data?.stepFour?.stepFour?.map((item?: any) => ({
-          organization: item?.organization || "",
-          designation: item?.designation ||"",
-          employmentType: item?.employmentType ||"",
-          fromMonth: item?.fromMonth || "",
-          toMonth: item?.toMonth || "",
-          fromYear: item?.fromYear || "",
-          toYear: item?.toYear || "",
-          description: item?.description || "",
-        })) || [{
-          organization: "",
-          designation: "",
-          employmentType: "",
-          fromMonth: "",
-          toMonth: "",
-          fromYear: "",
-          toYear: "",
-          description: ""
-        }],
-      })
+      console.log(data?.stepFour?.stepFour.length)
+      setStepFourInitialValues(
+        {
+          stepFour: {
+            totalWorkMonth: "" || data?.stepFour?.stepFour?.totalWorkMonth,
+            totalWorkYear: "" || data?.stepFour?.stepFour?.totalWorkYear,
+            experienced: isExperience || data?.stepFour?.stepFour?.experienced,
+            internshiped: data?.stepFour?.stepFour?.isIntershiped || isInternship,
+            internship: data && data?.stepFour && data?.stepFour?.stepFour?.internship && data?.stepFour?.stepFour?.internship.length > 0 ? data?.stepFour?.stepFour?.internship?.map((item?: any) => ({
+              organization: item?.organization || "",
+              designation: item?.designation || "",
+              employmentType: item?.employmentType || "",
+              fromMonth: item?.fromMonth || "",
+              toMonth: item?.toMonth,
+              fromYear: item?.fromYear || "",
+              toYear: item?.toYear || "",
+              isInternshipPresent: item.isPresent,
+              description: item?.description || "",
+            })) : [{
+              organization: "",
+              designation: "",
+              employmentType: "",
+              fromMonth: "",
+              toMonth: "",
+              fromYear: "",
+              toYear: "",
+              description: "",
+              isInternshipPresentP: ""
+            }],
+            stepFour: data && data?.stepFour && data?.stepFour?.stepFour?.stepFour && data?.stepFour?.stepFour?.stepFour?.length > 0 ? data?.stepFour?.stepFour?.stepFour?.map((item?: any) => ({
+              organization: item?.organization,
+              designation: item?.designation,
+              employmentType: item?.employmentType,
+              fromMonth: item?.fromMonth,
+              toMonth: item?.toMonth,
+              fromYear: item?.fromYear,
+              toYear: item?.toYear,
+              description: item?.description,
+              isWorkingPresent: item?.isWorkingPresent
+            })) : [{
+              organization: "",
+              designation: "",
+              employmentType: "",
+              fromMonth: "",
+              toMonth: "",
+              fromYear: "",
+              toYear: "",
+              description: ""
+            }],
+          }
+        })
 
       setStepFiveIntialValues({
         stepFive: {
@@ -459,6 +485,10 @@ function Profile() {
     }
     setIsLoading(false)
   }
+
+
+  console.log(isPresent, isExperience, isInternship, isWorkingPresent)
+
 
   //scroll beviours
   const scrollToSection = (ref: any) => {
@@ -573,6 +603,23 @@ function Profile() {
     experienceLetterError: false
   });
 
+  const handleIsInternship = () => {
+    if (isExperience) {
+      console.log("working")
+      setIsInternship(false)
+    } else {
+      console.log("not working")
+      setIsInternship(true)
+    }
+  }
+
+  const handleExperience = () => {
+    if (isInternship) {
+      setIsExprience(false)
+    } else {
+      setIsExprience(true)
+    }
+  }
 
 
   const submitDocuments = async () => {
@@ -648,8 +695,10 @@ function Profile() {
         }))
         return;
       }
-
       formData.append('employeement_certificate', experienceLetter);
+    }
+    if (visumeLink) {
+      formData.append('visume', JSON.stringify(visumeLink));
     }
 
 
@@ -673,7 +722,7 @@ function Profile() {
   }
 
   const hanldeProfileUpload = async (img: any) => {
-  
+
 
     const formData = new FormData();
     formData.append('profilePic', img.target.files[0]);
@@ -693,12 +742,11 @@ function Profile() {
     }
   }
 
-console.log(stepFourIntialValues);
-if(loading){
-  return <div className='d-flex justify-content-center'>
-    Loading
-  </div>
-}
+  if (loading) {
+    return <div className='d-flex justify-content-center'>
+      Loading
+    </div>
+  }
 
   return (
     <>
@@ -895,7 +943,7 @@ if(loading){
               <div className="box-container mb-4" ref={educationRef}>
                 <div className="box-container-inner">
                   <div className="text-left mb-4">
-                    <h2 className="bc-heading">2. Education</h2>
+                    <h2 className="bc-heading">2. Educational Background</h2>
                   </div>
 
                   <FieldArray name="stepThree">
@@ -1018,8 +1066,8 @@ if(loading){
           }
           onSubmit={async (values) => {
             console.log(values, 'data hai cb');
-            values.experienced = isExperience;
-            values.internshiped = isInternship;
+            values.stepFour.experienced = isExperience;
+            values.stepFour.internshiped = isInternship;
 
             const formData = new FormData();
             formData.append('stepFour', JSON.stringify(values))
@@ -1041,11 +1089,7 @@ if(loading){
             }
           }}>
           {({ values, handleChange, handleBlur, handleSubmit, errors, touched }) =>
-
             <Form>
-
-
-
 
               <div className="box-container mb-4">
                 <div className="box-container-inner" ref={workRef}>
@@ -1057,7 +1101,10 @@ if(loading){
                     <div className="form-group col-12">
                       <div className="d-flex align-items-center txt-md">
                         <span className="mr-2">Fresher</span>
-                        <div className="custom-control custom-switch custom-switch-lg" onClick={() => setIsExprience(!isExperience)}>
+                        <div className="custom-control custom-switch custom-switch-lg"
+                          onClick={() => {
+                            setIsExprience(!isExperience);
+                          }}>
                           <input type="checkbox" className="custom-control-input" id="switchVariable" disabled={mode === 'view'}
                             checked={isExperience}
                           />
@@ -1072,7 +1119,7 @@ if(loading){
                       <div className="form-group col-4 pt-2">
                         <div className="form-row">
                           <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'} name="totalWorkYear"
-                            value={values.totalWorkYear}
+                            value={values.stepFour.totalWorkYear}
                             onChange={handleChange}
                           >
                             {expyears.length > 0 && expyears.map((el: any) => <option value={el.value}>{el.label}</option>)}
@@ -1081,7 +1128,7 @@ if(loading){
                           <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
                             name="totalWorkMonth"
                             onChange={handleChange}
-                            value={values.totalWorkMonth}
+                            value={values.stepFour.totalWorkMonth}
                           >
                             {months.length > 0 && months.map((el: any) => <option value={el.value}>{el.label}</option>)}
                           </select></div>
@@ -1089,7 +1136,7 @@ if(loading){
                       </div>
                     </> : <div className="col-4 d-flex align-items-center mb-2">
                       <div className="custom-inline">
-                        <div className="custom-control custom-checkbox" onClick={() => setIsInternship(!isInternship)}>
+                        <div className="custom-control custom-checkbox" onClick={() => { setIsInternship(!isInternship); }}>
                           <input type="checkbox" className="custom-control-input" id="loctype1" name="loctype" disabled={mode === 'view'}
                             checked={isInternship}
                           />
@@ -1102,19 +1149,19 @@ if(loading){
                   </div>
 
 
-                  <FieldArray name="stepFour">
+                  <FieldArray name="stepFour.stepFour">
                     {({ insert, remove, push }) => (
                       <>
 
-                        {(isExperience) && <div className="row pt-2">
-                          {values?.stepFour?.map((el: any, index: any, row: any) =>
+                        {(isExperience === true) && <div className="row pt-2">
+                          {values?.stepFour && values?.stepFour?.stepFour.map((el: any, index: any, row: any) =>
                             <>
                               <div className="col-12">
                                 <div className="form-row">
                                   <div className="form-group col-4">
                                     <label className="label mb-1">Organization<span className="required">*</span></label>
                                     <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                      name={`stepFour.[${index}].organization`}
+                                      name={`stepFour.stepFour.[${index}].organization`}
                                       onChange={handleChange}
                                       value={el.organization}
                                     >
@@ -1124,18 +1171,18 @@ if(loading){
                                   <div className="form-group col-4">
                                     <label className="label mb-1">Designation<span className="required">*</span></label>
                                     <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                      name={`stepFour.[${index}].designation`}
+                                      name={`stepFour.stepFour.[${index}].designation`}
                                       onChange={handleChange}
                                       value={el.designation}
                                     >
                                       <option value="sys">Systems Engineer</option>
-                                      <option value="sys">Systems Engineera 2</option>
+                                      <option value="sys2">Systems Engineera 2</option>
                                     </select>
                                   </div>
                                   <div className="form-group col-4">
                                     <label className="label mb-1">Employment Type<span className="required">*</span></label>
                                     <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                      name={`stepFour.[${index}].employmentType`}
+                                      name={`stepFour.stepFour.[${index}].employmentType`}
                                       onChange={handleChange}
                                       value={el.employmentType}
                                     >
@@ -1148,14 +1195,14 @@ if(loading){
                                     <label className="label mb-1">From<span className="required">*</span></label>
                                     <div className="form-row">
                                       <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                        name={`stepFour.[${index}].fromMonth`}
+                                        name={`stepFour.stepFour.[${index}].fromMonth`}
                                         onChange={handleChange}
                                         value={el.fromMonth}
                                       >
                                         {monthsName.length > 0 && monthsName.map((el: any) => <option key={el.label} value={el.value}>{el.label}</option>)}
                                       </select></div>
                                       <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                        name={`stepFour.[${index}].fromYear`}
+                                        name={`stepFour.stepFour.[${index}].fromYear`}
                                         onChange={handleChange}
                                         value={el.fromYear}
                                       >
@@ -1167,14 +1214,14 @@ if(loading){
                                     <label className="label mb-1">To<span className="required">*</span></label>
                                     <div className="form-row">
                                       <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                        name={`stepFour.[${index}].toMonth`}
+                                        name={`stepFour.stepFour.[${index}].toMonth`}
                                         onChange={handleChange}
                                         value={el.toMonth}
                                       >
                                         {monthsName.length > 0 && monthsName.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                       </select></div>
                                       <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                        name={`stepFour.[${index}].toYear`}
+                                        name={`stepFour.stepFour.[${index}].toYear`}
                                         onChange={handleChange}
                                         value={el.toYear}
                                       >
@@ -1184,9 +1231,10 @@ if(loading){
                                   </div>}
                                   <div className="col-4 d-flex align-items-center">
                                     <div className="custom-inline">
-                                      <div className="custom-control custom-checkbox" onClick={() => steIsPresent(!isPresent)}>
-                                        <input type="checkbox" className="custom-control-input" id="loctype1" name="loctype" disabled={mode === 'view'}
-                                          checked={isPresent}
+                                      <div className="custom-control custom-checkbox" onClick={() => setIsWorkingPresent(!isWorkingPresent)}>
+                                        <input type="checkbox" className="custom-control-input" id="loctype1"
+                                          name="loctype" disabled={mode === 'view'}
+                                          checked={isWorkingPresent}
 
                                         />
                                         <label className="custom-control-label pl-1">I currently work here</label>
@@ -1198,7 +1246,7 @@ if(loading){
                               <div className="form-group col-12">
                                 <label className="label mb-1">Description (Role, responsibilities, achievements etc.)</label>
                                 <textarea rows={8} className="form-control" disabled={mode === 'view'}
-                                  name={`stepFour.[${index}].description`}
+                                  name={`stepFour.stepFour.[${index}].description`}
                                   onChange={handleChange}
                                   value={el.description}
                                 ></textarea>
@@ -1219,7 +1267,7 @@ if(loading){
                                     })}><img src={plusDark} width="20"
                                       height="20" alt="" /><span className="ml-1">Add More</span></button>}
                                   </div>
-                                  {values?.stepFour.length > 1 && <div className="col-6 text-right pr-3">
+                                  {values?.stepFour.stepFour.length > 1 && <div className="col-6 text-right pr-3">
                                     <button className="plus-btn" type="button" onClick={() => remove(index)}><img src={deleteImg} width="16"
                                       height="18" alt="" /></button>
                                   </div>}
@@ -1229,18 +1277,19 @@ if(loading){
                         </div>}
                       </>)}
                   </FieldArray>
+
                   <FieldArray name="internship">
                     {({ insert, remove, push }) => (
                       <>
-                        {(isInternship) && <div className="row pt-2">
-                          {values?.internship?.map((el: any, index: any, row: any) =>
+                        {(isExperience === false && isInternship === true) && <div className="row pt-2">
+                          {values?.stepFour.internship?.map((el: any, index: any, row: any) =>
                             <>
                               <div className="col-12">
                                 <div className="form-row">
                                   <div className="form-group col-4">
                                     <label className="label mb-1">Organization<span className="required">*</span></label>
                                     <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                      name={`internship.[${index}].organization`}
+                                      name={`stepFour.internship.[${index}].organization`}
                                       onChange={handleChange}
                                       value={el.organization}
                                     >
@@ -1250,18 +1299,18 @@ if(loading){
                                   <div className="form-group col-4">
                                     <label className="label mb-1">Designation<span className="required">*</span></label>
                                     <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                      name={`internship.[${index}].designation`}
+                                      name={`stepFour.internship.[${index}].designation`}
                                       onChange={handleChange}
                                       value={el.designation}
                                     >
                                       <option value="sys">Systems Engineer</option>
-                                      <option value="sys">Systems Engineera 2</option>
+                                      <option value="sys2">Systems Engineera 2</option>
                                     </select>
                                   </div>
                                   <div className="form-group col-4">
                                     <label className="label mb-1">Employment Type<span className="required">*</span></label>
                                     <select className="selectpicker form-control" data-live-search="true" disabled={mode === 'view'}
-                                      name={`internship.[${index}].employmentType`}
+                                      name={`stepFour.internship.[${index}].employmentType`}
                                       onChange={handleChange}
                                       value={el.employmentType}
                                     >
@@ -1274,14 +1323,14 @@ if(loading){
                                     <label className="label mb-1">From<span className="required">*</span></label>
                                     <div className="form-row">
                                       <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                        name={`internship.[${index}].fromMonth`}
+                                        name={`stepFour.internship.[${index}].fromMonth`}
                                         onChange={handleChange}
                                         value={el.fromMonth}
                                       >
                                         {monthsName.length > 0 && monthsName.map((el: any) => <option key={el.label} value={el.value}>{el.label}</option>)}
                                       </select></div>
                                       <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                        name={`internship.[${index}].fromYear`}
+                                        name={`stepFour.internship.[${index}].fromYear`}
                                         onChange={handleChange}
                                         value={el.fromYear}
                                       >
@@ -1293,14 +1342,14 @@ if(loading){
                                     <label className="label mb-1">To<span className="required">*</span></label>
                                     <div className="form-row">
                                       <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                        name={`internship.[${index}].toMonth`}
+                                        name={`stepFour.internship.[${index}].toMonth`}
                                         onChange={handleChange}
                                         value={el.toMonth}
                                       >
                                         {monthsName.length > 0 && monthsName.map((el: any) => <option value={el.value}>{el.label}</option>)}
                                       </select></div>
                                       <div className="col-6"><select className="selectpicker form-control" disabled={mode === 'view'}
-                                        name={`internship.[${index}].toYear`}
+                                        name={`stepFour.internship.[${index}].toYear`}
                                         onChange={handleChange}
                                         value={el.toYear}
                                       >
@@ -1324,7 +1373,7 @@ if(loading){
                               <div className="form-group col-12">
                                 <label className="label mb-1">Description (Role, responsibilities, achievements etc.)</label>
                                 <textarea rows={8} className="form-control" disabled={mode === 'view'}
-                                  name={`internship.[${index}].description`}
+                                  name={`stepFour.internship.[${index}].description`}
                                   onChange={handleChange}
                                   value={el.description}
                                 ></textarea>
@@ -1345,7 +1394,7 @@ if(loading){
                                     })}><img src={plusDark} width="20"
                                       height="20" alt="" /><span className="ml-1">Add More</span></button>}
                                   </div>
-                                  {values?.internship.length > 1 && <div className="col-6 text-right pr-3">
+                                  {values?.stepFour.internship.length > 1 && <div className="col-6 text-right pr-3">
                                     <button className="plus-btn" type="button" onClick={() => remove(index)}><img src={deleteImg} width="16"
                                       height="18" alt="" /></button>
                                   </div>}
@@ -1409,7 +1458,7 @@ if(loading){
               <div className="box-container mb-4" ref={skillsRef}>
                 <div className="box-container-inner">
                   <div className="text-left mb-4">
-                    <h2 className="bc-heading">4. Skills</h2>
+                    <h2 className="bc-heading">4. Skills and Portfolio</h2>
                   </div>
                   <div className="row pt-2">
                     <FieldArray name="stepFive.skills">
@@ -1732,6 +1781,7 @@ if(loading){
                   <label className="label mb-1">Visume Drive Link</label>
                   <input type="text" className="form-control"
                     onChange={(e: any) => setVisuemeLink(e.target.value)}
+                    value={visumeLink}
                     placeholder="Enter or Paste Google Drive / YouTube Link" disabled={mode === 'view'} />
                 </div>
               </div>
