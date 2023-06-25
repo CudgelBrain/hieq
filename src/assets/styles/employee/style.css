@@ -1319,7 +1319,7 @@ ul.applicant-list>li:nth-last-child(1) .block::after {
 }
 
 .slider {
-  -webkit-appearance: none;
+  -webkit-appearance-eslint-disable-next-line: none;
   width: 100%;
   height: 7px;
   border-radius: 5px;
@@ -2040,7 +2040,7 @@ ul.grid-2 li {
 }
 
 .emp-panel .th-dt-list button:hover {
-  color: #fff;
+  color:#5BC287;
   background-color: #666;
 }
 
@@ -2185,10 +2185,12 @@ ul.grid-2 li {
 }
 
 .empl-panel .th-dt-list button+button {
+  background-color: #fff;
   border-top: 1px solid #ddd;
 }
 
 .empl-panel .th-dt-list button {
+  background-color: #fff !important;
   color: #666;
   text-align: left;
   padding: 0.5em;
@@ -2196,11 +2198,17 @@ ul.grid-2 li {
 }
 
 .empl-panel .th-dt-list button:hover {
-  color: #fff;
   background-color: #5BC287;
   border-radius: 0px;
+  color: #fff;
 }
 
+.th-dt-list .btn1:hover{
+  background-color: #5BC287;
+  border-radius: 0px;
+  color: #fff;
+
+}
 .empl-panel .cb-yellow {
   background: #5BC287;
   color: #fff;
@@ -2422,8 +2430,6 @@ ul.grid-2 li {
   border-radius: 5px;
   padding: 2em;
 }
-
-.jb-box-inner {}
 
 .jb-box-section .heading {
   font-size: 16px;
