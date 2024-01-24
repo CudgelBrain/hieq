@@ -181,6 +181,7 @@ export default authSlice.reducer;
 
 const handleRedirection = async () => {
   const { data: profile } = await getProfile();
+  // localStorage.setItem("email", data?.user?.email);
   const prevURL = getItemFromStorage('prevURL', 'session');
   removeItemFromStorage('prevURL', 'session');
   if (prevURL) return [profile, prevURL];

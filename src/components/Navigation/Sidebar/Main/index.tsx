@@ -241,7 +241,7 @@ React.useEffect(() =>{
                 </NavLink>
               </li>
               <li>
-                <NavLink className='img-reflect' to={'/employer/supportDesk'}>
+                <NavLink className='img-reflect' to={'/employee/change_password'}>
                   <img className='mr-2' src={passwordImg} alt='' width={"16px"}/>
                   <span>Change Password</span>
                 </NavLink>

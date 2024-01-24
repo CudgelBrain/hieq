@@ -300,9 +300,12 @@ function Profile() {
       if (data?.profilePic) {
         localStorage.setItem('profilePic', JSON.stringify(data?.profilePic[0]?.filepath))
       }
+      
       if (data?.user) {
         localStorage.setItem('user',  data?.user?.name)
+        localStorage.setItem("email", data?.user?.email)
       }
+
       if (data?.stepFour.stepFour.stepFour && data?.stepFour.stepFour.stepFour.length > 0) {
         localStorage.setItem('designation',  data?.stepFour.stepFour.stepFour[0]?.designation)
       }

@@ -1,65 +1,53 @@
 import axios from "axios";
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import { hieqService } from "utils";
 
-interface ChangePwdProps {}
+const ChangePwd = () => {
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [data,setData] = useState<any>(null);
 
-interface ChangePwdState {
-  oldPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-  error: string | null;
-}
-
-const ChangePwd: React.FC<ChangePwdProps> = () => {
-
-  const [state, setState] = useState<ChangePwdState>({
-    oldPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-    error: null,
-  });
-
-  // Handle input changes
   const handleOldPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, oldPassword: event.target.value });
+    setOldPassword(event.target.value);
   };
 
   const handleNewPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, newPassword: event.target.value });
+    setNewPassword(event.target.value);
   };
 
   const handleConfirmPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, confirmPassword: event.target.value });
+    setConfirmPassword(event.target.value);
   };
 
-  // Handle form submission
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
 
-    // Validate password inputs
-    if (state.newPassword !== state.confirmPassword) {
-      setState({ ...state, error: "Passwords do not match." });
+    if (newPassword !== confirmPassword) {
+      setError("Passwords do not match.");
       return;
     }
+    
+    let getEmail = localStorage.getItem("email")
 
-    // Make API request
     axios
-      .post("/auth/change-password", {
-        email: "your-email@example.com",
-        password: state.oldPassword,
-        newPassword: state.newPassword,
+    .post("http://beta.hieq.in:9000/auth/change-password", 
+      {getEmail,newPassword}
+      ,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('_token')}`
+        }
       })
       .then((response) => {
-        // Password change successful
         console.log(response.data);
       })
       .catch((error) => {
-        // Handle error
-        setState({ ...state, error: "Failed to change password. Please try again." });
+        setError("Failed to change password. Please try again.");
         console.error(error);
       });
+      console.log(localStorage.getItem('_token'))
   };
-
 
   return (
     <div className="dash-wrapper empl-panel">
@@ -67,7 +55,6 @@ const ChangePwd: React.FC<ChangePwdProps> = () => {
         <section className="main-wrapper">
           <div className="container-fluid">
             <div className="row position-relative">
-              {/* Rest of your component code */}
               <div className="col-md-12 pt-4 pb-2" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
                 <div className="text-left d-flex mb-4">
                   <div className="pg-title flex-grow-1">Change password</div>
@@ -82,7 +69,7 @@ const ChangePwd: React.FC<ChangePwdProps> = () => {
                             type="password"
                             className="form-control"
                             placeholder="Enter Old Password"
-                            value={state.oldPassword}
+                            value={oldPassword}
                             onChange={handleOldPasswordChange}
                           />
                         </div>
@@ -94,7 +81,7 @@ const ChangePwd: React.FC<ChangePwdProps> = () => {
                             type="password"
                             className="form-control"
                             placeholder="Enter New Password"
-                            value={state.newPassword}
+                            value={newPassword}
                             onChange={handleNewPasswordChange}
                           />
                           <div className="note pt-1">
@@ -109,18 +96,19 @@ const ChangePwd: React.FC<ChangePwdProps> = () => {
                             type="password"
                             className="form-control"
                             placeholder="Enter Confirm Password"
-                            value={state.confirmPassword}
+                            value={confirmPassword}
                             onChange={handleConfirmPasswordChange}
                           />
                         </div>
                       </div>
                       <div className="col-md-12">
                         <div className="form-group col-6 mb-4">
-                        <button type="button" className="btn btn-yl btn-lg mw-250" onClick={handleSubmit}>
+                          <button type="submit" className="btn btn-yl btn-lg mw-250" onClick={handleSubmit}>
                             Update
                           </button>
                         </div>
                       </div>
+                      {error && <div className="col-md-12">{error}</div>}
                     </div>
                   </div>
                 </div>
@@ -131,7 +119,8 @@ const ChangePwd: React.FC<ChangePwdProps> = () => {
       </main>
     </div>
   );
-  
-}
+};
 
 export default ChangePwd;
+
+

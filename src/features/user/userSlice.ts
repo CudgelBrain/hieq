@@ -65,6 +65,7 @@ export const GetProfile = (): AppThunk => async (dispatch) => {
   try {
     dispatch(onStart());
     const { data } = await getProfile();
+    localStorage.setItem("email", data?.email);
     console.log(data, "datadddd")
     dispatch(setProfile(data));
   } catch (error: any) {

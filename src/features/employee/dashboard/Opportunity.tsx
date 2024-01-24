@@ -101,15 +101,11 @@ const Opportunities: React.FC<Props> = ({ category, currentPage, setCurrentPage,
                       {actionButtons[index as unknown as number] && (
                         
                         <div className='th-dt-list'>
-<<<<<<< HEAD
                           <button
                             type='button' className='btn1'
-=======
-                          <button style={{
+                           style={{
                             backgroundColor:'white'
                           }}
-                            type='button'
->>>>>>> 4cb289145e0f5a6f2117b947992a76dc45c7d441
                             // onClick={() => history.push(`/employer/postOpportunity/${category}/${ID}`)}
                           >
                             Withdraw
